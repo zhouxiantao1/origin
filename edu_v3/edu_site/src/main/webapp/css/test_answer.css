@@ -1,0 +1,51 @@
+
+.paper_list{
+	width:100%;
+	height:60px;
+	border-bottom: 1px solid #e6e6e5;
+}
+.paper_list li{
+	float: left;
+	width:114px;
+	line-height: 60px;
+	text-align: center;
+}
+.paper_list li.active{
+	background:#00ada7;
+	color:#fff;
+}
+
+.next_time{
+	background:#188eee !important;
+}
+
+.zuoda{
+	min-height: 800px;
+	padding:0 10%;
+}
+h3.grade{
+	margin:35px 0;
+	text-align: center;
+	color:#343233
+}
+.first_paper,.second_paper{
+	margin-top:20px;
+	padding-bottom: 20px;
+	border-bottom: 1px dashed #ccc;
+}
+.zuoda p{
+	line-height: 30px;
+}
+.qu_1{
+	margin-left: 20px;
+}
+input,span{
+	vertical-align: middle;
+}
+input{
+	margin-right: 5px;
+}
+
+.qu_1 .lb_1{
+	margin-right: 100px;
+}

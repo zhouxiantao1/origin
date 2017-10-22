@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sjq.exam.offline.dao.OfflineSchedulingConfMapper">
+	
+	<insert id="allSurveyProc" parameterType="java.util.Map" statementType="CALLABLE" useGeneratedKeys="true" keyColumn="id">  
+	<![CDATA[   
+	    {call edu_off_all_survey(#{examId,mode=IN,jdbcType=BIGINT},#{examRange,mode=IN,jdbcType=VARCHAR},#{out_flag,mode=OUT,jdbcType=INTEGER})}   
+	]]>  
+	</insert> 
+	
+	<insert id="allSumSegmentedProc" parameterType="java.util.Map" statementType="CALLABLE" useGeneratedKeys="true" keyColumn="id">  
+	<![CDATA[   
+	    {call edu_off_all_sum_segmented(#{examId,mode=IN,jdbcType=BIGINT},#{examRange,mode=IN,jdbcType=VARCHAR},#{out_flag,mode=OUT,jdbcType=INTEGER})}   
+	]]>  
+	</insert> 
+	
+	<insert id="allEachSegmentedProc" parameterType="java.util.Map" statementType="CALLABLE" useGeneratedKeys="true" keyColumn="id">  
+	<![CDATA[   
+	    {call edu_off_all_each_segmented(#{examId,mode=IN,jdbcType=BIGINT},#{examRange,mode=IN,jdbcType=VARCHAR},#{out_flag,mode=OUT,jdbcType=INTEGER})}   
+	]]>  
+	</insert>
+	
+	<insert id="allLevelSpreadProc" parameterType="java.util.Map" statementType="CALLABLE" useGeneratedKeys="true" keyColumn="id">  
+	<![CDATA[   
+	    {call edu_off_all_level_spread(#{examId,mode=IN,jdbcType=BIGINT},#{examRange,mode=IN,jdbcType=VARCHAR},#{out_flag,mode=OUT,jdbcType=INTEGER})}   
+	]]>  
+	</insert>
+	
+	<insert id="allScoreContrastProc" parameterType="java.util.Map" statementType="CALLABLE" useGeneratedKeys="true" keyColumn="id">  
+	<![CDATA[   
+	    {call edu_off_all_score_contrast(#{examId,mode=IN,jdbcType=BIGINT},#{examRange,mode=IN,jdbcType=VARCHAR},#{out_flag,mode=OUT,jdbcType=INTEGER})}   
+	]]>  
+	</insert>
+	
+	<insert id="allExamSituationProc" parameterType="java.util.Map" statementType="CALLABLE" useGeneratedKeys="true" keyColumn="id">  
+	<![CDATA[   
+	    {call edu_off_all_exam_situation(#{examId,mode=IN,jdbcType=BIGINT},#{examRange,mode=IN,jdbcType=VARCHAR},#{out_flag,mode=OUT,jdbcType=INTEGER})}   
+	]]>  
+	</insert>
+	
+	<insert id="allPointNameProc" parameterType="java.util.Map" statementType="CALLABLE" useGeneratedKeys="true" keyColumn="id">  
+	<![CDATA[   
+	    {call edu_off_all_point_name(#{examId,mode=IN,jdbcType=BIGINT},#{examRange,mode=IN,jdbcType=VARCHAR},#{out_flag,mode=OUT,jdbcType=INTEGER})}   
+	]]>  
+	</insert>
+	
+	<insert id="allAbilityNameProc" parameterType="java.util.Map" statementType="CALLABLE" useGeneratedKeys="true" keyColumn="id">  
+	<![CDATA[   
+	    {call edu_off_all_ability_name(#{examId,mode=IN,jdbcType=BIGINT},#{examRange,mode=IN,jdbcType=VARCHAR},#{out_flag,mode=OUT,jdbcType=INTEGER})}   
+	]]>  
+	</insert>
+	
+	<insert id="allQuestionTypeProc" parameterType="java.util.Map" statementType="CALLABLE" useGeneratedKeys="true" keyColumn="id">  
+	<![CDATA[   
+	    {call edu_off_all_question_type(#{examId,mode=IN,jdbcType=BIGINT},#{examRange,mode=IN,jdbcType=VARCHAR},#{out_flag,mode=OUT,jdbcType=INTEGER})}   
+	]]>  
+	</insert>
+	
+	<insert id="allQuestionNoProc" parameterType="java.util.Map" statementType="CALLABLE" useGeneratedKeys="true" keyColumn="id">  
+	<![CDATA[   
+	    {call edu_off_all_question_id(#{examId,mode=IN,jdbcType=BIGINT},#{examRange,mode=IN,jdbcType=VARCHAR},#{out_flag,mode=OUT,jdbcType=INTEGER})}   
+	]]>  
+	</insert>
+	
+	<insert id="allSubjectScatterProc" parameterType="java.util.Map" statementType="CALLABLE" useGeneratedKeys="true" keyColumn="id">  
+	<![CDATA[   
+	    {call edu_off_all_subject_scatter(#{examId,mode=IN,jdbcType=BIGINT},#{examRange,mode=IN,jdbcType=VARCHAR},#{out_flag,mode=OUT,jdbcType=INTEGER})}   
+	]]>  
+	</insert>
+	
+</mapper>

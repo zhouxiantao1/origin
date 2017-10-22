@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sjq.question.dao.PapersQuestionMapper">
+	<resultMap id="BaseResultMap" type="com.sjq.question.vo.PapersQuestionVo">
+  		<result column="id" property="id" jdbcType="BIGINT" />
+  		<result column="create_name" property="createName" jdbcType="VARCHAR" />
+  		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  		<result column="mod_name" property="modName" jdbcType="VARCHAR" />
+  		<result column="mod_time" property="modTime" jdbcType="TIMESTAMP" />
+  		<result column="delflag" property="delflag" jdbcType="CHAR" />
+  		<result column="paper_id" property="paperId" jdbcType="BIGINT" />
+  		<result column="paper_detail_id" property="paperDetailId" jdbcType="BIGINT" />
+  		<result column="question_id" property="questionId" jdbcType="BIGINT" />
+  		<result column="question_no" property="questionNo" jdbcType="BIGINT" />
+  		<result column="score" property="score" jdbcType="BIGINT" />
+  		<result column="status" property="status" jdbcType="CHAR" />
+  		<result column="remark" property="remark" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+  		id,
+  		create_name,
+  		create_time,
+  		mod_name,
+  		mod_time,
+  		delflag,
+  		paper_id,
+  		paper_detail_id,
+  		question_id,
+  		question_no,
+  		score,
+  		status,
+  		remark
+	</sql>
+	
+	<resultMap id="questionWareVoResultMap" type="com.sjq.ware.vo.QuestionWareVo">
+  		<result column="id" property="id" jdbcType="BIGINT" />
+  		<result column="question_content" property="questionContent" jdbcType="VARCHAR" />
+  		<result column="difficulty" property="difficulty" jdbcType="DECIMAL" />
+  		<result column="bloom_taxonomy" property="bloomTaxonomy" jdbcType="CHAR" />
+  		<result column="options" property="options" jdbcType="VARCHAR" />
+  		<association property="qtv" column="type_id"  select="com.sjq.type.dao.QuestionTypeMapper.queryQuestionTypeById"></association> 
+  		<collection property="avs" column="id" javaType="ArrayList"
+				ofType="com.sjq.answer.vo.QuestionAnswerVo" select="com.sjq.answer.dao.QuestionAnswerMapper.queryQuestionAnswerByQuestionId"></collection>
+	</resultMap>
+	
+	<!-- 根据条件获取随机题目 -->
+	<select id="queryQuestionWareVoList" resultMap="questionWareVoResultMap"  parameterType="java.util.Map">
+	   select t1.id,t1.difficulty,t1.bloom_taxonomy,t1.question_content,t1.options,t1.type_id
+		from edu_question_ware as t1 
+		join (select round(rand() * (
+				(
+					select max(id) from (
+					select w.id from edu_question_ware w
+					inner join edu_base_questionrelated r on w.id = r.question_id and r.related_type = 1
+					where (w.belong_to_lib = '1' or w.create_id = #{createId}) and w.type_id = #{typeId}
+					and w.check_status = '1' and r.related_id in 
+					<foreach collection="catalogDetailIdList" item="id" open="(" close=")" separator=",">
+				  	 #{id}
+				   </foreach>
+						 ) a
+				)-
+				(
+					select min(id) from (
+					select w.id from edu_question_ware w
+					inner join edu_base_questionrelated r on w.id = r.question_id and r.related_type = 1
+					where (w.belong_to_lib = '1' or w.create_id = #{createId}) and w.type_id = #{typeId}
+					and w.check_status = '1' and r.related_id in 
+					<foreach collection="catalogDetailIdList" item="id" open="(" close=")" separator=",">
+				  	 #{id}
+				   </foreach> 
+					) b
+				)
+			)+
+			(
+				select min(id) from (
+				select w.id from edu_question_ware w
+				inner join edu_base_questionrelated r on w.id = r.question_id and r.related_type = 1
+				where (w.belong_to_lib = '1' or w.create_id = #{createId}) and w.type_id = #{typeId}
+				and w.check_status = '1' and r.related_id in 
+				<foreach collection="catalogDetailIdList" item="id" open="(" close=")" separator=",">
+			  	 #{id}
+			   	</foreach>
+				) d
+			)
+		) as id) as t2
+		where t1.id >= t2.id 
+		order by t1.id limit #{quQuantity}
+	</select>
+	
+	<resultMap id="PapersQuestionResultMap" type="com.sjq.question.vo.PapersQuestionVo">
+  		<result column="id" property="id" jdbcType="BIGINT" />
+  		<result column="create_name" property="createName" jdbcType="VARCHAR" />
+  		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  		<result column="mod_name" property="modName" jdbcType="VARCHAR" />
+  		<result column="mod_time" property="modTime" jdbcType="TIMESTAMP" />
+  		<result column="delflag" property="delflag" jdbcType="CHAR" />
+  		<result column="paper_id" property="paperId" jdbcType="BIGINT" />
+  		<result column="paper_detail_id" property="paperDetailId" jdbcType="BIGINT" />
+  		<result column="question_id" property="questionId" jdbcType="BIGINT" />
+  		<result column="question_no" property="questionNo" jdbcType="BIGINT" />
+  		<result column="score" property="score" jdbcType="BIGINT" />
+  		<result column="status" property="status" jdbcType="CHAR" />
+  		<result column="remark" property="remark" jdbcType="VARCHAR" />
+  		<association property="questionWareVo" column="question_id" select="com.sjq.ware.dao.QuestionWareMapper.queryQuestionWareById"/>
+	</resultMap>
+					
+	<!-- 根据条件查询所有试卷模块-试卷试题信息信息 -->
+	<select id="queryPapersQuestionBySearch" resultMap="PapersQuestionResultMap"  parameterType="java.util.Map">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_papers_question
+       where 1=1 
+  	   <if test="id != '' and id != null">
+       		and id = #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name = #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time = #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name = #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time = #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag = #{delflag}
+       </if>
+       <if test="paperId != '' and paperId != null">
+       		and paper_id = #{paperId}
+       </if>
+  	   <if test="paperDetailId != '' and paperDetailId != null">
+       		and paper_detail_id = #{paperDetailId}
+       </if>
+  	   <if test="questionId != '' and questionId != null">
+       		and question_id = #{questionId}
+       </if>
+  	   <if test="questionNo != '' and questionNo != null">
+       		and question_no = #{questionNo}
+       </if>
+  	   <if test="score != '' and score != null">
+       		and score = #{score}
+       </if>
+  	   <if test="status != '' and status != null">
+       		and status = #{status}
+       </if>
+  	   <if test="remark != '' and remark != null">
+       		and remark = #{remark}
+       </if>
+	</select>
+	
+					
+	<!-- (删除)根据条件删除试卷模块-试卷试题信息信息  -->
+	<delete id="deletePapersQuestionBySearch" parameterType="java.util.Map">
+		update 
+		edu_papers_question
+		<set> 
+	  	    <if test="bean.modName != '' and bean.modName != null">
+	       	mod_name =  #{bean.modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="bean.modTime != '' and bean.modTime != null">
+	       	mod_time =  #{bean.modTime,jdbcType=TIMESTAMP},
+	        </if>
+		delflag = '1'
+		</set>
+		where 1=1
+  	   <if test="search.id != '' and search.id != null">
+       		and id =  #{search.id}
+       </if>
+  	   <if test="search.paperDetailId != '' and search.paperDetailId != null">
+       		and paper_detail_id =  #{search.paperDetailId}
+       </if>
+       <if test="search.paperId != '' and search.paperId != null">
+       		and paper_id =  #{search.paperId}
+       </if>
+  	   
+	</delete>
+	
+					
+	<!-- (更新)根据条件更新所有试卷模块-试卷试题信息信息 -->
+	<update id="updatePapersQuestionBySearch"  parameterType="java.util.Map" >
+		update edu_papers_question
+		<set>
+	  	    <if test="modName != '' and modName != null">
+	       	mod_name =  #{modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="modTime != '' and modTime != null">
+	       	mod_time =  #{modTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != '' and delflag != null">
+	       	delflag =  #{delflag,jdbcType=CHAR},
+	        </if>
+	        <if test="paperId != '' and paperId != null">
+	       	paper_id =  #{paperId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="paperDetailId != '' and paperDetailId != null">
+	       	paper_detail_id =  #{paperDetailId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="questionId != '' and questionId != null">
+	       	question_id =  #{questionId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="questionNo != '' and questionNo != null">
+	       	question_no =  #{questionNo,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="score != '' and score != null">
+	       	score =  #{score,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="status != '' and status != null">
+	       	status =  #{status,jdbcType=CHAR},
+	        </if>
+	  	    <if test="remark != '' and remark != null">
+	       	remark =  #{remark,jdbcType=VARCHAR},
+	        </if>
+		</set>
+		where 
+  	   <if test="id != '' and id != null">
+       		and id = #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name = #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time = #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name = #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time = #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag = #{delflag}
+       </if>
+       <if test="paperId != '' and paperId != null">
+       		and paper_id = #{paperId}
+       </if>
+  	   <if test="paperDetailId != '' and paperDetailId != null">
+       		and paper_detail_id = #{paperDetailId}
+       </if>
+  	   <if test="questionId != '' and questionId != null">
+       		and question_id = #{questionId}
+       </if>
+  	   <if test="questionNo != '' and questionNo != null">
+       		and question_no = #{questionNo}
+       </if>
+  	   <if test="score != '' and score != null">
+       		and score = #{score}
+       </if>
+  	   <if test="status != '' and status != null">
+       		and status = #{status}
+       </if>
+  	   <if test="remark != '' and remark != null">
+       		and remark = #{remark}
+       </if>
+	</update>
+	
+					
+	<!-- (增加)增加试卷模块-试卷试题信息信息 --> 
+	<insert id="insertPapersQuestion" useGeneratedKeys="true" keyProperty="id" parameterType="com.sjq.question.bean.PapersQuestionBean">
+		insert into edu_papers_question
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	  	   <if test="id != '' and id != null">
+	       	id,
+	       </if>
+	  	   <if test="createName != '' and createName != null">
+	       	create_name,
+	       </if>
+	  	   <if test="createTime != '' and createTime != null">
+	       	create_time,
+	       </if>
+	  	   <if test="delflag != '' and delflag != null">
+	       	delflag,
+	       </if>
+	       <if test="paperId != '' and paperId != null">
+	       	paper_id,
+	       </if>
+	  	   <if test="paperDetailId != '' and paperDetailId != null">
+	       	paper_detail_id,
+	       </if>
+	  	   <if test="questionId != '' and questionId != null">
+	       	question_id,
+	       </if>
+	  	   <if test="questionNo != '' and questionNo != null">
+	       	question_no,
+	       </if>
+	  	   <if test="score != '' and score != null">
+	       	score,
+	       </if>
+	  	   <if test="status != '' and status != null">
+	       	status,
+	       </if>
+	  	   <if test="remark != '' and remark != null">
+	       	remark,
+	       </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	  	    <if test="id != '' and id != null">
+	       		#{id,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="createName != '' and createName != null">
+	       		#{createName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="createTime != '' and createTime != null">
+	       		#{createTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != '' and delflag != null">
+	       		#{delflag,jdbcType=CHAR},
+	        </if>
+	        <if test="paperId != '' and paperId != null">
+	       		#{paperId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="paperDetailId != '' and paperDetailId != null">
+	       		#{paperDetailId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="questionId != '' and questionId != null">
+	       		#{questionId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="questionNo != '' and questionNo != null">
+	       		#{questionNo,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="score != '' and score != null">
+	       		#{score,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="status != '' and status != null">
+	       		#{status,jdbcType=CHAR},
+	        </if>
+	  	    <if test="remark != '' and remark != null">
+	       		#{remark,jdbcType=VARCHAR},
+	        </if>
+		</trim>
+	</insert>
+    
+	   
+</mapper>

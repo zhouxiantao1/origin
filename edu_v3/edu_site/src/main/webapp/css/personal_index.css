@@ -1,0 +1,149 @@
+.content_mid{
+	width:1170px;
+}
+.my_paper,.my_answer,.message{
+	width:376px;
+	background:#fff;
+	min-height:500px;
+	border:1px solid #e5e5e5;
+	margin-right:18px;
+	margin-bottom:20px;
+}
+.mr_0{
+	margin-right:0;
+}
+.my_paper .my_title,.my_answer .my_answers,.message .messages{
+	height:36px;
+	padding:7px 0;
+	border-bottom: 1px solid #e5e5e5;
+}
+ .my_paper .my_title span{
+	display:inline-block;
+	width:10px;
+	height:36px;
+} 
+
+.my_paper h3{
+	font-size: 18px;
+	color:#38a856;
+	margin-left: 14px;
+	line-height:36px;
+}
+.my_paper h3.blue_color{
+	color:#759db9
+}
+.my_paper h3.green_color{
+	color:#38a856
+}
+.my_paper h3.mo_color{
+	color:#45a499
+}
+.my_paper h3.red_color{
+	color:#ee8e8f
+}
+.my_paper .my_title span.blue_back{
+	background:#759db9
+}
+.my_paper .my_title span.green_back{
+	background:#38a856
+}
+.my_paper .my_title span.mo_back{
+	background:#45a499
+}
+.my_paper .my_title span.red_back{
+	background:#ee8e8f
+}
+
+.pd,.gc,.qk{
+	padding:0 18px;
+}
+
+.back_img{
+	width:338px;
+	height:78px;
+	margin:20px 0;
+	
+}
+.go_fabu{
+	background:url(../images/3.png) no-repeat;
+	background-size:100% 100%;
+}
+.go_question{
+	background:url(../images/2.png) no-repeat;
+	background-size:100% 100%;
+}
+.go_msg{
+	background:url(../images/1.png) no-repeat;
+	background-size:100% 100%;
+}
+.go_test{
+	background:url(../images/4.png) no-repeat;
+	background-size:100% 100%;
+}
+.back_img h3{
+	font-size: 24px;
+	color:#fff;
+	padding-left:42px;
+	line-height:78px;
+}
+.back_img h3 span{
+	margin-left: 50px;
+	margin-right:8px;
+}
+.back_img h3  i{
+	font-size: 14px;
+}
+
+.xiugai .hr,.tiwen .hr,.news .hr{
+	margin-bottom:10px;
+}
+.xiugai h3,.tiwen h3,.news h3{
+	font-size: 16px;
+	color:#666;
+	margin-left:0;
+}
+.xiugai .hr span,.tiwen .hr span,.news .hr span{
+	display: inline-block;
+	width:75%;
+	height:1px;
+	background:#e5e5e5;
+	margin-top:18px;
+}
+
+.xiugai li,.tiwen li,.news li{
+	margin-top:10px;
+	color:#32974e;
+	font-size: 14px;
+}
+.xiugai li span,.tiwen li span,.news li span{
+	color:#ff7146;
+}
+
+.my_answer .my_answers span{
+	background:#759db9;
+}
+.my_answer .my_answers h3{
+	color:#759db9;
+}
+.go_guangchang{
+	background:url(../images/2.png) no-repeat;
+}
+.message .messages span{
+	background:#45a499;
+}
+.message .messages h3{
+	color:#45a499;
+}
+.qingkong{
+	background:url(../images/组卷管理-拷贝.png) no-repeat;
+}
+
+.show_list p{
+	width:230px;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow:ellipsis;
+}
+.show_list span{
+	cursor:pointer;
+}

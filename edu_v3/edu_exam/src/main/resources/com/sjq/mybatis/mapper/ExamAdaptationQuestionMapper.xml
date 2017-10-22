@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sjq.adaptation.dao.ExamAdaptationQuestionMapper">
+	<resultMap id="BaseResultMap" type="com.sjq.adaptation.vo.ExamAdaptationQuestionVo">
+  		<result column="id" property="id" jdbcType="BIGINT" />
+  		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  		<result column="type_id" property="typeId" jdbcType="BIGINT" />
+  		<result column="knowledge_id" property="knowledgeId" jdbcType="BIGINT" />
+  		<result column="difficulty" property="difficulty" jdbcType="DECIMAL" />
+  		<result column="question_id" property="questionId" jdbcType="BIGINT" />
+  		<result column="adaptation_id" property="adaptationId" jdbcType="BIGINT" />
+  		<result column="question_content" property="questionContent" jdbcType="VARCHAR" />
+  		<result column="options" property="options" jdbcType="VARCHAR" />
+  		<result column="bloom_taxonomy" property="bloomTaxonomy" jdbcType="VARCHAR"/>
+  		
+  		<association property="bkv" column="knowledge_id" select="com.sjq.knowledge.dao.BaseKnowledgeMapper.queryBaseKnowledgeById"></association>
+		 	
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+  		id,
+  		create_time,
+  		type_id,
+  		knowledge_id,
+  		difficulty,
+  		question_id,
+  		adaptation_id,
+  		question_content,
+  		options,
+  		bloom_taxonomy
+	</sql>
+	
+					
+	<!-- 根据条件查询所有考试模块-自适应试题库信息 -->
+	<select id="queryExamAdaptationQuestionBySearch" resultMap="BaseResultMap"  parameterType="java.util.Map">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_exam_adaptation_question
+       where 1=1 
+  	   <if test="id != '' and id != null">
+       		and id = #{id}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time = #{createTime}
+       </if>
+  	   <if test="typeId != '' and typeId != null">
+       		and type_id = #{typeId}
+       </if>
+  	   <if test="knowledgeId != '' and knowledgeId != null">
+       		and knowledge_id = #{knowledgeId}
+       </if>
+  	   <if test="difficulty != '' and difficulty != null">
+       		and difficulty = #{difficulty}
+       </if>
+  	   <if test="questionId != '' and questionId != null">
+       		and question_id = #{questionId}
+       </if>
+  	   <if test="adaptationId != '' and adaptationId != null">
+       		and adaptation_id = #{adaptationId}
+       </if>
+  	   <if test="questionContent != '' and questionContent != null">
+       		and question_content = #{questionContent}
+       </if>
+  	   <if test="options != '' and options != null">
+       		and options = #{options}
+       </if>
+	</select>
+	
+	
+	
+						
+	<!-- 根据条件查询所有考试模块-自适应试题库信息 -->
+	<select id="queryAccurateExamAdaptationQuestionBySearch" resultMap="BaseResultMap"  parameterType="java.util.Map">
+  	  
+		SELECT <include refid="Base_Column_List" />
+		FROM edu_exam_adaptation_question 
+		WHERE 1=1 
+<!-- 	and	difficulty > #{difficulty} -->
+		AND adaptation_id = #{adaptationId}
+		AND knowledge_id = #{knowledgeId} 
+		AND question_id NOT IN(
+			SELECT DISTINCT question_id FROM edu_exam_adaptation_user_answer WHERE user_id = #{userId} 
+		)
+		ORDER BY difficulty  LIMIT 1
+				
+	</select>
+	
+					
+	<!-- 根据条件查询考试模块-自适应试题库count总数 -->
+	<select id="queryExamAdaptationQuestionTotalCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(1) from
+		edu_exam_adaptation_question where delflag='0'
+  	   <if test="id != '' and id != null">
+       		and id =  #{id}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time =  #{createTime}
+       </if>
+  	   <if test="typeId != '' and typeId != null">
+       		and type_id =  #{typeId}
+       </if>
+  	   <if test="knowledgeId != '' and knowledgeId != null">
+       		and knowledge_id =  #{knowledgeId}
+       </if>
+  	   <if test="difficulty != '' and difficulty != null">
+       		and difficulty =  #{difficulty}
+       </if>
+  	   <if test="questionId != '' and questionId != null">
+       		and question_id =  #{questionId}
+       </if>
+  	   <if test="adaptationId != '' and adaptationId != null">
+       		and adaptation_id =  #{adaptationId}
+       </if>
+  	   <if test="questionContent != '' and questionContent != null">
+       		and question_content =  #{questionContent}
+       </if>
+  	   <if test="options != '' and options != null">
+       		and options =  #{options}
+       </if>
+	</select>
+	
+
+    
+	   
+</mapper>

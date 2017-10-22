@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sjq.stageGrade.dao.BaseStageGradeMapper">
+	<resultMap id="BaseResultMap" type="com.sjq.stageGrade.vo.BaseStageGradeVo">
+  		<result column="id" property="id" jdbcType="BIGINT" />
+  		<result column="create_name" property="createName" jdbcType="VARCHAR" />
+  		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  		<result column="mod_name" property="modName" jdbcType="VARCHAR" />
+  		<result column="mod_time" property="modTime" jdbcType="TIMESTAMP" />
+  		<result column="delflag" property="delflag" jdbcType="CHAR" />
+  		<result column="stage_id" property="stageId" jdbcType="BIGINT" />
+  		<result column="grade_id" property="gradeId" jdbcType="BIGINT" />
+  		<result column="sort" property="sort" jdbcType="BIGINT" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+  		id,
+  		create_name,
+  		create_time,
+  		mod_name,
+  		mod_time,
+  		delflag,
+  		stage_id,
+  		grade_id,
+  		sort
+	</sql>
+	
+	<!-- 根据条件查询所有学段年级信息信息 -->
+	<select id="queryBaseStageGradeBySearch" resultMap="BaseResultMap"  parameterType="java.util.Map">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_base_stageGrade
+       where 1=1 
+  	   <if test="id != '' and id != null">
+       		and id = #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name = #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time = #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name = #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time = #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag = #{delflag}
+       </if>
+  	   <if test="stageId != '' and stageId != null">
+       		and stage_id = #{stageId}
+       </if>
+  	   <if test="gradeId != '' and gradeId != null">
+       		and grade_id = #{gradeId}
+       </if>
+  	   <if test="sort != '' and sort != null">
+       		and sort = #{sort}
+       </if>
+	</select>
+	
+					
+	<!-- (删除)根据条件删除学段年级信息信息  -->
+	<delete id="deleteBaseStageGradeBySearch" parameterType="java.util.Map">
+		update 
+		edu_base_stageGrade
+		<set> 
+	  	    <if test="bean.modName != '' and bean.modName != null">
+	       	mod_name =  #{bean.modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="bean.modTime != '' and bean.modTime != null">
+	       	mod_time =  #{bean.modTime,jdbcType=TIMESTAMP},
+	        </if>
+		delflag = '1'
+		</set>
+		where 1=1
+  	   <if test="search.id != '' and search.id != null">
+       		and id =  #{search.id}
+       </if>
+  	   <if test="search.createName != '' and search.createName != null">
+       		and create_name =  #{search.createName}
+       </if>
+  	   <if test="search.createTime != '' and search.createTime != null">
+       		and create_time =  #{search.createTime}
+       </if>
+  	   <if test="search.modName != '' and search.modName != null">
+       		and mod_name =  #{search.modName}
+       </if>
+  	   <if test="search.modTime != '' and search.modTime != null">
+       		and mod_time =  #{search.modTime}
+       </if>
+  	     	and delflag = '0'
+  	   <if test="search.stageId != '' and search.stageId != null">
+       		and stage_id =  #{search.stageId}
+       </if>
+  	   <if test="search.gradeId != '' and search.gradeId != null">
+       		and grade_id =  #{search.gradeId}
+       </if>
+  	   <if test="search.sort != '' and search.sort != null">
+       		and sort =  #{search.sort}
+       </if>
+	</delete>
+	
+					
+	<!-- (增加)增加学段年级信息信息 --> 
+	<insert id="insertBaseStageGrade" parameterType="com.sjq.stageGrade.bean.BaseStageGradeBean">
+		insert into edu_base_stageGrade
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	  	   <if test="id != '' and id != null">
+	       	id,
+	       </if>
+	  	   <if test="createName != '' and createName != null">
+	       	create_name,
+	       </if>
+	  	   <if test="createTime != '' and createTime != null">
+	       	create_time,
+	       </if>
+	  	   <if test="delflag != '' and delflag != null">
+	       	delflag,
+	       </if>
+	  	   <if test="stageId != '' and stageId != null">
+	       	stage_id,
+	       </if>
+	  	   <if test="gradeId != '' and gradeId != null">
+	       	grade_id,
+	       </if>
+	  	   <if test="sort != '' and sort != null">
+	       	sort,
+	       </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	  	    <if test="id != '' and id != null">
+	       		#{id,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="createName != '' and createName != null">
+	       		#{createName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="createTime != '' and createTime != null">
+	       		#{createTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != '' and delflag != null">
+	       		#{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="stageId != '' and stageId != null">
+	       		#{stageId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="gradeId != '' and gradeId != null">
+	       		#{gradeId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="sort != '' and sort != null">
+	       		#{sort,jdbcType=BIGINT},
+	        </if>
+		</trim>
+	</insert>
+    
+	   
+</mapper>

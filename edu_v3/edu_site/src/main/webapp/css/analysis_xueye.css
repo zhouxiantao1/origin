@@ -1,0 +1,112 @@
+ul li{
+	cursor: pointer;
+}
+.analysis_type{
+	border-bottom: 1px solid #e5e5e5
+}
+.analysis_type li{
+	font-size: 16px;
+	float:left;
+	padding:22px;
+}
+.analysis_type li.active{
+	background:#00ada7;
+	color:#fff;
+}
+
+.analysis_xueye{
+	border:1px solid #e5e5e5;
+	margin:30px 20px;
+}
+.list_reduce{
+	background: #e4e4e4;
+	color:#333;
+	padding: 16px 14px;
+}
+.list_reduce  p{
+	text-align: center;
+	float:left;
+}
+.list_reduce .time{
+	width:21%;
+	text-align: left;
+}
+.list_reduce .time i{
+	margin:0 6px;
+}
+.list_reduce .address{
+	width: 26%;
+}
+.list_reduce .create{
+	margin-left:16px;
+}
+.list_reduce .an_report{
+	float: right;
+	color:#0075b1;
+}
+.an_report a{
+	color:#0075b1;
+}
+.list_reduce .create,.list_reduce .status,.list_reduce .exam{
+	width:14%;
+}
+
+.list_item{
+	padding:16px  0;
+	border-top:1px solid #e5e5e5;
+}
+.list_item p{
+	float: left;
+	text-align: center;
+}
+.list_item .time{
+	width:26%;
+}
+.list_item .time span{
+	margin:0 16px;
+}
+.list_item .address{
+	width:26%;
+	color:#0075b1;
+}
+.list_item .create,.list_item .status{
+	width:12%;
+	margin-left:10px;
+}
+.list_item .status{
+	margin-right:15px;
+}
+
+.klass_sub{
+	margin:40px 20px 20px 20px;
+}
+.klass_sub span{
+	display: inline-block;
+	line-height: 30px;
+	margin-right: 5px;
+}
+.klass_sub select{
+	vertical-align: middle;
+	padding:5px 0 5px 3px;
+	width:80px;
+}
+.klass_sub input{
+	width:235px;
+	padding:5px 2px;
+	vertical-align: middle;
+}
+
+.work_name{
+	margin-left: 10px;
+}
+.term,.subject{
+	margin-left: 10px;
+}
+.check{
+	width:90px;
+	height:32px;
+	line-height: 32px;
+	color:#fff;
+	background:#00ada7;
+	margin-left:10px;
+}

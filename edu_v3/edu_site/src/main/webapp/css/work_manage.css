@@ -1,0 +1,110 @@
+ul li{
+	cursor: pointer;
+}
+.mid{
+	min-height: 800px;
+}
+
+.klass_sub{
+	margin:40px 20px 0 20px;
+}
+.klass_sub span{
+	display: inline-block;
+	line-height: 30px;
+	margin-right: 5px;
+}
+.klass_sub select{
+	vertical-align: middle;
+	padding:5px 20px 5px 3px;
+}
+.klass_sub input{
+	width:420px;
+	padding:4px 2px;
+	vertical-align: middle;
+}
+.stage_choice .sub{margin-left:0;}
+.sub{
+	margin-left: 40px;
+}
+.work_name{
+	margin-left: 40px;
+}
+.check{
+	width:90px;
+	height:32px;
+	line-height: 32px;
+	color:#fff;
+	background:#0075b1;
+	cursor: pointer;
+}
+
+
+
+.work_list{
+	margin:30px 20px;
+	border:1px solid #e5e5e5;
+}
+.work_title{
+	background:#f2f2f2;
+	height:35px;
+	line-height: 35px;
+	padding:0 20px;
+}
+.tit{
+	width:42%;
+}
+.work_title .tit{
+	font-size: 13px;
+}
+
+.work_content{
+	height:52px;
+	line-height: 52px;
+	padding:0 20px;
+}
+.delete,.create_time{
+	width:20%;
+	text-align: center;
+}
+.work_content .tit span{
+	margin-right: 30px;
+}
+.check_status,.delete{
+	color:#0075b1;
+	cursor:pointer;
+}
+
+.operation{
+	border-bottom: 1px solid #ccc;
+}
+
+.all_content{
+	margin:20px;
+}
+.all_content .operation p{
+	float:left;
+	width:80px;
+	text-align: center;
+	height: 30px;
+	line-height: 30px;
+	font-size: 14px;
+	cursor: pointer;
+}
+
+.all_content .operation p.active{
+	border-bottom: 2px solid #0075b1;
+	color:#0075b1;
+}
+.answer_msg{
+	padding: 90px 10px;
+	border:1px solid #e5e5e5;
+	text-align: center;
+	color: #656161;
+	font-size: 12px;
+	margin-top: 15px;
+	margin-left: 15px;
+	margin-right: 15px;
+}
+.work_content p1{
+	color: #999;
+}

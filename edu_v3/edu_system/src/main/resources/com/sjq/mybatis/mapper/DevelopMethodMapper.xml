@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sjq.develop.dao.DevelopMethodMapper">
+	<resultMap id="BaseResultMap" type="com.sjq.develop.vo.DevelopMethodVo">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="create_name" property="createName" jdbcType="VARCHAR" />
+		<result column="mod_time" property="modTime" jdbcType="TIMESTAMP" />
+		<result column="mod_name" property="modName" jdbcType="VARCHAR" />
+		<result column="delflag" property="delflag" jdbcType="CHAR" />
+  		<result column="method_name" property="methodName" jdbcType="VARCHAR" />
+  		<result column="method_comment" property="methodComment" jdbcType="VARCHAR" />
+  		<result column="method_class_type" property="methodClassType" jdbcType="CHAR" />
+  		<result column="method_code" property="methodCode" jdbcType="VARCHAR"/>
+  		<result column="controller_request_mapping" property="controllerRequestMapping" jdbcType="VARCHAR"/>
+  		<result column="code_id" property="codeId" jdbcType="CHAR" />
+	</resultMap>
+	
+	
+	<resultMap id="DevelopCodeMethodResultMap" type="com.sjq.develop.vo.DevelopCodeMethodVo">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="create_name" property="createName" jdbcType="VARCHAR" />
+		<result column="mod_time" property="modTime" jdbcType="TIMESTAMP" />
+		<result column="mod_name" property="modName" jdbcType="VARCHAR" />
+		<result column="delflag" property="delflag" jdbcType="CHAR" />
+  		<result column="code_id" property="codeId" jdbcType="BIGINT" />
+  		<result column="method_id" property="methodId" jdbcType="BIGINT" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		id, 
+		create_time, 
+		create_name, 
+		mod_time, 
+		mod_name,
+		delflag,
+		method_name,
+		method_comment,
+		method_class_type,
+		method_code,
+		controller_request_mapping
+	</sql>
+	
+	<sql id="Develop_Code_Method_Column_List">
+		id, 
+		create_time, 
+		create_name, 
+		mod_time, 
+		mod_name,
+		delflag,
+		code_id,
+		method_id
+  		
+	</sql>
+	
+	<!-- (查询)查询所有的信息-->
+	<select id="queryDevelopMethodAll" resultMap="BaseResultMap" >
+ 	   select 
+       <include refid="Base_Column_List" />
+       from edu_develop_method
+       where delflag='0'
+    </select>
+    
+    <select id="queryDevelopMethodByIds" resultMap="BaseResultMap" >
+ 	   select 
+       <include refid="Base_Column_List" />
+       from edu_develop_method
+       where delflag='0' 
+       <if test="array != null">
+      	 and id in
+       <foreach collection="array" item="id" open="(" close=")" separator=",">
+	     #{id}
+	   </foreach>
+	   </if>
+    </select>
+    
+    <!-- (查询)查询所有的信息-->
+	<select id="queryDevelopMethodAllByCodeId" resultMap="BaseResultMap" >
+ 	   select m.controller_request_mapping,m.method_code,m.id,m.method_name,m.method_class_type,m.method_comment,cm.code_id from edu_develop_method m left join edu_develop_code_method cm on cm.method_id = m.id and cm.delflag = '0' and m.delflag = '0' and code_id = #{codeId,jdbcType=BIGINT} 
+    </select>
+    
+     <!-- (查询)查询所有的信息-->
+	<select id="queryDevelopMethodByCodeId" resultMap="BaseResultMap" >
+ 	   select m.controller_request_mapping,m.method_code,m.method_name,m.method_class_type,m.method_comment from edu_develop_method m , edu_develop_code_method cm where cm.method_id = m.id and cm.delflag = '0' and m.delflag = '0' and code_id = #{codeId,jdbcType=BIGINT} 
+    </select>
+    
+    
+   <delete id="deleteAllDevelopCodeMethodByCodeId" parameterType="java.lang.Long">
+		update edu_develop_code_method set delflag = '1' where  code_id = #{codeId,jdbcType=BIGINT} 
+	</delete>
+	
+	
+	<!-- (增加)增加信息 --> 
+	<insert id="insertDevelopCodeMethod" parameterType="com.sjq.develop.bean.DevelopCodeMethodBean"  
+        useGeneratedKeys="true" keyProperty="id">
+		insert into edu_develop_code_method
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	       		 create_time,
+	       <if test="createName != '' and createName != null">
+	       		 create_name,
+	       </if>
+	       		 delflag,
+	  	   <if test="codeId != '' and codeId != null">
+	       		 code_id,
+	       </if>
+	  	   <if test="methodId != '' and methodId != null">
+	       		 method_id,
+	       </if>
+	  	 
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			now(),
+	        <if test="createName != '' and createName != null">
+	       		#{createName,jdbcType=VARCHAR},
+	        </if>
+	        '0',
+	  	     <if test="codeId != '' and codeId != null">
+	       		#{codeId,jdbcType=BIGINT},
+	         </if>
+	  	     <if test="methodId != '' and methodId != null">
+	       		#{methodId,jdbcType=BIGINT},
+	         </if>
+		</trim>
+	</insert>
+	
+	   
+</mapper>

@@ -1,0 +1,520 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sjq.classes.dao.BaseClassesMapper">
+	<resultMap id="BaseResultMap" type="com.sjq.classes.vo.BaseClassesVo">
+  		<result column="id" property="id" jdbcType="BIGINT" />
+  		<result column="create_name" property="createName" jdbcType="VARCHAR" />
+  		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  		<result column="mod_name" property="modName" jdbcType="VARCHAR" />
+  		<result column="mod_time" property="modTime" jdbcType="TIMESTAMP" />
+  		<result column="delflag" property="delflag" jdbcType="CHAR" />
+  		<result column="name" property="name" jdbcType="VARCHAR" />
+  		<result column="school_id" property="schoolId" jdbcType="BIGINT" />
+  		<result column="grade_id" property="gradeId" jdbcType="BIGINT" />
+  		<result column="is_incharge" property="isIncharge" jdbcType="VARCHAR" />
+  		<result column="sort" property="sort" jdbcType="BIGINT" />
+  		<result column="remake" property="remake" jdbcType="VARCHAR" />
+  		
+  		<association property="baseSchoolVo" column="school_id"
+			select="com.sjq.school.dao.BaseSchoolMapper.queryBaseSchoolById"></association>
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+  		id,
+  		create_name,
+  		create_time,
+  		mod_name,
+  		mod_time,
+  		delflag,
+  		name,
+  		school_id,
+  		grade_id,
+  		is_incharge,
+  		sort,
+  		remake
+	</sql>
+	
+	<!-- 根据学校ID查询基础模块-班级信息信息 -->
+	<select id="queryBaseClassesBySchoolId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_base_classes
+       where delflag='0' and school_id =#{schoolId,jdbcType=BIGINT}
+    </select>
+	
+	<!-- 查询所有的基础模块-班级信息信息 -->
+	<select id="queryAllBaseClasses" resultMap="BaseResultMap" >
+ 	   select 
+       <include refid="Base_Column_List" />
+       from edu_base_classes
+       where delflag='0'
+    </select>
+	
+	
+	<!-- 根据ID查询基础模块-班级信息信息 -->
+	<select id="queryBaseClassesById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_base_classes
+       where delflag='0' and id =#{id,jdbcType=BIGINT}
+    </select>
+    
+    <select id="queryBaseClassesByAreaId" resultMap="BaseResultMap" parameterType="java.util.Map">
+	   select distinct cla.school_id from edu_base_classes cla
+		inner join edu_base_school sch on sch.id = cla.school_id
+		where grade_id =#{gradeId} and area_id =#{areaId}
+    </select>
+    
+	<!-- 根据IDS查询所有基础模块-班级信息信息 -->
+	<select id="queryBaseClassesByIds" resultMap="BaseResultMap"  parameterType="java.util.Map">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_base_classes
+       where delflag='0' and id in 
+	   <foreach collection="Ids" item="id" open="(" close=")" separator=",">
+	   #{id}
+	   </foreach>
+	</select>     
+	
+					
+	<!-- 根据条件查询所有基础模块-班级信息信息 -->
+	<select id="queryBaseClassesBySearch" resultMap="BaseResultMap"  parameterType="java.util.Map">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_base_classes
+       where 1=1 
+  	   <if test="id != '' and id != null">
+       		and id = #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name = #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time = #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name = #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time = #{modTime}
+       </if>
+  	     	and delflag = '0'
+  	   <if test="name != '' and name != null">
+       		and name = #{name}
+       </if>
+  	   <if test="schoolId != '' and schoolId != null">
+       		and school_id = #{schoolId}
+       </if>
+  	   <if test="gradeId != '' and gradeId != null">
+       		and grade_id = #{gradeId}
+       </if>
+  	   <if test="isIncharge != '' and isIncharge != null">
+       		and is_incharge = #{isIncharge}
+       </if>
+  	   <if test="sort != '' and sort != null">
+       		and sort = #{sort}
+       </if>
+  	   <if test="remake != '' and remake != null">
+       		and remake = #{remake}
+       </if>
+       ORDER BY sort,grade_id,name
+	</select>
+	
+					
+	<!-- 根据条件查询基础模块-班级信息count总数 -->
+	<select id="queryBaseClassesTotalCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(1) from
+		edu_base_classes where delflag='0'
+  	   <if test="id != '' and id != null">
+       		and id =  #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name =  #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time =  #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name =  #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time =  #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag =  #{delflag}
+       </if>
+  	   <if test="name != '' and name != null">
+       		and name =  #{name}
+       </if>
+  	   <if test="schoolId != '' and schoolId != null">
+       		and school_id =  #{schoolId}
+       </if>
+  	   <if test="gradeId != '' and gradeId != null">
+       		and grade_id =  #{gradeId}
+       </if>
+  	   <if test="isIncharge != '' and isIncharge != null">
+       		and is_incharge =  #{isIncharge}
+       </if>
+  	   <if test="sort != '' and sort != null">
+       		and sort =  #{sort}
+       </if>
+  	   <if test="remake != '' and remake != null">
+       		and remake =  #{remake}
+       </if>
+	</select>
+	
+
+					
+	<!-- 分页查询基础模块-班级信息 -->
+	<select id="queryBaseClassesPage" resultMap="BaseResultMap"  parameterType="java.util.Map">
+		select   
+	    <include refid="Base_Column_List" />
+		from
+		edu_base_classes where delflag='0'
+  	   <if test="id != '' and id != null">
+       		and id =  #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name =  #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time =  #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name =  #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time =  #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag =  #{delflag}
+       </if>
+  	   <if test="name != '' and name != null">
+       		and name =  #{name}
+       </if>
+  	   <if test="schoolId != '' and schoolId != null">
+       		and school_id =  #{schoolId}
+       </if>
+  	   <if test="gradeId != '' and gradeId != null">
+       		and grade_id =  #{gradeId}
+       </if>
+  	   <if test="isIncharge != '' and isIncharge != null">
+       		and is_incharge =  #{isIncharge}
+       </if>
+  	   <if test="sort != '' and sort != null">
+       		and sort =  #{sort}
+       </if>
+  	   <if test="remake != '' and remake != null">
+       		and remake =  #{remake}
+       </if>
+  	   limit #{startRowNum},#{endRowNum}
+	</select>
+
+					
+	<!-- (删除)根据ID删除基础模块-班级信息信息 --> 
+	<delete id="deleteBaseClassesById" parameterType="java.lang.Long">
+		update edu_base_classes 
+		<set> 
+	  	    <if test="modName != '' and modName != null">
+	       	mod_name =  #{modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="modTime != '' and modTime != null">
+	       	mod_time =  #{modTime,jdbcType=TIMESTAMP},
+	        </if>
+		delflag = '1'
+		</set>
+		where  id = #{id,jdbcType=BIGINT} 
+	</delete>
+	
+					
+	<!-- (删除)根据IDS删除基础模块-班级信息信息 -->
+	<delete id="deleteBaseClassesByIds"  parameterType="java.util.Map">
+	   update 
+       edu_base_classes
+       <set> 
+	  	    <if test="bean.modName != '' and bean.modName != null">
+	       	mod_name =  #{bean.modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="bean.modTime != '' and bean.modTime != null">
+	       	mod_time =  #{bean.modTime,jdbcType=TIMESTAMP},
+	        </if>
+		delflag = '1'
+		</set>
+       where in 
+	   <foreach collection="Ids" item="id" open="(" close=")" separator=",">
+	   #{id}
+	   </foreach>
+	</delete>
+	
+					
+	<!-- (删除)根据条件删除基础模块-班级信息信息  -->
+	<delete id="deleteBaseClassesBySearch" parameterType="java.util.Map">
+		update 
+		edu_base_classes
+		<set> 
+	  	    <if test="bean.modName != '' and bean.modName != null">
+	       	mod_name =  #{bean.modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="bean.modTime != '' and bean.modTime != null">
+	       	mod_time =  #{bean.modTime,jdbcType=TIMESTAMP},
+	        </if>
+		delflag = '1'
+		</set>
+		where 1=1
+  	   <if test="search.id != '' and search.id != null">
+       		and id =  #{search.id}
+       </if>
+  	   <if test="search.createName != '' and search.createName != null">
+       		and create_name =  #{search.createName}
+       </if>
+  	   <if test="search.createTime != '' and search.createTime != null">
+       		and create_time =  #{search.createTime}
+       </if>
+  	   <if test="search.modName != '' and search.modName != null">
+       		and mod_name =  #{search.modName}
+       </if>
+  	   <if test="search.modTime != '' and search.modTime != null">
+       		and mod_time =  #{search.modTime}
+       </if>
+  	   <if test="search.delflag != '' and search.delflag != null">
+       		and delflag =  #{search.delflag}
+       </if>
+  	   <if test="search.name != '' and search.name != null">
+       		and name =  #{search.name}
+       </if>
+  	   <if test="search.schoolId != '' and search.schoolId != null">
+       		and school_id =  #{search.schoolId}
+       </if>
+  	   <if test="search.gradeId != '' and search.gradeId != null">
+       		and grade_id =  #{search.gradeId}
+       </if>
+  	   <if test="search.isIncharge != '' and search.isIncharge != null">
+       		and is_incharge =  #{search.isIncharge}
+       </if>
+  	   <if test="search.sort != '' and search.sort != null">
+       		and sort =  #{search.sort}
+       </if>
+  	   <if test="search.remake != '' and search.remake != null">
+       		and remake =  #{search.remake}
+       </if>
+	</delete>
+	
+					
+	<!-- (更新)根据ID更新所有基础模块-班级信息信息 -->
+	<update id="updateBaseClassesById" parameterType="com.sjq.classes.bean.BaseClassesBean" >
+		update edu_base_classes
+		<set>
+	  	    <if test="modName != '' and modName != null">
+	       	mod_name =  #{modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="modTime != '' and modTime != null">
+	       	mod_time =  #{modTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != '' and delflag != null">
+	       	delflag =  #{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="name != '' and name != null">
+	       	name =  #{name,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="schoolId != '' and schoolId != null">
+	       	school_id =  #{schoolId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="gradeId != '' and gradeId != null">
+	       	grade_id =  #{gradeId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="isIncharge != '' and isIncharge != null">
+	       	is_incharge =  #{isIncharge,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="sort != '' and sort != null">
+	       	sort =  #{sort,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="remake != '' and remake != null">
+	       	remake =  #{remake,jdbcType=VARCHAR},
+	        </if>
+		</set>
+		where 1 = 1 and id = #{id,jdbcType=BIGINT} 
+	</update>
+	
+					
+	<!-- (更新)根据IDS更新所有基础模块-班级信息信息 -->
+	<update id="updateBaseClassesByIds"  parameterType="java.util.Map">
+		update edu_base_classes
+		<set>
+	  	    <if test="bean.modName != '' and bean.modName != null">
+	       	mod_name =  #{bean.modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="bean.modTime != '' and bean.modTime != null">
+	       	mod_time =  #{bean.modTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="bean.delflag != '' and bean.delflag != null">
+	       	delflag =  #{bean.delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="bean.name != '' and bean.name != null">
+	       	name =  #{bean.name,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="bean.schoolId != '' and bean.schoolId != null">
+	       	school_id =  #{bean.schoolId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="bean.gradeId != '' and bean.gradeId != null">
+	       	grade_id =  #{bean.gradeId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="bean.isIncharge != '' and bean.isIncharge != null">
+	       	is_incharge =  #{bean.isIncharge,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="bean.sort != '' and bean.sort != null">
+	       	sort =  #{bean.sort,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="bean.remake != '' and bean.remake != null">
+	       	remake =  #{bean.remake,jdbcType=VARCHAR},
+	        </if>
+		</set>
+		where 1 = 1 and id in 
+	   <foreach collection="Ids" item="id" open="(" close=")" separator=",">
+	   #{id}
+	   </foreach>
+	</update>
+	
+					
+	<!-- (更新)根据条件更新所有基础模块-班级信息信息 -->
+	<update id="updateBaseClassesBySearch"  parameterType="java.util.Map" >
+		update edu_base_classes
+		<set>
+	  	    <if test="modName != '' and modName != null">
+	       	mod_name =  #{modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="modTime != '' and modTime != null">
+	       	mod_time =  #{modTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != '' and delflag != null">
+	       	delflag =  #{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="name != '' and name != null">
+	       	name =  #{name,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="schoolId != '' and schoolId != null">
+	       	school_id =  #{schoolId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="gradeId != '' and gradeId != null">
+	       	grade_id =  #{gradeId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="isIncharge != '' and isIncharge != null">
+	       	is_incharge =  #{isIncharge,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="sort != '' and sort != null">
+	       	sort =  #{sort,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="remake != '' and remake != null">
+	       	remake =  #{remake,jdbcType=VARCHAR},
+	        </if>
+		</set>
+		where 
+  	   <if test="id != '' and id != null">
+       		and id = #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name = #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time = #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name = #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time = #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag = #{delflag}
+       </if>
+  	   <if test="name != '' and name != null">
+       		and name = #{name}
+       </if>
+  	   <if test="schoolId != '' and schoolId != null">
+       		and school_id = #{schoolId}
+       </if>
+  	   <if test="gradeId != '' and gradeId != null">
+       		and grade_id = #{gradeId}
+       </if>
+  	   <if test="isIncharge != '' and isIncharge != null">
+       		and is_incharge = #{isIncharge}
+       </if>
+  	   <if test="sort != '' and sort != null">
+       		and sort = #{sort}
+       </if>
+  	   <if test="remake != '' and remake != null">
+       		and remake = #{remake}
+       </if>
+	</update>
+	
+					
+	<!-- (增加)增加基础模块-班级信息信息 --> 
+	<insert id="insertBaseClasses" parameterType="com.sjq.classes.bean.BaseClassesBean">
+		insert into edu_base_classes
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	  	   <if test="id != '' and id != null">
+	       	id,
+	       </if>
+	  	   <if test="createName != '' and createName != null">
+	       	create_name,
+	       </if>
+	  	   <if test="createTime != '' and createTime != null">
+	       	create_time,
+	       </if>
+	  	   <if test="delflag != '' and delflag != null">
+	       	delflag,
+	       </if>
+	  	   <if test="name != '' and name != null">
+	       	name,
+	       </if>
+	  	   <if test="schoolId != '' and schoolId != null">
+	       	school_id,
+	       </if>
+	  	   <if test="gradeId != '' and gradeId != null">
+	       	grade_id,
+	       </if>
+	  	   <if test="isIncharge != '' and isIncharge != null">
+	       	is_incharge,
+	       </if>
+	  	   <if test="sort != '' and sort != null">
+	       	sort,
+	       </if>
+	  	   <if test="remake != '' and remake != null">
+	       	remake,
+	       </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	  	    <if test="id != '' and id != null">
+	       		#{id,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="createName != '' and createName != null">
+	       		#{createName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="createTime != '' and createTime != null">
+	       		#{createTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != '' and delflag != null">
+	       		#{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="name != '' and name != null">
+	       		#{name,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="schoolId != '' and schoolId != null">
+	       		#{schoolId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="gradeId != '' and gradeId != null">
+	       		#{gradeId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="isIncharge != '' and isIncharge != null">
+	       		#{isIncharge,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="sort != '' and sort != null">
+	       		#{sort,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="remake != '' and remake != null">
+	       		#{remake,jdbcType=VARCHAR},
+	        </if>
+		</trim>
+	</insert>
+    
+	   
+</mapper>

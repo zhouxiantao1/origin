@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sjq.exam.offline.dao.OfflineBasicDataMapper">
+	
+	<resultMap id="OfflineDataVoResultMap" type="com.sjq.exam.offline.vo.ExamOfflineDataVo">
+  		<result column="student_id_gz" property="studentIdGz" jdbcType="VARCHAR" />
+  		<result column="name" property="studentName" jdbcType="VARCHAR" />
+  		<result column="district_name" property="districtName" jdbcType="VARCHAR" />
+  		<result column="school_name" property="schoolName" jdbcType="VARCHAR" />
+  		<result column="class_name" property="className" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<!-- (查询)根据条件查询所有学生 -->
+	<select id="selectAllOfflineBasicData" resultMap="OfflineDataVoResultMap"  parameterType="java.util.Map">
+	   select s.student_id_gz,s.`name`,d.district_name,sc.school_name,cl.class_name from t_bas_student s
+	   inner join t_bas_student_class c on s.student_code = c.student_code
+	   inner join t_bas_class cl on cl.class_code = c.class_code
+	   inner join t_bas_school sc on sc.school_code = cl.school_code
+	   inner join t_bas_district d on d.district_code = sc.district_code 
+	   where 1 = 1
+  	   <if test="districtCode != '' and districtCode != null">
+       		and d.district_code = #{districtCode}
+       </if>
+       <if test="schoolCode != '' and schoolCode != null">
+       		and sc.school_code = #{schoolCode}
+       </if>
+       <if test="classCode != '' and classCode != null">
+       		and cl.class_code = #{classCode}
+       </if>
+	</select>
+	
+	<!-- 批量插入线下考生作答数据 -->
+	<insert id="insertOfflineBasicDataBatch" useGeneratedKeys="true" parameterType="java.util.List">  
+    <selectKey resultType="long" keyProperty="id" order="AFTER">  
+        select last_insert_id()
+    </selectKey>  
+   	insert into t_line_exam_student (exam_code,subject_code,subject_name,district_code,district_name,school_code,school_name,class_code,class_name,student_id_gz,student_name,full_score)   
+   	values  
+   <foreach collection="list" item="item" index="index" separator="," >  
+        (#{item.examCode},#{item.subjectCode},#{item.subjectName},#{item.districtCode},#{item.districtName},#{item.schoolCode},#{item.schoolName},#{item.classCode},#{item.className},#{item.studentIdGz},#{item.studentName},#{item.fullScore})  
+    </foreach>  
+	</insert>  
+	
+</mapper>

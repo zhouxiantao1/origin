@@ -1,0 +1,124 @@
+
+.mid{
+	min-height: 800px;
+}
+
+.work_detail{
+	margin:0 30px;
+}
+.work_detail h3{
+	color:#333;
+	font-size: 18px;
+	font-weight: 300;
+	text-align:center;
+	line-height: 60px;
+}
+.school_klass{
+	color:#0075b1;
+	font-size: 14px;
+	text-align:center;
+	margin-bottom: 20px;
+}
+
+.wrong_view{
+	font-size: 14px;
+	text-align:center;
+	margin-bottom: 20px;
+}
+
+.wrong_view .right_num{
+	color:#0075b1;
+	font-size: 18px;
+}
+.wrong_view .wrong_num{
+	color:#ff0000;
+	font-size: 18px;
+}
+
+.wrong_view img{
+    vertical-align: middle;
+    margin-left: 5px;
+}
+
+
+.high{
+	margin:0 30px 0 50px;
+}
+.finish{
+	margin:0 30px 0 40px;
+}
+
+.topics{
+	border:1px solid #ccc;
+	padding:16px;
+}
+.question_one{
+	padding-bottom:16px;
+	border-bottom: 1px dashed #c0c0c0;
+}
+.topics span.wen{
+	width:70px;
+	text-align: right;
+	margin-right: 12px;
+	font-size: 16px;
+}
+
+.ques{
+	line-height:30px;
+}
+
+.answer{
+	margin-left: 82px;
+}
+.answer p{
+	line-height:40px;
+
+}
+
+.answer label{
+	cursor: pointer;
+}
+.answer p input,.answer p span{
+	vertical-align: middle;
+}
+.answer p span{
+	margin-left: 4px;
+	color: #0075b1;
+}
+
+.answer p red{
+	margin-left: 20px;
+	color: #ff0103;
+	vertical-align: middle
+}
+
+.answer p green{
+	margin-left: 20px;
+	color: #0075b1;
+	vertical-align: middle
+}
+
+.question_two{
+	padding:16px 0;
+}
+.right_ans{
+	margin-top:10px;
+}
+
+.baocun {
+    margin: 20px;
+    text-align: center;
+}
+
+.baocun button.qx {
+    background: #ccc;
+}
+
+.baocun button {
+    width: 120px;
+    height: 32px;
+    line-height: 32px;
+    color: #fff;
+    background: #0075b1;
+    cursor: pointer;
+}

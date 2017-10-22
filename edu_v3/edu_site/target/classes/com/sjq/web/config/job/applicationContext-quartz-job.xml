@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"
+	xmlns:batch="http://www.springframework.org/schema/batch"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+                           http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
+                           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+                           http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+                           http://www.directwebremoting.org/schema/spring-dwr http://www.directwebremoting.org/schema/spring-dwr-3.0.xsd
+                           http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch-2.2.xsd">
+
+	<description>集成任务调度quartz与Spring-Batch分步作业</description>
+
+	<!-- 将容器启动生成的ApplicationContext赋予作业调度JobUtils工具类 -->
+	<bean id="springContextUtils" class="com.sjq.job.utils.SpringApplicationContextUtils" />
+
+	<!-- ********************************************* Sring Batch 作业步骤配置 ************************************************** -->
+
+	<!-- <batch:job-repository id="jobRepository" data-source="dataSource" transaction-manager="transactionManager" 
+		isolation-level-for-create="SERIALIZABLE" max-varchar-length="3000" table-prefix="BATCH_" 
+		/> -->
+
+	<!-- 作业仓储配置 -->
+	<bean id="jobRepository"
+		class="org.springframework.batch.core.repository.support.JobRepositoryFactoryBean">
+		<property name="isolationLevelForCreate" value="ISOLATION_DEFAULT" />
+		<property name="dataSource" ref="dataSource" />
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+
+	<!-- 作业浏览配置 -->
+	<bean id="jobExplorer"
+		class="org.springframework.batch.core.explore.support.JobExplorerFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<!-- 作业启动配置 -->
+	<bean id="jobLauncher"
+		class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
+		<property name="jobRepository" ref="jobRepository" />
+	</bean>
+	
+	<!-- 作业注册器 -->
+	<bean id="jobRegistry" class="org.springframework.batch.core.configuration.support.MapJobRegistry" />
+	
+	<!-- 任务操作器 -->
+	<bean id="jobOperator" class="org.springframework.batch.core.launch.support.SimpleJobOperator">
+		<property name="jobRepository" ref="jobRepository"/>
+		<property name="jobLauncher" ref="jobLauncher" />
+		<property name="jobRegistry" ref="jobRegistry" />
+		<property name="jobExplorer" ref="jobExplorer" />
+	</bean>
+
+	<!-- 作业监听默认配置 -->
+	<bean id="logJobMonitorNotifier" class="com.sjq.job.monitor.impl.LogJobMonitorNotifier" />
+
+	<bean id="monitorJobExecutionListener" class="com.sjq.job.monitor.MonitorJobExecutionListener">
+		<property name="jobMonitorNotifier" ref="logJobMonitorNotifier" />
+	</bean>
+	
+	<!-- 测试 -->	
+	<batch:job id="job1BatchJob">
+		<batch:step id="job1Step">
+			<batch:tasklet ref="job1Tasklet"
+				transaction-manager="transactionManager"></batch:tasklet>
+		</batch:step>
+		<batch:listeners>
+			<batch:listener ref="monitorJobExecutionListener" />
+		</batch:listeners>
+	</batch:job>
+	
+	<bean id="job1Tasklet"
+		class="com.sjq.job.tasklet.job1Tasklet" />
+	
+	
+
+</beans>

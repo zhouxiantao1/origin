@@ -1,0 +1,497 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sjq.info.dao.ExamInfoMapper">
+	<resultMap id="BaseResultMap" type="com.sjq.info.vo.ExamInfoVo">
+  		<result column="id" property="id" jdbcType="BIGINT" />
+  		<result column="create_name" property="createName" jdbcType="VARCHAR" />
+  		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  		<result column="mod_name" property="modName" jdbcType="VARCHAR" />
+  		<result column="mod_time" property="modTime" jdbcType="TIMESTAMP" />
+  		<result column="delflag" property="delflag" jdbcType="CHAR" />
+  		<result column="exam_name" property="examName" jdbcType="VARCHAR" />
+  		<result column="grade_id" property="gradeId" jdbcType="BIGINT" />
+  		<result column="exam_type" property="examType" jdbcType="CHAR" />
+  		<result column="exam_desc" property="examDesc" jdbcType="VARCHAR" />
+  		<result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+  		<result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+  		<result column="status" property="status" jdbcType="CHAR" />
+  		<result column="remark" property="remark" jdbcType="VARCHAR" />
+  		<result column="exam_range" property="examRange" jdbcType="CHAR" />
+  		<result column="exam_method" property="examMethod" jdbcType="CHAR" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+  		id,
+  		create_name,
+  		create_time,
+  		mod_name,
+  		mod_time,
+  		delflag,
+  		exam_name,
+  		grade_id,
+  		exam_type,
+  		exam_desc,
+  		start_time,
+  		end_time,
+  		status,
+  		remark,
+  		exam_range,
+  		exam_method,
+  	   case when exam_type = '1' then '单元考'
+	   when exam_type = '2' then '月考'
+	   when exam_type = '3' then '期中考' 
+	   when exam_type = '4' then '期末考'
+	   else '市级考试' end exam_type_name
+	</sql>
+	
+	<!-- 查询所有的线上考试-考试信息信息 -->
+	<select id="queryAllExamInfo" resultMap="BaseResultMap" >
+ 	   select 
+       <include refid="Base_Column_List" />
+       from edu_exam_info
+       where delflag='0'
+    </select>
+	
+	
+	<!-- 根据ID查询线上考试-考试信息信息 -->
+	<select id="queryExamInfoById" resultMap="AllExamBaseResultMap" parameterType="java.lang.Long">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_exam_info
+       where delflag='0' and id =#{id,jdbcType=BIGINT}
+    </select>
+    
+	<resultMap id="AllExamBaseResultMap" type="com.sjq.info.vo.ExamInfoVo">
+  		<result column="id" property="id" jdbcType="BIGINT" />
+  		<result column="create_name" property="createName" jdbcType="VARCHAR" />
+  		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  		<result column="mod_name" property="modName" jdbcType="VARCHAR" />
+  		<result column="mod_time" property="modTime" jdbcType="TIMESTAMP" />
+  		<result column="delflag" property="delflag" jdbcType="CHAR" />
+  		<result column="exam_name" property="examName" jdbcType="VARCHAR" />
+  		<result column="grade_id" property="gradeId" jdbcType="BIGINT" />
+  		<result column="exam_type" property="examType" jdbcType="CHAR" />
+  		<result column="exam_desc" property="examDesc" jdbcType="VARCHAR" />
+  		<result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+  		<result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+  		<result column="status" property="status" jdbcType="CHAR" />
+  		<result column="remark" property="remark" jdbcType="VARCHAR" />
+  		<result column="exam_range" property="examRange" jdbcType="CHAR" />
+  		<result column="exam_method" property="examMethod" jdbcType="CHAR" />
+  		<result column="exam_type_name" property="examTypeName" jdbcType="VARCHAR" />
+  		<association property="bgv" column="grade_id" select="com.sjq.grade.dao.BaseGradeMapper.queryBaseGradeById"/>
+  		<collection property="examDetailVoList" ofType="com.sjq.detail.vo.ExamDetailVo" 
+  		column="{examId=id}" javaType="ArrayList" select="com.sjq.detail.dao.ExamDetailMapper.queryExamDetailBySearch"/>
+	</resultMap>	
+				
+	<!-- 根据条件查询所有线上考试-考试信息信息 -->
+	<select id="queryExamInfoBySearch" resultMap="AllExamBaseResultMap"  parameterType="java.util.Map">
+	   select
+       <include refid="Base_Column_List" />
+       from edu_exam_info
+       where 1=1 
+  	   <if test="id != '' and id != null">
+       		and id = #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name = #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time = #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name = #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time = #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag = #{delflag}
+       </if>
+  	   <if test="examName != '' and examName != null">
+       		and exam_name = #{examName}
+       </if>
+  	   <if test="gradeId != '' and gradeId != null">
+       		and grade_id = #{gradeId}
+       </if>
+  	   <if test="examType != '' and examType != null">
+       		and exam_type = #{examType}
+       </if>
+  	   <if test="examDesc != '' and examDesc != null">
+       		and exam_desc = #{examDesc}
+       </if>
+  	   <if test="startTime != '' and startTime != null">
+       		and start_time = #{startTime}
+       </if>
+  	   <if test="endTime != '' and endTime != null">
+       		and end_time = #{endTime}
+       </if>
+  	   <if test="status != '' and status != null">
+       		and status = #{status}
+       </if>
+  	   <if test="remark != '' and remark != null">
+       		and remark = #{remark}
+       </if>
+  	   <if test="examRange != '' and examRange != null">
+       		and exam_range = #{examRange}
+       </if>
+       <if test="progress != '' and progress != null and progress ==1">
+       		and end_time>=(select now()) and (select now())>=start_time
+       </if>
+       <if test="progress != '' and progress != null and progress ==2">
+       		and start_time>(select now())
+       </if>
+       <if test="progress != '' and progress != null and progress ==3">
+       		and (select now())>end_time
+       </if>
+	</select>
+	
+	<!-- 根据条件查询线上考试-考试信息count总数 学生 -->
+	<select id="queryStudentExamInfoTotalCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(1) from edu_exam_info i 
+		inner join edu_exam_detail d on i.id = d.exam_id
+		inner join edu_exam_student s on s.paper_id = d.id
+		where i.delflag='0' and s.is_submit = "0" and s.student_id = #{examRange}
+	</select>
+	
+
+					
+	<!-- 分页查询线上考试-考试信息 -->
+	<select id="queryStudentExamInfoPage" resultMap="AllExamBaseResultMap"  parameterType="java.util.Map">
+		select   
+	    <include refid="Base_Column_List" />
+		from edu_exam_info i 
+		inner join edu_exam_detail d on i.id = d.exam_id
+		inner join edu_exam_student s on s.paper_id = d.id
+		where i.delflag='0' and s.is_submit = "0" and s.student_id = #{examRange}
+  	    limit #{startRowNum},#{endRowNum}
+	</select>
+	
+					
+	<!-- 根据条件查询线上考试-考试信息count总数 -->
+	<select id="queryExamInfoTotalCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(1) from
+		edu_exam_info where delflag='0'
+  	   <if test="id != '' and id != null">
+       		and id =  #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name =  #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time =  #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name =  #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time =  #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag =  #{delflag}
+       </if>
+  	   <if test="examName != '' and examName != null">
+       		and exam_name =  #{examName}
+       </if>
+  	   <if test="gradeId != '' and gradeId != null">
+       		and grade_id =  #{gradeId}
+       </if>
+  	   <if test="examType != '' and examType != null">
+       		and exam_type =  #{examType}
+       </if>
+  	   <if test="examDesc != '' and examDesc != null">
+       		and exam_desc =  #{examDesc}
+       </if>
+  	   <if test="startTime != '' and startTime != null">
+       		and start_time =  #{startTime}
+       </if>
+  	   <if test="endTime != '' and endTime != null">
+       		and end_time =  #{endTime}
+       </if>
+  	   <if test="status != '' and status != null">
+       		and status =  #{status}
+       </if>
+  	   <if test="remark != '' and remark != null">
+       		and remark =  #{remark}
+       </if>
+  	   <if test="examRange != '' and examRange != null">
+       		and exam_range =  #{examRange}
+       </if>
+       <if test="progress != '' and progress != null and progress ==1">
+       		and end_time>=(select now()) and (select now())>=start_time
+       </if>
+       <if test="progress != '' and progress != null and progress ==2">
+       		and start_time>(select now())
+       </if>
+       <if test="progress != '' and progress != null and progress ==3">
+       		and (select now())>end_time
+       </if>
+	</select>
+	
+
+					
+	<!-- 分页查询线上考试-考试信息 -->
+	<select id="queryExamInfoPage" resultMap="AllExamBaseResultMap"  parameterType="java.util.Map">
+		select   
+	    <include refid="Base_Column_List" />
+		from
+		edu_exam_info where delflag='0'
+  	   <if test="id != '' and id != null">
+       		and id =  #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name =  #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time =  #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name =  #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time =  #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag =  #{delflag}
+       </if>
+  	   <if test="examName != '' and examName != null">
+       		and exam_name =  #{examName}
+       </if>
+  	   <if test="gradeId != '' and gradeId != null">
+       		and grade_id =  #{gradeId}
+       </if>
+  	   <if test="examType != '' and examType != null">
+       		and exam_type =  #{examType}
+       </if>
+  	   <if test="examDesc != '' and examDesc != null">
+       		and exam_desc =  #{examDesc}
+       </if>
+  	   <if test="startTime != '' and startTime != null">
+       		and start_time =  #{startTime}
+       </if>
+  	   <if test="endTime != '' and endTime != null">
+       		and end_time =  #{endTime}
+       </if>
+  	   <if test="status != '' and status != null">
+       		and status =  #{status}
+       </if>
+  	   <if test="remark != '' and remark != null">
+       		and remark =  #{remark}
+       </if>
+  	   <if test="examRange != '' and examRange != null">
+       		and exam_range =  #{examRange}
+       </if>
+       <if test="progress != '' and progress != null and progress ==1">
+       		and end_time>=(select now()) and (select now())>=start_time
+       </if>
+       <if test="progress != '' and progress != null and progress ==2">
+       		and start_time>(select now())
+       </if>
+       <if test="progress != '' and progress != null and progress ==3">
+       		and (select now())>end_time
+       </if>
+  	   limit #{startRowNum},#{endRowNum}
+	</select>
+
+					
+	<!-- (删除)根据ID删除线上考试-考试信息信息 --> 
+	<delete id="deleteExamInfoById" parameterType="java.lang.Long">
+		update edu_exam_info 
+		<set> 
+	  	    <if test="modName != '' and modName != null">
+	       	mod_name =  #{modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="modTime != '' and modTime != null">
+	       	mod_time =  #{modTime,jdbcType=TIMESTAMP},
+	        </if>
+		delflag = '1'
+		</set>
+		where  id = #{id,jdbcType=BIGINT} 
+	</delete>
+	
+					
+	<!-- (更新)根据条件更新所有线上考试-考试信息信息 -->
+	<update id="updateExamInfoBySearch"  parameterType="java.util.Map" >
+		update edu_exam_info
+		<set>
+	  	    <if test="modName != '' and modName != null">
+	       	mod_name =  #{modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="modTime != '' and modTime != null">
+	       	mod_time =  #{modTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != '' and delflag != null">
+	       	delflag =  #{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="examName != '' and examName != null">
+	       	exam_name =  #{examName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="gradeId != '' and gradeId != null">
+	       	grade_id =  #{gradeId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="examType != '' and examType != null">
+	       	exam_type =  #{examType,jdbcType=CHAR},
+	        </if>
+	  	    <if test="examDesc != '' and examDesc != null">
+	       	exam_desc =  #{examDesc,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="startTime != '' and startTime != null">
+	       	start_time =  #{startTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="endTime != '' and endTime != null">
+	       	end_time =  #{endTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="status != '' and status != null">
+	       	status =  #{status,jdbcType=CHAR},
+	        </if>
+	  	    <if test="remark != '' and remark != null">
+	       	remark =  #{remark,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="examRange != '' and examRange != null">
+	       	exam_range =  #{examRange,jdbcType=CHAR},
+	        </if>
+		</set>
+		where 
+  	   <if test="id != '' and id != null">
+       		and id = #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name = #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time = #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name = #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time = #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag = #{delflag}
+       </if>
+  	   <if test="examName != '' and examName != null">
+       		and exam_name = #{examName}
+       </if>
+  	   <if test="gradeId != '' and gradeId != null">
+       		and grade_id = #{gradeId}
+       </if>
+  	   <if test="examType != '' and examType != null">
+       		and exam_type = #{examType}
+       </if>
+  	   <if test="examDesc != '' and examDesc != null">
+       		and exam_desc = #{examDesc}
+       </if>
+  	   <if test="startTime != '' and startTime != null">
+       		and start_time = #{startTime}
+       </if>
+  	   <if test="endTime != '' and endTime != null">
+       		and end_time = #{endTime}
+       </if>
+  	   <if test="status != '' and status != null">
+       		and status = #{status}
+       </if>
+  	   <if test="remark != '' and remark != null">
+       		and remark = #{remark}
+       </if>
+  	   <if test="examRange != '' and examRange != null">
+       		and exam_range = #{examRange}
+       </if>
+	</update>
+	
+					
+	<!-- (增加)增加线上考试-考试信息信息 --> 
+	<insert id="insertExamInfo" parameterType="com.sjq.info.bean.ExamInfoBean">
+		insert into edu_exam_info
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	  	   <if test="id != '' and id != null">
+	       	id,
+	       </if>
+	  	   <if test="createName != '' and createName != null">
+	       	create_name,
+	       </if>
+	  	   <if test="createTime != '' and createTime != null">
+	       	create_time,
+	       </if>
+	  	   <if test="delflag != '' and delflag != null">
+	       	delflag,
+	       </if>
+	  	   <if test="examName != '' and examName != null">
+	       	exam_name,
+	       </if>
+	  	   <if test="gradeId != '' and gradeId != null">
+	       	grade_id,
+	       </if>
+	  	   <if test="examType != '' and examType != null">
+	       	exam_type,
+	       </if>
+	  	   <if test="examDesc != '' and examDesc != null">
+	       	exam_desc,
+	       </if>
+	  	   <if test="startTime != '' and startTime != null">
+	       	start_time,
+	       </if>
+	  	   <if test="endTime != '' and endTime != null">
+	       	end_time,
+	       </if>
+	  	   <if test="status != '' and status != null">
+	       	status,
+	       </if>
+	  	   <if test="remark != '' and remark != null">
+	       	remark,
+	       </if>
+	  	   <if test="examRange != '' and examRange != null">
+	       	exam_range,
+	       </if>
+	       <if test="examMethod != '' and examMethod != null">
+	       	exam_method,
+	       </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	  	    <if test="id != '' and id != null">
+	       		#{id,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="createName != '' and createName != null">
+	       		#{createName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="createTime != '' and createTime != null">
+	       		#{createTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != '' and delflag != null">
+	       		#{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="examName != '' and examName != null">
+	       		#{examName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="gradeId != '' and gradeId != null">
+	       		#{gradeId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="examType != '' and examType != null">
+	       		#{examType,jdbcType=CHAR},
+	        </if>
+	  	    <if test="examDesc != '' and examDesc != null">
+	       		#{examDesc,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="startTime != '' and startTime != null">
+	       		#{startTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="endTime != '' and endTime != null">
+	       		#{endTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="status != '' and status != null">
+	       		#{status,jdbcType=CHAR},
+	        </if>
+	  	    <if test="remark != '' and remark != null">
+	       		#{remark,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="examRange != '' and examRange != null">
+	       		#{examRange,jdbcType=CHAR},
+	        </if>
+	        <if test="examMethod != '' and examMethod != null">
+	       		#{examMethod,jdbcType=CHAR},
+	        </if>
+		</trim>
+	</insert>
+    
+	   
+</mapper>

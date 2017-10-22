@@ -1,0 +1,113 @@
+.mid{
+	min-height: 800px;
+}
+.back{
+	color:#00abed;
+	margin-right:20px;
+	font-size: 16px;
+	line-height: 36px;
+	cursor: pointer;
+}
+ul li,button{
+	cursor: pointer;
+}
+
+.klass_sub{
+	margin:40px 20px 20px 20px;
+}
+.klass_sub span{
+	display: inline-block;
+	line-height: 30px;
+	margin-right: 5px;
+}
+.klass_sub select{
+	vertical-align: middle;
+	padding:5px 0 5px 3px;
+	width:80px;
+}
+.klass_sub input{
+	width:235px;
+	padding:5px 2px;
+	vertical-align: middle;
+}
+
+.work_name{
+	margin-left: 50px;
+}
+
+.check{
+	width:90px;
+	height:32px;
+	line-height: 32px;
+	color:#fff;
+	background:#0075b1;
+	margin-left:20px;
+}
+
+
+.list_one{
+	border: 1px solid #e5e5e5;
+    margin: 36px 20px 20px;
+    font-size: 12px;
+}
+
+.top_list{
+	height:36px;
+	line-height: 36px;
+	background:#f2f2f2;
+	padding-left: 20px;
+}
+.top_list p{
+	float:left;
+}
+.top_list .status,.detail .start_do,.end_close{
+	width:16%;
+	text-align: center;
+	float: right;
+}
+
+.school{
+	width:20%;
+	color:#0075b1;
+	margin-left: 60px;
+}
+
+.detail{
+	height:50px;
+	line-height: 50px;
+	padding-left: 20px;
+}
+.detail .some span{
+	margin-right: 52px;
+}
+
+.detail .start_do button,.detail .end_close button{
+	width: 100px;
+    height: 32px;
+    color: #fff;
+    border-radius: 16px;
+    font-size: 12px;
+}
+.detail .start_do button{
+	background: #0075b1;
+}
+.detail .end_close button{
+	background: gray;
+}
+
+.choice_sub{
+	margin: 20px 0;
+    font-size: 12px;
+}
+.choice_sub span{
+	display: inline-block;
+	float:left;
+	width:90px;
+	text-align: right;
+	line-height: 30px;
+	margin-right: 12px;
+}
+
+.page_list {
+    margin: 50px 20px !important;
+}

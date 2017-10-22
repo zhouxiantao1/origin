@@ -1,0 +1,424 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sjq.catalog.dao.BaseCatalogMapper">
+	<resultMap id="BaseResultMap" type="com.sjq.catalog.vo.BaseCatalogVo">
+  		<result column="id" property="id" jdbcType="BIGINT" />
+  		<result column="create_name" property="createName" jdbcType="VARCHAR" />
+  		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  		<result column="mod_name" property="modName" jdbcType="VARCHAR" />
+  		<result column="mod_time" property="modTime" jdbcType="TIMESTAMP" />
+  		<result column="delflag" property="delflag" jdbcType="CHAR" />
+  		<result column="name" property="name" jdbcType="VARCHAR" />
+  		<result column="pic" property="pic" jdbcType="VARCHAR" />
+  		<result column="year_id" property="yearId" jdbcType="BIGINT" />
+  		<result column="stage_id" property="stageId" jdbcType="BIGINT" />
+  		<result column="subject_id" property="subjectId" jdbcType="BIGINT" />
+  		<result column="grade_id" property="gradeId" jdbcType="BIGINT" />
+  		<result column="term_id" property="termId" jdbcType="BIGINT" />
+  		<result column="version_id" property="versionId" jdbcType="BIGINT" />
+  		<result column="plan_id" property="planId" jdbcType="VARCHAR" />
+  		<result column="sort" property="sort" jdbcType="BIGINT" />
+  		
+  		<association property="baseSubjectVo" column="subject_id"
+			select="com.sjq.subject.dao.BaseSubjectMapper.queryBaseSubjectById"></association>
+		<association property="baseGradeVo" column="grade_id"
+			select="com.sjq.grade.dao.BaseGradeMapper.queryBaseGradeById"></association>
+		<association property="baseVersionVo" column="version_id"
+			select="com.sjq.version.dao.BaseVersionMapper.queryBaseVersionById"></association>
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+  		id,
+  		create_name,
+  		create_time,
+  		mod_name,
+  		mod_time,
+  		delflag,
+  		name,
+  		pic,
+  		year_id,
+  		stage_id,
+  		subject_id,
+  		grade_id,
+  		term_id,
+  		version_id,
+  		plan_id,
+  		sort
+	</sql>
+	
+	<!-- 查询所有的基础模块-目录信息信息 -->
+	<select id="queryAllBaseCatalog" resultMap="BaseResultMap" >
+ 	   select 
+       <include refid="Base_Column_List" />
+       from edu_base_catalog
+       where delflag='0'
+    </select>
+	
+	
+	<!-- 根据ID查询基础模块-目录信息信息 -->
+	<select id="queryBaseCatalogById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_base_catalog
+       where delflag='0' and id =#{id,jdbcType=BIGINT}
+    </select>
+    
+    
+	<!-- 根据IDS查询所有基础模块-目录信息信息 -->
+	<select id="queryBaseCatalogByIds" resultMap="BaseResultMap"  parameterType="java.util.Map">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_base_catalog
+       where delflag='0' and id in 
+	   <foreach collection="Ids" item="id" open="(" close=")" separator=",">
+	   #{id}
+	   </foreach>
+	</select>     
+	
+					
+	<!-- 根据条件查询所有基础模块-目录信息信息 -->
+	<select id="queryBaseCatalogBySearch" resultMap="BaseResultMap"  parameterType="java.util.Map">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_base_catalog
+       where 1=1 
+  	   <if test="id != '' and id != null">
+       		and id = #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name = #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time = #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name = #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time = #{modTime}
+       </if>
+  	     	and delflag = '0'
+  	   <if test="name != '' and name != null">
+       		and name = #{name}
+       </if>
+  	   <if test="pic != '' and pic != null">
+       		and pic = #{pic}
+       </if>
+  	   <if test="yearId != '' and yearId != null">
+       		and year_id = #{yearId}
+       </if>
+  	   <if test="stageId != '' and stageId != null">
+       		and stage_id = #{stageId}
+       </if>
+  	   <if test="subjectId != '' and subjectId != null">
+       		and subject_id = #{subjectId}
+       </if>
+  	   <if test="gradeId != '' and gradeId != null">
+       		and grade_id = #{gradeId}
+       </if>
+  	   <if test="termId != '' and termId != null">
+       		and term_id = #{termId}
+       </if>
+  	   <if test="versionId != '' and versionId != null">
+       		and version_id = #{versionId}
+       </if>
+  	   <if test="planId != '' and planId != null">
+       		and plan_id = #{planId}
+       </if>
+  	   <if test="sort != '' and sort != null">
+       		and sort = #{sort}
+       </if>
+	</select>
+	
+					
+	<!-- 分页查询基础模块-目录信息 -->
+	<select id="queryBaseCatalogPage" resultMap="BaseResultMap"  parameterType="java.util.Map">
+		select   
+	    <include refid="Base_Column_List" />
+		from
+		edu_base_catalog where delflag='0'
+  	   <if test="id != '' and id != null">
+       		and id =  #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name =  #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time =  #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name =  #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time =  #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag =  #{delflag}
+       </if>
+  	   <if test="name != '' and name != null">
+       		and name =  #{name}
+       </if>
+  	   <if test="pic != '' and pic != null">
+       		and pic =  #{pic}
+       </if>
+  	   <if test="yearId != '' and yearId != null">
+       		and year_id =  #{yearId}
+       </if>
+  	   <if test="stageId != '' and stageId != null">
+       		and stage_id =  #{stageId}
+       </if>
+  	   <if test="subjectId != '' and subjectId != null">
+       		and subject_id =  #{subjectId}
+       </if>
+  	   <if test="gradeId != '' and gradeId != null">
+       		and grade_id =  #{gradeId}
+       </if>
+  	   <if test="termId != '' and termId != null">
+       		and term_id =  #{termId}
+       </if>
+  	   <if test="versionId != '' and versionId != null">
+       		and version_id =  #{versionId}
+       </if>
+  	   <if test="planId != '' and planId != null">
+       		and plan_id =  #{planId}
+       </if>
+  	   <if test="sort != '' and sort != null">
+       		and sort =  #{sort}
+       </if>
+  	   limit #{startRowNum},#{endRowNum}
+	</select>
+
+					
+	<!-- (删除)根据ID删除基础模块-目录信息信息 --> 
+	<delete id="deleteBaseCatalogById" parameterType="java.lang.Long">
+		update edu_base_catalog 
+		<set> 
+	  	    <if test="modName != '' and modName != null">
+	       	mod_name =  #{modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="modTime != '' and modTime != null">
+	       	mod_time =  #{modTime,jdbcType=TIMESTAMP},
+	        </if>
+		delflag = '1'
+		</set>
+		where  id = #{id,jdbcType=BIGINT} 
+	</delete>
+	
+					
+	<!-- (删除)根据IDS删除基础模块-目录信息信息 -->
+	<delete id="deleteBaseCatalogByIds"  parameterType="java.util.Map">
+	   update 
+       edu_base_catalog
+       <set> 
+	  	    <if test="bean.modName != '' and bean.modName != null">
+	       	mod_name =  #{bean.modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="bean.modTime != '' and bean.modTime != null">
+	       	mod_time =  #{bean.modTime,jdbcType=TIMESTAMP},
+	        </if>
+		delflag = '1'
+		</set>
+       where in 
+	   <foreach collection="Ids" item="id" open="(" close=")" separator=",">
+	   #{id}
+	   </foreach>
+	</delete>
+	
+					
+	<!-- (更新)根据ID更新所有基础模块-目录信息信息 -->
+	<update id="updateBaseCatalogById" parameterType="com.sjq.catalog.bean.BaseCatalogBean" >
+		update edu_base_catalog
+		<set>
+	  	    <if test="modName != '' and modName != null">
+	       	mod_name =  #{modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="modTime != '' and modTime != null">
+	       	mod_time =  #{modTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != '' and delflag != null">
+	       	delflag =  #{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="name != '' and name != null">
+	       	name =  #{name,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="pic != '' and pic != null">
+	       	pic =  #{pic,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="yearId != '' and yearId != null">
+	       	year_id =  #{yearId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="stageId != '' and stageId != null">
+	       	stage_id =  #{stageId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="subjectId != '' and subjectId != null">
+	       	subject_id =  #{subjectId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="gradeId != '' and gradeId != null">
+	       	grade_id =  #{gradeId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="termId != '' and termId != null">
+	       	term_id =  #{termId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="versionId != '' and versionId != null">
+	       	version_id =  #{versionId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="planId != '' and planId != null">
+	       	plan_id =  #{planId,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="sort != '' and sort != null">
+	       	sort =  #{sort,jdbcType=BIGINT},
+	        </if>
+		</set>
+		where 1 = 1 and id = #{id,jdbcType=BIGINT} 
+	</update>
+	
+					
+	<!-- 根据条件查询基础模块-目录信息count总数 -->
+	<select id="queryBaseCatalogTotalCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(1) from
+		edu_base_catalog where delflag='0'
+  	   <if test="id != '' and id != null">
+       		and id =  #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name =  #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time =  #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name =  #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time =  #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag =  #{delflag}
+       </if>
+  	   <if test="name != '' and name != null">
+       		and name =  #{name}
+       </if>
+  	   <if test="pic != '' and pic != null">
+       		and pic =  #{pic}
+       </if>
+  	   <if test="yearId != '' and yearId != null">
+       		and year_id =  #{yearId}
+       </if>
+  	   <if test="stageId != '' and stageId != null">
+       		and stage_id =  #{stageId}
+       </if>
+  	   <if test="subjectId != '' and subjectId != null">
+       		and subject_id =  #{subjectId}
+       </if>
+  	   <if test="gradeId != '' and gradeId != null">
+       		and grade_id =  #{gradeId}
+       </if>
+  	   <if test="termId != '' and termId != null">
+       		and term_id =  #{termId}
+       </if>
+  	   <if test="versionId != '' and versionId != null">
+       		and version_id =  #{versionId}
+       </if>
+  	   <if test="planId != '' and planId != null">
+       		and plan_id =  #{planId}
+       </if>
+  	   <if test="sort != '' and sort != null">
+       		and sort =  #{sort}
+       </if>
+	</select>
+	
+	<!-- (增加)增加基础模块-目录信息信息 --> 
+	<insert id="insertBaseCatalog" parameterType="com.sjq.catalog.bean.BaseCatalogBean">
+		insert into edu_base_catalog
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	  	   <if test="id != null">
+	       	id,
+	       </if>
+	  	   <if test="createName != null">
+	       	create_name,
+	       </if>
+	  	   <if test="createTime != null">
+	       	create_time,
+	       </if>
+	  	   <if test="delflag != null">
+	       	delflag,
+	       </if>
+	  	   <if test="name != null">
+	       	name,
+	       </if>
+	  	   <if test="pic != null">
+	       	pic,
+	       </if>
+	  	   <if test="yearId != null">
+	       	year_id,
+	       </if>
+	  	   <if test="stageId != null">
+	       	stage_id,
+	       </if>
+	  	   <if test="subjectId != null">
+	       	subject_id,
+	       </if>
+	  	   <if test="gradeId != null">
+	       	grade_id,
+	       </if>
+	  	   <if test="termId != null">
+	       	term_id,
+	       </if>
+	  	   <if test="versionId != null">
+	       	version_id,
+	       </if>
+	  	   <if test="planId != null">
+	       	plan_id,
+	       </if>
+	  	   <if test="sort != null">
+	       	sort,
+	       </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	  	    <if test="id != null">
+	       		#{id,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="createName != null">
+	       		#{createName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="createTime != null">
+	       		#{createTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != null">
+	       		#{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="name != null">
+	       		#{name,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="pic != null">
+	       		#{pic,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="yearId != null">
+	       		#{yearId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="stageId != null">
+	       		#{stageId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="subjectId != null">
+	       		#{subjectId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="gradeId != null">
+	       		#{gradeId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="termId != null">
+	       		#{termId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="versionId != null">
+	       		#{versionId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="planId != null">
+	       		#{planId,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="sort != null">
+	       		#{sort,jdbcType=BIGINT},
+	        </if>
+		</trim>
+	</insert>
+    
+	   
+</mapper>

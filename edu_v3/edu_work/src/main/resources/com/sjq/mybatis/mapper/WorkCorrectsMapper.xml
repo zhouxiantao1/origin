@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sjq.corrects.dao.WorkCorrectsMapper">
+	<resultMap id="BaseResultMap" type="com.sjq.corrects.vo.WorkCorrectsVo">
+  		<result column="id" property="id" jdbcType="BIGINT" />
+  		<result column="create_name" property="createName" jdbcType="VARCHAR" />
+  		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  		<result column="mod_name" property="modName" jdbcType="VARCHAR" />
+  		<result column="mod_time" property="modTime" jdbcType="TIMESTAMP" />
+  		<result column="delflag" property="delflag" jdbcType="CHAR" />
+  		<result column="user_id" property="userId" jdbcType="BIGINT" />
+  		<result column="homework_id" property="homeworkId" jdbcType="BIGINT" />
+  		<result column="content" property="content" jdbcType="VARCHAR" />
+  		<result column="remake" property="remake" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+  		id,
+  		create_name,
+  		create_time,
+  		mod_name,
+  		mod_time,
+  		delflag,
+  		user_id,
+  		homework_id,
+  		content,
+  		remake
+	</sql>
+	
+	<!-- 查询所有的批改信息信息 -->
+	<select id="queryAllWorkCorrects" resultMap="BaseResultMap" >
+ 	   select 
+       <include refid="Base_Column_List" />
+       from edu_work_corrects
+       where delflag='0'
+    </select>
+	
+	
+	<!-- 根据ID查询批改信息信息 -->
+	<select id="queryWorkCorrectsById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_work_corrects
+       where delflag='0' and id =#{id,jdbcType=BIGINT}
+    </select>
+    
+					
+	<!-- 根据条件查询所有批改信息信息 -->
+	<select id="queryWorkCorrectsBySearch" resultMap="BaseResultMap"  parameterType="java.util.Map">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_work_corrects
+       where 1=1 
+  	   <if test="id != '' and id != null">
+       		and id = #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name = #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time = #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name = #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time = #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag = #{delflag}
+       </if>
+  	   <if test="userId != '' and userId != null">
+       		and user_id = #{userId}
+       </if>
+  	   <if test="homeworkId != '' and homeworkId != null">
+       		and homework_id = #{homeworkId}
+       </if>
+  	   <if test="content != '' and content != null">
+       		and content = #{content}
+       </if>
+  	   <if test="remake != '' and remake != null">
+       		and remake = #{remake}
+       </if>
+	</select>
+	
+					
+	<!-- 根据条件查询批改信息count总数 -->
+	<select id="queryWorkCorrectsTotalCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(1) from
+		edu_work_corrects where delflag='0'
+  	   <if test="id != '' and id != null">
+       		and id =  #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name =  #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time =  #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name =  #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time =  #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag =  #{delflag}
+       </if>
+  	   <if test="userId != '' and userId != null">
+       		and user_id =  #{userId}
+       </if>
+  	   <if test="homeworkId != '' and homeworkId != null">
+       		and homework_id =  #{homeworkId}
+       </if>
+  	   <if test="content != '' and content != null">
+       		and content =  #{content}
+       </if>
+  	   <if test="remake != '' and remake != null">
+       		and remake =  #{remake}
+       </if>
+	</select>
+	
+
+					
+	<!-- 分页查询批改信息 -->
+	<select id="queryWorkCorrectsPage" resultMap="BaseResultMap"  parameterType="java.util.Map">
+		select   
+	    <include refid="Base_Column_List" />
+		from
+		edu_work_corrects where delflag='0'
+  	   <if test="id != '' and id != null">
+       		and id =  #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name =  #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time =  #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name =  #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time =  #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag =  #{delflag}
+       </if>
+  	   <if test="userId != '' and userId != null">
+       		and user_id =  #{userId}
+       </if>
+  	   <if test="homeworkId != '' and homeworkId != null">
+       		and homework_id =  #{homeworkId}
+       </if>
+  	   <if test="content != '' and content != null">
+       		and content =  #{content}
+       </if>
+  	   <if test="remake != '' and remake != null">
+       		and remake =  #{remake}
+       </if>
+  	   limit #{startRowNum},#{endRowNum}
+	</select>
+
+					
+	<!-- (删除)根据ID删除批改信息信息 --> 
+	<delete id="deleteWorkCorrectsById" parameterType="java.lang.Long">
+		update edu_work_corrects 
+		<set> 
+	  	    <if test="modName != '' and modName != null">
+	       	mod_name =  #{modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="modTime != '' and modTime != null">
+	       	mod_time =  #{modTime,jdbcType=TIMESTAMP},
+	        </if>
+		delflag = '1'
+		</set>
+		where  id = #{id,jdbcType=BIGINT} 
+	</delete>
+	
+					
+	<!-- (更新)根据条件更新所有批改信息信息 -->
+	<update id="updateWorkCorrectsBySearch"  parameterType="java.util.Map" >
+		update edu_work_corrects
+		<set>
+	  	    <if test="modName != '' and modName != null">
+	       	mod_name =  #{modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="modTime != '' and modTime != null">
+	       	mod_time =  #{modTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != '' and delflag != null">
+	       	delflag =  #{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="userId != '' and userId != null">
+	       	user_id =  #{userId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="homeworkId != '' and homeworkId != null">
+	       	homework_id =  #{homeworkId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="content != '' and content != null">
+	       	content =  #{content,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="remake != '' and remake != null">
+	       	remake =  #{remake,jdbcType=VARCHAR},
+	        </if>
+		</set>
+		where 
+  	   <if test="id != '' and id != null">
+       		and id = #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name = #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time = #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name = #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time = #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag = #{delflag}
+       </if>
+  	   <if test="userId != '' and userId != null">
+       		and user_id = #{userId}
+       </if>
+  	   <if test="homeworkId != '' and homeworkId != null">
+       		and homework_id = #{homeworkId}
+       </if>
+  	   <if test="content != '' and content != null">
+       		and content = #{content}
+       </if>
+  	   <if test="remake != '' and remake != null">
+       		and remake = #{remake}
+       </if>
+	</update>
+	
+					
+	<!-- (增加)增加批改信息信息 --> 
+	<insert id="insertWorkCorrects" parameterType="com.sjq.corrects.bean.WorkCorrectsBean">
+		insert into edu_work_corrects
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	  	   <if test="id != '' and id != null">
+	       	id,
+	       </if>
+	  	   <if test="createName != '' and createName != null">
+	       	create_name,
+	       </if>
+	  	   <if test="createTime != '' and createTime != null">
+	       	create_time,
+	       </if>
+	  	   <if test="delflag != '' and delflag != null">
+	       	delflag,
+	       </if>
+	  	   <if test="userId != '' and userId != null">
+	       	user_id,
+	       </if>
+	  	   <if test="homeworkId != '' and homeworkId != null">
+	       	homework_id,
+	       </if>
+	  	   <if test="content != '' and content != null">
+	       	content,
+	       </if>
+	  	   <if test="remake != '' and remake != null">
+	       	remake,
+	       </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	  	    <if test="id != '' and id != null">
+	       		#{id,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="createName != '' and createName != null">
+	       		#{createName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="createTime != '' and createTime != null">
+	       		#{createTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != '' and delflag != null">
+	       		#{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="userId != '' and userId != null">
+	       		#{userId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="homeworkId != '' and homeworkId != null">
+	       		#{homeworkId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="content != '' and content != null">
+	       		#{content,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="remake != '' and remake != null">
+	       		#{remake,jdbcType=VARCHAR},
+	        </if>
+		</trim>
+	</insert>
+    
+	   
+</mapper>

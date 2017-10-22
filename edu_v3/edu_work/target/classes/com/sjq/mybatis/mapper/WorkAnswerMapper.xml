@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sjq.answer.dao.WorkAnswerMapper">
+	<resultMap id="BaseResultMap" type="com.sjq.answer.vo.WorkAnswerVo">
+  		<result column="id" property="id" jdbcType="BIGINT" />
+  		<result column="create_name" property="createName" jdbcType="VARCHAR" />
+  		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  		<result column="mod_name" property="modName" jdbcType="VARCHAR" />
+  		<result column="mod_time" property="modTime" jdbcType="TIMESTAMP" />
+  		<result column="delflag" property="delflag" jdbcType="CHAR" />
+  		<result column="homework_id" property="homeworkId" jdbcType="BIGINT" />
+  		<result column="student_id" property="studentId" jdbcType="BIGINT" />
+  		<result column="answer_time" property="answerTime" jdbcType="BIGINT" />
+  		<result column="status" property="status" jdbcType="CHAR" />
+  		<result column="correct" property="correct" jdbcType="VARCHAR" />
+  		
+  		<association property="baseStudentVo" column="student_id"	
+  			select="com.sjq.student.dao.BaseStudentMapper.queryBaseStudentById"></association>
+  		<collection property="workAnswerDetailVoList" column="{delflag=delflag,answerId=id}" javaType="ArrayList"	
+  			ofType="com.sjq.answerDetail.vo.WorkAnswerDetailVo" select="com.sjq.answerDetail.dao.WorkAnswerDetailMapper.queryWorkAnswerDetailBySearch"></collection>
+  		
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+  		id,
+  		create_name,
+  		create_time,
+  		mod_name,
+  		mod_time,
+  		delflag,
+  		homework_id,
+  		student_id,
+  		answer_time,
+  		status,
+  		correct,
+  		type
+	</sql>
+	
+	<!-- 查询各个段的得分率人数 -->
+	<select id="queryWorkAnswerBycorrect" resultType="java.lang.Integer" parameterType="java.util.Map">
+	   select count(1) from edu_work_answer
+       where delflag='0' and correct &gt;= #{start} and correct &lt; #{end} and homework_id = #{homeworkId}
+    </select>
+	
+	
+	<!-- 根据ID查询作答信息信息 -->
+	<select id="queryWorkAnswerById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_work_answer
+       where delflag='0' and id =#{id,jdbcType=BIGINT}
+    </select>
+    
+    	<!-- 根据homeworkID查询作答信息信息 (仅用在关联查询)-->
+	<select id="queryWorkAnswerByHomeworkId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_work_answer
+       where delflag='0' and homework_id =#{homeworkId,jdbcType=BIGINT}
+    </select>
+    
+					
+	<!-- 根据条件查询所有作答信息信息 -->
+	<select id="queryWorkAnswerBySearch" resultMap="BaseResultMap"  parameterType="java.util.Map">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_work_answer
+       where 1=1 
+  	   <if test="id != '' and id != null">
+       		and id = #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name = #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time = #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name = #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time = #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag = #{delflag}
+       </if>
+  	   <if test="homeworkId != '' and homeworkId != null">
+       		and homework_id = #{homeworkId}
+       </if>
+  	   <if test="studentId != '' and studentId != null">
+       		and student_id = #{studentId}
+       </if>
+  	   <if test="answerTime != '' and answerTime != null">
+       		and answer_time = #{answerTime}
+       </if>
+  	   <if test="status != '' and status != null">
+       		and status = #{status}
+       </if>
+        <if test="correct != null">
+       		and correct = #{correct}
+       </if>
+        <if test="type != null and type != ''">
+       		and type = #{type}
+       </if>
+	</select>
+	
+					
+	<!-- 根据条件查询作答信息count总数 -->
+	<select id="queryWorkAnswerTotalCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(1) from
+		edu_work_answer where delflag='0'
+  	   <if test="id != '' and id != null">
+       		and id =  #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name like '%${createName}%'
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time =  #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name =  #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time =  #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag =  #{delflag}
+       </if>
+  	   <if test="homeworkId != '' and homeworkId != null">
+       		and homework_id =  #{homeworkId}
+       </if>
+  	   <if test="studentId != '' and studentId != null">
+       		and student_id =  #{studentId}
+       </if>
+  	   <if test="answerTime != '' and answerTime != null">
+       		and answer_time =  #{answerTime}
+       </if>
+  	   <if test="status != '' and status != null">
+       		and status =  #{status}
+       </if>
+       <if test="type != null and type != ''">
+       		and type = #{type}
+       </if>
+       <if test="start != null">
+       		and correct &gt;= ${start} and correct &lt; ${end}
+       </if>
+	</select>
+	
+
+					
+	<!-- 分页查询作答信息 -->
+	<select id="queryWorkAnswerPage" resultMap="BaseResultMap"  parameterType="java.util.Map">
+		select   
+	    <include refid="Base_Column_List" />
+		from
+		edu_work_answer where delflag='0'
+  	   <if test="id != '' and id != null">
+       		and id =  #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name like '%${createName}%'
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time =  #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name =  #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time =  #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag =  #{delflag}
+       </if>
+  	   <if test="homeworkId != '' and homeworkId != null">
+       		and homework_id =  #{homeworkId}
+       </if>
+  	   <if test="studentId != '' and studentId != null">
+       		and student_id =  #{studentId}
+       </if>
+  	   <if test="answerTime != '' and answerTime != null">
+       		and answer_time =  #{answerTime}
+       </if>
+  	   <if test="status != '' and status != null">
+       		and status =  #{status}
+       </if>
+        <if test="type != null and type != ''">
+       		and type = #{type}
+       </if>
+        <if test="start != null">
+       		and correct &gt;= ${start} and correct &lt; ${end}
+       </if>
+  	   limit #{startRowNum},#{endRowNum}
+	</select>
+
+	<!-- (更新)根据ID更新所有作答信息信息 -->
+	<update id="updateWorkAnswerById" parameterType="com.sjq.answer.bean.WorkAnswerBean" >
+		update edu_work_answer
+		<set>
+	  	    <if test="modName != null">
+	       	mod_name =  #{modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="modTime != null">
+	       	mod_time =  #{modTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != null">
+	       	delflag =  #{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="homeworkId != null">
+	       	homework_id =  #{homeworkId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="studentId != null">
+	       	student_id =  #{studentId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="answerTime != null">
+	       	answer_time =  #{answerTime,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="status != null">
+	       	status =  #{status,jdbcType=CHAR},
+	        </if>
+	  	    <if test="correct != null">
+	       	correct =  #{correct,jdbcType=VARCHAR},
+	        </if>
+	        <if test="type != null and type != ''">
+       		type = #{type,jdbcType=VARCHAR},
+       		</if>
+		</set>
+		where 1 = 1 and id = #{id,jdbcType=BIGINT} 
+	</update>
+					
+	<!-- (删除)根据条件删除作答信息信息  -->
+	<delete id="deleteWorkAnswerBySearch" parameterType="java.util.Map">
+		update 
+		edu_work_answer
+		<set> 
+	  	    <if test="bean.modName != '' and bean.modName != null">
+	       	mod_name =  #{bean.modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="bean.modTime != '' and bean.modTime != null">
+	       	mod_time =  #{bean.modTime,jdbcType=TIMESTAMP},
+	        </if>
+		delflag = '1'
+		</set>
+		where 1=1
+  	   <if test="search.id != '' and search.id != null">
+       		and id =  #{search.id}
+       </if>
+  	   <if test="search.createName != '' and search.createName != null">
+       		and create_name =  #{search.createName}
+       </if>
+  	   <if test="search.createTime != '' and search.createTime != null">
+       		and create_time =  #{search.createTime}
+       </if>
+  	   <if test="search.modName != '' and search.modName != null">
+       		and mod_name =  #{search.modName}
+       </if>
+  	   <if test="search.modTime != '' and search.modTime != null">
+       		and mod_time =  #{search.modTime}
+       </if>
+  	   <if test="search.delflag != '' and search.delflag != null">
+       		and delflag =  #{search.delflag}
+       </if>
+  	   <if test="search.homeworkId != '' and search.homeworkId != null">
+       		and homework_id =  #{search.homeworkId}
+       </if>
+  	   <if test="search.studentId != '' and search.studentId != null">
+       		and student_id =  #{search.studentId}
+       </if>
+  	   <if test="search.answerTime != '' and search.answerTime != null">
+       		and answer_time =  #{search.answerTime}
+       </if>
+  	   <if test="search.status != '' and search.status != null">
+       		and status =  #{search.status}
+       </if>
+       <if test="correct != '' and correct != null">
+       		and correct =  #{correct}
+       </if>
+        <if test="search.type != null">
+       		and type =  #{search.type}
+       </if>
+       
+	</delete>
+	
+					
+	<!-- (增加)增加作答信息信息 --> 
+	<insert id="insertWorkAnswer" parameterType="com.sjq.answer.bean.WorkAnswerBean" useGeneratedKeys="true" keyProperty="id">
+		insert into edu_work_answer
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	  	   <if test="id != '' and id != null">
+	       	id,
+	       </if>
+	  	   <if test="createName != '' and createName != null">
+	       	create_name,
+	       </if>
+	  	   <if test="createTime != '' and createTime != null">
+	       	create_time,
+	       </if>
+	  	   <if test="delflag != '' and delflag != null">
+	       	delflag,
+	       </if>
+	  	   <if test="homeworkId != '' and homeworkId != null">
+	       	homework_id,
+	       </if>
+	  	   <if test="studentId != '' and studentId != null">
+	       	student_id,
+	       </if>
+	  	   <if test="answerTime != '' and answerTime != null">
+	       	answer_time,
+	       </if>
+	  	   <if test="status != '' and status != null">
+	       	status,
+	       </if>
+	        <if test="correct != null">
+	       	correct,
+	       </if>
+	        <if test="type != null">
+	       	type,
+	       </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	  	    <if test="id != '' and id != null">
+	       		#{id,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="createName != '' and createName != null">
+	       		#{createName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="createTime != '' and createTime != null">
+	       		#{createTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != '' and delflag != null">
+	       		#{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="homeworkId != '' and homeworkId != null">
+	       		#{homeworkId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="studentId != '' and studentId != null">
+	       		#{studentId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="answerTime != '' and answerTime != null">
+	       		#{answerTime,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="status != '' and status != null">
+	       		#{status,jdbcType=CHAR},
+	        </if>
+	         <if test="correct != null">
+	       		#{correct,jdbcType=VARCHAR},
+	        </if>
+	        <if test="type != null">
+	       		#{type,jdbcType=CHAR},
+	        </if>
+		</trim>
+	</insert>
+    
+	   
+</mapper>

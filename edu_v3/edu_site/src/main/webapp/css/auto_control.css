@@ -1,0 +1,53 @@
+ul li{
+	cursor: pointer;
+}
+.paper_list_contain{
+	border:1px solid #e5e5e5;
+	margin:30px 20px;
+	font-size:12px;
+}
+
+.list_one{
+	height:40px;
+	line-height: 40px;
+	background:#e4e4e4;
+	padding: 0 16px;
+}
+
+.list_one .first{
+	width:40%;
+	margin-right: 40px;
+}
+.list_one .first i{
+	margin:0 5px;
+}
+.list_one .status{
+	margin-right: 20px;
+}
+
+.some_detail{
+	padding:0 32px;
+	height:56px;
+	line-height: 56px;
+}
+.some_detail .count span{
+	margin-right: 50px;
+}
+.some_detail .right{
+	color:#2fa5fc;
+	cursor: pointer;
+}
+
+.tips_msg{
+	padding:20px 10px;
+	text-align: center;
+    color: #656161;
+    font-size: 12px;
+    margin-top:200px;
+}
+
+.no_test{
+	margin:20px 25px;
+	border:1px solid #ccc;
+	padding:20px 10px;
+}

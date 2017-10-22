@@ -1,0 +1,153 @@
+ul li{
+	cursor: pointer;
+}
+.list_item .time,.list_reduce .address{
+	overflow:hidden;
+	white-space: nowrap;
+	text-overflow:ellipsis;
+}
+
+.list_reduce .create,.list_reduce .status{
+	width:12%;
+}
+.list_reduce .status{
+	margin-left: 10px;
+}
+.list_item .address{
+	color:#333;
+}
+
+.list{
+	padding:0 20px;
+	margin-top: 30px;
+}
+.list_project{
+	height:28px;
+	background:#f3f3f3;
+	border-bottom:1px solid #e5e5e5;
+	line-height:52px;
+	padding:12px;
+	margin:20px 0;
+}
+.list_project span{
+	display: inline-block;
+	font:14px '微软雅黑';
+	font-weight: 900;
+	margin-left: 20px;
+	height:28px;
+	line-height:28px;
+	float:left;
+}
+.list_project ul{
+	width:90%;
+	float:left;
+	height:100%;
+	
+}
+.list_project li{
+	padding:5px 12px;
+	color:#666;
+	float:left;
+	height:100%;
+	line-height:18px;
+	box-sizing: border-box;
+	margin-right:10px;
+}
+.list_project li.active{
+	background:#178eed;
+	color:#fff;
+}
+
+.list_1,.analysis_xueye{
+	border:1px solid #e5e5e5;
+	margin-bottom: 30px;
+}
+.list_reduce,.list_items{
+	height:40px;
+	background:#e1e1e1;
+	line-height: 40px;
+}
+.list_reduce input,.list_items input{
+	margin:14px 10px 0 5px;
+}
+.list_reduce .time,.subject_test .subject_time{
+	width:20%;
+}
+.list_reduce .address,.subject_test .long{
+	width:20%;
+}
+.detail_name{
+	width:26%;
+	padding:0 20px;
+	box-sizing: border-box;
+}
+.subject_test .long{
+	padding:0 20px;
+	box-sizing: border-box;
+}
+.list_reduce .test_method,.list_reduce .test_way,.list_reduce .klass{
+	width:13%;
+	text-align: center;
+}
+
+
+.subject_test,.list_item{
+	height:50px;
+	line-height: 50px;
+	padding-left: 30px;
+}
+.subject_test p{
+	float:left;
+}
+.subject_test .subject_time{
+	width:20%;
+	margin:0px 20px 0px 0px;
+}
+.subject_test .status{
+	margin:0 10px;
+}
+.subject_test  .edit{
+	color:#178eed;
+}
+
+.add_more{
+	color:#0075b1;
+	height:46px;
+	line-height: 46px;
+    padding-left: 30px;
+	font-size: 16px;
+	cursor: pointer;
+}
+
+
+.list_items p{
+	float:left;
+	margin-right: 30px;
+}
+.list_items p.status{
+	float:right;
+	margin-right: 30px;
+}
+
+
+.list_item{
+	border-top: 1px solid #e5e5e5;
+}
+.list_item p{
+	float:left;
+	margin-right: 40px;
+}
+.list_item .time{
+	margin:0 12px 0 26px;
+}
+.list_item p.subject{
+	width:23%;
+}
+
+.list_item p.detail{
+	width:24%;
+	color:#178eed;
+}
+.list_item p.record{
+	color:#178eed;
+}

@@ -1,0 +1,44 @@
+/* reset */
+html { font-family: sans-serif; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; -webkit-font-smoothing: antialiased; -webkit-overflow-scrolling: touch;}
+html,body,h1,h2,h3,h4,h5,h6,div,dl,dt,dd,ul,ol,li,p,blockquote,pre,hr,figure,table,caption,th,td,form,fieldset,legend,input,button,textarea,menu{margin:0;padding:0;}
+header,footer,section,article,aside,nav,address,figure,figcaption,menu,details{display:block;}
+table{border-collapse:collapse;border-spacing:0;}
+caption,th{text-align:left;font-weight:normal;}
+html,body,fieldset,img,iframe,abbr{border:0;}
+i,cite,em,var,address,dfn,b{font-style:normal;}
+[hidefocus],summary{outline:0;}
+li{list-style:none;}
+h1,h2,h3,h4,h5,h6,small{font-size:100%;}
+sup,sub{font-size:83%;}
+pre,code,kbd,samp{font-family:inherit;}
+textarea{overflow:auto;resize:none;}
+label,summary{cursor:default;}
+a,button{/*cursor:pointer;*/-webkit-appearance: none;-webkit-tap-highlight-color: rgba(0,0,0,0);}
+input[type="button"],input[type="submit"]{-webkit-appearance: none;-webkit-tap-highlight-color: rgba(0,0,0,0);}
+input,button,textarea{outline: none;}
+button{border:0;}
+// h1,h2,h3,h4,h5,h6,strong{font-weight:bold;}
+del,ins,u,s,a,a:hover{text-decoration:none;}
+/*body,textarea,input,button,select,keygen,legend{font:14px/1.14 Microsoft Simhei,"微软雅黑",Micorsoft Yahei,Helvetica,"Heiti SC","Droid Sans","Droidsansfallback",sans-serif;color:#333;outline:0;}*/
+body,textarea,input,button,select{font:400 14px/1.5 Tahoma,"Lucida Grande",Verdana,"Microsoft Yahei",STXihei,hei;}
+.fl{float:left;}
+.fr{float:right;}
+.clearfix {zoom: 1;}
+.clearfix:after {visibility: hidden;display: block;font-size: 0;content: " ";clear: both;height: 0;}
+.cp{cursor:pointer;}
+
+@font-face {font-family: "iconfont";
+  src: url('iconfont/iconfont.eot?t=1499149383753'); /* IE9*/
+  src: url('iconfont/iconfont.eot?t=1499149383753#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('iconfont/iconfont.woff?t=1499149383753') format('woff'), /* chrome, firefox */
+  url('iconfont/iconfont.ttf?t=1499149383753') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+  url('iconfont/iconfont.svg?t=1499149383753#iconfont') format('svg'); /* iOS 4.1- */
+}
+
+.iconfont {
+  font-family:"iconfont" !important;
+  font-size:16px;
+  font-style:normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

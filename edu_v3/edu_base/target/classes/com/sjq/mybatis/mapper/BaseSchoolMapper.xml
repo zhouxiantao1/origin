@@ -1,0 +1,674 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sjq.school.dao.BaseSchoolMapper">
+	<resultMap id="BaseResultMap" type="com.sjq.school.vo.BaseSchoolVo">
+  		<result column="id" property="id" jdbcType="BIGINT" />
+  		<result column="create_name" property="createName" jdbcType="VARCHAR" />
+  		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  		<result column="mod_name" property="modName" jdbcType="VARCHAR" />
+  		<result column="mod_time" property="modTime" jdbcType="TIMESTAMP" />
+  		<result column="delflag" property="delflag" jdbcType="CHAR" />
+  		<result column="name" property="name" jdbcType="VARCHAR" />
+  		<result column="short_name" property="shortName" jdbcType="VARCHAR" />
+  		<result column="address" property="address" jdbcType="VARCHAR" />
+  		<result column="area_id" property="areaId" jdbcType="BIGINT" />
+  		<result column="type" property="type" jdbcType="VARCHAR" />
+  		<result column="level" property="level" jdbcType="VARCHAR" />
+  		<result column="handle_sort" property="handleSort" jdbcType="VARCHAR" />
+  		<result column="sort" property="sort" jdbcType="BIGINT" />
+  		<result column="remake" property="remake" jdbcType="VARCHAR" />
+  		<result column="is_headmaster" property="isHeadmaster" jdbcType="VARCHAR" />
+  		<result column="is_admin" property="isAdmin" jdbcType="VARCHAR" />
+  		
+  		<association property="baseAreaVo" column="area_id"
+			select="com.sjq.area.dao.BaseAreaMapper.queryBaseAreaById"></association>
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+  		id,
+  		create_name,
+  		create_time,
+  		mod_name,
+  		mod_time,
+  		delflag,
+  		name,
+  		short_name,
+  		address,
+  		area_id,
+  		type,
+  		level,
+  		handle_sort,
+  		sort,
+  		remake,
+  		is_headmaster,
+  		is_admin
+	</sql>
+	
+	<!-- 查询所有的基础模块-学校信息信息 -->
+	<select id="queryAllBaseSchool" resultMap="BaseResultMap" >
+ 	   select 
+       <include refid="Base_Column_List" />
+       from edu_base_school
+       where delflag='0'
+    </select>
+    
+    <!-- 通过区域查询学校-学校信息信息 -->
+	<select id="queryBaseSchoolByAreaId" resultMap="BaseResultMap"  parameterType="java.lang.Long" >
+ 	   select 
+       <include refid="Base_Column_List" />
+       from edu_base_school
+       where delflag='0' and area_id =#{areaId,jdbcType=BIGINT}
+    </select>
+	
+	
+	<!-- 根据ID查询基础模块-学校信息信息 -->
+	<select id="queryBaseSchoolById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_base_school
+       where delflag='0' and id =#{id,jdbcType=BIGINT}
+    </select>
+    
+    
+	<!-- 根据IDS查询所有基础模块-学校信息信息 -->
+	<select id="queryBaseSchoolByIds" resultMap="BaseResultMap"  parameterType="java.util.Map">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_base_school
+       where delflag='0' and id in 
+	   <foreach collection="Ids" item="id" open="(" close=")" separator=",">
+	   #{id}
+	   </foreach>
+	</select>     
+	
+					
+	<!-- 根据条件查询所有基础模块-学校信息信息 -->
+	<select id="queryBaseSchoolBySearch" resultMap="BaseResultMap"  parameterType="java.util.Map">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_base_school
+       where 1=1 
+  	   <if test="id != '' and id != null">
+       		and id = #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name = #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time = #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name = #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time = #{modTime}
+       </if>
+  	     	and delflag = '0'
+  	   <if test="name != '' and name != null">
+       		and name = #{name}
+       </if>
+  	   <if test="shortName != '' and shortName != null">
+       		and short_name = #{shortName}
+       </if>
+  	   <if test="address != '' and address != null">
+       		and address = #{address}
+       </if>
+  	   <if test="areaId != '' and areaId != null">
+       		and area_id = #{areaId}
+       </if>
+  	   <if test="type != '' and type != null">
+       		and type = #{type}
+       </if>
+  	   <if test="level != '' and level != null">
+       		and level = #{level}
+       </if>
+  	   <if test="handleSort != '' and handleSort != null">
+       		and handle_sort = #{handleSort}
+       </if>
+  	   <if test="sort != '' and sort != null">
+       		and sort = #{sort}
+       </if>
+  	   <if test="remake != '' and remake != null">
+       		and remake = #{remake}
+       </if>
+  	   <if test="isHeadmaster != '' and isHeadmaster != null">
+       		and is_headmaster = #{isHeadmaster}
+       </if>
+  	   <if test="isAdmin != '' and isAdmin != null">
+       		and is_admin = #{isAdmin}
+       </if>
+	</select>
+	
+					
+	<!-- 根据条件查询基础模块-学校信息count总数 -->
+	<select id="queryBaseSchoolTotalCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(1) from
+		edu_base_school where delflag='0'
+  	   <if test="id != '' and id != null">
+       		and id =  #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name =  #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time =  #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name =  #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time =  #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag =  #{delflag}
+       </if>
+  	   <if test="name != '' and name != null">
+       		and name =  #{name}
+       </if>
+  	   <if test="shortName != '' and shortName != null">
+       		and short_name =  #{shortName}
+       </if>
+  	   <if test="address != '' and address != null">
+       		and address =  #{address}
+       </if>
+  	   <if test="areaId != '' and areaId != null">
+       		and area_id =  #{areaId}
+       </if>
+  	   <if test="type != '' and type != null">
+       		and type =  #{type}
+       </if>
+  	   <if test="level != '' and level != null">
+       		and level =  #{level}
+       </if>
+  	   <if test="handleSort != '' and handleSort != null">
+       		and handle_sort =  #{handleSort}
+       </if>
+  	   <if test="sort != '' and sort != null">
+       		and sort =  #{sort}
+       </if>
+  	   <if test="remake != '' and remake != null">
+       		and remake =  #{remake}
+       </if>
+  	   <if test="isHeadmaster != '' and isHeadmaster != null">
+       		and is_headmaster =  #{isHeadmaster}
+       </if>
+  	   <if test="isAdmin != '' and isAdmin != null">
+       		and is_admin =  #{isAdmin}
+       </if>
+	</select>
+	
+
+					
+	<!-- 分页查询基础模块-学校信息 -->
+	<select id="queryBaseSchoolPage" resultMap="BaseResultMap"  parameterType="java.util.Map">
+		select   
+	    <include refid="Base_Column_List" />
+		from
+		edu_base_school where delflag='0'
+  	   <if test="id != '' and id != null">
+       		and id =  #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name =  #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time =  #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name =  #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time =  #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag =  #{delflag}
+       </if>
+  	   <if test="name != '' and name != null">
+       		and name =  #{name}
+       </if>
+  	   <if test="shortName != '' and shortName != null">
+       		and short_name =  #{shortName}
+       </if>
+  	   <if test="address != '' and address != null">
+       		and address =  #{address}
+       </if>
+  	   <if test="areaId != '' and areaId != null">
+       		and area_id =  #{areaId}
+       </if>
+  	   <if test="type != '' and type != null">
+       		and type =  #{type}
+       </if>
+  	   <if test="level != '' and level != null">
+       		and level =  #{level}
+       </if>
+  	   <if test="handleSort != '' and handleSort != null">
+       		and handle_sort =  #{handleSort}
+       </if>
+  	   <if test="sort != '' and sort != null">
+       		and sort =  #{sort}
+       </if>
+  	   <if test="remake != '' and remake != null">
+       		and remake =  #{remake}
+       </if>
+  	   <if test="isHeadmaster != '' and isHeadmaster != null">
+       		and is_headmaster =  #{isHeadmaster}
+       </if>
+  	   <if test="isAdmin != '' and isAdmin != null">
+       		and is_admin =  #{isAdmin}
+       </if>
+  	   limit #{startRowNum},#{endRowNum}
+	</select>
+
+					
+	<!-- (删除)根据ID删除基础模块-学校信息信息 --> 
+	<delete id="deleteBaseSchoolById" parameterType="java.lang.Long">
+		update edu_base_school 
+		<set> 
+	  	    <if test="modName != '' and modName != null">
+	       	mod_name =  #{modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="modTime != '' and modTime != null">
+	       	mod_time =  #{modTime,jdbcType=TIMESTAMP},
+	        </if>
+		delflag = '1'
+		</set>
+		where  id = #{id,jdbcType=BIGINT} 
+	</delete>
+	
+					
+	<!-- (删除)根据IDS删除基础模块-学校信息信息 -->
+	<delete id="deleteBaseSchoolByIds"  parameterType="java.util.Map">
+	   update 
+       edu_base_school
+       <set> 
+	  	    <if test="bean.modName != '' and bean.modName != null">
+	       	mod_name =  #{bean.modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="bean.modTime != '' and bean.modTime != null">
+	       	mod_time =  #{bean.modTime,jdbcType=TIMESTAMP},
+	        </if>
+		delflag = '1'
+		</set>
+       where in 
+	   <foreach collection="Ids" item="id" open="(" close=")" separator=",">
+	   #{id}
+	   </foreach>
+	</delete>
+	
+					
+	<!-- (删除)根据条件删除基础模块-学校信息信息  -->
+	<delete id="deleteBaseSchoolBySearch" parameterType="java.util.Map">
+		update 
+		edu_base_school
+		<set> 
+	  	    <if test="bean.modName != '' and bean.modName != null">
+	       	mod_name =  #{bean.modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="bean.modTime != '' and bean.modTime != null">
+	       	mod_time =  #{bean.modTime,jdbcType=TIMESTAMP},
+	        </if>
+		delflag = '1'
+		</set>
+		where 1=1
+  	   <if test="search.id != '' and search.id != null">
+       		and id =  #{search.id}
+       </if>
+  	   <if test="search.createName != '' and search.createName != null">
+       		and create_name =  #{search.createName}
+       </if>
+  	   <if test="search.createTime != '' and search.createTime != null">
+       		and create_time =  #{search.createTime}
+       </if>
+  	   <if test="search.modName != '' and search.modName != null">
+       		and mod_name =  #{search.modName}
+       </if>
+  	   <if test="search.modTime != '' and search.modTime != null">
+       		and mod_time =  #{search.modTime}
+       </if>
+  	   <if test="search.delflag != '' and search.delflag != null">
+       		and delflag =  #{search.delflag}
+       </if>
+  	   <if test="search.name != '' and search.name != null">
+       		and name =  #{search.name}
+       </if>
+  	   <if test="search.shortName != '' and search.shortName != null">
+       		and short_name =  #{search.shortName}
+       </if>
+  	   <if test="search.address != '' and search.address != null">
+       		and address =  #{search.address}
+       </if>
+  	   <if test="search.areaId != '' and search.areaId != null">
+       		and area_id =  #{search.areaId}
+       </if>
+  	   <if test="search.type != '' and search.type != null">
+       		and type =  #{search.type}
+       </if>
+  	   <if test="search.level != '' and search.level != null">
+       		and level =  #{search.level}
+       </if>
+  	   <if test="search.handleSort != '' and search.handleSort != null">
+       		and handle_sort =  #{search.handleSort}
+       </if>
+  	   <if test="search.sort != '' and search.sort != null">
+       		and sort =  #{search.sort}
+       </if>
+  	   <if test="search.remake != '' and search.remake != null">
+       		and remake =  #{search.remake}
+       </if>
+  	   <if test="search.isHeadmaster != '' and search.isHeadmaster != null">
+       		and is_headmaster =  #{search.isHeadmaster}
+       </if>
+  	   <if test="search.isAdmin != '' and search.isAdmin != null">
+       		and is_admin =  #{search.isAdmin}
+       </if>
+	</delete>
+	
+					
+	<!-- (更新)根据ID更新所有基础模块-学校信息信息 -->
+	<update id="updateBaseSchoolById" parameterType="com.sjq.school.bean.BaseSchoolBean" >
+		update edu_base_school
+		<set>
+	  	    <if test="modName != '' and modName != null">
+	       	mod_name =  #{modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="modTime != '' and modTime != null">
+	       	mod_time =  #{modTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != '' and delflag != null">
+	       	delflag =  #{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="name != '' and name != null">
+	       	name =  #{name,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="shortName != '' and shortName != null">
+	       	short_name =  #{shortName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="address != '' and address != null">
+	       	address =  #{address,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="areaId != '' and areaId != null">
+	       	area_id =  #{areaId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="type != '' and type != null">
+	       	type =  #{type,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="level != '' and level != null">
+	       	level =  #{level,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="handleSort != '' and handleSort != null">
+	       	handle_sort =  #{handleSort,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="sort != '' and sort != null">
+	       	sort =  #{sort,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="remake != '' and remake != null">
+	       	remake =  #{remake,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="isHeadmaster != '' and isHeadmaster != null">
+	       	is_headmaster =  #{isHeadmaster,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="isAdmin != '' and isAdmin != null">
+	       	is_admin =  #{isAdmin,jdbcType=VARCHAR},
+	        </if>
+		</set>
+		where 1 = 1 and id = #{id,jdbcType=BIGINT} 
+	</update>
+	
+					
+	<!-- (更新)根据IDS更新所有基础模块-学校信息信息 -->
+	<update id="updateBaseSchoolByIds"  parameterType="java.util.Map">
+		update edu_base_school
+		<set>
+	  	    <if test="bean.modName != '' and bean.modName != null">
+	       	mod_name =  #{bean.modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="bean.modTime != '' and bean.modTime != null">
+	       	mod_time =  #{bean.modTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="bean.delflag != '' and bean.delflag != null">
+	       	delflag =  #{bean.delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="bean.name != '' and bean.name != null">
+	       	name =  #{bean.name,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="bean.shortName != '' and bean.shortName != null">
+	       	short_name =  #{bean.shortName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="bean.address != '' and bean.address != null">
+	       	address =  #{bean.address,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="bean.areaId != '' and bean.areaId != null">
+	       	area_id =  #{bean.areaId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="bean.type != '' and bean.type != null">
+	       	type =  #{bean.type,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="bean.level != '' and bean.level != null">
+	       	level =  #{bean.level,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="bean.handleSort != '' and bean.handleSort != null">
+	       	handle_sort =  #{bean.handleSort,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="bean.sort != '' and bean.sort != null">
+	       	sort =  #{bean.sort,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="bean.remake != '' and bean.remake != null">
+	       	remake =  #{bean.remake,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="bean.isHeadmaster != '' and bean.isHeadmaster != null">
+	       	is_headmaster =  #{bean.isHeadmaster,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="bean.isAdmin != '' and bean.isAdmin != null">
+	       	is_admin =  #{bean.isAdmin,jdbcType=VARCHAR},
+	        </if>
+		</set>
+		where 1 = 1 and id in 
+	   <foreach collection="Ids" item="id" open="(" close=")" separator=",">
+	   #{id}
+	   </foreach>
+	</update>
+	
+					
+	<!-- (更新)根据条件更新所有基础模块-学校信息信息 -->
+	<update id="updateBaseSchoolBySearch"  parameterType="java.util.Map" >
+		update edu_base_school
+		<set>
+	  	    <if test="modName != '' and modName != null">
+	       	mod_name =  #{modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="modTime != '' and modTime != null">
+	       	mod_time =  #{modTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != '' and delflag != null">
+	       	delflag =  #{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="name != '' and name != null">
+	       	name =  #{name,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="shortName != '' and shortName != null">
+	       	short_name =  #{shortName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="address != '' and address != null">
+	       	address =  #{address,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="areaId != '' and areaId != null">
+	       	area_id =  #{areaId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="type != '' and type != null">
+	       	type =  #{type,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="level != '' and level != null">
+	       	level =  #{level,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="handleSort != '' and handleSort != null">
+	       	handle_sort =  #{handleSort,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="sort != '' and sort != null">
+	       	sort =  #{sort,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="remake != '' and remake != null">
+	       	remake =  #{remake,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="isHeadmaster != '' and isHeadmaster != null">
+	       	is_headmaster =  #{isHeadmaster,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="isAdmin != '' and isAdmin != null">
+	       	is_admin =  #{isAdmin,jdbcType=VARCHAR},
+	        </if>
+		</set>
+		where 
+  	   <if test="id != '' and id != null">
+       		and id = #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name = #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time = #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name = #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time = #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag = #{delflag}
+       </if>
+  	   <if test="name != '' and name != null">
+       		and name = #{name}
+       </if>
+  	   <if test="shortName != '' and shortName != null">
+       		and short_name = #{shortName}
+       </if>
+  	   <if test="address != '' and address != null">
+       		and address = #{address}
+       </if>
+  	   <if test="areaId != '' and areaId != null">
+       		and area_id = #{areaId}
+       </if>
+  	   <if test="type != '' and type != null">
+       		and type = #{type}
+       </if>
+  	   <if test="level != '' and level != null">
+       		and level = #{level}
+       </if>
+  	   <if test="handleSort != '' and handleSort != null">
+       		and handle_sort = #{handleSort}
+       </if>
+  	   <if test="sort != '' and sort != null">
+       		and sort = #{sort}
+       </if>
+  	   <if test="remake != '' and remake != null">
+       		and remake = #{remake}
+       </if>
+  	   <if test="isHeadmaster != '' and isHeadmaster != null">
+       		and is_headmaster = #{isHeadmaster}
+       </if>
+  	   <if test="isAdmin != '' and isAdmin != null">
+       		and is_admin = #{isAdmin}
+       </if>
+	</update>
+	
+					
+	<!-- (增加)增加基础模块-学校信息信息 --> 
+	<insert id="insertBaseSchool" parameterType="com.sjq.school.bean.BaseSchoolBean">
+		insert into edu_base_school
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	  	   <if test="id != '' and id != null">
+	       	id,
+	       </if>
+	  	   <if test="createName != '' and createName != null">
+	       	create_name,
+	       </if>
+	  	   <if test="createTime != '' and createTime != null">
+	       	create_time,
+	       </if>
+	  	   <if test="delflag != '' and delflag != null">
+	       	delflag,
+	       </if>
+	  	   <if test="name != '' and name != null">
+	       	name,
+	       </if>
+	  	   <if test="shortName != '' and shortName != null">
+	       	short_name,
+	       </if>
+	  	   <if test="address != '' and address != null">
+	       	address,
+	       </if>
+	  	   <if test="areaId != '' and areaId != null">
+	       	area_id,
+	       </if>
+	  	   <if test="type != '' and type != null">
+	       	type,
+	       </if>
+	  	   <if test="level != '' and level != null">
+	       	level,
+	       </if>
+	  	   <if test="handleSort != '' and handleSort != null">
+	       	handle_sort,
+	       </if>
+	  	   <if test="sort != '' and sort != null">
+	       	sort,
+	       </if>
+	  	   <if test="remake != '' and remake != null">
+	       	remake,
+	       </if>
+	  	   <if test="isHeadmaster != '' and isHeadmaster != null">
+	       	is_headmaster,
+	       </if>
+	  	   <if test="isAdmin != '' and isAdmin != null">
+	       	is_admin,
+	       </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	  	    <if test="id != '' and id != null">
+	       		#{id,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="createName != '' and createName != null">
+	       		#{createName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="createTime != '' and createTime != null">
+	       		#{createTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != '' and delflag != null">
+	       		#{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="name != '' and name != null">
+	       		#{name,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="shortName != '' and shortName != null">
+	       		#{shortName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="address != '' and address != null">
+	       		#{address,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="areaId != '' and areaId != null">
+	       		#{areaId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="type != '' and type != null">
+	       		#{type,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="level != '' and level != null">
+	       		#{level,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="handleSort != '' and handleSort != null">
+	       		#{handleSort,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="sort != '' and sort != null">
+	       		#{sort,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="remake != '' and remake != null">
+	       		#{remake,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="isHeadmaster != '' and isHeadmaster != null">
+	       		#{isHeadmaster,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="isAdmin != '' and isAdmin != null">
+	       		#{isAdmin,jdbcType=VARCHAR},
+	        </if>
+		</trim>
+	</insert>
+    
+	   
+</mapper>

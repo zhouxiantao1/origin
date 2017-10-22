@@ -1,0 +1,79 @@
+.mid{
+	min-height: 870px;
+}
+.exam_set{
+	margin:36px 20px 10px 20px;
+	font-weight: 400;
+}
+.exam_detail{
+	margin:0 20px;
+	padding:10px;
+	border:1px solid #e5e5e5;
+}
+
+.exam_detail span{
+	display: inline-block;
+	width:100px;
+	text-align: right;
+	line-height: 32px;
+}
+.exam_detail input[type='text']{
+	width:70%;
+	height: 34px;
+	padding:8px 0;
+	box-sizing: border-box;
+	text-indent: 3px;
+}
+.exam_detail .zhi{
+	margin:0 10px;
+}
+.exam_detail select{
+	width:200px;
+	height:34px;
+	padding:4px 0;
+}
+.choice_test select{
+	width:70%;
+}
+.test_name,.norm_year,.choice_test,.test_way,.test_intreduce{
+	margin:18px 0;
+}
+
+.test_way label{
+	line-height: 34px;
+	cursor: pointer;
+	margin-right: 20px;
+}
+.test_way label i,.test_way label input{
+	vertical-align: middle;
+}
+.test_way label input{
+	margin-right: 5px;
+}
+
+.test_intreduce textarea{
+	width:70%;
+	min-height: 300px;
+	padding:4px;
+}
+
+
+.baocun_1{
+	text-align: center;
+	margin:50px 20px 30px 20px;
+}
+.baocun_1 button{
+	width:140px;
+	height: 32px;
+	line-height: 32px;
+	border-radius: 4px;
+	cursor: pointer;
+}
+.baocun_1 button.bc{
+	background:#00ada7;
+	margin-right: 20px;
+	color:#fff;
+}
+.baocun_1 button.qx{
+	background:#e2e2e2;
+}

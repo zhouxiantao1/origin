@@ -1,0 +1,181 @@
+.container{
+	margin:20px;
+	color:#333;
+}
+ .grade_show .grade_name{
+ 	text-align: center;
+ }
+.export button{
+	width:110px;
+	height: 32px;
+	background:#00ada7;
+	color:#fff;
+	line-height: 32px;
+	cursor:pointer;
+	border-radius: 4px;
+}
+.grade_name{
+	font-size: 18px;
+	font-weight: 300;
+	margin:20px 0 10px 0;
+	text-align: center;
+}
+
+.grade_type{
+	height: 32px;
+	background: #f2f2f2;
+	line-height: 32px;
+	margin-bottom: 36px;
+	text-align: center;
+}
+.grade_type span{
+	margin-right: 40px;
+	color:#666;
+}
+
+
+.report_list{
+	width:22%;
+	background:#f2f2f2;
+	// box-shadow: 3px 0 4px rgba(0,0,0,.3)
+}	
+.report_list .title{
+	text-align: center;
+	margin-top: 10px;
+}
+.report_list .nav{
+	margin:20px 0;
+	height:32px;
+	line-height: 32px;
+	background:#0075b1;
+	font-size: 18px;
+	color:#fff;
+	text-align: center;
+}
+
+.report_list ul{
+	margin-left: 10px;
+}
+.report_list ul li{
+	line-height: 30px;
+}
+.report_list label{
+	cursor:pointer;
+}
+
+.report_list ul li label input,.report_list ul li label span{
+	vertical-align: middle;
+}
+.report_list ul li label input{
+	margin-right: 3px;
+}
+
+.show_report{
+	width:70%;
+	padding:0 3%;
+	padding-bottom: 30px;
+	border:1px solid #e5e5e5;
+	min-height: 700px;
+}	
+
+.show_report h2{
+	text-align: center;
+	font-size: 18px;
+	margin:20px 0;
+}
+.show_report h4{
+	font-size: 14px;
+	margin:15px 0 10px 0;
+}
+
+.show_report h3{
+	font-size: 16px;
+	margin:15px 0 10px 0;
+}
+.show_report p{
+	text-indent: 16px;
+	line-height: 24px;
+}
+
+.tacenter,.tip{
+  text-align: center;
+  margin-top: 10px;
+}
+.reportTable{
+	padding-bottom:20px;
+}
+.show_report table {
+  border-collapse: collapse;
+  border: 1px #525152 solid;
+  width: 100%;
+  margin: 0 auto;
+  margin-top: 20px;
+}
+.show_report th,.show_report td {
+  border: 1px solid #525152;
+  text-align: center;
+  line-height: 30px;
+}
+
+.max-bg-blue,table thead{
+    background-color: rgb(84,141,212);
+    color: white;
+}
+.show_report td img{
+	width:20px;
+	vertical-align: middle;
+}
+
+.beizhu {
+  overflow: hidden;
+  margin-top: 20px;
+}
+.beizhu p {
+  margin-bottom: 10px;
+}
+.beizhu span {
+  font-weight: bold;
+}
+.beizhu > span,
+.beizhu > div {
+  float: left;
+}
+.beizhu img{
+	display:inline-block;
+	vertical-align: middle;
+	margin-top: -2px;
+}
+
+.chart_1,.chart_2,.chart_3,.chart_4,.chart_5,.chart_6,.chart_21,.chart_22,
+.chart_23,.chart_24,.chart_25,.chart_27,.chart_28,.chart_29,.chart_30,.chart_31,
+.chart_33,.chart_34,.chart_35,.chart_36,.chart_37,.chart_38,.chart_39,.chart_40,
+.chart_41,.chart_42,.chart_8,.chart_9,.chart_10,.chart_11,.chart_12,.chart_13,.chart_14,
+.chart_15,.chart_16,.chart_17,.chart_18,.chart_19,.chart_20,.scorePic{
+	width:700px;
+	height:400px;
+	margin:16px auto;
+}
+.scorePic1,.scorePic2,.scorePic3,.scorePic8,.scorePic9,.scorePic10,.chart_05,.chart_06,.chart_07,
+.chart_21,.chart2_16,.scorePic2_19,.scorePic2_20,.scorePic2_21,.chart2_23,.chart2_24,
+.chart2_25,.chart3_26,.chart3_27,.scorePic3_30,.scorePic3_31,.scorePic3_32,.chart3_34
+,.chart3_35,.chart3_36,.chart4_37,.chart4_38,.scorePic4_41,.scorePic4_42,.scorePic4_43
+,.chart4_45,.chart4_46,.chart4_47,.chart5_48,.chart5_49,.scorePic5_52,.scorePic5_53
+,.scorePic5_54,.chart5_56,.chart5_57,.chart5_58,.chart6_60,.scorePic6_63,.scorePic6_64
+,.scorePic6_65,.chart6_67,.chart6_68,.chart6_69{
+	width:700px;
+	height:400px;
+	margin:16px auto;
+}
+
+.imgs img{
+	display:block;
+	height:400px;
+	margin:20px auto;
+}
+
+#part2,#part3,#part4,#part5,#part6,#part7,#part8{
+	display: none;
+}
+// #part21,#part31,#part41,#part51,#part61,#part71{
+// 	display: none;
+// }

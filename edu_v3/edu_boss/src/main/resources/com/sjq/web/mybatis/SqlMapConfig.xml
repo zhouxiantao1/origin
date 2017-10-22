@@ -1,0 +1,28 @@
+﻿<!DOCTYPE configuration PUBLIC "-//ibatis.apache.org//DTD Config 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-config.dtd">
+<configuration>
+
+	 <mappers>
+		<!-- 角色相关 -->
+		<mapper resource="com/sjq/mybatis/mapper/SecurityRoleMapper.xml"/>
+		<!-- 用户相关 -->
+		<mapper resource="com/sjq/mybatis/mapper/SecurityUserMapper.xml"/>
+		<!-- 资源相关 -->
+		<mapper resource="com/sjq/mybatis/mapper/SecurityResourceMapper.xml"/>
+		
+		<!-- 调度器相关 -->
+		<mapper resource="com/sjq/mybatis/mapper/JobSchedulerConfigMapper.xml"/>
+		<!-- 触发器相关 -->
+		<mapper resource="com/sjq/mybatis/mapper/JobTriggerConfigMapper.xml"/>
+		<!-- 任务日志相关 -->
+		<mapper resource="com/sjq/mybatis/mapper/JobLogMapper.xml"/>
+		
+		<!-- 代码生成 -->
+		<mapper resource="com/sjq/mybatis/mapper/DevelopMethodMapper.xml"/>
+		<mapper resource="com/sjq/mybatis/mapper/DevelopCodeMapper.xml"/>
+		<mapper resource="com/sjq/mybatis/mapper/DevelopCodePropertyMapper.xml"/>
+		
+		
+	</mappers>
+	
+</configuration>
+	

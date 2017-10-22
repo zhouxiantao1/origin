@@ -1,0 +1,169 @@
+
+.mid{
+	min-height: 806px;
+}
+
+.basic_msg{
+	margin:30px;
+	border:1px solid #e5e5e5;
+	overflow: hidden;
+}
+
+.basic_msg h3{
+	font-size: 18px;
+	font-weight: 800;
+	text-align: center;
+	margin: 30px 0 20px 0;
+	color:#0075b1;
+}
+.basic_msg span,.add_next span{
+	display: inline-block;
+	line-height: 32px;
+	width:120px;
+	margin-right: 5px;
+	text-align: right;
+}
+
+.custom_commin{
+	margin:0 40px;
+	height:44px;
+	border-bottom: 1px solid #ccc;
+}
+.custom_commin label{
+	padding-left: 10px;
+	margin-right: 20px;
+	display: inline-block;
+	padding:11px 0 6px 0;
+	font-size: 16px;
+	cursor: pointer;
+}
+.custom_commin label.active{
+	border-bottom: 3px solid #0075b1;
+	color:#0075b1;
+	font-weight: 800;
+}
+
+.custom_commin label input,.custom_commin label i{
+	vertical-align: middle;
+}
+.custom_commin label input{
+	margin-right: 5px;
+}
+
+.basic{
+	overflow: hidden;
+	margin:0 40px 30px 40px;
+	// border:1px solid #ccc;
+	// border-top:none;
+	padding-bottom: 30px;
+}
+
+.add_title input{
+	padding:6px 0;
+	width:340px;
+	text-indent: 4px;
+}
+.add_reduces span,.add_reduces textarea{
+	vertical-align: middle;
+}
+.add_reduces textarea{
+	width:900px;
+	height:150px;
+	padding:4px;
+}
+.add_reduces input{
+	padding:6px 0;
+	width:700px;
+	text-indent: 4px;
+}
+.add_title,.add_reduces {
+	margin-top: 20px;
+}
+
+
+.queding,.sure_cancel{
+	text-align: center;
+	margin: 50px 0;
+}
+.sure_cancel{
+	margin:30px 0;
+}
+.queding button,.sure_cancel button{
+	width: 100px;
+	height: 32px;
+	background: #0075b1;
+	color:#fff;
+	margin-left: 10px;
+	cursor: pointer;
+}
+
+.add_next_level{
+	margin:10px 0 20px 0;
+}
+.add_next_level button{
+	width: 140px;
+	height: 30px;
+	background: #0075b1;
+	color:#fff;
+	margin-right: 13px;
+	cursor: pointer;
+}
+
+
+
+.show_tree{
+	margin:20px 20px 30px 20px;
+	border:1px solid #ccc;
+}
+
+.show_tree h3{
+	margin:20px 20px 10px 20px;
+	font-size: 16px;
+	color:#0075b1;
+}
+
+.show_tree h3 span{
+	font-size: 14px;
+	font-weight: 400;
+	color:#666;
+	// margin-left: 30px;
+}
+
+.construction{
+	margin:0 30px;
+	padding-bottom: 30px;
+	border-bottom: 1px solid #e5e5e5;
+}
+.construction #treeDemo,.construction .show_msg{
+	width:48%;
+}
+.construction .show_msg{
+	padding:10px;
+	background:#e5e5e5;
+	line-height: 30px;
+}
+.add_next{
+	margin:30px;
+	border:1px solid #ccc;
+	// padding-bottom: 30px;
+	display: none;
+}
+.add_quanzhong{
+	margin-top: 20px;
+}
+.add_quanzhong select{
+	width: 100px;
+    height: 37px;
+}
+.add_quanzhong input{
+	padding: 6px 0;
+    width: 140px;
+    text-indent: 4px
+}
+
+.construction .ztree{
+	width:200px;
+	height:300px;
+	float:left;
+	overflow-y: auto;
+}

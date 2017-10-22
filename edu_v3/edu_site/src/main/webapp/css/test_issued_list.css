@@ -1,0 +1,285 @@
+.baocun_1,.baocun{
+	margin:20px;
+	margin-top: 40px;
+	text-align: center;
+}
+.back{
+	color:#00ada7;
+}
+.mid{
+	min-height:800px;
+}
+.baocun_1 button,.baocun button{
+	display: inline-block;
+	width:120px;
+	height:32px;
+	background:#00ada7;
+	margin-right: 10px;
+	color:#fff;
+	cursor: pointer;
+}
+.baocun button{
+	width:180px;
+}
+.baocun_1 button.qx{
+	background:#ccc;
+}
+
+.test_object{
+	margin-top: 20px;
+}
+.test_object span{
+	line-height: 30px;
+}
+.test_object ul li{
+	float:left;	
+	padding:5px 20px;
+	color:#666;
+	height:100%;
+	line-height:18px;
+	margin-right: 10px;
+	box-sizing: border-box;
+	border:1px solid #e5e5e5;
+	cursor: pointer;
+}
+.test_object li.active{
+	background:#00ada7;
+	color:#fff;
+}
+
+.test_way,.test_name{
+	margin-top: 20px;
+}
+.test_name input{
+	width:360px;
+	padding:5px 0;
+	text-indent: 5px;
+}
+
+.select_paper_title{
+	margin:30px 20px 10px 20px;
+	font:16px '宋体';
+	color:#333;
+	font-weight: 800;
+	text-indent: 4px;
+}	
+
+.select_paper_ope{
+	border:1px solid #e5e5e5;
+}
+
+.select_paper_ope{
+	margin:0 20px;
+	padding:20px 0;
+}
+.line_one span{
+	display: inline-block;
+	width:120px;
+	text-align: right;
+}
+.choice_zhibiao select{
+	padding:6px 0;
+	width:260px;
+}
+
+.paper_name_check input{
+	width: 260px;
+	padding:4px 0;
+	// text-indent: 4px;
+}
+.paper_name_check button{
+	width:100px;
+	height: 32px;
+	line-height: 32px;
+	color:#fff;
+	background:#00ada7;
+	margin:0 10px;
+}
+
+.nav_list span,.wenjuan_one span{
+	display: inline-block;
+	text-align: center;
+}
+span.wenjuan_name{
+	width:22%;
+	text-align: left;
+	padding-left: 8px;
+}
+span.create,span.update{
+	width:15%;
+}
+.use_count,.ans_count,span.caozuo{
+	width:14%;
+}
+.contain .caozuo{
+	color:#00ada7;
+}
+.wenjuan_one .caozuo{
+	cursor: pointer;
+}
+.wenjuan_one label input,.wenjuan_one .wenjuan_name,.nav_list label input,.nav_list .wenjuan_name{
+	vertical-align: middle;
+}
+.wenjuan_one label input,.nav_list label input{
+	margin-left: 10px;
+}
+
+.test_way label{
+	margin-right: 12px;
+}
+.test_way label input,.test_way label i{
+	vertical-align: middle;
+}
+.test_way label input{
+	margin-right: 4px;
+}
+
+.wenjuan_one{
+	height:40px;
+	line-height: 40px;
+	border-bottom: 1px solid #e5e5e5;
+}
+
+
+.select_wenjuan{
+	margin-top: 20px;
+}
+.select_wenjuan button{
+	color:#00ada7;
+	font-size: 16px;
+	width:120px;
+	height: 32px;
+	text-align: center;
+	cursor: pointer;
+}
+.select_wenjuan p{
+	display: inline-block;
+	margin-right: 40px;
+	font-size: 16px;
+}
+
+.layer_select{
+	height:600px;
+	overflow-y: scroll;
+	display: none;	
+}
+
+.test_manage{
+	margin:20px;
+	border:1px solid #ccc;
+	border-bottom: 0;
+}
+
+.test_manage .ts_title{
+	height:40px;
+	line-height: 40px;
+	background:#f2f2f2;
+}
+.test_manage .ts_list .one{
+	height:48px;
+	line-height: 48px;
+	border-bottom: 1px solid #e5e5e5;
+}
+.test_manage span{
+	float:left;
+	text-align: center;
+	width:15%;
+}
+
+.test_manage .ts_name{
+	width:22%;
+	text-align:left;
+	text-indent: 20px;
+}
+.test_manage .stop_time{
+	width:16%;
+}
+.ts_list .ts_operation{
+	color:#00ada7;
+	cursor: pointer;
+}
+.ts_list .ts_operation1{
+	color:#000000;
+}
+
+/* 弹窗*/
+.layer_open{
+	margin:0 20px;
+	display: none;
+} 
+.layer_open h3{
+	margin: 20px 0 10px 20px;
+    font: 16px '宋体';
+    color: #333;
+    font-weight: 800;
+    text-indent: 4px;
+}
+
+.test_msg_list{
+	margin:20px;
+	border:1px solid #ccc;
+	padding:10px 0;
+	height:200px;
+	overflow-y: scroll;
+}
+.test_msg_list li{
+	padding:0 20px;
+	height:40px;
+	line-height: 40px;
+	border-bottom: 1px solid #e5e5e5;
+}
+
+.test_msg_list li span,.test_msg_list li input{
+	vertical-align: middle;
+}
+.test_msg_list li input{
+	margin-right: 40px;
+}
+
+.list{
+	margin:20px;
+}
+.list_project{
+	height:28px;
+	background:#f3f3f3;
+	border-bottom:1px solid #e5e5e5;
+	line-height:52px;
+	padding:12px;
+	margin-top:20px;
+}
+.list_project span{
+	display: inline-block;
+	font:14px '微软雅黑';
+	font-weight: 900;
+	margin-left: 20px;
+	height:28px;
+	line-height:28px;
+	float:left;
+}
+.list_project ul{
+	width:90%;
+	float:left;
+	height:100%;
+	
+}
+.list_project li{
+	padding:5px 12px;
+	color:#666;
+	float:left;
+	height:100%;
+	line-height:18px;
+	box-sizing: border-box;
+	margin-right:10px;
+	cursor:pointer;
+}
+.list_project li.active{
+	background:#00ada7;
+	color:#fff;
+}
+.answer_msg{
+	padding: 60px 10px;
+	border:1px solid #e5e5e5;
+	text-align: center;
+	color: #656161;
+	font-size: 12px;
+}

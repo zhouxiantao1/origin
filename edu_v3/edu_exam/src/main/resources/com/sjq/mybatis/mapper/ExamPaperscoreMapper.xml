@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sjq.paperscore.dao.ExamPaperscoreMapper">
+	<resultMap id="BaseResultMap" type="com.sjq.paperscore.vo.ExamPaperscoreVo">
+  		<result column="id" property="id" jdbcType="BIGINT" />
+  		<result column="create_name" property="createName" jdbcType="VARCHAR" />
+  		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  		<result column="mod_name" property="modName" jdbcType="VARCHAR" />
+  		<result column="mod_time" property="modTime" jdbcType="TIMESTAMP" />
+  		<result column="delflag" property="delflag" jdbcType="CHAR" />
+  		<result column="exam_detail_id" property="examDetailId" jdbcType="BIGINT" />
+  		<result column="student_id" property="studentId" jdbcType="VARCHAR" />
+  		<result column="full_score" property="score" jdbcType="BIGINT" />
+  		<result column="status" property="status" jdbcType="CHAR" />
+  		<result column="remark" property="remark" jdbcType="VARCHAR" />
+  		<result column="subject_id" property="subjectId" jdbcType="BIGINT" />
+  		<result column="district_id" property="districtId" jdbcType="BIGINT" />
+  		<result column="school_id" property="schoolId" jdbcType="BIGINT" />
+  		<result column="class_id" property="classId" jdbcType="BIGINT" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+  		id,
+  		create_name,
+  		create_time,
+  		mod_name,
+  		mod_time,
+  		delflag,
+  		exam_detail_id,
+  		student_id,
+  		score,
+  		status,
+  		remark,
+  		subject_id,
+  		district_id,
+  		school_id,
+  		class_id
+	</sql>
+	
+	
+	<!-- 根据ID查询考生考试卷面得分信息 -->
+	<select id="queryExamPaperscoreById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_exam_paperscore
+       where delflag='0' and id =#{id,jdbcType=BIGINT}
+    </select>
+    
+					
+	<!-- 根据条件查询所有考生考试卷面得分信息 -->
+	<select id="queryExamPaperscoreBySearch" resultMap="BaseResultMap"  parameterType="java.util.Map">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_exam_paperscore
+       where 1=1 
+  	   <if test="id != null">
+       		and id = #{id}
+       </if>
+  	   <if test="createName != null">
+       		and create_name = #{createName}
+       </if>
+  	   <if test="createTime != null">
+       		and create_time = #{createTime}
+       </if>
+  	   <if test="modName != null">
+       		and mod_name = #{modName}
+       </if>
+  	   <if test="modTime != null">
+       		and mod_time = #{modTime}
+       </if>
+  	   <if test="delflag != null">
+       		and delflag = #{delflag}
+       </if>
+  	   <if test="examDetailId != null">
+       		and exam_detail_id = #{examDetailId}
+       </if>
+  	   <if test="studentId != null">
+       		and student_id = #{studentId}
+       </if>
+  	   <if test="score != null">
+       		and full_score = #{score}
+       </if>
+  	   <if test="status != null">
+       		and status = #{status}
+       </if>
+  	   <if test="remark != null">
+       		and remark = #{remark}
+       </if>
+	</select>
+	
+					
+	<!-- (增加)增加考生考试卷面得分信息 --> 
+	<insert id="insertExamPaperscore" useGeneratedKeys="true" keyProperty="id" parameterType="com.sjq.paperscore.bean.ExamPaperscoreBean">
+		insert into edu_exam_paperscore
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	  	   <if test="id != null">
+	       	id,
+	       </if>
+	  	   <if test="createName != null">
+	       	create_name,
+	       </if>
+	  	   <if test="createTime != null">
+	       	create_time,
+	       </if>
+	  	   <if test="delflag != null">
+	       	delflag,
+	       </if>
+	       <if test="examId != null">
+	       	exam_id,
+	       </if>
+	  	   <if test="examDetailId != null">
+	       	exam_detail_id,
+	       </if>
+	  	   <if test="studentId != null">
+	       	student_id,
+	       </if>
+	  	   <if test="score != null">
+	       	full_score,
+	       </if>
+	  	   <if test="status != null">
+	       	status,
+	       </if>
+	  	   <if test="remark != null">
+	       	remark,
+	       </if>
+	       <if test="subjectId != null">
+	       	subject_id,
+	       </if>
+	       <if test="districtId != null">
+	       	district_id,
+	       </if>
+	       <if test="schoolId != null">
+	       	school_id,
+	       </if>
+	       <if test="classId != null">
+	       	class_id,
+	       </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	  	    <if test="id != null">
+	       		#{id,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="createName != null">
+	       		#{createName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="createTime != null">
+	       		#{createTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != null">
+	       		#{delflag,jdbcType=CHAR},
+	        </if>
+	        <if test="examId != null">
+	       		#{examId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="examDetailId != null">
+	       		#{examDetailId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="studentId != null">
+	       		#{studentId,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="score != null">
+	       		#{score,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="status != null">
+	       		#{status,jdbcType=CHAR},
+	        </if>
+	  	    <if test="remark != null">
+	       		#{remark,jdbcType=VARCHAR},
+	        </if>
+	        <if test="subjectId != null">
+	       		#{subjectId,jdbcType=BIGINT},
+	        </if>
+	        <if test="districtId != null">
+	       		#{districtId,jdbcType=BIGINT},
+	        </if>
+	        <if test="schoolId != null">
+	       		#{schoolId,jdbcType=BIGINT},
+	        </if>
+	        <if test="classId != null">
+	       		#{classId,jdbcType=BIGINT},
+	        </if>
+		</trim>
+	</insert>
+	   
+</mapper>

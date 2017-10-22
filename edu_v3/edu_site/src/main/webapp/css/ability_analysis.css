@@ -1,0 +1,148 @@
+
+.export_report{
+	margin:20px 30px;
+}
+.export_report button{
+	width:118px;
+	background:#0075b1;
+	text-align: center;
+	line-height: 30px;
+	color:#fff;
+	float:right;
+	border-radius: 15px;
+	cursor: pointer;
+	font-size:12px;
+}
+
+.content_mid{
+	width:846px;
+	margin:0 auto;
+}
+.content_mid .reduce{
+	margin:38px 0 46px 0;
+	text-align: center;
+}
+.content_mid .reduce span{
+	margin-right: 50px;
+}
+
+.drew{
+	min-height: 280px;
+	border:1px solid #ccc;
+}
+.drew .pic_one{
+	float:left;
+	width:150px;
+	height:150px;
+	line-height: 150px;
+	border-radius: 75px;
+	background: #f2f2f2;
+	text-align: center;
+	margin-left: 50px;
+	margin-top:50px;
+	font-weight: bold;
+}
+
+.knowledge {
+	margin-top:60px;
+}
+.knowledge h3{
+	margin-bottom:20px;
+	font:24px '宋体';
+	text-align: center;
+	font-weight: 800;
+}
+.knowledge table{
+	width:100%;
+	
+}
+.knowledge table td{
+	border:1px solid #e5e5e5;
+	text-align: center;
+	height:40px;
+	line-height: 20px;
+    padding: 5px;
+}
+.knowledge table tr.tit{
+	background:#0075b1;
+	color:#fff;
+}
+
+.explain{
+	margin-top:16px;
+	margin-bottom:106px;
+	font-size: 12px;
+}
+.explain span{
+	margin-right: 50px;
+}
+.first_span{
+	margin-left: 26px;
+}
+.renzhi{
+	width:180px;
+	height:80px;
+	background:url(../images/bias.png) no-repeat center center;
+}
+.renzhi .bias .p1{
+	text-align: right;
+	margin-right: 20px;
+}
+.renzhi .bias .p2{
+	text-align: left;
+	margin-left: 20px;
+}
+
+.select_stu{
+	margin-top:20px;
+	text-align: center;
+}
+.select_stu p {
+	height:24px;
+	line-height: 24px;
+	
+}
+.select_stu p i,.select_stu p span{
+	vertical-align: middle;
+}
+.select_stu p i{
+	display: inline-block;
+	width:14px;
+	height:14px;
+	margin-right: 10px;
+	background:url(../images/arrows_down.png) no-repeat center center;
+}
+.select_stu p i.close{
+	background:url(../images/arrows_right.png) no-repeat center center;
+}
+.select_stu li{
+	line-height: 24px;
+}
+
+
+.active{
+	color:#ff6a30;
+}
+.klass,.student li{
+	cursor: pointer;
+}
+.student li:hover{
+	background:#58c8eb;
+	color:#fff;
+}
+
+.pic_two{
+	float:left;
+	width:500px;
+	height: 270px;
+	margin-left: 80px;
+}
+
+.klass_area{
+	width:100%;
+	height: 34px;
+	background:#92bb34;
+	color:#fff;
+	line-height: 34px;
+	text-align: center;
+}

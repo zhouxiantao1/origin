@@ -1,0 +1,148 @@
+
+
+h3.jiance{
+	margin:10px 20px;
+	font-weight: 400;
+	font-style: 16px;
+	// border-bottom: 2px solid #1ee88a;
+}
+.test_set{
+	margin:0 20px;
+	border:1px solid #e5e5e5;
+	padding-left: 26px;
+	font-size:12px;
+}
+
+.test_set .choice_grade span,.choice_xueduan span,.test_reduce .tr,.test_set .choice_sub span,.choice_grade span,.test_set .totle_test span,.knowledge .kg,.test_time .tt{
+	display: inline-block;
+	width:90px;
+	text-align: right;
+	line-height: 30px;
+	margin-right: 12px;
+}
+.test_set select{
+	padding:5px 0;
+}
+.test_set input,.start_time input{
+	padding:4px 0;
+}
+.choice_grade{
+	margin:25px 0;
+}
+.choice_xueduan{
+	margin-top: 20px;
+}
+
+.choice_grade select,.totle_test input{
+	width:220px;
+}
+.totle_test input{
+	text-indent: 3px;
+	font-size: 12px;
+}
+
+
+.choice_sub span,.knowledge .kg,.choice_grade span,.choice_xueduan span{
+	float:left;
+}
+.choice_sub ul,.choice_grade ul,.choice_xueduan ul{
+	width:88%;
+	float:left;
+}
+.choice_sub li,.choice_grade li,.choice_xueduan li{
+	float:left;	
+	padding:5px 12px;
+	color:#666;
+	height:100%;
+	line-height:18px;
+	box-sizing: border-box;
+	margin-right:10px;
+	cursor: pointer;
+}
+.choice_sub li.active,.choice_grade li.active,.choice_xueduan li.active{
+	background:#e4393c;
+	color:#fff;
+}
+
+.test_reduce{
+	margin-bottom: 30px;
+}
+.totle_test{
+	margin:30px 0 26px 0;
+}
+.test_time{
+	margin:22px 0;
+}
+.test_time input{
+	width:175px;
+	font-size:12px;
+	text-indent: 3px;
+}
+.three{
+	padding:12px;
+	width:550px;
+	height:100px;
+	border:1px solid #e5e5e5;
+	box-sizing: border-box;
+}
+.start_time{
+	margin-right: 20px;
+}
+.text_long{
+	margin-top:10px;
+}
+
+.test_reduce textarea{
+	width:550px;
+	height:100px;
+	vertical-align: middle;
+	padding:5px;
+	font-size: 12px;
+}
+.test_reduce span{
+	vertical-align: middle;
+}
+
+.operation{
+    margin-left: 30px;
+}
+.operation button{
+	width:140px;
+	height:34px;
+	text-align: center;
+	line-height: 34px;
+	border-radius: 2px;
+	margin:50px 20px; 
+	cursor: pointer;
+}
+.operation button.next{
+	width: 124px;
+    background: #0075b1;
+    line-height: 32px;
+    color: #fff;
+    border-radius: 16px;
+    vertical-align: middle;
+    font-size: 12px;
+    margin-right: 10px;
+}
+.operation button.reset{
+	background:#999;
+	color:#fff;
+}
+
+.name_msg{
+    color: red;
+    font-weight: bold;
+}
+	
+.test_count{
+	width:240px;
+	margin-top:230px;
+	margin-left:10px;
+}
+
+.question_num{
+	font-size: 14px;
+    font-weight: bold;
+    color:#00ada7;
+}

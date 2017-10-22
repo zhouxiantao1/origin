@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sjq.exam.offline.dao.OfflinePaperConfMapper">
+	
+	<!-- 批量插入线下试卷配置 -->
+	<insert id="insertOfflinePaperConfBatch" useGeneratedKeys="true" parameterType="java.util.List">  
+    <selectKey resultType="long" keyProperty="id" order="AFTER">  
+        select last_insert_id()
+    </selectKey>  
+   	insert into t_line_exam_component (exam_code,subject_code,subject_name,question_no,point_code,point_name,ability_code,ability_name,type_code,type_name,full_score)   
+   	values  
+   <foreach collection="list" item="item" index="index" separator="," >  
+        (#{item.examCode},#{item.subjectCode},#{item.subjectName},#{item.questionNo},#{item.pointCode},#{item.pointName},#{item.abilityCode},#{item.abilityName},#{item.typeCode},#{item.typeName},#{item.fullScore})  
+    </foreach>  
+	</insert>  
+	
+	<!-- (查询)根据条件查询所有小题 -->
+	<select id="queryAllQuestionNo" resultType="java.lang.String"  parameterType="java.util.Map">
+	   select question_no from t_line_exam_component
+       where 1=1 
+  	   <if test="examCode != '' and examCode != null">
+       		and exam_code = #{examCode}
+       </if>
+       <if test="subjectCode != '' and subjectCode != null">
+       		and subject_code = #{subjectCode}
+       </if>
+	</select>
+	
+	<!-- (查询)根据条件查询所有认知层次 -->
+	<select id="queryAllAbility" resultType="java.lang.String"  parameterType="java.util.Map">
+	   select question_no from t_line_exam_component
+       where 1=1 
+  	   <if test="examCode != '' and examCode != null">
+       		and exam_code = #{examCode}
+       </if>
+       <if test="subjectCode != '' and subjectCode != null">
+       		and subject_code = #{subjectCode}
+       </if>
+	</select>
+	
+	<!-- (查询)根据条件查询所有知识模块 -->
+	<select id="queryAllPoint" resultType="java.lang.String"  parameterType="java.util.Map">
+	   select `name` from edu_base_knowledge
+       where parent_id = 0 and delflag = '0'
+  	   <if test="examCode != '' and examCode != null">
+       		and grade_id like concat('%', (select grade from t_exam_info where exam_code = #{examCode} and status = 1), '%')
+       </if>
+       <if test="subjectCode != '' and subjectCode != null">
+       		and subject_id = #{subjectCode}
+       </if>
+	</select>
+	
+	<!-- (查询)根据条件查询所有题型 -->
+	<select id="queryAllType" resultType="java.lang.String"  parameterType="java.util.Map">
+	   select question_no from t_line_exam_component
+       where 1=1 
+  	   <if test="examCode != '' and examCode != null">
+       		and exam_code = #{examCode}
+       </if>
+       <if test="subjectCode != '' and subjectCode != null">
+       		and subject_code = #{subjectCode}
+       </if>
+	</select>
+	   
+</mapper>

@@ -1,0 +1,110 @@
+.mid{
+	min-height: 810px;
+}
+.finish_list{
+	margin: 10px 20px;
+}
+
+.list_one{
+	margin: 20px 0;
+	border:1px solid #ccc;
+}
+.list_title{
+	background:#f2f2f2;
+	height:38px;
+	line-height: 38px;
+	padding:0 20px;
+}
+.list_title .test_name{
+	width:24%;
+	
+	color:#0075b1;
+}
+.list_title .tit{
+	color:#0075b1;
+}
+
+.list_content{
+	height:48px;
+	line-height: 48px;
+	padding:0 20px;
+}
+
+.list_content .test_name span{
+	margin-right: 70px;
+}
+.list_content button{
+	display: inline-block;
+	width:100px;
+	height: 32px;
+	color:#fff;
+	background:#0075b1;
+	line-height: 30px;
+	margin-top: 8px;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+.list_content i{
+	display: inline-block;
+	width:100px;
+	height: 32px;
+	color:#fff;
+	background:#999;
+	line-height: 30px;
+	margin-top: 8px;
+	border-radius: 4px;
+	text-align: center;
+}
+
+.check{
+	height:32px;
+	margin-top: 20px;
+}
+.check input{
+	width:300px;
+	border:1px solid #ccc;
+	padding:5px 0;
+	text-indent: 3px;
+	margin-right: 20px;
+}
+.check button{
+	width:120px;
+	height: 32px;
+	line-height: 32px;
+	color:#fff;
+	background:#0075b1;
+	cursor: pointer;
+}
+
+.all_content{
+	margin:20px;
+}
+
+.operation {
+    border-bottom: 1px solid #ccc;
+}
+
+.all_content .operation p{
+	float:left;
+	width:80px;
+	text-align: center;
+	height: 30px;
+	line-height: 30px;
+	font-size: 14px;
+	cursor: pointer;
+}
+
+.all_content .operation p.active{
+	border-bottom: 2px solid #0075b1;
+	color:#0075b1;
+}
+
+.answer_msg{
+	padding: 90px 10px;
+	border:1px solid #e5e5e5;
+	text-align: center;
+	color: #656161;
+	font-size: 12px;
+	margin-top: 20px;
+}

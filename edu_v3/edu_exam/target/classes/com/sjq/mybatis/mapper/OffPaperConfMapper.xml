@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sjq.offpaperconf.dao.OffPaperConfMapper">
+	
+	<!-- 批量插入线下试卷配置 -->
+	<insert id="insertOffPaperConfBatch" useGeneratedKeys="true" parameterType="java.util.List">  
+    <selectKey resultType="long" keyProperty="id" order="AFTER">  
+        select last_insert_id()
+    </selectKey>  
+   	insert into edu_off_exam_component (exam_id,exam_detail_id,subject_id,subject_name,question_id,point_name,ability_name,type_name,full_score)   
+   	values  
+   <foreach collection="list" item="item" index="index" separator="," >  
+        (#{item.examId},#{item.examDetailId},#{item.subjectId},#{item.subjectName},#{item.questionId},#{item.pointName},#{item.abilityName},#{item.typeName},#{item.fullScore})  
+    </foreach>  
+	</insert> 
+	
+	<!-- (查询)根据条件查询所有小题 -->
+	<select id="queryAllQuestionNo" resultType="java.lang.String"  parameterType="java.util.Map">
+	   select question_Id from edu_off_exam_component
+       where 1=1 
+  	   <if test="examDetailId != '' and examDetailId != null">
+       		and exam_detail_id = #{examDetailId}
+       </if>
+	</select> 
+	
+	<delete id="deleteOffPaperConfBatch" parameterType="java.util.Map">
+		delete from edu_off_exam_component 
+		where 1=1
+		<if test="examId != null">
+       		and exam_id =  #{examId}
+       	</if>
+  	   	<if test="examDetailId != null">
+       		and exam_detail_id =  #{examDetailId}
+       	</if>
+	</delete>
+</mapper>

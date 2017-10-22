@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sjq.detail.dao.PapersDetailMapper">
+	<resultMap id="BaseResultMap" type="com.sjq.detail.vo.PapersDetailVo">
+  		<result column="id" property="id" jdbcType="BIGINT" />
+  		<result column="create_name" property="createName" jdbcType="VARCHAR" />
+  		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  		<result column="mod_name" property="modName" jdbcType="VARCHAR" />
+  		<result column="mod_time" property="modTime" jdbcType="TIMESTAMP" />
+  		<result column="delflag" property="delflag" jdbcType="CHAR" />
+  		<result column="paper_id" property="paperId" jdbcType="BIGINT" />
+  		<result column="qu_type_id" property="quTypeId" jdbcType="BIGINT" />
+  		<result column="qu_quantity" property="quQuantity" jdbcType="BIGINT" />
+  		<result column="qu_score" property="quScore" jdbcType="BIGINT" />
+  		<result column="reorder" property="reorder" jdbcType="BIGINT" />
+  		<result column="status" property="status" jdbcType="CHAR" />
+  		<result column="remark" property="remark" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+  		id,
+  		create_name,
+  		create_time,
+  		mod_name,
+  		mod_time,
+  		delflag,
+  		paper_id,
+  		qu_type_id,
+  		qu_quantity,
+  		qu_score,
+  		reorder,
+  		status,
+  		remark
+	</sql>
+	
+	<resultMap id="PapersDetailResultMap" type="com.sjq.detail.vo.PapersDetailVo">
+  		<result column="id" property="id" jdbcType="BIGINT" />
+  		<result column="create_name" property="createName" jdbcType="VARCHAR" />
+  		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  		<result column="mod_name" property="modName" jdbcType="VARCHAR" />
+  		<result column="mod_time" property="modTime" jdbcType="TIMESTAMP" />
+  		<result column="delflag" property="delflag" jdbcType="CHAR" />
+  		<result column="paper_id" property="paperId" jdbcType="BIGINT" />
+  		<result column="qu_type_id" property="quTypeId" jdbcType="BIGINT" />
+  		<result column="qu_quantity" property="quQuantity" jdbcType="BIGINT" />
+  		<result column="qu_score" property="quScore" jdbcType="BIGINT" />
+  		<result column="reorder" property="reorder" jdbcType="BIGINT" />
+  		<result column="status" property="status" jdbcType="CHAR" />
+  		<result column="remark" property="remark" jdbcType="VARCHAR" />
+  		<association property="questionTypeVo" column="qu_type_id" select="com.sjq.type.dao.QuestionTypeMapper.queryQuestionTypeById"/>
+  		<collection property="papersQuestionVoList" ofType="com.sjq.question.vo.PapersQuestionVo" 
+  		column="{paperDetailId=id}" javaType="ArrayList" select="com.sjq.question.dao.PapersQuestionMapper.queryPapersQuestionBySearch"/>
+	</resultMap>
+	
+	<select id="queryPapersDetailById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_papers_detail
+       where delflag='0' and id =#{id,jdbcType=BIGINT}
+    </select>
+					
+	<!-- 根据条件查询所有试卷模块-试卷明细信息信息 -->
+	<select id="queryPapersDetailBySearch" resultMap="PapersDetailResultMap"  parameterType="java.util.Map">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_papers_detail
+       where 1=1 
+  	   <if test="id != '' and id != null">
+       		and id = #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name = #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time = #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name = #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time = #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag = #{delflag}
+       </if>
+  	   <if test="paperId != '' and paperId != null">
+       		and paper_id = #{paperId}
+       </if>
+  	   <if test="quTypeId != '' and quTypeId != null">
+       		and qu_type_id = #{quTypeId}
+       </if>
+  	   <if test="quQuantity != '' and quQuantity != null">
+       		and qu_quantity = #{quQuantity}
+       </if>
+  	   <if test="quScore != '' and quScore != null">
+       		and qu_score = #{quScore}
+       </if>
+  	   <if test="reorder != '' and reorder != null">
+       		and reorder = #{reorder}
+       </if>
+  	   <if test="status != '' and status != null">
+       		and status = #{status}
+       </if>
+  	   <if test="remark != '' and remark != null">
+       		and remark = #{remark}
+       </if>
+	</select>
+	
+					
+	<!-- (删除)根据条件删除试卷模块-试卷明细信息信息  -->
+	<delete id="deletePapersDetailBySearch" parameterType="java.util.Map">
+		update 
+		edu_papers_detail
+		<set> 
+	  	    <if test="bean.modName != '' and bean.modName != null">
+	       	mod_name =  #{bean.modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="bean.modTime != '' and bean.modTime != null">
+	       	mod_time =  #{bean.modTime,jdbcType=TIMESTAMP},
+	        </if>
+		delflag = '1'
+		</set>
+		where 1=1
+  	   <if test="search.id != '' and search.id != null">
+       		and id =  #{search.id}
+       </if>
+  	   <if test="search.paperId != '' and search.paperId != null">
+       		and paper_id =  #{search.paperId}
+       </if>
+	</delete>
+	
+					
+	<!-- (更新)根据条件更新所有试卷模块-试卷明细信息信息 -->
+	<update id="updatePapersDetailBySearch"  parameterType="java.util.Map" >
+		update edu_papers_detail
+		<set>
+	  	    <if test="modName != '' and modName != null">
+	       	mod_name =  #{modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="modTime != '' and modTime != null">
+	       	mod_time =  #{modTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != '' and delflag != null">
+	       	delflag =  #{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="paperId != '' and paperId != null">
+	       	paper_id =  #{paperId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="quTypeId != '' and quTypeId != null">
+	       	qu_type_id =  #{quTypeId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="quQuantity != '' and quQuantity != null">
+	       	qu_quantity =  #{quQuantity,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="quScore != '' and quScore != null">
+	       	qu_score =  #{quScore,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="reorder != '' and reorder != null">
+	       	reorder =  #{reorder,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="status != '' and status != null">
+	       	status =  #{status,jdbcType=CHAR},
+	        </if>
+	  	    <if test="remark != '' and remark != null">
+	       	remark =  #{remark,jdbcType=VARCHAR},
+	        </if>
+		</set>
+		where 
+  	   <if test="id != '' and id != null">
+       		and id = #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name = #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time = #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name = #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time = #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag = #{delflag}
+       </if>
+  	   <if test="paperId != '' and paperId != null">
+       		and paper_id = #{paperId}
+       </if>
+  	   <if test="quTypeId != '' and quTypeId != null">
+       		and qu_type_id = #{quTypeId}
+       </if>
+  	   <if test="quQuantity != '' and quQuantity != null">
+       		and qu_quantity = #{quQuantity}
+       </if>
+  	   <if test="quScore != '' and quScore != null">
+       		and qu_score = #{quScore}
+       </if>
+  	   <if test="reorder != '' and reorder != null">
+       		and reorder = #{reorder}
+       </if>
+  	   <if test="status != '' and status != null">
+       		and status = #{status}
+       </if>
+  	   <if test="remark != '' and remark != null">
+       		and remark = #{remark}
+       </if>
+	</update>
+	
+					
+	<!-- (增加)增加试卷模块-试卷明细信息信息 --> 
+	<insert id="insertPapersDetail" useGeneratedKeys="true" keyProperty="id" parameterType="com.sjq.detail.bean.PapersDetailBean">
+		insert into edu_papers_detail
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	  	   <if test="id != '' and id != null">
+	       	id,
+	       </if>
+	  	   <if test="createName != '' and createName != null">
+	       	create_name,
+	       </if>
+	  	   <if test="createTime != '' and createTime != null">
+	       	create_time,
+	       </if>
+	  	   <if test="delflag != '' and delflag != null">
+	       	delflag,
+	       </if>
+	  	   <if test="paperId != '' and paperId != null">
+	       	paper_id,
+	       </if>
+	  	   <if test="quTypeId != '' and quTypeId != null">
+	       	qu_type_id,
+	       </if>
+	  	   <if test="quQuantity != '' and quQuantity != null">
+	       	qu_quantity,
+	       </if>
+	  	   <if test="quScore != '' and quScore != null">
+	       	qu_score,
+	       </if>
+	  	   <if test="reorder != '' and reorder != null">
+	       	reorder,
+	       </if>
+	  	   <if test="status != '' and status != null">
+	       	status,
+	       </if>
+	  	   <if test="remark != '' and remark != null">
+	       	remark,
+	       </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	  	    <if test="id != '' and id != null">
+	       		#{id,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="createName != '' and createName != null">
+	       		#{createName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="createTime != '' and createTime != null">
+	       		#{createTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != '' and delflag != null">
+	       		#{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="paperId != '' and paperId != null">
+	       		#{paperId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="quTypeId != '' and quTypeId != null">
+	       		#{quTypeId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="quQuantity != '' and quQuantity != null">
+	       		#{quQuantity,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="quScore != '' and quScore != null">
+	       		#{quScore,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="reorder != '' and reorder != null">
+	       		#{reorder,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="status != '' and status != null">
+	       		#{status,jdbcType=CHAR},
+	        </if>
+	  	    <if test="remark != '' and remark != null">
+	       		#{remark,jdbcType=VARCHAR},
+	        </if>
+		</trim>
+	</insert>
+    
+	   
+</mapper>

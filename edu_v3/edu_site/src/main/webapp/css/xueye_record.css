@@ -1,0 +1,80 @@
+
+.confirm{
+	width:200px;
+	height:40px;
+	background:#0075b1;
+	text-align: center;
+	line-height:40px;
+	color:#fff;
+	cursor: pointer;
+}
+
+/*学业列表*/
+
+.xueye_list{
+	margin-top:30px;
+}
+
+.list_one{
+	border:1px solid #e5e5e5;
+	margin:20px;
+	margin-top:0;
+	padding:20px;
+}
+
+.original_msg,.system_msg{
+	margin-bottom:24px;
+	color:#333;
+	font-size: 14px;
+}
+.original_msg div,.system_msg .system{
+	width:80%;
+	margin-right:60px;
+}
+
+.original_msg img{
+	vertical-align: middle;
+	width: 40px;
+	height:40px;
+	border:1px solid #ccc;
+	margin-right:10px;
+}
+.original_msg i{
+	margin-right:20px;
+}
+.original_msg em,.original_msg b{
+	color:#666;
+	font-weight: 400;
+}
+.original_msg em{
+	margin:0 60px;
+}
+
+.original_msg .color_07a{
+	color:#0075b1;
+	line-height:42px;
+	cursor:pointer;
+}
+
+.system span{
+	vertical-align: middle;
+}
+.system select{
+	width:83px;
+	height:34px;
+	font-size: 12px;
+	vertical-align: middle;
+	margin-right: 16px;
+}
+
+.system_msg .color_07a{
+	color:#00abee;
+	line-height:34px;
+	cursor:pointer;
+}
+
+.middle{
+	min-height: 730px;
+}
+
+

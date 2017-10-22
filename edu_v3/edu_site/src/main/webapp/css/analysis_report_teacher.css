@@ -1,0 +1,188 @@
+.some_content{
+	margin: 20px;
+	border:1px solid #e5e5e5;
+	padding:20px;
+}
+
+.export_report span{
+	float:right;
+	width:100px;
+	height: 32px;
+	line-height: 32px;
+	text-align:center;
+	color:#fff;
+	background:#00ada7;
+	// border-radius: 5px;
+	cursor: pointer;
+}
+
+.report_title{
+	text-align: center;
+	margin:30px 0;
+	font-size: 18px;
+}
+
+.report_detail{
+	height:32px;
+	color:#666;
+	line-height: 32px;
+	text-align: center;
+	background:#f2f2f2;
+	
+}
+
+.tips{
+	color:#666;
+	margin-bottom: 20px;
+	text-indent: 20px;
+}
+
+.select_area{
+	margin:20px 0;
+}
+.select_area span{
+	display: inline-block;
+	width:100px;
+	text-align: right;
+	margin-right: 10px;
+}
+.select_area select{
+	height:34px;
+	width:210px;
+	padding: 6px 0;
+	box-sizing: border-box;
+	margin-right: 30px;
+	line-height: 34px;
+}
+
+.ans_object,.test_obj_ana{
+	padding:20px 0 34px 0;
+	border-bottom:1px solid #e5e5e5;
+}
+.ans_object h3,.test_obj_ana h3{
+	font-size: 16px;
+	margin:10px 0;
+}
+.ans_object .picture{
+	width:42%;
+	margin-left: 17%;
+}
+.ans_object .count_many{
+	width:32%;
+}
+
+.picman{
+	width:100%;
+}
+.picman span{
+	display: inline-block;
+	width:50%;
+	text-align: center;
+}
+.picman span img{
+	display: inline-block;
+}
+
+.picture .bar{
+	width:100%;
+	height:40px;
+}
+.picture .bar .worman_bar,.picture .bar .man_bar{
+	text-align: center;
+	display: inline-block;
+	color:#fff;
+	height:40px;
+	line-height: 40px;
+}
+.picture .bar .worman_bar{
+	background:#a357a2;
+	width:40%;
+}
+.picture .bar .man_bar{
+	background:#28628a;
+	width:59%;
+	margin-left: 1px;
+}
+
+.ans_count{
+	font-size: 16px;
+	font-weight: 800;
+	margin-bottom: 20px;
+}
+
+.count_many .worman,.count_many .man{
+	margin-bottom: 14px;
+	line-height: 30px;
+	color:#666;
+}
+.count_many .worman i,.count_many .man i{
+	display: inline-block;
+	width:50px;
+	height: 24px;
+	vertical-align: middle;
+	margin-right: 14px;
+}
+.count_many .worman i{
+	background: #a357a2;
+}
+.count_many .man i{
+	background: #28628a;
+}
+.count_many .worman span,.count_many .man span{
+	margin-left: 30px;
+}
+
+.test_obj_ana .tab{
+	width:55%;
+}
+.test_obj_ana .tab table{
+	width:82%;
+	margin-left: 16%;
+}
+table,td{
+	border:1px solid #ccc;
+}
+td{
+	text-align: center;
+	height: 30px;
+}
+
+.map{
+	width:43%;
+	height:300px;
+	text-align: center;
+}
+.map img{
+	display: inline-block;
+	height: 100%;
+}
+
+.what_you_like,.study_time{
+	margin:20px 0;
+	padding-bottom: 20px;
+	border-bottom: 1px dashed #ccc;
+}
+.what_you_like h3,.study_time h3{
+	color:#2fa5ff;
+	font-size: 16px;
+	font-weight: 300;
+}
+
+.what_you_like .like_sub{
+	width:400px;
+	height: 320px;
+	margin-left: 200px;
+}
+
+.study_time table{
+	width:76%;
+	margin:0 auto;
+	margin-top: 20px;
+}
+
+#matrix{
+	width:70%;
+	height:300px;
+	margin:0 auto;
+	margin-top: 20px;
+}

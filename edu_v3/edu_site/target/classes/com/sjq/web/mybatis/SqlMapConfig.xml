@@ -1,0 +1,203 @@
+<!DOCTYPE configuration PUBLIC "-//ibatis.apache.org//DTD Config 3.0//EN" 
+
+"http://ibatis.apache.org/dtd/ibatis-3-config.dtd">
+<configuration>
+
+	 <mappers>
+		<!-- 角色相关 -->
+		<mapper resource="com/sjq/mybatis/mapper/SecurityRoleMapper.xml"/>
+		<!-- 用户相关 -->
+		<mapper resource="com/sjq/mybatis/mapper/SecurityUserMapper.xml"/>
+		<!-- 资源相关 -->
+		<mapper resource="com/sjq/mybatis/mapper/SecurityResourceMapper.xml"/>
+		<!-- 操作日志 -->
+		<mapper resource="com/sjq/mybatis/mapper/SecurityOperationLogMapper.xml"/>
+		
+		<!-- 调度器相关 -->
+		<mapper resource="com/sjq/mybatis/mapper/JobSchedulerConfigMapper.xml"/>
+		<!-- 触发器相关 -->
+		<mapper resource="com/sjq/mybatis/mapper/JobTriggerConfigMapper.xml"/>
+		<!-- 任务日志相关 -->
+		<mapper resource="com/sjq/mybatis/mapper/JobLogMapper.xml"/>
+		
+		                               <!-- 基础模块 -->
+		<!-- 区域 -->
+		<mapper resource="com/sjq/mybatis/mapper/BaseAreaMapper.xml"/>
+		<!-- 目录详情 -->
+		<mapper resource="com/sjq/mybatis/mapper/BaseCatalogDetailMapper.xml"/>
+		<!-- 目录 -->
+		<mapper resource="com/sjq/mybatis/mapper/BaseCatalogMapper.xml"/>
+		<!-- 班级-->
+		<mapper resource="com/sjq/mybatis/mapper/BaseClassesMapper.xml"/>
+		<!-- 字典工具 -->
+		<mapper resource="com/sjq/mybatis/mapper/BaseDictMapper.xml"/>
+		<!-- 年级 -->
+		<mapper resource="com/sjq/mybatis/mapper/BaseGradeMapper.xml"/>
+		<!-- 知识点目录详情-->
+		<mapper resource="com/sjq/mybatis/mapper/BaseKnowledgeCatalogDetailMapper.xml"/>
+		<!-- 知识点 -->
+		<mapper resource="com/sjq/mybatis/mapper/BaseKnowledgeMapper.xml"/>
+		<!-- 家长 -->
+		<mapper resource="com/sjq/mybatis/mapper/BaseParentMapper.xml"/>
+		<!-- 学制 -->
+		<mapper resource="com/sjq/mybatis/mapper/BasePlanMapper.xml"/>
+		<!-- 题目知识点目录详情 -->
+		<mapper resource="com/sjq/mybatis/mapper/BaseQuestionRelatedMapper.xml"/>
+		<!-- 学校 -->
+		<mapper resource="com/sjq/mybatis/mapper/BaseSchoolMapper.xml"/>
+		<!-- 管理者 -->
+		<mapper resource="com/sjq/mybatis/mapper/BaseStaffMapper.xml"/>
+		<!-- 学段年级-->
+		<mapper resource="com/sjq/mybatis/mapper/BaseStageGradeMapper.xml"/>
+		<!-- 学段 -->
+		<mapper resource="com/sjq/mybatis/mapper/BaseStageMapper.xml"/>
+		<!-- 学段学科 -->
+		<mapper resource="com/sjq/mybatis/mapper/BaseStageSubjectMapper.xml"/>
+		<!-- 学生历史 -->
+		<mapper resource="com/sjq/mybatis/mapper/BaseStudentHistoryMapper.xml"/>
+		<!-- 学生 -->
+		<mapper resource="com/sjq/mybatis/mapper/BaseStudentMapper.xml"/>
+		<!-- 学科 -->
+		<mapper resource="com/sjq/mybatis/mapper/BaseSubjectMapper.xml"/>
+		<!-- 老师班级-->
+		<mapper resource="com/sjq/mybatis/mapper/BaseTeacherClassesMapper.xml"/>
+		<!-- 老师历史-->
+		<mapper resource="com/sjq/mybatis/mapper/BaseTeacherHistoryMapper.xml"/>
+		<!-- 老师-->
+		<mapper resource="com/sjq/mybatis/mapper/BaseTeacherMapper.xml"/>
+		<!-- 学期 -->
+		<mapper resource="com/sjq/mybatis/mapper/BaseTermMapper.xml"/>
+		<!-- 版本 -->
+		<mapper resource="com/sjq/mybatis/mapper/BaseVersionMapper.xml"/>
+		<!-- 年份 -->
+		<mapper resource="com/sjq/mybatis/mapper/BaseYearMapper.xml"/>
+		<!-- 题库知识点目录关联 -->
+		<mapper resource="com/sjq/mybatis/mapper/BaseQuestionRelatedMapper.xml"/>
+		
+									<!-- 作业模块 -->
+		<!-- 作业信息 -->
+ 		<mapper resource="com/sjq/mybatis/mapper/WorkHomeworkMapper.xml"/> 
+		<!-- 作答信息 -->
+		<mapper resource="com/sjq/mybatis/mapper/WorkAnswerMapper.xml"/> 
+		<!-- 作答详细信息 -->
+		<mapper resource="com/sjq/mybatis/mapper/WorkAnswerDetailMapper.xml"/>
+		<!-- 错题信息 -->
+		<mapper resource="com/sjq/mybatis/mapper/WorkWrongMapper.xml"/>
+		<!-- 批改信息 -->
+		<mapper resource="com/sjq/mybatis/mapper/WorkCorrectsMapper.xml"/>
+		<!-- 作业题目信息 -->
+		<mapper resource="com/sjq/mybatis/mapper/WorkWorkQuestionMapper.xml"/>
+		<!-- 作业班级信息 -->
+		<mapper resource="com/sjq/mybatis/mapper/WorkHomeworkClassesMapper.xml"/>
+		
+		<!-- 题库中心 -->
+		<mapper resource="com/sjq/mybatis/mapper/QuestionWareMapper.xml"/>
+		<!-- 题型 -->
+		<mapper resource="com/sjq/mybatis/mapper/QuestionTypeMapper.xml"/>
+		<!-- 试题答案 -->
+		<mapper resource="com/sjq/mybatis/mapper/QuestionAnswerMapper.xml"/>
+		<!-- 试题收藏 -->
+		<mapper resource="com/sjq/mybatis/mapper/QuestionCollectMapper.xml"/>
+		<!-- 试题审核 -->
+		<mapper resource="com/sjq/mybatis/mapper/QuestionCheckMapper.xml"/>
+		<!-- 试题统计 -->
+		<mapper resource="com/sjq/mybatis/mapper/QuestionStatisticsMapper.xml"/>
+		
+		<!-- 自适应模块 -->
+		<mapper resource="com/sjq/mybatis/mapper/ExamAdaptationMapper.xml"/>
+		<mapper resource="com/sjq/mybatis/mapper/ExamAdaptationKnowledgeMapper.xml"/>
+		<mapper resource="com/sjq/mybatis/mapper/ExamAdaptationUserMapper.xml"/>
+		<mapper resource="com/sjq/mybatis/mapper/ExamAdaptationUserAnswerMapper.xml"/>
+		<mapper resource="com/sjq/mybatis/mapper/ExamAdaptationUserKnowledgeMapper.xml"/>
+		<mapper resource="com/sjq/mybatis/mapper/ExamAdaptationQuestionMapper.xml"/>
+		
+		<!-- 线下考试模块 -->
+		<!-- 线下考试试卷配置 -->
+		<mapper resource="com/sjq/mybatis/mapper/OfflinePaperConfMapper.xml"/>
+		<!-- 线下考试基础数据 -->
+		<mapper resource="com/sjq/mybatis/mapper/OfflineBasicDataMapper.xml"/>
+		<!-- 线下考试作答详细数据 -->
+		<mapper resource="com/sjq/mybatis/mapper/OfflineAnswerDataMapper.xml"/>
+		<!-- 线下考试调度配置 -->
+		<mapper resource="com/sjq/mybatis/mapper/OfflineSchedulingConfMapper.xml"/>
+		<!-- 线上考试调度配置 -->
+		<mapper resource="com/sjq/mybatis/mapper/OnlineSchedulingConfMapper.xml"/>
+		
+		
+						<!-- 阳光评价模块 -->
+		<!-- 作答详细信息 -->
+		<mapper resource="com/sjq/mybatis/mapper/EvaluateAnswerDetailMapper.xml"/>
+		<!-- 作答信息 -->
+		<mapper resource="com/sjq/mybatis/mapper/EvaluateAnswerMapper.xml"/>
+		<!-- 测评详情信息 -->
+		<mapper resource="com/sjq/mybatis/mapper/EvaluateEvaDetailMapper.xml"/>
+		<!-- 测评详情问卷信息 -->
+		<mapper resource="com/sjq/mybatis/mapper/EvaluateEvaDetailPaperMapper.xml"/>
+		<!-- 测评发布信息 -->
+		<mapper resource="com/sjq/mybatis/mapper/EvaluateEvaIssueMapper.xml"/>
+		<!-- 测评信息 -->
+		<mapper resource="com/sjq/mybatis/mapper/EvaluateEvaMapper.xml"/>
+		<!-- 指标信息 -->
+		<mapper resource="com/sjq/mybatis/mapper/EvaluateIndicatorMapper.xml"/>
+		<!-- 发布列表信息 -->
+		<mapper resource="com/sjq/mybatis/mapper/EvaluateIssueListMapper.xml"/>
+		<!-- 问卷信息 -->
+		<mapper resource="com/sjq/mybatis/mapper/EvaluatePaperMapper.xml"/>
+		<!-- 题目信息 -->
+		<mapper resource="com/sjq/mybatis/mapper/EvaluatePaperQuestionMapper.xml"/>
+		<!-- 题目选项信息 -->
+		<mapper resource="com/sjq/mybatis/mapper/EvaluateSelectionMapper.xml"/>
+		
+							<!-- 学业档案模块 -->
+		<!-- 评价信息 -->
+		<mapper resource="com/sjq/mybatis/mapper/ArchivesCommentMapper.xml"/>
+		
+							<!-- 答疑中心模块 -->
+		<!-- 回答问题信息 -->
+		<mapper resource="com/sjq/mybatis/mapper/InterlocutionAnswerAskMapper.xml"/>
+		<!-- 问题信息 -->
+		<mapper resource="com/sjq/mybatis/mapper/InterlocutionAskMapper.xml"/>
+		<!-- 关注信息 -->
+		<mapper resource="com/sjq/mybatis/mapper/InterlocutionConcernMapper.xml"/>
+		<!-- 禁言信息 -->
+		<mapper resource="com/sjq/mybatis/mapper/InterlocutionMuteMapper.xml"/>
+		<!-- 举报信息 -->
+		<mapper resource="com/sjq/mybatis/mapper/InterlocutionReportMapper.xml"/>		
+
+							
+
+							<!-- 线上考试模块 -->
+		<!-- 考试信息 -->
+		<mapper resource="com/sjq/mybatis/mapper/ExamInfoMapper.xml"/>
+		<!-- 考试明细信息 -->
+		<mapper resource="com/sjq/mybatis/mapper/ExamDetailMapper.xml"/>
+		<!-- 考生信息 -->
+		<mapper resource="com/sjq/mybatis/mapper/ExamStudentMapper.xml"/>
+		<!-- 得分 -->
+		<mapper resource="com/sjq/mybatis/mapper/ExamPaperscoreMapper.xml"/>
+		<!-- 得分明细 -->
+		<mapper resource="com/sjq/mybatis/mapper/ExamQuestionscoreMapper.xml"/>	
+		
+								<!-- 组卷模块 -->
+		<!-- 试卷详情信息 -->
+		<mapper resource="com/sjq/mybatis/mapper/PapersDetailMapper.xml"/>
+		<!-- 试卷信息 -->
+		<mapper resource="com/sjq/mybatis/mapper/PapersInfoMapper.xml"/>
+		<!-- 试卷试题信息 -->
+		<mapper resource="com/sjq/mybatis/mapper/PapersQuestionMapper.xml"/>	
+		
+		<!-- 分析报告模块 -->
+		<mapper resource="com/sjq/mybatis/mapper/BiMapper.xml"/>
+		
+		<!-- 线下考试模块 -->	
+		<mapper resource="com/sjq/mybatis/mapper/OffPaperscoreMapper.xml"/>
+		<mapper resource="com/sjq/mybatis/mapper/OffQuestionscoreMapper.xml"/>	
+		<mapper resource="com/sjq/mybatis/mapper/OffPaperConfMapper.xml"/>	
+		
+		<!-- 常模模块 -->	
+		<mapper resource="com/sjq/mybatis/mapper/NormCompareMapper.xml"/>	
+		<mapper resource="com/sjq/mybatis/mapper/NormDefinitionMapper.xml"/>	
+	</mappers>
+	
+</configuration>
+	

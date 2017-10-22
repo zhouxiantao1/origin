@@ -1,0 +1,943 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sjq.ware.dao.QuestionWareMapper">
+	<resultMap id="BaseResultMap" type="com.sjq.ware.vo.QuestionWareVo">
+  		<result column="id" property="id" jdbcType="BIGINT" />
+  		<result column="create_name" property="createName" jdbcType="VARCHAR" />
+  		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  		<result column="mod_name" property="modName" jdbcType="VARCHAR" />
+  		<result column="mod_time" property="modTime" jdbcType="TIMESTAMP" />
+  		<result column="delflag" property="delflag" jdbcType="CHAR" />
+  		<result column="question_content" property="questionContent" jdbcType="VARCHAR" />
+  		<result column="difficulty" property="difficulty" jdbcType="DECIMAL" />
+  		<result column="bloom_taxonomy" property="bloomTaxonomy" jdbcType="CHAR" />
+  		<result column="discrimination" property="discrimination" jdbcType="DECIMAL" />
+  		<result column="test_times" property="testTimes" jdbcType="BIGINT" />
+  		<result column="answer_time" property="answerTime" jdbcType="BIGINT" />
+  		<result column="is_group" property="isGroup" jdbcType="CHAR" />
+  		<result column="parent_content" property="parentContent" jdbcType="VARCHAR" />
+  		<result column="parent_id" property="parentId" jdbcType="BIGINT" />
+  		<result column="belong_to_lib" property="belongToLib" jdbcType="CHAR" />
+  		<result column="is_objective" property="isObjective" jdbcType="CHAR" />
+  		<result column="remark" property="remark" jdbcType="VARCHAR" />
+  		<result column="is_public" property="isPublic" jdbcType="CHAR" />
+  		<result column="f_url" property="fUrl" jdbcType="VARCHAR" />
+  		<result column="subject_id" property="subjectId" jdbcType="BIGINT" />
+  		<result column="grade_id" property="gradeId" jdbcType="BIGINT" />
+  		<result column="stage_id" property="stageId" jdbcType="BIGINT" />
+  		<result column="type_id" property="typeId" jdbcType="BIGINT" />
+  		<result column="check_time" property="checkTime" jdbcType="TIMESTAMP" />
+  		<result column="check_name" property="checkName" jdbcType="VARCHAR" />
+  		<result column="check_id" property="checkId" jdbcType="BIGINT" />
+  		<result column="create_id" property="createId" jdbcType="BIGINT" />
+  		<result column="options" property="options" jdbcType="VARCHAR" />
+  		<result column="estimate_value" property="estimateValue" jdbcType="DECIMAL" />
+  		
+  		
+  		
+  		<association property="qtv" column="type_id"  select="com.sjq.type.dao.QuestionTypeMapper.queryQuestionTypeById"></association>  
+		
+		<collection property="avs" column="id" javaType="ArrayList"
+				ofType="com.sjq.answer.vo.QuestionAnswerVo" select="com.sjq.answer.dao.QuestionAnswerMapper.queryQuestionAnswerByQuestionId"></collection>
+		 
+		<collection property="knowledgeNames" column="id" javaType="ArrayList"
+		ofType="java.lang.String" select="com.sjq.ware.dao.QuestionWareMapper.questionKnowledgeNamesByQuestionId"></collection>
+		
+		
+	</resultMap>
+	
+	
+	<sql id="Base_Column_List">
+  		id,
+  		create_name,
+  		create_time,
+  		mod_name,
+  		mod_time,
+  		delflag,
+  		question_content,
+  		difficulty,
+  		bloom_taxonomy,
+  		discrimination,
+  		test_times,
+  		answer_time,
+  		is_group,
+  		parent_content,
+  		parent_id,
+  		belong_to_lib,
+  		is_objective,
+  		remark,
+  		is_public,
+  		f_url,
+  		subject_id,
+  		grade_id,
+  		stage_id,
+  		type_id,
+  		check_time,
+  		check_name,
+  		check_id,
+  		create_id,
+  		options,
+  		estimate_value
+	</sql>
+	
+					
+					
+	<!-- 根据条件查询题库模块-题库中心count总数 -->
+	<select id="queryQuestionWareTotalCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(1) from
+		edu_question_ware where delflag='0'
+  	   <if test="id != '' and id != null">
+       		and id =  #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name =  #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time =  #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name =  #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time =  #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag =  #{delflag}
+       </if>
+  	   <if test="questionContent != '' and questionContent != null">
+       		and question_content =  #{questionContent}
+       </if>
+  	   <if test="bloomTaxonomy != '' and bloomTaxonomy != null">
+       		and bloom_taxonomy =  #{bloomTaxonomy}
+       </if>
+  	   <if test="discrimination != '' and discrimination != null">
+       		and discrimination =  #{discrimination}
+       </if>
+  	   <if test="testTimes != '' and testTimes != null">
+       		and test_times =  #{testTimes}
+       </if>
+  	   <if test="answerTime != '' and answerTime != null">
+       		and answer_time =  #{answerTime}
+       </if>
+  	   <if test="isGroup != '' and isGroup != null">
+       		and is_group =  #{isGroup}
+       </if>
+  	   <if test="parentContent != '' and parentContent != null">
+       		and parent_content =  #{parentContent}
+       </if>
+  	   <if test="parentId != '' and parentId != null">
+       		and parent_id =  #{parentId}
+       </if>
+  	   <if test="belongToLib != '' and belongToLib != null">
+       		and belong_to_lib =  #{belongToLib}
+       </if>
+  	   <if test="isObjective != '' and isObjective != null">
+       		and is_objective =  #{isObjective}
+       </if>
+  	   <if test="remark != '' and remark != null">
+       		and remark =  #{remark}
+       </if>
+  	   <if test="isPublic != '' and isPublic != null">
+       		and is_public =  #{isPublic}
+       </if>
+  	   <if test="fUrl != '' and fUrl != null">
+       		and f_url =  #{fUrl}
+       </if>
+  	   <if test="subjectId != '' and subjectId != null">
+       		and subject_id =  #{subjectId}
+       </if>
+  	   <if test="gradeId != '' and gradeId != null">
+       		and grade_id =  #{gradeId}
+       </if>
+  	   <if test="stageId != '' and stageId != null">
+       		and stage_id =  #{stageId}
+       </if>
+  	   <if test="typeId != '' and typeId != null">
+       		and type_id =  #{typeId}
+       </if>
+  	   <if test="checkTime != '' and checkTime != null">
+       		and check_time =  #{checkTime}
+       </if>
+  	   <if test="checkName != '' and checkName != null">
+       		and check_name =  #{checkName}
+       </if>
+  	   <if test="checkId != '' and checkId != null">
+       		and check_id =  #{checkId}
+       </if>
+  	   <if test="createId != '' and createId != null">
+       		and create_id =  #{createId}
+       </if>
+  	   <if test="options != '' and options != null">
+       		and options =  #{options}
+       </if>
+  	   <if test="checkStatus != '' and checkStatus != null">
+       		and check_status =  #{checkStatus}
+       </if>
+       <if test="ids != null">
+	       and id in 
+		   <foreach collection="ids" item="id" open="(" close=")" separator=",">
+		   #{id}
+		   </foreach>
+       </if>
+       
+       <if test="difficulty != null and difficulty == '0'.toString()">  
+     		and difficulty &lt;= 1 and difficulty > 0.7
+       </if>
+       <if test="difficulty != null and difficulty == '1'.toString()">  
+     		and difficulty &lt;= 0.7 and difficulty > 0.3
+       </if>
+      <if test="difficulty != null and difficulty == '2'.toString()">  
+     		and difficulty &lt;= 0.3 and difficulty > 0
+       </if>
+	   
+	</select>
+	
+	
+
+	<!-- 分页查询题库模块-题库中心 -->
+	<select id="queryQuestionWarePage" resultMap="BaseResultMap"  parameterType="java.util.Map">
+		select   
+	    <include refid="Base_Column_List" />
+		from
+		edu_question_ware where delflag='0'
+  	   <if test="id != '' and id != null">
+       		and id =  #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name =  #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time =  #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name =  #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time =  #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag =  #{delflag}
+       </if>
+  	   <if test="questionContent != '' and questionContent != null">
+       		and question_content =  #{questionContent}
+       </if>
+  	   <if test="bloomTaxonomy != '' and bloomTaxonomy != null">
+       		and bloom_taxonomy =  #{bloomTaxonomy}
+       </if>
+  	   <if test="discrimination != '' and discrimination != null">
+       		and discrimination =  #{discrimination}
+       </if>
+  	   <if test="testTimes != '' and testTimes != null">
+       		and test_times =  #{testTimes}
+       </if>
+  	   <if test="answerTime != '' and answerTime != null">
+       		and answer_time =  #{answerTime}
+       </if>
+  	   <if test="isGroup != '' and isGroup != null">
+       		and is_group =  #{isGroup}
+       </if>
+  	   <if test="parentContent != '' and parentContent != null">
+       		and parent_content =  #{parentContent}
+       </if>
+  	   <if test="parentId != '' and parentId != null">
+       		and parent_id =  #{parentId}
+       </if>
+  	   <if test="belongToLib != '' and belongToLib != null">
+       		and belong_to_lib =  #{belongToLib}
+       </if>
+  	   <if test="isObjective != '' and isObjective != null">
+       		and is_objective =  #{isObjective}
+       </if>
+  	   <if test="remark != '' and remark != null">
+       		and remark =  #{remark}
+       </if>
+  	   <if test="isPublic != '' and isPublic != null">
+       		and is_public =  #{isPublic}
+       </if>
+  	   <if test="fUrl != '' and fUrl != null">
+       		and f_url =  #{fUrl}
+       </if>
+  	   <if test="subjectId != '' and subjectId != null">
+       		and subject_id =  #{subjectId}
+       </if>
+  	   <if test="gradeId != '' and gradeId != null">
+       		and grade_id =  #{gradeId}
+       </if>
+  	   <if test="stageId != '' and stageId != null">
+       		and stage_id =  #{stageId}
+       </if>
+  	   <if test="typeId != '' and typeId != null">
+       		and type_id =  #{typeId}
+       </if>
+  	   <if test="checkTime != '' and checkTime != null">
+       		and check_time =  #{checkTime}
+       </if>
+  	   <if test="checkName != '' and checkName != null">
+       		and check_name =  #{checkName}
+       </if>
+  	   <if test="checkId != '' and checkId != null">
+       		and check_id =  #{checkId}
+       </if>
+  	   <if test="createId != '' and createId != null">
+       		and create_id =  #{createId}
+       </if>
+  	   <if test="options != '' and options != null">
+       		and options =  #{options}
+       </if>
+  	   <if test="checkStatus != '' and checkStatus != null">
+       		and check_status =  #{checkStatus}
+       </if>
+       
+       <if test="difficulty != null and difficulty == '0'.toString()">  
+     		and difficulty &lt;= 1 and difficulty > 0.7
+       </if>
+       <if test="difficulty != null and difficulty == '1'.toString()">  
+     		and difficulty &lt;= 0.7 and difficulty > 0.3
+       </if>
+      <if test="difficulty != null and difficulty == '2'.toString()">  
+     		and difficulty &lt;= 0.3 and difficulty > 0
+       </if>
+       
+       <if test="ids != null">
+	       and id in 
+		   <foreach collection="ids" item="id" open="(" close=")" separator=",">
+		   #{id}
+		   </foreach>
+       </if>
+       <if test="sort != null and sort == '0'.toString()">  
+     		order by test_times
+       </if>
+        <if test="sort != null and sort == '1'.toString()">  
+     		order by difficulty
+       </if>
+       
+       <if test="sort == null">
+       order by create_time desc
+	   </if>       
+  	   limit #{startRowNum},#{endRowNum}
+	</select>
+
+	
+	<!-- (增加)增加题库模块-题库中心信息 --> 
+	<insert id="insertQuestionWare" parameterType="com.sjq.ware.bean.QuestionWareBean"  useGeneratedKeys="true" keyProperty="id" >
+		insert into edu_question_ware
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	  	   <if test="id != '' and id != null">
+	       	id,
+	       </if>
+	  	   <if test="createName != '' and createName != null">
+	       	create_name,
+	       </if>
+	  	   <if test="createTime != '' and createTime != null">
+	       	create_time,
+	       </if>
+	  	   <if test="delflag != '' and delflag != null">
+	       	delflag,
+	       </if>
+	  	   <if test="questionContent != '' and questionContent != null">
+	       	question_content,
+	       </if>
+	  	   <if test="difficulty != '' and difficulty != null">
+	       	difficulty,
+	       </if>
+	  	   <if test="bloomTaxonomy != '' and bloomTaxonomy != null">
+	       	bloom_taxonomy,
+	       </if>
+	  	   <if test="discrimination != '' and discrimination != null">
+	       	discrimination,
+	       </if>
+	  	   <if test="testTimes != '' and testTimes != null">
+	       	test_times,
+	       </if>
+	  	   <if test="answerTime != '' and answerTime != null">
+	       	answer_time,
+	       </if>
+	  	   <if test="isGroup != '' and isGroup != null">
+	       	is_group,
+	       </if>
+	  	   <if test="parentContent != '' and parentContent != null">
+	       	parent_content,
+	       </if>
+	  	   <if test="parentId != '' and parentId != null">
+	       	parent_id,
+	       </if>
+	  	   <if test="belongToLib != '' and belongToLib != null">
+	       	belong_to_lib,
+	       </if>
+	  	   <if test="isObjective != '' and isObjective != null">
+	       	is_objective,
+	       </if>
+	  	   <if test="remark != '' and remark != null">
+	       	remark,
+	       </if>
+	  	   <if test="isPublic != '' and isPublic != null">
+	       	is_public,
+	       </if>
+	  	   <if test="fUrl != '' and fUrl != null">
+	       	f_url,
+	       </if>
+	  	   <if test="subjectId != '' and subjectId != null">
+	       	subject_id,
+	       </if>
+	  	   <if test="gradeId != '' and gradeId != null">
+	       	grade_id,
+	       </if>
+	  	   <if test="stageId != '' and stageId != null">
+	       	stage_id,
+	       </if>
+	  	   <if test="typeId != '' and typeId != null">
+	       	type_id,
+	       </if>
+	  	   <if test="checkTime != '' and checkTime != null">
+	       	check_time,
+	       </if>
+	  	   <if test="checkName != '' and checkName != null">
+	       	check_name,
+	       </if>
+	  	   <if test="checkId != '' and checkId != null">
+	       	check_id,
+	       </if>
+	  	   <if test="createId != '' and createId != null">
+	       	create_id,
+	       </if>
+	  	   <if test="options != '' and options != null">
+	       	options,
+	       </if>
+	  	   <if test="checkStatus != '' and checkStatus != null">
+	       	check_status,
+	       </if>
+	       <if test="estimateValue != '' and estimateValue != null">
+	       	estimate_value,
+	       </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	  	    <if test="id != '' and id != null">
+	       		#{id,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="createName != '' and createName != null">
+	       		#{createName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="createTime != '' and createTime != null">
+	       		#{createTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != '' and delflag != null">
+	       		#{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="questionContent != '' and questionContent != null">
+	       		#{questionContent,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="difficulty != '' and difficulty != null">
+	       		#{difficulty,jdbcType=DECIMAL},
+	        </if>
+	  	    <if test="bloomTaxonomy != '' and bloomTaxonomy != null">
+	       		#{bloomTaxonomy,jdbcType=CHAR},
+	        </if>
+	  	    <if test="discrimination != '' and discrimination != null">
+	       		#{discrimination,jdbcType=DECIMAL},
+	        </if>
+	  	    <if test="testTimes != '' and testTimes != null">
+	       		#{testTimes,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="answerTime != '' and answerTime != null">
+	       		#{answerTime,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="isGroup != '' and isGroup != null">
+	       		#{isGroup,jdbcType=CHAR},
+	        </if>
+	  	    <if test="parentContent != '' and parentContent != null">
+	       		#{parentContent,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="parentId != '' and parentId != null">
+	       		#{parentId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="belongToLib != '' and belongToLib != null">
+	       		#{belongToLib,jdbcType=CHAR},
+	        </if>
+	  	    <if test="isObjective != '' and isObjective != null">
+	       		#{isObjective,jdbcType=CHAR},
+	        </if>
+	  	    <if test="remark != '' and remark != null">
+	       		#{remark,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="isPublic != '' and isPublic != null">
+	       		#{isPublic,jdbcType=CHAR},
+	        </if>
+	  	    <if test="fUrl != '' and fUrl != null">
+	       		#{fUrl,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="subjectId != '' and subjectId != null">
+	       		#{subjectId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="gradeId != '' and gradeId != null">
+	       		#{gradeId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="stageId != '' and stageId != null">
+	       		#{stageId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="typeId != '' and typeId != null">
+	       		#{typeId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="checkTime != '' and checkTime != null">
+	       		#{checkTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="checkName != '' and checkName != null">
+	       		#{checkName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="checkId != '' and checkId != null">
+	       		#{checkId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="createId != '' and createId != null">
+	       		#{createId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="options != '' and options != null">
+	       		#{options,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="checkStatus != '' and checkStatus != null">
+	       		#{checkStatus,jdbcType=CHAR},
+	        </if>
+	        <if test="estimateValue != '' and estimateValue != null">
+	       		#{estimateValue,jdbcType=DECIMAL},
+	       </if>
+		</trim>
+	</insert>
+	
+	
+	
+	<!-- (删除)根据ID删除题库模块-题库中心信息 --> 
+	<delete id="deleteQuestionWareById" parameterType="java.lang.Long">
+		update edu_question_ware 
+		<set> 
+	  	    <if test="modName != '' and modName != null">
+	       	mod_name =  #{modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="modTime != '' and modTime != null">
+	       	mod_time =  #{modTime,jdbcType=TIMESTAMP},
+	        </if>
+		delflag = '1'
+		</set>
+		where  id = #{id,jdbcType=BIGINT} 
+	</delete>
+	
+
+	<!-- 根据ID查询题库模块-题库中心信息 -->
+	<select id="queryQuestionWareById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_question_ware
+       where delflag='0' and id =#{id,jdbcType=BIGINT}
+    </select>
+    
+    
+    	<!-- 根据条件查询所有题库模块-题库中心信息 -->
+	<select id="queryQuestionWareBySearch" resultMap="BaseResultMap"  parameterType="java.util.Map">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_question_ware
+       where 1=1 
+  	   <if test="id != '' and id != null">
+       		and id = #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name = #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time = #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name = #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time = #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag = #{delflag}
+       </if>
+  	   <if test="questionContent != '' and questionContent != null">
+       		and question_content = #{questionContent}
+       </if>
+  	   <if test="difficulty != '' and difficulty != null">
+       		and difficulty = #{difficulty}
+       </if>
+  	   <if test="bloomTaxonomy != '' and bloomTaxonomy != null">
+       		and bloom_taxonomy = #{bloomTaxonomy}
+       </if>
+  	   <if test="discrimination != '' and discrimination != null">
+       		and discrimination = #{discrimination}
+       </if>
+  	   <if test="testTimes != '' and testTimes != null">
+       		and test_times = #{testTimes}
+       </if>
+  	   <if test="answerTime != '' and answerTime != null">
+       		and answer_time = #{answerTime}
+       </if>
+  	   <if test="isGroup != '' and isGroup != null">
+       		and is_group = #{isGroup}
+       </if>
+  	   <if test="parentContent != '' and parentContent != null">
+       		and parent_content = #{parentContent}
+       </if>
+  	   <if test="parentId != '' and parentId != null">
+       		and parent_id = #{parentId}
+       </if>
+  	   <if test="belongToLib != '' and belongToLib != null">
+       		and belong_to_lib = #{belongToLib}
+       </if>
+  	   <if test="isObjective != '' and isObjective != null">
+       		and is_objective = #{isObjective}
+       </if>
+  	   <if test="remark != '' and remark != null">
+       		and remark = #{remark}
+       </if>
+  	   <if test="isPublic != '' and isPublic != null">
+       		and is_public = #{isPublic}
+       </if>
+  	   <if test="fUrl != '' and fUrl != null">
+       		and f_url = #{fUrl}
+       </if>
+  	   <if test="subjectId != '' and subjectId != null">
+       		and subject_id = #{subjectId}
+       </if>
+  	   <if test="gradeId != '' and gradeId != null">
+       		and grade_id = #{gradeId}
+       </if>
+  	   <if test="stageId != '' and stageId != null">
+       		and stage_id = #{stageId}
+       </if>
+  	   <if test="typeId != '' and typeId != null">
+       		and type_id = #{typeId}
+       </if>
+  	   <if test="checkTime != '' and checkTime != null">
+       		and check_time = #{checkTime}
+       </if>
+  	   <if test="checkName != '' and checkName != null">
+       		and check_name = #{checkName}
+       </if>
+  	   <if test="checkId != '' and checkId != null">
+       		and check_id = #{checkId}
+       </if>
+  	   <if test="createId != '' and createId != null">
+       		and create_id = #{createId}
+       </if>
+  	   <if test="options != '' and options != null">
+       		and options = #{options}
+       </if>
+  	   <if test="checkStatus != '' and checkStatus != null">
+       		and check_status = #{checkStatus}
+       </if>
+	</select>
+	
+	
+	<select id="queryQuestionIdsBySearch" resultType="java.util.Map"  parameterType="java.util.Map">
+	   select id
+       from edu_question_ware
+       where 1=1 
+  	   <if test="subjectId != null">
+       		and subject_id = #{subjectId}
+       </if>
+  	   <if test="gradeId != null">
+       		and grade_id = #{gradeId}
+       </if>
+  	   <if test="stageId != null">
+       		and stage_id = #{stageId}
+       </if>
+  	   <if test="typeId != null">
+       		and type_id = #{typeId}
+       </if>
+       <if test="checkStatus != null">
+       		and check_status = #{checkStatus}
+       </if>
+	</select>
+	
+					
+	<!-- (更新)根据ID更新所有题库模块-题库中心信息 -->
+	<update id="updateQuestionWareById" parameterType="com.sjq.ware.bean.QuestionWareBean" >
+		update edu_question_ware
+		<set>
+	  	    <if test="modName != '' and modName != null">
+	       	mod_name =  #{modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="modTime != '' and modTime != null">
+	       	mod_time =  #{modTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != '' and delflag != null">
+	       	delflag =  #{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="questionContent != '' and questionContent != null">
+	       	question_content =  #{questionContent,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="difficulty != '' and difficulty != null">
+	       	difficulty =  #{difficulty,jdbcType=DECIMAL},
+	        </if>
+	  	    <if test="bloomTaxonomy != '' and bloomTaxonomy != null">
+	       	bloom_taxonomy =  #{bloomTaxonomy,jdbcType=CHAR},
+	        </if>
+	  	    <if test="discrimination != '' and discrimination != null">
+	       	discrimination =  #{discrimination,jdbcType=DECIMAL},
+	        </if>
+	  	    <if test="testTimes != '' and testTimes != null">
+	       	test_times =  #{testTimes,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="answerTime != '' and answerTime != null">
+	       	answer_time =  #{answerTime,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="isGroup != '' and isGroup != null">
+	       	is_group =  #{isGroup,jdbcType=CHAR},
+	        </if>
+	  	    <if test="parentContent != '' and parentContent != null">
+	       	parent_content =  #{parentContent,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="parentId != '' and parentId != null">
+	       	parent_id =  #{parentId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="belongToLib != '' and belongToLib != null">
+	       	belong_to_lib =  #{belongToLib,jdbcType=CHAR},
+	        </if>
+	  	    <if test="isObjective != '' and isObjective != null">
+	       	is_objective =  #{isObjective,jdbcType=CHAR},
+	        </if>
+	  	    <if test="remark != '' and remark != null">
+	       	remark =  #{remark,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="isPublic != '' and isPublic != null">
+	       	is_public =  #{isPublic,jdbcType=CHAR},
+	        </if>
+	  	    <if test="fUrl != '' and fUrl != null">
+	       	f_url =  #{fUrl,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="subjectId != '' and subjectId != null">
+	       	subject_id =  #{subjectId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="gradeId != '' and gradeId != null">
+	       	grade_id =  #{gradeId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="stageId != '' and stageId != null">
+	       	stage_id =  #{stageId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="typeId != '' and typeId != null">
+	       	type_id =  #{typeId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="checkTime != '' and checkTime != null">
+	       	check_time =  #{checkTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="checkName != '' and checkName != null">
+	       	check_name =  #{checkName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="checkId != '' and checkId != null">
+	       	check_id =  #{checkId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="createId != '' and createId != null">
+	       	create_id =  #{createId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="options != '' and options != null">
+	       	options =  #{options,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="checkStatus != '' and checkStatus != null">
+	       	check_status =  #{checkStatus,jdbcType=CHAR},
+	        </if>
+		</set>
+		where 1 = 1 and id = #{id,jdbcType=BIGINT} 
+	</update>
+	
+	<select id="questionKnowledgeNamesByQuestionId"  parameterType="java.lang.Long" resultType="java.lang.String">
+		SELECT c.name FROM edu_question_ware a LEFT JOIN edu_base_questionrelated b ON a.id = b.question_id AND a.id = #{id}
+		LEFT JOIN edu_base_knowledge c ON b.related_id  = c.id AND b.related_type = '2' and b.delflag='0'
+		WHERE c.name IS NOT NULL  
+	</select>
+	
+	<!-- (更新)根据条件更新所有题库模块-题库中心信息 -->
+	<update id="updateQuestionWareBySearch"  parameterType="java.util.Map" >
+		update edu_question_ware
+		<set>
+	  	    <if test="bean.modName != null">
+	       	mod_name =  #{bean.modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="bean.modTime != null">
+	       	mod_time =  #{bean.modTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="bean.delflag != null">
+	       	delflag =  #{bean.delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="bean.questionContent != null">
+	       	question_content =  #{bean.questionContent,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="bean.difficulty != null">
+	       	difficulty =  #{bean.difficulty,jdbcType=DECIMAL},
+	        </if>
+	  	    <if test="bean.bloomTaxonomy != null">
+	       	bloom_taxonomy =  #{bean.bloomTaxonomy,jdbcType=CHAR},
+	        </if>
+	  	    <if test="bean.discrimination != null">
+	       	discrimination =  #{bean.discrimination,jdbcType=DECIMAL},
+	        </if>
+	  	    <if test="bean.testTimes != null">
+	       	test_times =  #{bean.testTimes,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="bean.answerTime != null">
+	       	answer_time =  #{bean.answerTime,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="bean.isGroup != null">
+	       	is_group =  #{bean.isGroup,jdbcType=CHAR},
+	        </if>
+	  	    <if test="bean.parentContent != null">
+	       	parent_content =  #{bean.parentContent,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="bean.parentId != null">
+	       	parent_id =  #{bean.parentId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="bean.belongToLib != null">
+	       	belong_to_lib =  #{bean.belongToLib,jdbcType=CHAR},
+	        </if>
+	  	    <if test="bean.isObjective != null">
+	       	is_objective =  #{bean.isObjective,jdbcType=CHAR},
+	        </if>
+	  	    <if test="bean.remark != null">
+	       	remark =  #{bean.remark,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="bean.isPublic != null">
+	       	is_public =  #{bean.isPublic,jdbcType=CHAR},
+	        </if>
+	  	    <if test="bean.fUrl != null">
+	       	f_url =  #{bean.fUrl,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="bean.subjectId != null">
+	       	subject_id =  #{bean.subjectId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="bean.gradeId != null">
+	       	grade_id =  #{bean.gradeId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="bean.stageId != null">
+	       	stage_id =  #{bean.stageId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="bean.typeId != null">
+	       	type_id =  #{bean.typeId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="bean.checkTime != null">
+	       	check_time =  #{bean.checkTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="bean.checkName != null">
+	       	check_name =  #{bean.checkName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="bean.checkId != null">
+	       	check_id =  #{bean.checkId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="bean.createId != null">
+	       	create_id =  #{bean.createId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="bean.options != null">
+	       	option =  #{bean.options,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="bean.checkStatus != null">
+	       	check_status =  #{bean.checkStatus,jdbcType=CHAR},
+	        </if>
+		</set>
+		where 1=1
+  	   <if test="search.id != null">
+       		and id = #{search.id}
+       </if>
+  	   <if test="search.questionContent != null">
+       		and question_content = #{search.questionContent}
+       </if>
+  	   <if test="search.difficulty != null">
+       		and difficulty = #{search.difficulty}
+       </if>
+  	   <if test="search.belongToLib != null">
+       		and belong_to_lib = #{search.belongToLib}
+       </if>
+  	   <if test="search.subjectId != null">
+       		and subject_id = #{search.subjectId}
+       </if>
+  	   <if test="search.gradeId != null">
+       		and grade_id = #{search.gradeId}
+       </if>
+  	   <if test="search.stageId != null">
+       		and stage_id = #{search.stageId}
+       </if>
+  	   <if test="search.typeId != null">
+       		and type_id = #{search.typeId}
+       </if>
+  	   <if test="search.checkId != null">
+       		and check_id = #{search.checkId}
+       </if>
+  	   <if test="search.createId != null">
+       		and create_id = #{search.createId}
+       </if>
+  	   <if test="search.checkStatus != null">
+       		and check_status = #{search.checkStatus}
+       </if>
+	</update>
+	
+	
+	<!-- (增加)增加题目知识点目录信息信息 --> 
+	<insert id="insertQuestionRelated" parameterType="com.sjq.ware.bean.QuestionRelatedBean">
+		insert into edu_base_questionRelated
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	  	   <if test="id != '' and id != null">
+	       	id,
+	       </if>
+	  	   <if test="createName != '' and createName != null">
+	       	create_name,
+	       </if>
+	  	   <if test="createTime != '' and createTime != null">
+	       	create_time,
+	       </if>
+	  	   <if test="delflag != '' and delflag != null">
+	       	delflag,
+	       </if>
+	  	   <if test="questionId != '' and questionId != null">
+	       	question_id,
+	       </if>
+	  	   <if test="relatedId != '' and relatedId != null">
+	       	related_id,
+	       </if>
+	  	   <if test="relatedType != '' and relatedType != null">
+	       	related_type,
+	       </if>
+	  	   <if test="sort != '' and sort != null">
+	       	sort,
+	       </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	  	    <if test="id != '' and id != null">
+	       		#{id,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="createName != '' and createName != null">
+	       		#{createName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="createTime != '' and createTime != null">
+	       		#{createTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != '' and delflag != null">
+	       		#{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="questionId != '' and questionId != null">
+	       		#{questionId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="relatedId != '' and relatedId != null">
+	       		#{relatedId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="relatedType != '' and relatedType != null">
+	       		#{relatedType,jdbcType=CHAR},
+	        </if>
+	  	    <if test="sort != '' and sort != null">
+	       		#{sort,jdbcType=BIGINT},
+	        </if>
+		</trim>
+	</insert>
+	
+	<update id="updateQuestionWareByIds" parameterType="java.util.Map">
+		update edu_question_ware
+		<set>
+		   test_times = test_times + 1
+		</set>
+		where id in
+		<foreach collection="wareIds" item="wareIds"
+            index="index" open="(" close=")" separator=",">
+            #{wareIds}
+        </foreach>
+	</update>
+	
+	<update id="updateQuestionRelatedByQuestionId"  parameterType="java.lang.Long">
+		update edu_base_questionRelated set delflag = '1' where question_id = #{questionId}
+	</update>
+	   
+</mapper>

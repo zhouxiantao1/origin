@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sjq.mute.dao.InterlocutionMuteMapper">
+	<resultMap id="BaseResultMap" type="com.sjq.mute.vo.InterlocutionMuteVo">
+  		<result column="id" property="id" jdbcType="BIGINT" />
+  		<result column="create_name" property="createName" jdbcType="VARCHAR" />
+  		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  		<result column="mod_name" property="modName" jdbcType="VARCHAR" />
+  		<result column="mod_time" property="modTime" jdbcType="TIMESTAMP" />
+  		<result column="delflag" property="delflag" jdbcType="CHAR" />
+  		<result column="user_id" property="userId" jdbcType="BIGINT" />
+  		<result column="reason" property="reason" jdbcType="VARCHAR" />
+  		<result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+  		<result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+  		id,
+  		create_name,
+  		create_time,
+  		mod_name,
+  		mod_time,
+  		delflag,
+  		user_id,
+  		reason,
+  		start_time,
+  		end_time
+	</sql>
+	
+	<!-- 查询所有的禁言信息信息 -->
+	<select id="queryAllInterlocutionMute" resultMap="BaseResultMap" >
+ 	   select 
+       <include refid="Base_Column_List" />
+       from edu_interlocution_mute
+       where delflag='0'
+    </select>
+	
+	
+	<!-- 根据ID查询禁言信息信息 -->
+	<select id="queryInterlocutionMuteById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_interlocution_mute
+       where delflag='0' and id =#{id,jdbcType=BIGINT}
+    </select>
+    
+					
+	<!-- 根据条件查询所有禁言信息信息 -->
+	<select id="queryInterlocutionMuteBySearch" resultMap="BaseResultMap"  parameterType="java.util.Map">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_interlocution_mute
+       where 1=1 
+  	   <if test="id != '' and id != null">
+       		and id = #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name = #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time = #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name = #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time = #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag = #{delflag}
+       </if>
+  	   <if test="userId != '' and userId != null">
+       		and user_id = #{userId}
+       </if>
+  	   <if test="reason != '' and reason != null">
+       		and reason = #{reason}
+       </if>
+  	   <if test="startTime != '' and startTime != null">
+       		and start_time = #{startTime}
+       </if>
+  	   <if test="endTime != '' and endTime != null">
+       		and end_time = #{endTime}
+       </if>
+	</select>
+	
+					
+	<!-- 根据条件查询禁言信息count总数 -->
+	<select id="queryInterlocutionMuteTotalCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(1) from
+		edu_interlocution_mute where delflag='0'
+  	   <if test="id != '' and id != null">
+       		and id =  #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name =  #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time =  #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name =  #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time =  #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag =  #{delflag}
+       </if>
+  	   <if test="userId != '' and userId != null">
+       		and user_id =  #{userId}
+       </if>
+  	   <if test="reason != '' and reason != null">
+       		and reason =  #{reason}
+       </if>
+  	   <if test="startTime != '' and startTime != null">
+       		and start_time =  #{startTime}
+       </if>
+  	   <if test="endTime != '' and endTime != null">
+       		and end_time =  #{endTime}
+       </if>
+	</select>
+	
+
+					
+	<!-- 分页查询禁言信息 -->
+	<select id="queryInterlocutionMutePage" resultMap="BaseResultMap"  parameterType="java.util.Map">
+		select   
+	    <include refid="Base_Column_List" />
+		from
+		edu_interlocution_mute where delflag='0'
+  	   <if test="id != '' and id != null">
+       		and id =  #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name =  #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time =  #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name =  #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time =  #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag =  #{delflag}
+       </if>
+  	   <if test="userId != '' and userId != null">
+       		and user_id =  #{userId}
+       </if>
+  	   <if test="reason != '' and reason != null">
+       		and reason =  #{reason}
+       </if>
+  	   <if test="startTime != '' and startTime != null">
+       		and start_time =  #{startTime}
+       </if>
+  	   <if test="endTime != '' and endTime != null">
+       		and end_time =  #{endTime}
+       </if>
+  	   limit #{startRowNum},#{endRowNum}
+	</select>
+
+					
+	<!-- (更新)根据条件更新所有禁言信息信息 -->
+	<update id="updateInterlocutionMuteBySearch"  parameterType="java.util.Map" >
+		update edu_interlocution_mute
+		<set>
+	  	    <if test="modName != '' and modName != null">
+	       	mod_name =  #{modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="modTime != '' and modTime != null">
+	       	mod_time =  #{modTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != '' and delflag != null">
+	       	delflag =  #{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="userId != '' and userId != null">
+	       	user_id =  #{userId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="reason != '' and reason != null">
+	       	reason =  #{reason,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="startTime != '' and startTime != null">
+	       	start_time =  #{startTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="endTime != '' and endTime != null">
+	       	end_time =  #{endTime,jdbcType=TIMESTAMP},
+	        </if>
+		</set>
+		where 
+  	   <if test="id != '' and id != null">
+       		and id = #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name = #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time = #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name = #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time = #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag = #{delflag}
+       </if>
+  	   <if test="userId != '' and userId != null">
+       		and user_id = #{userId}
+       </if>
+  	   <if test="reason != '' and reason != null">
+       		and reason = #{reason}
+       </if>
+  	   <if test="startTime != '' and startTime != null">
+       		and start_time = #{startTime}
+       </if>
+  	   <if test="endTime != '' and endTime != null">
+       		and end_time = #{endTime}
+       </if>
+	</update>
+	
+					
+	<!-- (增加)增加禁言信息信息 --> 
+	<insert id="insertInterlocutionMute" parameterType="com.sjq.mute.bean.InterlocutionMuteBean">
+		insert into edu_interlocution_mute
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	  	   <if test="id != '' and id != null">
+	       	id,
+	       </if>
+	  	   <if test="createName != '' and createName != null">
+	       	create_name,
+	       </if>
+	  	   <if test="createTime != '' and createTime != null">
+	       	create_time,
+	       </if>
+	  	   <if test="delflag != '' and delflag != null">
+	       	delflag,
+	       </if>
+	  	   <if test="userId != '' and userId != null">
+	       	user_id,
+	       </if>
+	  	   <if test="reason != '' and reason != null">
+	       	reason,
+	       </if>
+	  	   <if test="startTime != '' and startTime != null">
+	       	start_time,
+	       </if>
+	  	   <if test="endTime != '' and endTime != null">
+	       	end_time,
+	       </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	  	    <if test="id != '' and id != null">
+	       		#{id,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="createName != '' and createName != null">
+	       		#{createName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="createTime != '' and createTime != null">
+	       		#{createTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != '' and delflag != null">
+	       		#{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="userId != '' and userId != null">
+	       		#{userId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="reason != '' and reason != null">
+	       		#{reason,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="startTime != '' and startTime != null">
+	       		#{startTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="endTime != '' and endTime != null">
+	       		#{endTime,jdbcType=TIMESTAMP},
+	        </if>
+		</trim>
+	</insert>
+    
+	   
+</mapper>

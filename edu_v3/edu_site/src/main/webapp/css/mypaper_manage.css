@@ -1,0 +1,61 @@
+
+.paper_list_contain{
+	border:1px solid #e5e5e5;
+	padding:25px 22px;
+	margin:30px;
+	color:#656766;
+	font-size: 12px;
+}
+
+.list_one h3{
+	font-size: 16px;
+	color:#333335;
+}
+.some_detail{
+	padding:28px 0 6px 0;
+}
+.some_detail p{
+	float:left;
+	margin-right:20px;
+}
+.some_detail .right{
+	color:#2fa5fc;
+}
+.some_detail .right span{
+	margin-left: 20px;
+}
+
+.klass_sub{
+	margin:40px 2px 20px 13px;
+}
+.klass_sub span{
+	display: inline-block;
+	line-height: 30px;
+	margin-right: 5px;
+}
+.klass_sub select{
+	vertical-align: middle;
+	padding:5px 0 5px 3px;
+	width:85px;
+}
+.klass_sub input{
+	width:200px;
+	padding:5px 2px;
+	vertical-align: middle;
+}
+
+.work_name{
+	margin-left: 25px;
+}
+//.term,.test_type,.subject{
+//	margin-left: 20px;
+//}
+
+.check{
+	width:90px;
+	height:32px;
+	line-height: 32px;
+	color:#fff;
+	background:#00ada7;
+	margin-left:20px;
+}

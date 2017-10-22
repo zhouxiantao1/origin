@@ -1,0 +1,60 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.sjq.edu</groupId>
+  <artifactId>edu_v3</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <name>edu_v3</name>
+  <description>Created:ZeJie Zheng@20170307</description>
+  <modules>
+  	<!-- 系统模块 -->
+  	<module>edu_system</module>
+  	<!-- 核心模块 -->
+  	<module>edu_core</module>
+  	<!-- 公共模块 -->
+  	<module>edu_common</module>
+  	<!-- 数据分析模块 -->
+  	<module>edu_bi</module>
+  	<!-- 基础模块 -->
+  	<module>edu_base</module>
+  	<!-- 题库模块 -->
+  	<module>edu_question</module>
+  	<!-- 考试模块 -->
+  	<module>edu_exam</module>
+  	<!-- 答疑中心 -->
+  	<module>edu_interlocution</module>
+  	<!-- （阳光）评论模块 -->
+  	<module>edu_evaluate</module>
+  	<!-- 学业档案 -->
+  	<module>edu_archives</module>
+  	<!-- 内容管理中心 -->
+  	<module>edu_cms</module>
+  	<!-- 开放平台 -->
+  	<module>edu_open</module>
+  	<!-- 系统后台 -->
+  	<module>edu_boss</module>
+  	<!-- 网站前台 -->
+  	<module>edu_site</module>
+  	<!-- 作业模块-->
+  	<module>edu_work</module>
+  	<!-- 试卷模块 -->
+  	<module>edu_papers</module>
+  </modules>
+  
+  
+   <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.2</version>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    
+</project>

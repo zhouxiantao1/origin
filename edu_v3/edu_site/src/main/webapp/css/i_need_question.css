@@ -1,0 +1,78 @@
+
+.hr{
+	margin:18px 20px;
+	border-bottom:1px solid #e5e5e5;
+}
+.hr h3{
+	font-size: 14px;
+	color:#0075b1;
+	width:100px;
+	border-bottom: 2px solid #0075b1;
+	margin-bottom: -1px;
+}
+
+.subject{
+	// background:#f3f3f3;
+	border: 1px solid #d9d9d9;
+	padding:10px 0;
+	margin:18px 20px;
+}
+.grade{
+	padding:12px 0;
+	// border-bottom:1px dashed #e5e5e5;
+	font-size: 14px;
+}
+.subject span{
+	display: inline-block;
+    width: 82px;
+    text-align: right;
+    font-weight: 900;
+    margin-right: 10px;
+}
+.subject li{
+	float:left;
+	padding:5px 10px;
+	color:#686868;
+	cursor:pointer;
+}
+.subject li.active{
+	background:#e4393c;
+	color:#fff;
+	font-weight: 800;
+}
+.subject_choice{
+	padding:12px 0;
+}
+
+.shuru_question,.set_question{
+	margin:18px 20px;
+}
+/* .shuru_question span{
+	margin-right: 10px;
+	line-height: 42px;
+} */
+.shuru_question input{
+	width: 1158px;
+	padding:10px 0;
+	text-indent: 5px;
+	border:1px solid #d9d9d9;
+}
+
+.set_question span{
+	display: inline-block;
+	margin-bottom: 6px;
+}
+
+.operation{
+	margin-top: 100px;
+	text-align: center;
+}
+.operation button{
+	display: inline-block;
+	margin-right: 20px;
+	background:#0075b1;
+	width:100px;
+	height:  32px;
+	color:#fff;
+	cursor: pointer;
+}

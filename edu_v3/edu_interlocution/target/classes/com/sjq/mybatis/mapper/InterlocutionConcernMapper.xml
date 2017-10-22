@@ -1,0 +1,456 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sjq.concern.dao.InterlocutionConcernMapper">
+	<resultMap id="BaseResultMap" type="com.sjq.concern.vo.InterlocutionConcernVo">
+  		<result column="id" property="id" jdbcType="BIGINT" />
+  		<result column="create_name" property="createName" jdbcType="VARCHAR" />
+  		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  		<result column="mod_name" property="modName" jdbcType="VARCHAR" />
+  		<result column="mod_time" property="modTime" jdbcType="TIMESTAMP" />
+  		<result column="delflag" property="delflag" jdbcType="CHAR" />
+  		<result column="ask_id" property="askId" jdbcType="BIGINT" />
+  		<result column="answerAsk_id" property="answerAskId" jdbcType="BIGINT" />
+  		<result column="user_id" property="userId" jdbcType="BIGINT" />
+  		<result column="report_id" property="reportId" jdbcType="BIGINT" />
+  		<result column="type" property="type" jdbcType="CHAR" />
+  		
+  		<association property="interlocutionAskVo" column="ask_id"
+			select="com.sjq.ask.dao.InterlocutionAskMapper.queryInterlocutionAskById"></association>
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+  		id,
+  		create_name,
+  		create_time,
+  		mod_name,
+  		mod_time,
+  		delflag,
+  		ask_id,
+  		answerAsk_id,
+  		user_id,
+  		report_id,
+  		type
+	</sql>
+	
+	<sql id="Base_Column_List_a">
+  		a.id,
+  		a.create_name,
+  		a.create_time,
+  		a.mod_name,
+  		a.mod_time,
+  		a.delflag,
+  		a.ask_id,
+  		a.answerAsk_id,
+  		a.user_id,
+  		a.report_id,
+  		a.type
+	</sql>
+	
+	<!-- 查询所有的关注信息信息 -->
+	<select id="queryAllInterlocutionConcern" resultMap="BaseResultMap" >
+ 	   select 
+       <include refid="Base_Column_List" />
+       from edu_interlocution_concern
+       where delflag='0'
+    </select>
+	
+	
+	<!-- 根据ID查询关注信息信息 -->
+	<select id="queryInterlocutionConcernById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_interlocution_concern
+       where delflag='0' and id =#{id,jdbcType=BIGINT}
+    </select>
+    
+					
+	<!-- 根据条件查询所有关注信息信息 -->
+	<select id="queryInterlocutionConcernBySearch" resultMap="BaseResultMap"  parameterType="java.util.Map">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_interlocution_concern
+       where 1=1 
+  	   <if test="id != '' and id != null">
+       		and id = #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name = #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time = #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name = #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time = #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag = #{delflag}
+       </if>
+  	   <if test="askId != '' and askId != null">
+       		and ask_id = #{askId}
+       </if>
+  	   <if test="answerAskId != '' and answerAskId != null">
+       		and answerAsk_id = #{answerAskId}
+       </if>
+  	   <if test="userId != '' and userId != null">
+       		and user_id = #{userId}
+       </if>
+  	   <if test="reportId != '' and reportId != null">
+       		and report_id = #{reportId}
+       </if>
+  	   <if test="type != '' and type != null">
+       		and type = #{type}
+       </if>
+	</select>
+	
+					
+	<!-- 根据条件查询关注信息count总数 -->
+	<select id="queryInterlocutionConcernTotalCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(1) from
+		edu_interlocution_concern a,edu_interlocution_ask b where a.delflag='0' and b.delflag='0' and a.ask_id = b.id
+  	   <if test="id != '' and id != null">
+       		and a.id =  #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and a.create_name =  #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and a.create_time =  #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and a.mod_name =  #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and a.mod_time =  #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and a.delflag =  #{delflag}
+       </if>
+  	   <if test="askId != '' and askId != null">
+       		and a.ask_id =  #{askId}
+       </if>
+  	   <if test="answerAskId != '' and answerAskId != null">
+       		and a.answerAsk_id =  #{answerAskId}
+       </if>
+  	   <if test="userId != '' and userId != null">
+       		and a.user_id =  #{userId}
+       </if>
+  	   <if test="reportId != '' and reportId != null">
+       		and a.report_id =  #{reportId}
+       </if>
+  	   <if test="type != '' and type != null">
+       		and a.type =  #{type}
+       </if>
+        <if test="subjectId != null">
+       		and b.subject_id = #{subjectId}
+       </if>
+  	   <if test="gradeId != null">
+       		and b.grade_id = #{gradeId}
+       </if>
+	</select>
+	
+	<!-- 根据条件查询答题信息count总数 -->
+	<select id="queryInterlocutionAnswerCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(1) from
+		edu_interlocution_concern a,
+		<if test="askId != '' and askId != null">
+			edu_interlocution_ask b 
+		</if>
+		<if test="answerAskId != '' and answerAskId != null">
+			edu_interlocution_answerask b 
+		</if>
+		where a.delflag='0' 
+		<if test="askId != '' and askId != null">
+			and b.delflag='0' and a.ask_id = b.id
+		</if>
+		<if test="answerAskId != '' and answerAskId != null">
+			and b.delflag='0' and a.answerAsk_id = b.id 
+		</if>
+  	   <if test="id != '' and id != null">
+       		and a.id =  #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and a.create_name =  #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and a.create_time =  #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and a.mod_name =  #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and a.mod_time =  #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and a.delflag =  #{delflag}
+       </if>
+  	   <if test="askId != '' and askId != null">
+       		and a.ask_id =  #{askId}
+       </if>
+  	   <if test="answerAskId != '' and answerAskId != null">
+       		and a.answerAsk_id =  #{answerAskId}
+       </if>
+  	   <if test="userId != '' and userId != null">
+       		and a.user_id =  #{userId}
+       </if>
+  	   <if test="reportId != '' and reportId != null">
+       		and a.report_id =  #{reportId}
+       </if>
+  	   <if test="type != '' and type != null">
+       		and a.type =  #{type}
+       </if>
+        <if test="subjectId != null">
+       		and b.subject_id = #{subjectId}
+       </if>
+  	   <if test="gradeId != null">
+       		and b.grade_id = #{gradeId}
+       </if>
+	</select>
+	
+
+					
+	<!-- 分页查询关注信息 -->
+	<select id="queryInterlocutionConcernPage" resultMap="BaseResultMap"  parameterType="java.util.Map">
+		select   
+	    <include refid="Base_Column_List_a" />
+		from
+		edu_interlocution_concern a,edu_interlocution_ask b where a.delflag='0' and b.delflag='0' and a.ask_id = b.id
+  	   <if test="id != '' and id != null">
+       		and a.id =  #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and a.create_name =  #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and a.create_time =  #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and a.mod_name =  #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and a.mod_time =  #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and a.delflag =  #{delflag}
+       </if>
+  	   <if test="askId != '' and askId != null">
+       		and a.ask_id =  #{askId}
+       </if>
+  	   <if test="answerAskId != '' and answerAskId != null">
+       		and a.answerAsk_id =  #{answerAskId}
+       </if>
+  	   <if test="userId != '' and userId != null">
+       		and a.user_id =  #{userId}
+       </if>
+  	   <if test="reportId != '' and reportId != null">
+       		and a.report_id =  #{reportId}
+       </if>
+  	   <if test="type != '' and type != null">
+       		and a.type =  #{type}
+       </if>
+        <if test="subjectId != null">
+       		and b.subject_id = #{subjectId}
+       </if>
+  	   <if test="gradeId != null">
+       		and b.grade_id = #{gradeId}
+       </if>
+  	   limit #{startRowNum},#{endRowNum}
+	</select>
+
+					
+	<!-- (更新)根据条件更新所有关注信息信息 -->
+	<update id="updateInterlocutionConcernBySearch"  parameterType="java.util.Map" >
+		update edu_interlocution_concern
+		<set>
+	  	    <if test="modName != '' and modName != null">
+	       	mod_name =  #{modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="modTime != '' and modTime != null">
+	       	mod_time =  #{modTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != '' and delflag != null">
+	       	delflag =  #{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="askId != '' and askId != null">
+	       	ask_id =  #{askId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="answerAskId != '' and answerAskId != null">
+	       	answerAsk_id =  #{answerAskId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="userId != '' and userId != null">
+	       	user_id =  #{userId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="reportId != '' and reportId != null">
+	       	report_id =  #{reportId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="type != '' and type != null">
+	       	type =  #{type,jdbcType=CHAR},
+	        </if>
+		</set>
+		where 
+  	   <if test="id != '' and id != null">
+       		and id = #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name = #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time = #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name = #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time = #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag = #{delflag}
+       </if>
+  	   <if test="askId != '' and askId != null">
+       		and ask_id = #{askId}
+       </if>
+  	   <if test="answerAskId != '' and answerAskId != null">
+       		and answerAsk_id = #{answerAskId}
+       </if>
+  	   <if test="userId != '' and userId != null">
+       		and user_id = #{userId}
+       </if>
+  	   <if test="reportId != '' and reportId != null">
+       		and report_id = #{reportId}
+       </if>
+  	   <if test="type != '' and type != null">
+       		and type = #{type}
+       </if>
+	</update>
+	
+					
+	<!-- (增加)增加关注信息信息 --> 
+	<insert id="insertInterlocutionConcern" parameterType="com.sjq.concern.bean.InterlocutionConcernBean">
+		insert into edu_interlocution_concern
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	  	   <if test="id != '' and id != null">
+	       	id,
+	       </if>
+	  	   <if test="createName != '' and createName != null">
+	       	create_name,
+	       </if>
+	  	   <if test="createTime != '' and createTime != null">
+	       	create_time,
+	       </if>
+	  	   <if test="delflag != '' and delflag != null">
+	       	delflag,
+	       </if>
+	  	   <if test="askId != '' and askId != null">
+	       	ask_id,
+	       </if>
+	  	   <if test="answerAskId != '' and answerAskId != null">
+	       	answerAsk_id,
+	       </if>
+	  	   <if test="userId != '' and userId != null">
+	       	user_id,
+	       </if>
+	  	   <if test="reportId != '' and reportId != null">
+	       	report_id,
+	       </if>
+	  	   <if test="type != '' and type != null">
+	       	type,
+	       </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	  	    <if test="id != '' and id != null">
+	       		#{id,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="createName != '' and createName != null">
+	       		#{createName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="createTime != '' and createTime != null">
+	       		#{createTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != '' and delflag != null">
+	       		#{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="askId != '' and askId != null">
+	       		#{askId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="answerAskId != '' and answerAskId != null">
+	       		#{answerAskId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="userId != '' and userId != null">
+	       		#{userId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="reportId != '' and reportId != null">
+	       		#{reportId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="type != '' and type != null">
+	       		#{type,jdbcType=CHAR},
+	        </if>
+		</trim>
+	</insert>
+    
+    <!-- (删除)根据ID删除关注信息信息 --> 
+	<delete id="deleteInterlocutionConcernById" parameterType="java.lang.Long">
+		update edu_interlocution_concern 
+		<set> 
+	  	    <if test="modName != '' and modName != null">
+	       	mod_name =  #{modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="modTime != '' and modTime != null">
+	       	mod_time =  #{modTime,jdbcType=TIMESTAMP},
+	        </if>
+		delflag = '1'
+		</set>
+		where  id = #{id,jdbcType=BIGINT} 
+	</delete>
+	
+	<!-- (删除)根据条件删除关注信息信息  -->
+	<delete id="deleteInterlocutionConcernBySearch" parameterType="java.util.Map">
+		update 
+		edu_interlocution_concern
+		<set> 
+	  	    <if test="bean.modName != '' and bean.modName != null">
+	       	mod_name =  #{bean.modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="bean.modTime != '' and bean.modTime != null">
+	       	mod_time =  #{bean.modTime,jdbcType=TIMESTAMP},
+	        </if>
+			delflag = '1'
+		</set>
+		where 1=1
+  	   <if test="search.id != '' and search.id != null">
+       		and id =  #{search.id}
+       </if>
+  	   <if test="search.createName != '' and search.createName != null">
+       		and create_name =  #{search.createName}
+       </if>
+  	   <if test="search.createTime != '' and search.createTime != null">
+       		and create_time =  #{search.createTime}
+       </if>
+  	   <if test="search.modName != '' and search.modName != null">
+       		and mod_name =  #{search.modName}
+       </if>
+  	   <if test="search.modTime != '' and search.modTime != null">
+       		and mod_time =  #{search.modTime}
+       </if>
+  	   <if test="search.delflag != '' and search.delflag != null">
+       		and delflag =  #{search.delflag}
+       </if>
+  	   <if test="search.askId != '' and search.askId != null">
+       		and ask_id =  #{search.askId}
+       </if>
+  	   <if test="search.answerAskId != '' and search.answerAskId != null">
+       		and answerAsk_id =  #{search.answerAskId}
+       </if>
+  	   <if test="search.userId != '' and search.userId != null">
+       		and user_id =  #{search.userId}
+       </if>
+  	   <if test="search.reportId != '' and search.reportId != null">
+       		and report_id =  #{search.reportId}
+       </if>
+  	   <if test="search.type != '' and search.type != null">
+       		and type =  #{search.type}
+       </if>
+	</delete>
+	   
+</mapper>

@@ -1,0 +1,448 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sjq.paper.dao.EvaluatePaperMapper">
+	<resultMap id="BaseResultMap" type="com.sjq.paper.vo.EvaluatePaperVo">
+  		<result column="id" property="id" jdbcType="BIGINT" />
+  		<result column="create_name" property="createName" jdbcType="VARCHAR" />
+  		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  		<result column="mod_name" property="modName" jdbcType="VARCHAR" />
+  		<result column="mod_time" property="modTime" jdbcType="TIMESTAMP" />
+  		<result column="delflag" property="delflag" jdbcType="CHAR" />
+  		<result column="title" property="title" jdbcType="VARCHAR" />
+  		<result column="introduction" property="introduction" jdbcType="VARCHAR" />
+  		<result column="indicator_id" property="indicatorId" jdbcType="BIGINT" />
+  		<result column="reliability" property="reliability" jdbcType="DECIMAL" />
+  		<result column="validity" property="validity" jdbcType="DECIMAL" />
+  		<result column="issue_num" property="issueNum" jdbcType="BIGINT" />
+  		<result column="use_num" property="useNum" jdbcType="BIGINT" />
+  		<result column="sort" property="sort" jdbcType="BIGINT" />
+  		<result column="question_num" property="questionNum" jdbcType="BIGINT" />
+  		<result column="user_id" property="userId" jdbcType="BIGINT" />
+  		
+  		<association property="questionNum" column="{paperId=id}"
+			select="com.sjq.paperQuestion.dao.EvaluatePaperQuestionMapper.queryEvaluatePaperQuestionTotalCount"></association>
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+  		id,
+  		create_name,
+  		create_time,
+  		mod_name,
+  		mod_time,
+  		delflag,
+  		title,
+  		introduction,
+  		indicator_id,
+  		reliability,
+  		validity,
+  		issue_num,
+  		use_num,
+  		sort,
+  		question_num,
+  		user_id
+	</sql>
+	
+	<!-- 查询所有的问卷信息信息 -->
+	<select id="queryAllEvaluatePaper" resultMap="BaseResultMap" >
+ 	   select 
+       <include refid="Base_Column_List" />
+       from edu_evaluate_paper
+       where delflag='0'
+    </select>
+    
+    <!-- 根据ID物理删除记录 -->
+	<select id="deleteEvaluatePaperById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+	  delete from edu_evaluate_paper where id =#{id,jdbcType=BIGINT}
+    </select>
+	
+	
+	<!-- 根据ID查询问卷信息信息 -->
+	<select id="queryEvaluatePaperById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_evaluate_paper
+       where id =#{id,jdbcType=BIGINT}
+    </select>
+    
+					
+	<!-- 根据条件查询所有问卷信息信息 -->
+	<select id="queryEvaluatePaperBySearch" resultMap="BaseResultMap"  parameterType="java.util.Map">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_evaluate_paper
+       where 1=1 
+  	   <if test="id != '' and id != null">
+       		and id = #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name = #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time = #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name = #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time = #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag = #{delflag}
+       </if>
+  	   <if test="title != '' and title != null">
+       		and title like '%${title}%'
+       </if>
+  	   <if test="introduction != '' and introduction != null">
+       		and introduction = #{introduction}
+       </if>
+  	   <if test="indicatorId != '' and indicatorId != null">
+       		and indicator_id = #{indicatorId}
+       </if>
+  	   <if test="reliability != '' and reliability != null">
+       		and reliability = #{reliability}
+       </if>
+  	   <if test="validity != '' and validity != null">
+       		and validity = #{validity}
+       </if>
+  	   <if test="issueNum != '' and issueNum != null">
+       		and issue_num = #{issueNum}
+       </if>
+  	   <if test="useNum != '' and useNum != null">
+       		and use_num = #{useNum}
+       </if>
+  	   <if test="sort != '' and sort != null">
+       		and sort = #{sort}
+       </if>
+  	   <if test="questionNum != '' and questionNum != null">
+       		and question_num = #{questionNum}
+       </if>
+       <if test="userId != null">
+       		and user_id = #{userId}
+       </if>
+	</select>
+	
+					
+	<!-- 根据条件查询问卷信息count总数 -->
+	<select id="queryEvaluatePaperTotalCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(1) from
+		edu_evaluate_paper where delflag='0'
+  	   <if test="id != '' and id != null">
+       		and id =  #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name =  #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time =  #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name =  #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time =  #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag =  #{delflag}
+       </if>
+  	   <if test="title != '' and title != null">
+       		and title =  #{title}
+       </if>
+  	   <if test="introduction != '' and introduction != null">
+       		and introduction =  #{introduction}
+       </if>
+  	   <if test="indicatorId != '' and indicatorId != null">
+       		and indicator_id =  #{indicatorId}
+       </if>
+  	   <if test="reliability != '' and reliability != null">
+       		and reliability =  #{reliability}
+       </if>
+  	   <if test="validity != '' and validity != null">
+       		and validity =  #{validity}
+       </if>
+  	   <if test="issueNum != '' and issueNum != null">
+       		and issue_num =  #{issueNum}
+       </if>
+  	   <if test="useNum != '' and useNum != null">
+       		and use_num =  #{useNum}
+       </if>
+  	   <if test="sort != '' and sort != null">
+       		and sort =  #{sort}
+       </if>
+  	   <if test="questionNum != '' and questionNum != null">
+       		and question_num =  #{questionNum}
+       </if>
+       <if test="userId != null">
+       		and user_id = #{userId}
+       </if>
+	</select>
+	
+
+					
+	<!-- 分页查询问卷信息 -->
+	<select id="queryEvaluatePaperPage" resultMap="BaseResultMap"  parameterType="java.util.Map">
+		select   
+	    <include refid="Base_Column_List" />
+		from
+		edu_evaluate_paper where delflag='0'
+  	   <if test="id != '' and id != null">
+       		and id =  #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name =  #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time =  #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name =  #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time =  #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag =  #{delflag}
+       </if>
+  	   <if test="title != '' and title != null">
+       		and title =  #{title}
+       </if>
+  	   <if test="introduction != '' and introduction != null">
+       		and introduction =  #{introduction}
+       </if>
+  	   <if test="indicatorId != '' and indicatorId != null">
+       		and indicator_id =  #{indicatorId}
+       </if>
+  	   <if test="reliability != '' and reliability != null">
+       		and reliability =  #{reliability}
+       </if>
+  	   <if test="validity != '' and validity != null">
+       		and validity =  #{validity}
+       </if>
+  	   <if test="issueNum != '' and issueNum != null">
+       		and issue_num =  #{issueNum}
+       </if>
+  	   <if test="useNum != '' and useNum != null">
+       		and use_num =  #{useNum}
+       </if>
+  	   <if test="sort != '' and sort != null">
+       		and sort =  #{sort}
+       </if>
+  	   <if test="questionNum != '' and questionNum != null">
+       		and question_num =  #{questionNum}
+       </if>
+       <if test="userId != null">
+       		and user_id = #{userId}
+       </if>
+  	   limit #{startRowNum},#{endRowNum}
+	</select>
+
+					
+	<!-- (删除)根据条件删除问卷信息信息  -->
+	<delete id="deleteEvaluatePaperBySearch" parameterType="java.util.Map">
+		update 
+		edu_evaluate_paper
+		<set> 
+	  	    <if test="bean.modName != '' and bean.modName != null">
+	       	mod_name =  #{bean.modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="bean.modTime != '' and bean.modTime != null">
+	       	mod_time =  #{bean.modTime,jdbcType=TIMESTAMP},
+	        </if>
+		delflag = '1'
+		</set>
+		where 1=1
+  	   <if test="search.id != '' and search.id != null">
+       		and id =  #{search.id}
+       </if>
+  	   <if test="search.createName != '' and search.createName != null">
+       		and create_name =  #{search.createName}
+       </if>
+  	   <if test="search.createTime != '' and search.createTime != null">
+       		and create_time =  #{search.createTime}
+       </if>
+  	   <if test="search.modName != '' and search.modName != null">
+       		and mod_name =  #{search.modName}
+       </if>
+  	   <if test="search.modTime != '' and search.modTime != null">
+       		and mod_time =  #{search.modTime}
+       </if>
+  	   <if test="search.delflag != '' and search.delflag != null">
+       		and delflag =  #{search.delflag}
+       </if>
+  	   <if test="search.title != '' and search.title != null">
+       		and title =  #{search.title}
+       </if>
+  	   <if test="search.introduction != '' and search.introduction != null">
+       		and introduction =  #{search.introduction}
+       </if>
+  	   <if test="search.indicatorId != '' and search.indicatorId != null">
+       		and indicator_id =  #{search.indicatorId}
+       </if>
+  	   <if test="search.reliability != '' and search.reliability != null">
+       		and reliability =  #{search.reliability}
+       </if>
+  	   <if test="search.validity != '' and search.validity != null">
+       		and validity =  #{search.validity}
+       </if>
+  	   <if test="search.issueNum != '' and search.issueNum != null">
+       		and issue_num =  #{search.issueNum}
+       </if>
+  	   <if test="search.useNum != '' and search.useNum != null">
+       		and use_num =  #{search.useNum}
+       </if>
+  	   <if test="search.sort != '' and search.sort != null">
+       		and sort =  #{search.sort}
+       </if>
+  	   <if test="search.questionNum != '' and search.questionNum != null">
+       		and question_num =  #{search.questionNum}
+       </if>
+        <if test="search.userId != null">
+       		and user_id =  #{search.userId}
+       </if>
+	</delete>
+	
+	<!-- (更新)根据ID更新所有问卷信息信息 -->
+	<update id="updateEvaluatePaperById" parameterType="com.sjq.paper.bean.EvaluatePaperBean" >
+		update edu_evaluate_paper
+		<set>
+	  	    <if test="modName != '' and modName != null">
+	       	mod_name =  #{modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="modTime != '' and modTime != null">
+	       	mod_time =  #{modTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != '' and delflag != null">
+	       	delflag =  #{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="title != '' and title != null">
+	       	title =  #{title,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="introduction != '' and introduction != null">
+	       	introduction =  #{introduction,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="indicatorId != '' and indicatorId != null">
+	       	indicator_id =  #{indicatorId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="reliability != '' and reliability != null">
+	       	reliability =  #{reliability,jdbcType=DECIMAL},
+	        </if>
+	  	    <if test="validity != '' and validity != null">
+	       	validity =  #{validity,jdbcType=DECIMAL},
+	        </if>
+	  	    <if test="issueNum != null">
+	       	issue_num =  #{issueNum,jdbcType=BIGINT},
+	        </if>
+	        <if test="useNum ==0">
+	       	use_num = #{useNum,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="useNum != null and useNum !=0">
+	       	use_num = use_num + #{useNum,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="sort != '' and sort != null">
+	       	sort =  #{sort,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="questionNum != '' and questionNum != null">
+	       	question_num =  #{questionNum,jdbcType=BIGINT},
+	        </if>
+	         <if test="userId != null">
+	       	user_id =  #{userId,jdbcType=BIGINT},
+	        </if>
+		</set>
+		where 1 = 1 and id = #{id,jdbcType=BIGINT} 
+	</update>
+	
+					
+	<!-- (增加)增加问卷信息信息 --> 
+	<insert id="insertEvaluatePaper" parameterType="com.sjq.paper.bean.EvaluatePaperBean" useGeneratedKeys="true" keyProperty="id">
+		insert into edu_evaluate_paper
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	  	   <if test="id != '' and id != null">
+	       	id,
+	       </if>
+	  	   <if test="createName != '' and createName != null">
+	       	create_name,
+	       </if>
+	  	   <if test="createTime != '' and createTime != null">
+	       	create_time,
+	       </if>
+	  	   <if test="delflag != '' and delflag != null">
+	       	delflag,
+	       </if>
+	  	   <if test="title != '' and title != null">
+	       	title,
+	       </if>
+	  	   <if test="introduction != '' and introduction != null">
+	       	introduction,
+	       </if>
+	  	   <if test="indicatorId != '' and indicatorId != null">
+	       	indicator_id,
+	       </if>
+	  	   <if test="reliability != '' and reliability != null">
+	       	reliability,
+	       </if>
+	  	   <if test="validity != '' and validity != null">
+	       	validity,
+	       </if>
+	  	   <if test="issueNum != '' and issueNum != null">
+	       	issue_num,
+	       </if>
+	  	   <if test="useNum != '' and useNum != null">
+	       	use_num,
+	       </if>
+	  	   <if test="sort != '' and sort != null">
+	       	sort,
+	       </if>
+	  	   <if test="questionNum != '' and questionNum != null">
+	       	question_num,
+	       </if>
+	        <if test="userId != null">
+	       	user_id,
+	       </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	  	    <if test="id != '' and id != null">
+	       		#{id,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="createName != '' and createName != null">
+	       		#{createName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="createTime != '' and createTime != null">
+	       		#{createTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != '' and delflag != null">
+	       		#{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="title != '' and title != null">
+	       		#{title,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="introduction != '' and introduction != null">
+	       		#{introduction,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="indicatorId != '' and indicatorId != null">
+	       		#{indicatorId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="reliability != '' and reliability != null">
+	       		#{reliability,jdbcType=DECIMAL},
+	        </if>
+	  	    <if test="validity != '' and validity != null">
+	       		#{validity,jdbcType=DECIMAL},
+	        </if>
+	  	    <if test="issueNum != '' and issueNum != null">
+	       		#{issueNum,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="useNum != '' and useNum != null">
+	       		#{useNum,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="sort != '' and sort != null">
+	       		#{sort,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="questionNum != '' and questionNum != null">
+	       		#{questionNum,jdbcType=BIGINT},
+	        </if>
+	        <if test="userId != null">
+	       		#{userId,jdbcType=BIGINT},
+	        </if>
+		</trim>
+	</insert>
+    
+	   
+</mapper>

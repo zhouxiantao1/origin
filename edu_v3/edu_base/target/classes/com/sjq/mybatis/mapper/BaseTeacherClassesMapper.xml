@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sjq.teacherClasses.dao.BaseTeacherClassesMapper">
+	<resultMap id="BaseResultMap" type="com.sjq.teacherClasses.vo.BaseTeacherClassesVo">
+  		<result column="id" property="id" jdbcType="BIGINT" />
+  		<result column="create_name" property="createName" jdbcType="VARCHAR" />
+  		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  		<result column="mod_name" property="modName" jdbcType="VARCHAR" />
+  		<result column="mod_time" property="modTime" jdbcType="TIMESTAMP" />
+  		<result column="delflag" property="delflag" jdbcType="CHAR" />
+  		<result column="teacher_id" property="teacherId" jdbcType="BIGINT" />
+  		<result column="classes_id" property="classesId" jdbcType="BIGINT" />
+  		<result column="subject_id" property="subjectId" jdbcType="BIGINT" />
+  		<result column="is_incharge" property="isIncharge" jdbcType="CHAR" />
+  		<result column="sort" property="sort" jdbcType="BIGINT" />
+  		<result column="remake" property="remake" jdbcType="VARCHAR" />
+  		<result column="user_id" property="userId" jdbcType="BIGINT" />
+  		<result column="grade_id" property="gradeId" jdbcType="BIGINT" />
+  		<result column="stage_id" property="stageId" jdbcType="BIGINT" />
+  		
+  		<association property="baseSubjectVo" column="subject_id"
+			select="com.sjq.subject.dao.BaseSubjectMapper.queryBaseSubjectById"></association>
+		<association property="baseGradeVo" column="grade_id"
+			select="com.sjq.grade.dao.BaseGradeMapper.queryBaseGradeById"></association>
+		<association property="baseClassesVo" column="classes_id"
+			select="com.sjq.classes.dao.BaseClassesMapper.queryBaseClassesById"></association>	
+		<association property="baseStageVo" column="stage_id"
+			select="com.sjq.stage.dao.BaseStageMapper.queryBaseStageById"></association>
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+  		id,
+  		create_name,
+  		create_time,
+  		mod_name,
+  		mod_time,
+  		delflag,
+  		teacher_id,
+  		classes_id,
+  		subject_id,
+  		is_incharge,
+  		sort,
+  		remake,
+  		user_id,
+  		grade_id,
+  		stage_id
+	</sql>
+	
+	<!-- 根据老师ID查询教师班级信息获取不重复学科 -->
+	<select id="querySubjectByteacherId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+	   select 
+       	<include refid="Base_Column_List" />
+       from edu_base_teacherClasses
+       where delflag='0' and teacher_id =#{teacherId,jdbcType=BIGINT} GROUP BY subject_id
+    </select>
+    
+    <!-- 根据老师ID查询教师班级信息获取不重复班级 -->
+	<select id="queryClassesByteacherId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+	   select 
+       	<include refid="Base_Column_List" />
+       from edu_base_teacherClasses
+       where delflag='0' and teacher_id =#{teacherId,jdbcType=BIGINT} GROUP BY classes_id
+    </select>
+	
+	<!-- 根据老师ID查询教师班级信息获取不重复年级 -->
+	<select id="queryBaseTeacherClassesByteacherId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+	   select 
+       	<include refid="Base_Column_List" />
+       from edu_base_teacherClasses
+       where delflag='0' and teacher_id =#{teacherId,jdbcType=BIGINT} GROUP BY grade_id
+    </select>
+	
+	
+	<!-- 根据ID查询教师班级信息信息 -->
+	<select id="queryBaseTeacherClassesById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_base_teacherClasses
+       where delflag='0' and id =#{id,jdbcType=BIGINT}
+    </select>
+    
+	<select id="queryDistinctBaseTeacherClassesBySearch" resultMap="BaseResultMap"  parameterType="java.util.Map">
+	   select 
+       distinct subject_id
+       from edu_base_teacherClasses
+       where delflag = '0'
+  	   <if test="id != '' and id != null">
+       		and id = #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name = #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time = #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name = #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time = #{modTime}
+       </if>
+  	   <if test="teacherId != '' and teacherId != null">
+       		and teacher_id = #{teacherId}
+       </if>
+  	   <if test="classesId != '' and classesId != null">
+       		and classes_id = #{classesId}
+       </if>
+  	   <if test="subjectId != '' and subjectId != null">
+       		and subject_id = #{subjectId}
+       </if>
+  	   <if test="isIncharge != '' and isIncharge != null">
+       		and is_incharge = #{isIncharge}
+       </if>
+  	   <if test="sort != '' and sort != null">
+       		and sort = #{sort}
+       </if>
+  	   <if test="remake != '' and remake != null">
+       		and remake = #{remake}
+       </if>
+  	   <if test="userId != '' and userId != null">
+       		and user_id = #{userId}
+       </if>
+  	   <if test="gradeId != '' and gradeId != null">
+       		and grade_id = #{gradeId}
+       </if>
+        <if test="stageId != '' and stageId != null">
+       		and stage_id = #{stageId}
+       </if>
+      
+	</select>			
+	
+	<!-- 根据条件查询所有教师班级信息信息 -->
+	<select id="queryBaseTeacherClassesBySearch" resultMap="BaseResultMap"  parameterType="java.util.Map">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_base_teacherClasses
+       where 1=1 
+  	   <if test="id != '' and id != null">
+       		and id = #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name = #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time = #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name = #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time = #{modTime}
+       </if>
+  	    	and delflag = '0'
+  	   <if test="teacherId != '' and teacherId != null">
+       		and teacher_id = #{teacherId}
+       </if>
+  	   <if test="classesId != '' and classesId != null">
+       		and classes_id = #{classesId}
+       </if>
+  	   <if test="subjectId != '' and subjectId != null">
+       		and subject_id = #{subjectId}
+       </if>
+  	   <if test="isIncharge != '' and isIncharge != null">
+       		and is_incharge = #{isIncharge}
+       </if>
+  	   <if test="sort != '' and sort != null">
+       		and sort = #{sort}
+       </if>
+  	   <if test="remake != '' and remake != null">
+       		and remake = #{remake}
+       </if>
+  	   <if test="userId != '' and userId != null">
+       		and user_id = #{userId}
+       </if>
+  	   <if test="gradeId != '' and gradeId != null">
+       		and grade_id = #{gradeId}
+       </if>
+        <if test="stageId != '' and stageId != null">
+       		and stage_id = #{stageId}
+       </if>
+        <if test='group == "1"'>
+       		GROUP BY grade_id
+       </if>
+       <if test='group == "2"'>
+       		GROUP BY classes_id
+       </if>
+       <if test='group == "3"'>
+       		GROUP BY subject_id
+       </if>
+	</select>
+	
+					
+	<!-- 根据条件查询教师班级信息count总数 -->
+	<select id="queryBaseTeacherClassesTotalCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(1) from
+		edu_base_teacherClasses where delflag='0'
+  	   <if test="id != '' and id != null">
+       		and id =  #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name =  #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time =  #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name =  #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time =  #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag =  #{delflag}
+       </if>
+  	   <if test="teacherId != '' and teacherId != null">
+       		and teacher_id =  #{teacherId}
+       </if>
+  	   <if test="classesId != '' and classesId != null">
+       		and classes_id =  #{classesId}
+       </if>
+  	   <if test="subjectId != '' and subjectId != null">
+       		and subject_id =  #{subjectId}
+       </if>
+  	   <if test="isIncharge != '' and isIncharge != null">
+       		and is_incharge =  #{isIncharge}
+       </if>
+  	   <if test="sort != '' and sort != null">
+       		and sort =  #{sort}
+       </if>
+  	   <if test="remake != '' and remake != null">
+       		and remake =  #{remake}
+       </if>
+  	   <if test="userId != '' and userId != null">
+       		and user_id =  #{userId}
+       </if>
+  	   <if test="gradeId != '' and gradeId != null">
+       		and grade_id =  #{gradeId}
+       </if>
+        <if test="stageId != '' and stageId != null">
+       		and stage_id = #{stageId}
+       </if>
+	</select>
+	
+
+					
+	<!-- 分页查询教师班级信息 -->
+	<select id="queryBaseTeacherClassesPage" resultMap="BaseResultMap"  parameterType="java.util.Map">
+		select   
+	    <include refid="Base_Column_List" />
+		from
+		edu_base_teacherClasses where delflag='0'
+  	   <if test="id != '' and id != null">
+       		and id =  #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name =  #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time =  #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name =  #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time =  #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag =  #{delflag}
+       </if>
+  	   <if test="teacherId != '' and teacherId != null">
+       		and teacher_id =  #{teacherId}
+       </if>
+  	   <if test="classesId != '' and classesId != null">
+       		and classes_id =  #{classesId}
+       </if>
+  	   <if test="subjectId != '' and subjectId != null">
+       		and subject_id =  #{subjectId}
+       </if>
+  	   <if test="isIncharge != '' and isIncharge != null">
+       		and is_incharge =  #{isIncharge}
+       </if>
+  	   <if test="sort != '' and sort != null">
+       		and sort =  #{sort}
+       </if>
+  	   <if test="remake != '' and remake != null">
+       		and remake =  #{remake}
+       </if>
+  	   <if test="userId != '' and userId != null">
+       		and user_id =  #{userId}
+       </if>
+  	   <if test="gradeId != '' and gradeId != null">
+       		and grade_id =  #{gradeId}
+       </if>
+        <if test="stageId != '' and stageId != null">
+       		and stage_id = #{stageId}
+       </if>
+  	   limit #{startRowNum},#{endRowNum}
+	</select>
+
+					
+	<!-- (删除)根据ID删除教师班级信息信息 --> 
+	<delete id="deleteBaseTeacherClassesById" parameterType="java.lang.Long">
+		update edu_base_teacherClasses 
+		<set> 
+	  	    <if test="modName != '' and modName != null">
+	       	mod_name =  #{modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="modTime != '' and modTime != null">
+	       	mod_time =  #{modTime,jdbcType=TIMESTAMP},
+	        </if>
+		delflag = '1'
+		</set>
+		where  id = #{id,jdbcType=BIGINT} 
+	</delete>
+	
+					
+	<!-- (增加)增加教师班级信息信息 --> 
+	<insert id="insertBaseTeacherClasses" parameterType="com.sjq.teacherClasses.bean.BaseTeacherClassesBean">
+		insert into edu_base_teacherClasses
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	  	   <if test="id != '' and id != null">
+	       	id,
+	       </if>
+	  	   <if test="createName != '' and createName != null">
+	       	create_name,
+	       </if>
+	  	   <if test="createTime != '' and createTime != null">
+	       	create_time,
+	       </if>
+	  	   <if test="delflag != '' and delflag != null">
+	       	delflag,
+	       </if>
+	  	   <if test="teacherId != '' and teacherId != null">
+	       	teacher_id,
+	       </if>
+	  	   <if test="classesId != '' and classesId != null">
+	       	classes_id,
+	       </if>
+	  	   <if test="subjectId != '' and subjectId != null">
+	       	subject_id,
+	       </if>
+	  	   <if test="isIncharge != '' and isIncharge != null">
+	       	is_incharge,
+	       </if>
+	  	   <if test="sort != '' and sort != null">
+	       	sort,
+	       </if>
+	  	   <if test="remake != '' and remake != null">
+	       	remake,
+	       </if>
+	  	   <if test="userId != '' and userId != null">
+	       	user_id,
+	       </if>
+	  	   <if test="gradeId != '' and gradeId != null">
+	       	grade_id,
+	       </if>
+	       <if test="stageId != null">
+	       	stage_id,
+	       </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	  	    <if test="id != '' and id != null">
+	       		#{id,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="createName != '' and createName != null">
+	       		#{createName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="createTime != '' and createTime != null">
+	       		#{createTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != '' and delflag != null">
+	       		#{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="teacherId != '' and teacherId != null">
+	       		#{teacherId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="classesId != '' and classesId != null">
+	       		#{classesId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="subjectId != '' and subjectId != null">
+	       		#{subjectId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="isIncharge != '' and isIncharge != null">
+	       		#{isIncharge,jdbcType=CHAR},
+	        </if>
+	  	    <if test="sort != '' and sort != null">
+	       		#{sort,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="remake != '' and remake != null">
+	       		#{remake,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="userId != '' and userId != null">
+	       		#{userId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="gradeId != '' and gradeId != null">
+	       		#{gradeId,jdbcType=BIGINT},
+	        </if>
+	        <if test="stageId != null">
+	       		#{stageId,jdbcType=BIGINT},
+	        </if>
+		</trim>
+	</insert>
+    
+	   
+</mapper>

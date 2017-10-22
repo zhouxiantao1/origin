@@ -1,0 +1,53 @@
+.analysis_type{
+	border-bottom: 1px solid #e5e5e5
+}
+.analysis_type li{
+	font-size: 16px;
+	float:left;
+	padding:27px 22px;
+	cursor: pointer;
+}
+.analysis_type li.active{
+	background:#00ada7;
+	color:#fff;
+}
+
+.list_analysis{
+	border:1px solid #e5e5e5;
+	margin:30px 20px;
+}
+.list_reduce,.list_item{
+	background: #e4e4e4;
+	color:#333;
+	padding: 16px 14px;
+}
+.list_reduce p,.list_item p{
+	float:left;
+	text-align: center;
+	margin-right: 20px;
+	overflow: hidden;
+	text-overflow:ellipsis;
+	white-space: nowrap;
+}
+.list_item{
+	border-top:1px solid #e5e5e5;
+}
+.list_reduce p.time,.list_item p.time{
+	width:25%;
+	text-align: left;
+}
+.list_reduce p.address,.list_item p.address{
+	width:25%;
+}
+.list_reduce p.create,.list_item p.create{
+	width:16%;
+}
+.list_reduce p.an_report{
+	float:right;
+	color:#178eed;
+	margin-right: 10px;
+	cursor: pointer;
+}
+.list_item{
+	background:#fff;
+}

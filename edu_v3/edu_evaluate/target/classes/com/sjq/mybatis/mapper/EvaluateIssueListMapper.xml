@@ -1,0 +1,412 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sjq.issueList.dao.EvaluateIssueListMapper">
+	<resultMap id="BaseResultMap" type="com.sjq.issueList.vo.EvaluateIssueListVo">
+  		<result column="id" property="id" jdbcType="BIGINT" />
+  		<result column="create_name" property="createName" jdbcType="VARCHAR" />
+  		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  		<result column="mod_name" property="modName" jdbcType="VARCHAR" />
+  		<result column="mod_time" property="modTime" jdbcType="TIMESTAMP" />
+  		<result column="delflag" property="delflag" jdbcType="CHAR" />
+  		<result column="evaDetail_id" property="evaDetailId" jdbcType="BIGINT" />
+  		<result column="school_id" property="schoolId" jdbcType="BIGINT" />
+  		<result column="classes_id" property="classesId" jdbcType="BIGINT" />
+  		<result column="user_id" property="userId" jdbcType="BIGINT" />
+  		<result column="eva_object" property="evaObject" jdbcType="CHAR" />
+  		<result column="evaIssue_id" property="evaIssueId" jdbcType="BIGINT" />
+  		
+  		<association property="evaluateEvaDetailVo" column="evaDetail_id"	
+  			select="com.sjq.evaDetail.dao.EvaluateEvaDetailMapper.queryEvaluateEvaDetailById"></association>
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+  		id,
+  		create_name,
+  		create_time,
+  		mod_name,
+  		mod_time,
+  		delflag,
+  		evaDetail_id,
+  		school_id,
+  		classes_id,
+  		user_id,
+  		eva_object,
+  		evaIssue_id
+	</sql>
+	
+	<sql id="Base_Column_List_a">
+  		a.id,
+  		a.create_name,
+  		a.create_time,
+  		a.mod_name,
+  		a.mod_time,
+  		a.delflag,
+  		a.evaDetail_id,
+  		a.school_id,
+  		a.classes_id,
+  		a.user_id,
+  		a.eva_object,
+  		a.evaIssue_id
+	</sql>
+	
+	<!-- 查询所有的发布列表信息 -->
+	<select id="queryAllEvaluateIssueList" resultMap="BaseResultMap" >
+ 	   select 
+       <include refid="Base_Column_List" />
+       from edu_evaluate_issueList
+       where delflag='0'
+    </select>
+	
+	
+	<!-- 根据ID查询发布列表信息 -->
+	<select id="queryEvaluateIssueListById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_evaluate_issueList
+       where delflag='0' and id =#{id,jdbcType=BIGINT}
+    </select>
+    
+					
+	<!-- 根据条件查询所有发布列表信息 -->
+	<select id="queryEvaluateIssueListBySearch" resultMap="BaseResultMap"  parameterType="java.util.Map">
+	   select 
+       <include refid="Base_Column_List_a" />
+       from edu_evaluate_issueList a
+       where 1=1 
+  	   <if test="id != '' and id != null">
+       		a.and a.id = #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		a.and a.create_name = #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		a.and a.create_time = #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and a.mod_name = #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and a.mod_time = #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and a.delflag = #{delflag}
+       </if>
+  	   <if test="evaDetailId != '' and evaDetailId != null">
+       		and a.evaDetail_id = #{evaDetailId}
+       </if>
+  	   <if test="schoolId != '' and schoolId != null">
+       		and a.school_id = #{schoolId}
+       </if>
+  	   <if test="classesId != '' and classesId != null">
+       		and a.classes_id = #{classesId}
+       </if>
+  	   <if test='userId != null and evaObject =="3"'>
+       		and a.user_id = #{userId}
+       </if>
+  	   <if test="evaObject != '' and evaObject != null">
+       		and a.eva_object = #{evaObject}
+       </if>
+  	   <if test="evaIssueId != '' and evaIssueId != null">
+       		and a.evaIssue_id = #{evaIssueId}
+       </if>
+       <if test='type == "1"'>
+       		 and not exists(select 1 from edu_evaluate_answer b where a.id = b.issueList_id and b.delflag='0' and b.user_id=#{userId})
+       </if>
+        <if test='type == "2"'>
+       		 and exists(select 1 from edu_evaluate_answer b where a.id = b.issueList_id and b.delflag='0' and b.status='1' and b.user_id=#{userId})  
+       </if> 
+        <if test='type == "3"'>
+       		 and exists(select 1 from edu_evaluate_answer b where a.id = b.issueList_id and b.delflag='0' and b.status='0' and b.user_id=#{userId})  
+       </if> 
+	</select>
+	
+					
+	<!-- 根据条件查询发布列表count总数 -->
+	<select id="queryEvaluateIssueListTotalCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(1) from
+		edu_evaluate_issueList a where a.delflag='0'
+  	   <if test="id != '' and id != null">
+       		and a.id =  #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and a.create_name =  #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and a.create_time =  #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and a.mod_name =  #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and a.mod_time =  #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and a.delflag =  #{delflag}
+       </if>
+  	   <if test="evaDetailId != '' and evaDetailId != null">
+       		and a.evaDetail_id =  #{evaDetailId}
+       </if>
+  	   <if test="schoolId != '' and schoolId != null">
+       		and a.school_id =  #{schoolId}
+       </if>
+  	   <if test="classesId != '' and classesId != null">
+       		and a.classes_id =  #{classesId}
+       </if>
+  	   <if test='userId != null and evaObject =="3"'>
+       		and a.user_id =  #{userId}
+       </if>
+  	   <if test="evaObject != '' and evaObject != null">
+       		and a.eva_object =  #{evaObject}
+       </if>
+  	   <if test="evaIssueId != '' and evaIssueId != null">
+       		and a.evaIssue_id =  #{evaIssueId}
+       </if>
+      <if test='type == "1"'>
+       		 and not exists(select 1 from edu_evaluate_answer b where a.id = b.issueList_id and b.delflag='0' and b.user_id=#{userId})
+       </if>
+        <if test='type == "2"'>
+       		 and exists(select 1 from edu_evaluate_answer b where a.id = b.issueList_id and b.delflag='0' and b.status='1' and b.user_id=#{userId})  
+       </if> 
+        <if test='type == "3"'>
+       		 and exists(select 1 from edu_evaluate_answer b where a.id = b.issueList_id and b.delflag='0' and b.status='0' and b.user_id=#{userId})  
+       </if> 
+      
+	</select>
+	
+
+					
+	<!-- 分页查询发布列表 -->
+	<select id="queryEvaluateIssueListPage" resultMap="BaseResultMap"  parameterType="java.util.Map">
+		select   
+	    <include refid="Base_Column_List_a" />
+		from
+		edu_evaluate_issueList a where a.delflag='0'
+  	   <if test="id != '' and id != null">
+       		and a.id =  #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and a.create_name =  #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and a.create_time =  #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and a.mod_name =  #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and a.mod_time =  #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and a.delflag =  #{delflag}
+       </if>
+  	   <if test="evaDetailId != '' and evaDetailId != null">
+       		and a.evaDetail_id =  #{evaDetailId}
+       </if>
+  	   <if test="schoolId != '' and schoolId != null">
+       		and a.school_id =  #{schoolId}
+       </if>
+  	   <if test="classesId != '' and classesId != null">
+       		and a.classes_id =  #{classesId}
+       </if>
+  	   <if test='userId != null and evaObject =="3"'>
+       		and a.user_id =  #{userId}
+       </if>
+  	   <if test="evaObject != '' and evaObject != null">
+       		and a.eva_object =  #{evaObject}
+       </if>
+  	   <if test="evaIssueId != '' and evaIssueId != null">
+       		and a.evaIssue_id =  #{evaIssueId}
+       </if>
+        <if test='type == "1"'>
+       		 and not exists(select 1 from edu_evaluate_answer b where a.id = b.issueList_id and b.delflag='0' and b.user_id=#{userId} )
+       </if>
+        <if test='type == "2"'>
+       		 and exists(select 1 from edu_evaluate_answer b where a.id = b.issueList_id and b.delflag='0' and b.status='1' and b.user_id=#{userId})  
+       </if> 
+        <if test='type == "3"'>
+       		 and exists(select 1 from edu_evaluate_answer b where a.id = b.issueList_id and b.delflag='0' and b.status='0' and b.user_id=#{userId})  
+       </if>
+       
+  	   limit #{startRowNum},#{endRowNum}
+	</select>
+
+					
+	<!-- (更新)根据ID更新所有发布列表信息 -->
+	<update id="updateEvaluateIssueListById" parameterType="com.sjq.issueList.bean.EvaluateIssueListBean" >
+		update edu_evaluate_issueList
+		<set>
+	  	    <if test="modName != '' and modName != null">
+	       	mod_name =  #{modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="modTime != '' and modTime != null">
+	       	mod_time =  #{modTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != '' and delflag != null">
+	       	delflag =  #{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="evaDetailId != '' and evaDetailId != null">
+	       	evaDetail_id =  #{evaDetailId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="schoolId != '' and schoolId != null">
+	       	school_id =  #{schoolId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="classesId != '' and classesId != null">
+	       	classes_id =  #{classesId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="userId != '' and userId != null">
+	       	user_id =  #{userId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="evaObject != '' and evaObject != null">
+	       	eva_object =  #{evaObject,jdbcType=CHAR},
+	        </if>
+	  	    <if test="evaIssueId != '' and evaIssueId != null">
+	       	evaIssue_id =  #{evaIssueId,jdbcType=BIGINT},
+	        </if>
+		</set>
+		where 1 = 1 and id = #{id,jdbcType=BIGINT} 
+	</update>
+	
+					
+	<!-- (更新)根据条件更新所有发布列表信息 -->
+	<update id="updateEvaluateIssueListBySearch"  parameterType="java.util.Map" >
+		update edu_evaluate_issueList
+		<set>
+	  	    <if test="modName != '' and modName != null">
+	       	mod_name =  #{modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="modTime != '' and modTime != null">
+	       	mod_time =  #{modTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != '' and delflag != null">
+	       	delflag =  #{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="evaDetailId != '' and evaDetailId != null">
+	       	evaDetail_id =  #{evaDetailId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="schoolId != '' and schoolId != null">
+	       	school_id =  #{schoolId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="classesId != '' and classesId != null">
+	       	classes_id =  #{classesId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="userId != '' and userId != null">
+	       	user_id =  #{userId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="evaObject != '' and evaObject != null">
+	       	eva_object =  #{evaObject,jdbcType=CHAR},
+	        </if>
+	  	    <if test="evaIssueId != '' and evaIssueId != null">
+	       	evaIssue_id =  #{evaIssueId,jdbcType=BIGINT},
+	        </if>
+		</set>
+		where 
+  	   <if test="id != '' and id != null">
+       		and id = #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name = #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time = #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name = #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time = #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag = #{delflag}
+       </if>
+  	   <if test="evaDetailId != '' and evaDetailId != null">
+       		and evaDetail_id = #{evaDetailId}
+       </if>
+  	   <if test="schoolId != '' and schoolId != null">
+       		and school_id = #{schoolId}
+       </if>
+  	   <if test="classesId != '' and classesId != null">
+       		and classes_id = #{classesId}
+       </if>
+  	   <if test="userId != '' and userId != null">
+       		and user_id = #{userId}
+       </if>
+  	   <if test="evaObject != '' and evaObject != null">
+       		and eva_object = #{evaObject}
+       </if>
+  	   <if test="evaIssueId != '' and evaIssueId != null">
+       		and evaIssue_id = #{evaIssueId}
+       </if>
+	</update>
+	
+					
+	<!-- (增加)增加发布列表信息 --> 
+	<insert id="insertEvaluateIssueList" parameterType="com.sjq.issueList.bean.EvaluateIssueListBean">
+		insert into edu_evaluate_issueList
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	  	   <if test="id != '' and id != null">
+	       	id,
+	       </if>
+	  	   <if test="createName != '' and createName != null">
+	       	create_name,
+	       </if>
+	  	   <if test="createTime != '' and createTime != null">
+	       	create_time,
+	       </if>
+	  	   <if test="delflag != '' and delflag != null">
+	       	delflag,
+	       </if>
+	  	   <if test="evaDetailId != '' and evaDetailId != null">
+	       	evaDetail_id,
+	       </if>
+	  	   <if test="schoolId != '' and schoolId != null">
+	       	school_id,
+	       </if>
+	  	   <if test="classesId != '' and classesId != null">
+	       	classes_id,
+	       </if>
+	  	   <if test="userId != '' and userId != null">
+	       	user_id,
+	       </if>
+	  	   <if test="evaObject != '' and evaObject != null">
+	       	eva_object,
+	       </if>
+	  	   <if test="evaIssueId != '' and evaIssueId != null">
+	       	evaIssue_id,
+	       </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	  	    <if test="id != '' and id != null">
+	       		#{id,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="createName != '' and createName != null">
+	       		#{createName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="createTime != '' and createTime != null">
+	       		#{createTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != '' and delflag != null">
+	       		#{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="evaDetailId != '' and evaDetailId != null">
+	       		#{evaDetailId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="schoolId != '' and schoolId != null">
+	       		#{schoolId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="classesId != '' and classesId != null">
+	       		#{classesId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="userId != '' and userId != null">
+	       		#{userId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="evaObject != '' and evaObject != null">
+	       		#{evaObject,jdbcType=CHAR},
+	        </if>
+	  	    <if test="evaIssueId != '' and evaIssueId != null">
+	       		#{evaIssueId,jdbcType=BIGINT},
+	        </if>
+		</trim>
+	</insert>
+    
+	   
+</mapper>

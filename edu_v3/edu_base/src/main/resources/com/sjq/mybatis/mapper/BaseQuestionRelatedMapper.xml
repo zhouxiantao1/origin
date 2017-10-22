@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sjq.questionRelated.dao.BaseQuestionRelatedMapper">
+	<resultMap id="BaseResultMap" type="com.sjq.questionRelated.vo.BaseQuestionRelatedVo">
+  		<result column="id" property="id" jdbcType="BIGINT" />
+  		<result column="create_name" property="createName" jdbcType="VARCHAR" />
+  		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  		<result column="mod_name" property="modName" jdbcType="VARCHAR" />
+  		<result column="mod_time" property="modTime" jdbcType="TIMESTAMP" />
+  		<result column="delflag" property="delflag" jdbcType="CHAR" />
+  		<result column="question_id" property="questionId" jdbcType="BIGINT" />
+  		<result column="related_id" property="relatedId" jdbcType="BIGINT" />
+  		<result column="related_type" property="relatedType" jdbcType="CHAR" />
+  		<result column="sort" property="sort" jdbcType="BIGINT" />
+  		
+	</resultMap>
+	 
+	<sql id="Base_Column_List">
+  		id,
+  		create_name,
+  		create_time,
+  		mod_name,
+  		mod_time,
+  		delflag,
+  		question_id,
+  		related_id,
+  		related_type,
+  		sort
+	</sql>
+	
+    
+    <!-- 根据ID查询题目知识点目录信息信息 -->
+	<select id="queryBaseQuestionRelatedById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_base_questionRelated
+       where delflag='0' and id =#{id,jdbcType=BIGINT}
+    </select>
+    
+    <!-- 根据IDS查询所有题目知识点目录信息信息 -->
+	<select id="queryBaseQuestionRelatedByIds" resultMap="BaseResultMap"  parameterType="java.util.Map">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_base_questionRelated
+       where delflag='0' and id in 
+	   <foreach collection="Ids" item="id" open="(" close=")" separator=",">
+	   #{id}
+	   </foreach>
+	</select> 
+					
+	<!-- 根据条件查询所有题目知识点目录信息信息 -->
+	<select id="queryBaseQuestionRelatedBySearch" resultMap="BaseResultMap"  parameterType="java.util.Map">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_base_questionRelated
+       where 1=1 
+  	   <if test="id != '' and id != null">
+       		and id = #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name = #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time = #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name = #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time = #{modTime}
+       </if>
+  	    	and delflag = '0'
+  	   <if test="questionId != '' and questionId != null">
+       		and question_id = #{questionId}
+       </if>
+      
+  	   <if test="relatedId != '' and relatedId != null">
+       		and related_id = #{relatedId}
+       </if>
+  	   <if test="relatedType != '' and relatedType != null">
+       		and related_type = #{relatedType}
+       </if>
+  	   <if test="sort != '' and sort != null">
+       		and sort = #{sort}
+       </if>
+        <if test="relatedIds != '' and relatedIds != null">
+       		and related_id in ( ${relatedIds} )
+       </if>
+	</select>
+	
+	<!-- 根据条件查询题目知识点目录信息count总数 -->
+	<select id="queryBaseQuestionRelatedTotalCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(1) from
+		edu_base_questionRelated where delflag='0'
+  	   <if test="id != '' and id != null">
+       		and id =  #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name =  #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time =  #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name =  #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time =  #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag =  #{delflag}
+       </if>
+  	   <if test="questionId != '' and questionId != null">
+       		and question_id =  #{questionId}
+       </if>
+  	   <if test="relatedId != '' and relatedId != null">
+       		and related_id =  #{relatedId}
+       </if>
+        <if test="relatedIds != '' and relatedIds != null">
+       		and related_id in ( ${relatedIds} )
+       </if>
+  	   <if test="relatedType != '' and relatedType != null">
+       		and related_type =  #{relatedType}
+       </if>
+  	   <if test="sort != '' and sort != null">
+       		and sort =  #{sort}
+       </if>
+	</select>
+	
+
+					
+	<!-- 分页查询题目知识点目录信息 -->
+	<select id="queryBaseQuestionRelatedPage" resultMap="BaseResultMap"  parameterType="java.util.Map">
+		select   
+	    <include refid="Base_Column_List" />
+		from
+		edu_base_questionRelated where delflag='0'
+  	   <if test="id != '' and id != null">
+       		and id =  #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name =  #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time =  #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name =  #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time =  #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag =  #{delflag}
+       </if>
+  	   <if test="questionId != '' and questionId != null">
+       		and question_id =  #{questionId}
+       </if>
+  	   <if test="relatedId != '' and relatedId != null">
+       		and related_id =  #{relatedId}
+       </if>
+        <if test="relatedIds != '' and relatedIds != null">
+       		and related_id in ( ${relatedIds} )
+       </if>
+  	   <if test="relatedType != '' and relatedType != null">
+       		and related_type =  #{relatedType}
+       </if>
+  	   <if test="sort != '' and sort != null">
+       		and sort =  #{sort}
+       </if>
+  	   limit #{startRowNum},#{endRowNum}
+	</select>
+	
+	
+	<!-- (联合题目表查询)根据条件查询题目知识点目录信息count总数 -->
+	<select id="queryBaseQuestionRelatedTotalCount1" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(1) from
+		edu_base_questionRelated a,edu_question_ware b where a.delflag='0' and b.delflag='0' and a.question_id = b.id
+  	   <if test="id != '' and id != null">
+       		and a.id =  #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and a.create_name =  #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and a.create_time =  #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and a.mod_name =  #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and a.mod_time =  #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and a.delflag =  #{delflag}
+       </if>
+  	   <if test="questionId != '' and questionId != null">
+       		and a.question_id =  #{questionId}
+       </if>
+  	   <if test="relatedId != '' and relatedId != null">
+       		and a.related_id =  #{relatedId}
+       </if>
+        <if test="relatedIds != '' and relatedIds != null">
+       		and a.related_id in ( ${relatedIds} )
+       </if>
+  	   <if test="relatedType != '' and relatedType != null">
+       		and a.related_type =  #{relatedType}
+       </if>
+  	   <if test="sort != '' and sort != null">
+       		and a.sort =  #{sort}
+       </if>
+       <if test="typeId != null">
+       		and b.type_id =  #{typeId}
+       </if>
+	</select>
+	
+
+					
+	<!-- (联合题目表查询)分页查询题目知识点目录信息 -->
+	<select id="queryBaseQuestionRelatedPage1" resultMap="BaseResultMap"  parameterType="java.util.Map">
+		select   
+	    <include refid="Base_Column_List" />
+		from
+		edu_base_questionRelated a,edu_question_ware b where a.delflag='0' and b.delflag='0' and a.question_id = b.id
+  	   <if test="id != '' and id != null">
+       		and a.id =  #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and a.create_name =  #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and a.create_time =  #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and a.mod_name =  #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and a.mod_time =  #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and a.delflag =  #{delflag}
+       </if>
+  	   <if test="questionId != '' and questionId != null">
+       		and a.question_id =  #{questionId}
+       </if>
+  	   <if test="relatedId != '' and relatedId != null">
+       		and a.related_id =  #{relatedId}
+       </if>
+        <if test="relatedIds != '' and relatedIds != null">
+       		and a.related_id in ( ${relatedIds} )
+       </if>
+  	   <if test="relatedType != '' and relatedType != null">
+       		and a.related_type =  #{relatedType}
+       </if>
+  	   <if test="sort != '' and sort != null">
+       		and a.sort =  #{sort}
+       </if>
+       <if test="typeId != null">
+       		and b.type_id =  #{typeId}
+       </if>
+  	   limit #{startRowNum},#{endRowNum}
+	</select>
+	
+	
+					
+	<!-- (删除)根据ID删除题目知识点目录信息信息 --> 
+	<delete id="deleteBaseQuestionRelatedById" parameterType="java.lang.Long">
+		update edu_base_questionRelated 
+		<set> 
+	  	    <if test="modName != '' and modName != null">
+	       	mod_name =  #{modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="modTime != '' and modTime != null">
+	       	mod_time =  #{modTime,jdbcType=TIMESTAMP},
+	        </if>
+		delflag = '1'
+		</set>
+		where  id = #{id,jdbcType=BIGINT} 
+	</delete>
+	
+					
+	<!-- (更新)根据条件更新所有题目知识点目录信息信息 -->
+	<update id="updateBaseQuestionRelatedBySearch"  parameterType="java.util.Map" >
+		update edu_base_questionRelated
+		<set>
+	  	    <if test="modName != '' and modName != null">
+	       	mod_name =  #{modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="modTime != '' and modTime != null">
+	       	mod_time =  #{modTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != '' and delflag != null">
+	       	delflag =  #{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="questionId != '' and questionId != null">
+	       	question_id =  #{questionId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="relatedId != '' and relatedId != null">
+	       	related_id =  #{relatedId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="relatedType != '' and relatedType != null">
+	       	related_type =  #{relatedType,jdbcType=CHAR},
+	        </if>
+	  	    <if test="sort != '' and sort != null">
+	       	sort =  #{sort,jdbcType=BIGINT},
+	        </if>
+		</set>
+		where 
+  	   <if test="id != '' and id != null">
+       		and id = #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name = #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time = #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name = #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time = #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag = #{delflag}
+       </if>
+  	   <if test="questionId != '' and questionId != null">
+       		and question_id = #{questionId}
+       </if>
+  	   <if test="relatedId != '' and relatedId != null">
+       		and related_id = #{relatedId}
+       </if>
+  	   <if test="relatedType != '' and relatedType != null">
+       		and related_type = #{relatedType}
+       </if>
+  	   <if test="sort != '' and sort != null">
+       		and sort = #{sort}
+       </if>
+	</update>
+	
+					
+	<!-- (增加)增加题目知识点目录信息信息 --> 
+	<insert id="insertBaseQuestionRelated" parameterType="com.sjq.questionRelated.bean.BaseQuestionRelatedBean">
+		insert into edu_base_questionRelated
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	  	   <if test="id != '' and id != null">
+	       	id,
+	       </if>
+	  	   <if test="createName != '' and createName != null">
+	       	create_name,
+	       </if>
+	  	   <if test="createTime != '' and createTime != null">
+	       	create_time,
+	       </if>
+	  	   <if test="delflag != '' and delflag != null">
+	       	delflag,
+	       </if>
+	  	   <if test="questionId != '' and questionId != null">
+	       	question_id,
+	       </if>
+	  	   <if test="relatedId != '' and relatedId != null">
+	       	related_id,
+	       </if>
+	  	   <if test="relatedType != '' and relatedType != null">
+	       	related_type,
+	       </if>
+	  	   <if test="sort != '' and sort != null">
+	       	sort,
+	       </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	  	    <if test="id != '' and id != null">
+	       		#{id,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="createName != '' and createName != null">
+	       		#{createName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="createTime != '' and createTime != null">
+	       		#{createTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != '' and delflag != null">
+	       		#{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="questionId != '' and questionId != null">
+	       		#{questionId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="relatedId != '' and relatedId != null">
+	       		#{relatedId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="relatedType != '' and relatedType != null">
+	       		#{relatedType,jdbcType=CHAR},
+	        </if>
+	  	    <if test="sort != '' and sort != null">
+	       		#{sort,jdbcType=BIGINT},
+	        </if>
+		</trim>
+	</insert>
+    
+	   
+</mapper>

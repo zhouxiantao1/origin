@@ -1,0 +1,640 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sjq.knowledge.dao.BaseKnowledgeMapper">
+	<resultMap id="BaseResultMap" type="com.sjq.knowledge.vo.BaseKnowledgeVo">
+  		<result column="id" property="id" jdbcType="BIGINT" />
+  		<result column="create_name" property="createName" jdbcType="VARCHAR" />
+  		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  		<result column="mod_name" property="modName" jdbcType="VARCHAR" />
+  		<result column="mod_time" property="modTime" jdbcType="TIMESTAMP" />
+  		<result column="delflag" property="delflag" jdbcType="CHAR" />
+  		<result column="name" property="name" jdbcType="VARCHAR" />
+  		<result column="parent_id" property="parentId" jdbcType="BIGINT" />
+  		<result column="parent_ids" property="parentIds" jdbcType="VARCHAR" />
+  		<result column="sort" property="sort" jdbcType="BIGINT" />
+  		<result column="level" property="level" jdbcType="BIGINT" />
+  		<result column="grade_id" property="gradeId" jdbcType="VARCHAR" />
+  		<result column="stage_id" property="stageId" jdbcType="VARCHAR" />
+  		<result column="term_id" property="termId" jdbcType="VARCHAR" />
+  		<result column="subject_id" property="subjectId" jdbcType="VARCHAR" />
+  		<result column="old_id" property="oldId" jdbcType="BIGINT" />
+  		<result column="is_last" property="isLast" jdbcType="BIGINT" />
+  		
+  		<association property="baseSubjectVo" column="subject_id"
+			select="com.sjq.subject.dao.BaseSubjectMapper.queryBaseSubjectById"></association>
+		<association property="baseStageVo" column="stage_id"
+			select="com.sjq.stage.dao.BaseStageMapper.queryBaseStageById"></association>
+	</resultMap>
+	
+	<resultMap id="TreeNodesResultMap" type="com.sjq.ware.dto.ZTreeNodesDto">
+  		<result column="id" property="id" jdbcType="BIGINT" />
+  		<result column="name" property="name" jdbcType="VARCHAR" />
+  		<result column="open" property="open" jdbcType="BOOLEAN" />
+  		<result column="search_id" property="searchId" jdbcType="BIGINT" />
+ 		<collection property="children" column="{parentId=id,searchId=search_id}" javaType="ArrayList"
+			ofType="com.sjq.ware.dto.ZTreeNodesDto" select="com.sjq.knowledge.dao.BaseKnowledgeMapper.queryTreeNodesBaseKnowledgeBySearch"></collection>
+	</resultMap>
+	
+	<resultMap id="TreeNodesResultMap1" type="com.sjq.ware.dto.ZTreeNodesDto">
+  		<result column="id" property="id" jdbcType="BIGINT" />
+  		<result column="name" property="name" jdbcType="VARCHAR" />
+ 		<collection property="children" column="id" javaType="ArrayList"
+			ofType="com.sjq.ware.dto.ZTreeNodesDto" select="com.sjq.knowledge.dao.BaseKnowledgeMapper.queryBaseKnowledgeByParentId2"></collection>
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+  		id,
+  		create_name,
+  		create_time,
+  		mod_name,
+  		mod_time,
+  		delflag,
+  		name,
+  		parent_id,
+  		parent_ids,
+  		sort,
+  		level,
+  		grade_id,
+  		stage_id,
+  		term_id,
+  		subject_id,
+  		old_id,
+  		is_last
+	</sql>
+	
+	
+	<!-- 根据条件查询所有基础模块-知识点信息信息 -->
+	<select id="queryTreeNodesBaseKnowledgeBySearch" resultMap="TreeNodesResultMap"  parameterType="java.util.Map">
+	   select id,name
+       <if test="searchId != null">
+       	,#{searchId} as search_id	
+       	,CASE WHEN id=#{searchId} THEN true  ELSE true END AS open
+       </if>
+       from edu_base_knowledge
+       where 1=1
+       <if test="parentId != null">
+       		and parent_id = #{parentId}
+       </if>
+  	   <if test="name != null">
+       		and name = #{name}
+       </if>
+  	   <if test="gradeId != '' and gradeId != null">
+       		and grade_id = #{gradeId}
+       </if>
+  	   <if test="stageId != '' and stageId != null">
+       		and stage_id = #{stageId}
+       </if>
+  	   <if test="termId != '' and termId != null">
+       		and term_id = #{termId}
+       </if>
+  	   <if test="subjectId != '' and subjectId != null">
+       		and subject_id = #{subjectId}
+       </if>
+	</select>
+	
+	<!-- 查询所有的基础模块-知识点信息信息 -->
+	<select id="queryAllBaseKnowledge" resultMap="BaseResultMap" >
+ 	   select 
+       <include refid="Base_Column_List" />
+       from edu_base_knowledge
+       where delflag='0'
+    </select>
+	
+	
+	<!-- 根据ID查询基础模块-知识点信息信息 -->
+	<select id="queryBaseKnowledgeById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_base_knowledge
+       where delflag='0' and id =#{id,jdbcType=BIGINT}
+    </select>
+    
+    
+    <!-- 根据试题id查询知识点信息 -->
+	<select id="queryBaseKnowledgeByQuestionId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+       SELECT a.* FROM edu_base_knowledge a LEFT JOIN edu_base_questionrelated b ON a.`id` = b.`related_id` AND b.`related_type`='2' AND b.`question_id`=#{id}
+    </select>
+    
+    
+    <!-- 根据parent_id查询基础模块-知识点信息信息 -->
+	<select id="queryBaseKnowledgeByParentId" resultMap="TreeNodesResultMap" parameterType="java.lang.Long">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_base_knowledge
+       where delflag='0' and parent_id =#{id,jdbcType=BIGINT}
+    </select>
+    
+    <!-- 根据parent_id查询基础模块-返回BaseResultMap -->
+	<select id="queryBaseKnowledgeByParentId1" resultMap="TreeNodesResultMap1" parameterType="java.lang.Long">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_base_knowledge
+       where delflag='0' and id =#{id,jdbcType=BIGINT}
+    </select>
+    
+    <!-- 根据parent_id查询基础模块-返回BaseResultMap -->
+	<select id="queryBaseKnowledgeByParentId2" resultMap="TreeNodesResultMap1" parameterType="java.lang.Long">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_base_knowledge
+       where delflag='0' and parent_id =#{id,jdbcType=BIGINT}
+    </select>
+    
+	<!-- 根据IDS查询所有基础模块-知识点信息信息 -->
+	<select id="queryBaseKnowledgeByIds" resultMap="BaseResultMap"  parameterType="java.util.Map">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_base_knowledge
+       where delflag='0' and id in 
+	   <foreach collection="Ids" item="id" open="(" close=")" separator=",">
+	   #{id}
+	   </foreach>
+	</select>     
+	
+					
+	<!-- 根据条件查询所有基础模块-知识点信息信息 -->
+	<select id="queryBaseKnowledgeBySearch" resultMap="BaseResultMap"  parameterType="java.util.Map">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_base_knowledge
+       where 1=1 
+  	   <if test="id != '' and id != null">
+       		and id = #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name = #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time = #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name = #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time = #{modTime}
+       </if>
+  	    	and delflag = '0'
+  	   <if test="name != '' and name != null">
+       		and name = #{name}
+       </if>
+  	   <if test="parentId != '' and parentId != null">
+       		and parent_id = #{parentId}
+       </if>
+  	   <if test="parentIds != '' and parentIds != null">
+       		and parent_ids = #{parentIds}
+       </if>
+  	   <if test="sort != '' and sort != null">
+       		and sort = #{sort}
+       </if>
+  	   <if test="level != '' and level != null">
+       		and level = #{level}
+       </if>
+  	   <if test="gradeId != '' and gradeId != null">
+       		and grade_id = #{gradeId}
+       </if>
+  	   <if test="stageId != '' and stageId != null">
+       		and stage_id = #{stageId}
+       </if>
+  	   <if test="termId != '' and termId != null">
+       		and term_id = #{termId}
+       </if>
+  	   <if test="subjectId != '' and subjectId != null">
+       		and subject_id = #{subjectId}
+       </if>
+  	   <if test="oldId != '' and oldId != null">
+       		and old_id = #{oldId}
+       </if>
+  	   <if test="isLast != '' and isLast != null">
+       		and is_last = #{isLast}
+       </if>
+	</select>
+	
+					
+	<!-- 根据条件查询基础模块-知识点信息count总数 -->
+	<select id="queryBaseKnowledgeTotalCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(1) from
+		edu_base_knowledge where delflag='0'
+  	   <if test="id != '' and id != null">
+       		and id =  #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name =  #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time =  #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name =  #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time =  #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag =  #{delflag}
+       </if>
+  	   <if test="name != '' and name != null">
+       		and name =  #{name}
+       </if>
+  	   <if test="parentId != null">
+       		and parent_id =  #{parentId}
+       </if>
+  	   <if test="parentIds != '' and parentIds != null">
+       		and parent_ids =  #{parentIds}
+       </if>
+  	   <if test="sort != '' and sort != null">
+       		and sort =  #{sort}
+       </if>
+  	   <if test="level != '' and level != null">
+       		and level =  #{level}
+       </if>
+  	   <if test="gradeId != '' and gradeId != null">
+       		and grade_id =  #{gradeId}
+       </if>
+  	   <if test="stageId != '' and stageId != null">
+       		and stage_id =  #{stageId}
+       </if>
+  	   <if test="termId != '' and termId != null">
+       		and term_id =  #{termId}
+       </if>
+  	   <if test="subjectId != '' and subjectId != null">
+       		and subject_id =  #{subjectId}
+       </if>
+  	   <if test="oldId != '' and oldId != null">
+       		and old_id =  #{oldId}
+       </if>
+  	   <if test="isLast != '' and isLast != null">
+       		and is_last =  #{isLast}
+       </if>
+	</select>
+	
+
+					
+	<!-- 分页查询基础模块-知识点信息 -->
+	<select id="queryBaseKnowledgePage" resultMap="BaseResultMap"  parameterType="java.util.Map">
+		select   
+	    <include refid="Base_Column_List" />
+		from
+		edu_base_knowledge where delflag='0'
+  	   <if test="id != '' and id != null">
+       		and id =  #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name =  #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time =  #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name =  #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time =  #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag =  #{delflag}
+       </if>
+  	   <if test="name != '' and name != null">
+       		and name =  #{name}
+       </if>
+  	   <if test="parentId != null">
+       		and parent_id =  #{parentId}
+       </if>
+  	   <if test="parentIds != '' and parentIds != null">
+       		and parent_ids =  #{parentIds}
+       </if>
+  	   <if test="sort != '' and sort != null">
+       		and sort =  #{sort}
+       </if>
+  	   <if test="level != '' and level != null">
+       		and level =  #{level}
+       </if>
+  	   <if test="gradeId != '' and gradeId != null">
+       		and grade_id =  #{gradeId}
+       </if>
+  	   <if test="stageId != '' and stageId != null">
+       		and stage_id =  #{stageId}
+       </if>
+  	   <if test="termId != '' and termId != null">
+       		and term_id =  #{termId}
+       </if>
+  	   <if test="subjectId != '' and subjectId != null">
+       		and subject_id =  #{subjectId}
+       </if>
+  	   <if test="oldId != '' and oldId != null">
+       		and old_id =  #{oldId}
+       </if>
+  	   <if test="isLast != '' and isLast != null">
+       		and is_last =  #{isLast}
+       </if>
+  	   limit #{startRowNum},#{endRowNum}
+	</select>
+
+					
+	<!-- (删除)根据ID删除基础模块-知识点信息信息 --> 
+	<delete id="deleteBaseKnowledgeById" parameterType="java.lang.Long">
+		update edu_base_knowledge 
+		<set> 
+	  	    <if test="modName != '' and modName != null">
+	       	mod_name =  #{modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="modTime != '' and modTime != null">
+	       	mod_time =  #{modTime,jdbcType=TIMESTAMP},
+	        </if>
+		delflag = '1'
+		</set>
+		where  id = #{id,jdbcType=BIGINT} 
+	</delete>
+	
+					
+	<!-- (删除)根据IDS删除基础模块-知识点信息信息 -->
+	<delete id="deleteBaseKnowledgeByIds"  parameterType="java.util.Map">
+	   update 
+       edu_base_knowledge
+       <set> 
+	  	    <if test="bean.modName != '' and bean.modName != null">
+	       	mod_name =  #{bean.modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="bean.modTime != '' and bean.modTime != null">
+	       	mod_time =  #{bean.modTime,jdbcType=TIMESTAMP},
+	        </if>
+		delflag = '1'
+		</set>
+       where in 
+	   <foreach collection="Ids" item="id" open="(" close=")" separator=",">
+	   #{id}
+	   </foreach>
+	</delete>
+	
+					
+	<!-- (删除)根据条件删除基础模块-知识点信息信息  -->
+	<delete id="deleteBaseKnowledgeBySearch" parameterType="java.util.Map">
+		update 
+		edu_base_knowledge
+		<set> 
+	  	    <if test="bean.modName != '' and bean.modName != null">
+	       	mod_name =  #{bean.modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="bean.modTime != '' and bean.modTime != null">
+	       	mod_time =  #{bean.modTime,jdbcType=TIMESTAMP},
+	        </if>
+		delflag = '1'
+		</set>
+		where 1=1
+  	   <if test="search.id != '' and search.id != null">
+       		and id =  #{search.id}
+       </if>
+  	   <if test="search.createName != '' and search.createName != null">
+       		and create_name =  #{search.createName}
+       </if>
+  	   <if test="search.createTime != '' and search.createTime != null">
+       		and create_time =  #{search.createTime}
+       </if>
+  	   <if test="search.modName != '' and search.modName != null">
+       		and mod_name =  #{search.modName}
+       </if>
+  	   <if test="search.modTime != '' and search.modTime != null">
+       		and mod_time =  #{search.modTime}
+       </if>
+  	   <if test="search.delflag != '' and search.delflag != null">
+       		and delflag =  #{search.delflag}
+       </if>
+  	   <if test="search.name != '' and search.name != null">
+       		and name =  #{search.name}
+       </if>
+  	   <if test="search.parentId != '' and search.parentId != null">
+       		and parent_id =  #{search.parentId}
+       </if>
+  	   <if test="search.parentIds != '' and search.parentIds != null">
+       		and parent_ids =  #{search.parentIds}
+       </if>
+  	   <if test="search.sort != '' and search.sort != null">
+       		and sort =  #{search.sort}
+       </if>
+  	   <if test="search.level != '' and search.level != null">
+       		and level =  #{search.level}
+       </if>
+  	   <if test="search.gradeId != '' and search.gradeId != null">
+       		and grade_id =  #{search.gradeId}
+       </if>
+  	   <if test="search.stageId != '' and search.stageId != null">
+       		and stage_id =  #{search.stageId}
+       </if>
+  	   <if test="search.termId != '' and search.termId != null">
+       		and term_id =  #{search.termId}
+       </if>
+  	   <if test="search.subjectId != '' and search.subjectId != null">
+       		and subject_id =  #{search.subjectId}
+       </if>
+  	   <if test="search.oldId != '' and search.oldId != null">
+       		and old_id =  #{search.oldId}
+       </if>
+  	   <if test="search.isLast != '' and search.isLast != null">
+       		and is_last =  #{search.isLast}
+       </if>
+	</delete>
+	
+					
+	<!-- (更新)根据ID更新所有基础模块-知识点信息信息 -->
+	<update id="updateBaseKnowledgeById" parameterType="com.sjq.knowledge.bean.BaseKnowledgeBean" >
+		update edu_base_knowledge
+		<set>
+	  	    <if test="modName != '' and modName != null">
+	       	mod_name =  #{modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="modTime != '' and modTime != null">
+	       	mod_time =  #{modTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != '' and delflag != null">
+	       	delflag =  #{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="name != '' and name != null">
+	       	name =  #{name,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="parentId != '' and parentId != null">
+	       	parent_id =  #{parentId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="parentIds != '' and parentIds != null">
+	       	parent_ids =  #{parentIds,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="sort != '' and sort != null">
+	       	sort =  #{sort,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="level != '' and level != null">
+	       	level =  #{level,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="gradeId != '' and gradeId != null">
+	       	grade_id =  #{gradeId,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="stageId != '' and stageId != null">
+	       	stage_id =  #{stageId,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="termId != '' and termId != null">
+	       	term_id =  #{termId,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="subjectId != '' and subjectId != null">
+	       	subject_id =  #{subjectId,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="oldId != '' and oldId != null">
+	       	old_id =  #{oldId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="isLast != '' and isLast != null">
+	       	is_last =  #{isLast,jdbcType=BIGINT},
+	        </if>
+		</set>
+		where 1 = 1 and id = #{id,jdbcType=BIGINT} 
+	</update>
+	
+					
+	<!-- (更新)根据IDS更新所有基础模块-知识点信息信息 -->
+	<update id="updateBaseKnowledgeByIds"  parameterType="java.util.Map">
+		update edu_base_knowledge
+		<set>
+	  	    <if test="bean.modName != '' and bean.modName != null">
+	       	mod_name =  #{bean.modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="bean.modTime != '' and bean.modTime != null">
+	       	mod_time =  #{bean.modTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="bean.delflag != '' and bean.delflag != null">
+	       	delflag =  #{bean.delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="bean.name != '' and bean.name != null">
+	       	name =  #{bean.name,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="bean.parentId != '' and bean.parentId != null">
+	       	parent_id =  #{bean.parentId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="bean.parentIds != '' and bean.parentIds != null">
+	       	parent_ids =  #{bean.parentIds,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="bean.sort != '' and bean.sort != null">
+	       	sort =  #{bean.sort,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="bean.level != '' and bean.level != null">
+	       	level =  #{bean.level,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="bean.gradeId != '' and bean.gradeId != null">
+	       	grade_id =  #{bean.gradeId,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="bean.stageId != '' and bean.stageId != null">
+	       	stage_id =  #{bean.stageId,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="bean.termId != '' and bean.termId != null">
+	       	term_id =  #{bean.termId,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="bean.subjectId != '' and bean.subjectId != null">
+	       	subject_id =  #{bean.subjectId,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="bean.oldId != '' and bean.oldId != null">
+	       	old_id =  #{bean.oldId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="bean.isLast != '' and bean.isLast != null">
+	       	is_last =  #{bean.isLast,jdbcType=BIGINT},
+	        </if>
+		</set>
+		where 1 = 1 and id in 
+	   <foreach collection="Ids" item="id" open="(" close=")" separator=",">
+	   #{id}
+	   </foreach>
+	</update>
+	
+    <!-- (增加)增加基础模块-知识点信息信息 --> 
+	<insert id="insertBaseKnowledge" parameterType="com.sjq.knowledge.bean.BaseKnowledgeBean">
+		insert into edu_base_knowledge
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	  	   <if test="id != null">
+	       	id,
+	       </if>
+	  	   <if test="createName != null">
+	       	create_name,
+	       </if>
+	  	   <if test="createTime != null">
+	       	create_time,
+	       </if>
+	  	   <if test="delflag != null">
+	       	delflag,
+	       </if>
+	  	   <if test="name != null">
+	       	name,
+	       </if>
+	  	   <if test="parentId != null">
+	       	parent_id,
+	       </if>
+	  	   <if test="parentIds != null">
+	       	parent_ids,
+	       </if>
+	  	   <if test="sort != null">
+	       	sort,
+	       </if>
+	  	   <if test="level != null">
+	       	level,
+	       </if>
+	  	   <if test="gradeId != null">
+	       	grade_id,
+	       </if>
+	  	   <if test="stageId != null">
+	       	stage_id,
+	       </if>
+	  	   <if test="termId != null">
+	       	term_id,
+	       </if>
+	  	   <if test="subjectId != null">
+	       	subject_id,
+	       </if>
+	  	   <if test="oldId != null">
+	       	old_id,
+	       </if>
+	  	   <if test="isLast != null">
+	       	is_last,
+	       </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	  	    <if test="id != null">
+	       		#{id,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="createName != null">
+	       		#{createName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="createTime != null">
+	       		#{createTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != null">
+	       		#{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="name != null">
+	       		#{name,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="parentId != null">
+	       		#{parentId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="parentIds != null">
+	       		#{parentIds,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="sort != null">
+	       		#{sort,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="level != null">
+	       		#{level,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="gradeId != null">
+	       		#{gradeId,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="stageId != null">
+	       		#{stageId,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="termId != null">
+	       		#{termId,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="subjectId != null">
+	       		#{subjectId,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="oldId != null">
+	       		#{oldId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="isLast != null">
+	       		#{isLast,jdbcType=BIGINT},
+	        </if>
+		</trim>
+	</insert>
+	   
+</mapper>

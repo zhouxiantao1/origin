@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sjq.check.dao.QuestionCheckMapper">
+	<resultMap id="BaseResultMap" type="com.sjq.check.vo.QuestionCheckVo">
+  		<result column="id" property="id" jdbcType="BIGINT" />
+  		<result column="create_name" property="createName" jdbcType="VARCHAR" />
+  		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  		<result column="mod_name" property="modName" jdbcType="VARCHAR" />
+  		<result column="mod_time" property="modTime" jdbcType="TIMESTAMP" />
+  		<result column="delflag" property="delflag" jdbcType="CHAR" />
+  		<result column="querstion_id" property="querstionId" jdbcType="BIGINT" />
+  		<result column="user_id" property="userId" jdbcType="BIGINT" />
+  		<result column="check_status" property="checkStatus" jdbcType="CHAR" />
+  		<result column="check_remark" property="checkRemark" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+  		id,
+  		create_name,
+  		create_time,
+  		mod_name,
+  		mod_time,
+  		delflag,
+  		querstion_id,
+  		user_id,
+  		check_status,
+  		check_remark
+	</sql>
+	
+	
+	<!-- 根据ID查询题库模块-题库审核信息 -->
+	<select id="queryQuestionCheckById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_question_check
+       where delflag='0' and id =#{id,jdbcType=BIGINT}
+    </select>
+    
+					
+	<!-- (更新)根据ID更新所有题库模块-题库审核信息 -->
+	<update id="updateQuestionCheckById" parameterType="com.sjq.check.bean.QuestionCheckBean" >
+		update edu_question_check
+		<set>
+	  	    <if test="modName != '' and modName != null">
+	       	mod_name =  #{modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="modTime != '' and modTime != null">
+	       	mod_time =  #{modTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != '' and delflag != null">
+	       	delflag =  #{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="querstionId != '' and querstionId != null">
+	       	querstion_id =  #{querstionId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="userId != '' and userId != null">
+	       	user_id =  #{userId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="checkStatus != '' and checkStatus != null">
+	       	check_status =  #{checkStatus,jdbcType=CHAR},
+	        </if>
+	  	    <if test="checkRemark != '' and checkRemark != null">
+	       	check_remark =  #{checkRemark,jdbcType=VARCHAR},
+	        </if>
+		</set>
+		where 1 = 1 and id = #{id,jdbcType=BIGINT} 
+	</update>
+	
+					
+	<!-- (增加)增加题库模块-题库审核信息 --> 
+	<insert id="insertQuestionCheck" parameterType="com.sjq.check.bean.QuestionCheckBean">
+		insert into edu_question_check
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	  	   <if test="id != '' and id != null">
+	       	id,
+	       </if>
+	  	   <if test="createName != '' and createName != null">
+	       	create_name,
+	       </if>
+	  	   <if test="createTime != '' and createTime != null">
+	       	create_time,
+	       </if>
+	  	   <if test="delflag != '' and delflag != null">
+	       	delflag,
+	       </if>
+	  	   <if test="querstionId != '' and querstionId != null">
+	       	querstion_id,
+	       </if>
+	  	   <if test="userId != '' and userId != null">
+	       	user_id,
+	       </if>
+	  	   <if test="checkStatus != '' and checkStatus != null">
+	       	check_status,
+	       </if>
+	  	   <if test="checkRemark != '' and checkRemark != null">
+	       	check_remark,
+	       </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	  	    <if test="id != '' and id != null">
+	       		#{id,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="createName != '' and createName != null">
+	       		#{createName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="createTime != '' and createTime != null">
+	       		#{createTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != '' and delflag != null">
+	       		#{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="querstionId != '' and querstionId != null">
+	       		#{querstionId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="userId != '' and userId != null">
+	       		#{userId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="checkStatus != '' and checkStatus != null">
+	       		#{checkStatus,jdbcType=CHAR},
+	        </if>
+	  	    <if test="checkRemark != '' and checkRemark != null">
+	       		#{checkRemark,jdbcType=VARCHAR},
+	        </if>
+		</trim>
+	</insert>
+    
+	   
+</mapper>

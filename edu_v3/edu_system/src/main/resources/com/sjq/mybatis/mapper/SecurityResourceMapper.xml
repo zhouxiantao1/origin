@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sjq.security.dao.securityResourceMapper">
+	<resultMap id="BaseResultMap" type="com.sjq.security.bean.SecurityResource">
+		<id column="id" property="id" jdbcType="BIGINT" />
+  		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  		<result column="create_user" property="createUser" jdbcType="VARCHAR" />
+  		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  		<result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+  		<result column="delflag" property="delflag" jdbcType="VARCHAR" />
+  		<result column="name" property="name" jdbcType="VARCHAR" />
+  		<result column="resource_type" property="resourceType" jdbcType="VARCHAR" />
+  		<result column="url" property="url" jdbcType="VARCHAR" />
+  		<result column="is_visible" property="isVisible" jdbcType="VARCHAR" />
+  		<result column="img_url" property="imgUrl" jdbcType="VARCHAR" />
+  		<result column="img_url_selected" property="imgUrlSelected" jdbcType="VARCHAR" />
+  		<result column="parent_id" property="parentId" jdbcType="BIGINT" />
+  		<result column="description" property="description" jdbcType="VARCHAR" />
+  		<result column="sort" property="sort" jdbcType="BIGINT" />
+	</resultMap>
+	
+	<resultMap id="BossResultMap" type="com.sjq.security.vo.SecurityResourceVo">
+		<id column="id" property="rid" jdbcType="BIGINT" />
+  		<result column="name" property="text" jdbcType="VARCHAR" />
+  		<collection property="nodes" column="id" javaType="ArrayList"
+			ofType="com.sjq.security.vo.SecurityResourceVo" select="com.sjq.security.dao.securityResourceMapper.queryBossResourceByParentId"></collection>
+	</resultMap>
+	
+	
+	<sql id="Base_Column_List">
+  		id,
+  		create_time,
+  		create_user,
+  		update_time,
+  		update_user,
+  		delflag,
+  		name,
+  		resource_type,
+  		url,
+  		is_visible,
+  		img_url,
+  		img_url_selected,
+  		parent_id,
+  		description,
+  		sort
+	</sql>
+	
+	
+	<!-- (增加)增加信息 --> 
+	<insert id="insertSecurityResource" parameterType="com.sjq.security.bean.SecurityResource">
+		insert into sys_security_resource
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	  	   <if test="createTime != '' and createTime != null">
+	       		 create_time,
+	       </if>
+	  	   <if test="createUser != '' and createUser != null">
+	       		 create_user,
+	       </if>
+	  	   <if test="updateTime != '' and updateTime != null">
+	       		 update_time,
+	       </if>
+	  	   <if test="updateUser != '' and updateUser != null">
+	       		 update_user,
+	       </if>
+	       
+	  	   <if test="name != '' and name != null">
+	       		 name,
+	       </if>
+	  	   <if test="resourceType != '' and resourceType != null">
+	       		 resource_type,
+	       </if>
+	       <if test="url != '' and url != null">
+	       		 url,
+	       </if>
+	       <if test="isVisible != '' and isVisible != null">
+	       		 is_visible,
+	       </if>
+	       <if test="imgUrl != '' and imgUrl != null">
+	       		 img_url,
+	       </if>
+	        <if test="imgUrlSelected != '' and imgUrlSelected != null">
+	       		 img_url_selected,
+	       </if>
+	       <if test="parentId != null">
+	       		 parent_id,
+	       </if>
+	       
+	        <if test="description != '' and description != null">
+	       		 description,
+	       </if>
+	       <if test="sort != null">
+	       		 sort,
+	       </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	  	    <if test="createTime != '' and createTime != null">
+	       		#{createTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="createUser != '' and createUser != null">
+	       		#{createUser,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="updateTime != '' and updateTime != null">
+	       		#{updateTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="updateUser != '' and updateUser != null">
+	       		#{updateUser,jdbcType=VARCHAR},
+	        </if>
+	  	     <if test="name != '' and name != null">
+	       		#{name,jdbcType=VARCHAR},
+	       </if>
+	  	   <if test="resourceType != '' and resourceType != null">
+	       		#{resourceType,jdbcType=VARCHAR},
+	       </if>
+	       <if test="url != '' and url != null">
+	       		 #{url,jdbcType=VARCHAR},
+	       </if>
+	       <if test="isVisible != '' and isVisible != null">
+	       		#{isVisible,jdbcType=VARCHAR},
+	       </if>
+	       <if test="imgUrl != '' and imgUrl != null">
+	       		 #{imgUrl,jdbcType=VARCHAR},
+	       </if>
+	        <if test="imgUrlSelected != '' and imgUrlSelected != null">
+	       		#{imgUrlSelected,jdbcType=VARCHAR},
+	       </if>
+	       <if test="parentId != null">
+	       		 #{parentId,jdbcType=BIGINT},
+	       </if>
+	       
+	        <if test="description != '' and description != null">
+	       		 #{description,jdbcType=VARCHAR},
+	       </if>
+	       <if test="sort != null">
+	       		 #{sort,jdbcType=BIGINT},
+	       </if>
+	       
+		</trim>
+	</insert>
+	
+	
+	<!-- 获取全部的资源信息（后台专用，配合Bootstraptreeview插件使用） -->
+	<select id="queryBossAllResource" resultMap="BossResultMap">
+	   select id,name from sys_security_resource
+       where delflag='0' and parent_id = 0 
+    </select>
+    
+    
+    <!-- 根据id获取资源信息（后台专用） -->
+	<select id="queryBossResourceByParentId" resultMap="BossResultMap">
+	   select id,name from sys_security_resource
+       where delflag='0' and parent_id = #{id} 
+    </select>
+    
+    
+    <select id="queryBossLeftMenu" resultType="java.util.HashMap">
+  		select a.id,a.name,a.parent_id,a.url,a.img_url from 
+  			sys_security_resource a,
+  			sys_security_role b,
+  			sys_security_authorization c
+		where 
+			a.id = c.resource_id and b.id = c.role_id 
+			and a.delflag = '0' and b.delflag = '0'
+			and a.menu_type = '0' and a.is_visible = '0' and c.delflag = '0'
+			<if test="level != '' and level != null">
+       			and a.level = #{level}
+       		</if>
+       		<if test="roleId != '' and roleId != null">
+       			and b.id = #{roleId}
+       		</if>
+       		<if test="parentId != '' and parentId != null">
+       			and a.parent_id = #{parentId}
+       		</if>
+	</select>
+	
+	
+	<!-- (查询)根据条件查询所有信息 -->
+	<select id="querySecurityResourceBySearch" resultMap="BaseResultMap"  parameterType="java.util.Map">
+	   select 
+       <include refid="Base_Column_List" />
+       from sys_security_resource
+       where 1=1 
+  	   <if test="id != '' and id != null">
+       		and id = #{id}
+       </if>
+  	   <if test="level != '' and level != null">
+       		and level = #{level}
+       </if>
+	</select>
+	
+	
+	 <select id="querySecurityRoleResourceByResourceId" resultType="java.util.HashMap" parameterType="java.lang.Long">
+  		SELECT b.code from sys_security_authorization a 
+  			left join sys_security_role b 
+  			ON a.role_id = b.id 
+  			where b.delflag = '0' and a.delflag = '0' and a.resource_id = #{resourceId}
+	</select>
+	
+	
+	<!-- 通过权限信息能过查询条件 -->
+	<select id="querySecurityAuthorizationBySearch" resultType="java.lang.Integer"  parameterType="java.util.Map">
+	   select count(1)
+       from sys_security_authorization
+       where 1=1 and delflag = '0'
+  	   <if test="roleId != '' and roleId != null">
+       		and role_id = #{roleId}
+       </if>
+  	   <if test="resourceId != '' and resourceId != null">
+       		and resource_id = #{resourceId}
+       </if>
+       limit 1
+	</select>
+	
+	<!-- 批量删除授权信息（逻辑删除） -->
+	<update id="batchDeleteSecurityAuthorizationByRoleId" parameterType="java.util.Map">
+		update sys_security_authorization set
+		 update_user = #{updateUser} ,
+		 update_time = NOW(),
+		 delflag = '1' 
+		where role_id = #{roleId} and delflag = '0'
+	</update>
+	
+	
+		<!-- (增加)增加信息 --> 
+	<insert id="insertSecurityAuthorization" parameterType="com.sjq.security.bean.SecurityAuthorization">
+		insert into sys_security_authorization
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+		   create_time,
+	  	   <if test="createUser != '' and createUser != null">
+	       		 create_user,
+	       </if>
+	       <if test="delflag != '' and delflag != null">
+	       		 delflag,
+	       </if>
+	       <if test="roleId != '' and roleId != null">
+	       		 role_id,
+	       </if>
+	       <if test="resourceId != '' and resourceId != null">
+	       		 resource_id,
+	       </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			now(),
+			
+	  	    <if test="createUser != '' and createUser != null">
+	       		#{createUser,jdbcType=VARCHAR},
+	        </if>
+	         <if test="delflag != '' and delflag != null">
+	         	#{delflag,jdbcType=VARCHAR},
+	       </if>
+	       <if test="roleId != '' and roleId != null">
+	       		 #{roleId,jdbcType=BIGINT},
+	       </if>
+	       <if test="resourceId != '' and resourceId != null">
+	       		 #{resourceId,jdbcType=BIGINT},
+	       </if>
+	       
+		</trim>
+	</insert>
+	
+	
+	<select id="querySiteLeftMenu" resultType="java.util.Map"  parameterType="java.lang.Long">
+		SELECT a.name,a.url,a.img_url,b.role_id,b.resource_id FROM sys_security_resource a
+		INNER JOIN sys_security_authorization b ON a.id = b.resource_id AND b.delflag ='0' AND role_id = #{roleId} AND a.parent_id = 0 and a.menu_type = '1'
+	</select>
+	   
+</mapper>

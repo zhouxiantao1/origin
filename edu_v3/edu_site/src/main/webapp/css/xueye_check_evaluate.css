@@ -1,0 +1,75 @@
+.content textarea {
+    width: 945px;
+    min-height: 85px;
+    border: 1px solid #ccc;
+    padding: 4px;
+    text-align: left;
+}
+
+.mid{
+	min-height: 730px;
+}
+.message{
+	margin:20px 20px;
+}
+
+.message p{
+	line-height: 30px;
+}
+.message p.my_msg{
+	font-size: 14px;
+}
+.message p.teacher_msg{
+	font-size: 12px;
+}
+.message span{
+	display: inline-block;
+	width:24%;
+}
+
+.semester{
+	margin:10px 20px 5px 20px;
+	font-size: 16px;
+	font-weight: 400;
+}
+ 
+table,td{
+	border:1px solid #ccc;
+} 
+// td{
+// 	text-align: center;
+// }
+
+.semester_tab{
+	margin:0 20px 20px 20px;
+}
+.semester_tab .tit{
+	background:#f2f2f2;
+	width:20%;
+	text-align: center;
+	padding:24px 5px;
+}
+.semester_tab .content{
+	padding:24px 30px 24px 5px;
+}
+
+
+/*保存-取消*/
+.operation{
+	margin:30px 0;
+	text-align:center;
+}
+.operation button{
+	width:140px;
+	height: 32px;
+	line-height: 32px;
+	color:#fff;
+	margin-right: 20px;
+	cursor:pointer;
+}
+.operation button.confirm{
+	background:#30a5ff;
+}
+.operation button.cancel{
+	background:#999;
+}

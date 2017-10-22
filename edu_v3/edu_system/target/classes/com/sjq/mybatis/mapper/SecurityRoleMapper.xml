@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sjq.security.dao.securityRoleMapper">
+	<resultMap id="BaseResultMap" type="com.sjq.security.bean.SecurityRole">
+		<id column="id" property="id" jdbcType="BIGINT" />
+  		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  		<result column="create_user" property="createUser" jdbcType="VARCHAR" />
+  		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  		<result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+  		<result column="code" property="code" jdbcType="VARCHAR" />
+  		<result column="name" property="name" jdbcType="VARCHAR" />
+  		<result column="is_visible" property="isVisible" jdbcType="CHAR" />
+  		<result column="description" property="description" jdbcType="VARCHAR" />
+  		<result column="type" property="type" jdbcType="CHAR" />
+  		<result column="sort" property="sort" jdbcType="BIGINT" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+  		id,
+  		create_time,
+  		create_user,
+  		update_time,
+  		update_user,
+  		code,
+  		name,
+  		is_visible
+	</sql>
+	
+	<!-- (查询)查询所有的信息-->
+	<select id="selectAll" resultMap="BaseResultMap" >
+ 	   select 
+       <include refid="Base_Column_List" />
+       from sys_security_role
+       where delflag='0' order by sort
+    </select>
+	
+	
+	<!-- (查询)根据ID查询所有信息 -->
+	<select id="queryRoleById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+	   select 
+       <include refid="Base_Column_List" />
+       from sys_security_role
+       where delflag='0' and id =#{id,jdbcType=BIGINT}
+    </select>
+    
+    
+	<!-- (查询)根据IDS查询所有信息 -->
+	<select id="queryRoleByIds" resultMap="BaseResultMap"  parameterType="java.util.Map">
+	   select 
+       <include refid="Base_Column_List" />
+       from sys_security_role
+       where delflag='0' and id in 
+	   <foreach collection="Ids" item="id" open="(" close=")" separator=",">
+	   #{id}
+	   </foreach>
+	</select>     
+	
+	
+	<!-- (查询)根据条件查询所有信息 -->
+	<select id="queryRoleBySearch" resultMap="BaseResultMap"  parameterType="java.util.Map">
+	   select 
+       <include refid="Base_Column_List" />
+       from sys_security_role
+       where 1=1 
+  	   <if test="id != '' and id != null">
+       		and id = #{id}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time = #{createTime}
+       </if>
+  	   <if test="createUser != '' and createUser != null">
+       		and create_user = #{createUser}
+       </if>
+  	   <if test="updateTime != '' and updateTime != null">
+       		and update_time = #{updateTime}
+       </if>
+  	   <if test="updateUser != '' and updateUser != null">
+       		and update_user = #{updateUser}
+       </if>
+  	   <if test="code != '' and code != null">
+       		and code = #{code}
+       </if>
+  	   <if test="name != '' and name != null">
+       		and name = #{name}
+       </if>
+  	   <if test="isVisible != '' and isVisible != null">
+       		and is_visible = #{isVisible}
+       </if>
+	</select>
+	
+	
+	<!-- (查询)分页根据条件查询count总数 -->
+	<select id="queryTotalCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(1) from
+		sys_security_role where delflag='0'
+  	   <if test="id != '' and id != null">
+       		and id =  #{id}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time =  #{createTime}
+       </if>
+  	   <if test="createUser != '' and createUser != null">
+       		and create_user =  #{createUser}
+       </if>
+  	   <if test="updateTime != '' and updateTime != null">
+       		and update_time =  #{updateTime}
+       </if>
+  	   <if test="updateUser != '' and updateUser != null">
+       		and update_user =  #{updateUser}
+       </if>
+  	   <if test="code != '' and code != null">
+       		and code =  #{code}
+       </if>
+  	   <if test="name != '' and name != null">
+       		and name =  #{name}
+       </if>
+  	   <if test="isVisible != '' and isVisible != null">
+       		and is_visible =  #{isVisible}
+       </if>
+	</select>
+	
+	
+	<!-- (查询)分布根据条件查询信息 -->
+	<select id="queryByPageBean" resultMap="BaseResultMap"  parameterType="java.util.Map">
+		select   
+	    <include refid="Base_Column_List" />
+		from
+		sys_security_role where delflag='0'
+  	   <if test="id != '' and id != null">
+       		and id =  #{id}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time =  #{createTime}
+       </if>
+  	   <if test="createUser != '' and createUser != null">
+       		and create_user =  #{createUser}
+       </if>
+  	   <if test="updateTime != '' and updateTime != null">
+       		and update_time =  #{updateTime}
+       </if>
+  	   <if test="updateUser != '' and updateUser != null">
+       		and update_user =  #{updateUser}
+       </if>
+  	   <if test="code != '' and code != null">
+       		and code =  #{code}
+       </if>
+  	   <if test="name != '' and name != null">
+       		and name =  #{name}
+       </if>
+  	   <if test="isVisible != '' and isVisible != null">
+       		and is_visible =  #{isVisible}
+       </if>
+  	   limit #{startRowNum},#{endRowNum}
+	</select>
+	
+	<!-- (删除)删除所有的 信息  -->
+	<delete id="deleteAll">
+		update sys_security_role set delflag = '1'
+	</delete>
+	
+	<!-- (删除)根据ID删除信息 --> 
+	<delete id="deleteRoleById" parameterType="java.lang.Long">
+		update sys_security_role set delflag = '1' where  id = #{id,jdbcType=BIGINT} 
+	</delete>
+	
+	
+	<!-- (删除)根据IDS删除信息 -->
+	<delete id="deleteRoleByIds"  parameterType="java.util.Map">
+	   update 
+       sys_security_role
+       set delflag = '1' 
+       where in 
+	   <foreach collection="Ids" item="id" open="(" close=")" separator=",">
+	   #{id}
+	   </foreach>
+	</delete>
+	
+	
+	<!-- (删除)根据条件删除信息 -->
+	<delete id="deleteRoleBySearch" parameterType="java.util.Map">
+		update 
+		sys_security_role
+		set delflag = '1'
+		where 1=1
+  	   <if test="id != '' and id != null">
+       		and id =  #{id}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time =  #{createTime}
+       </if>
+  	   <if test="createUser != '' and createUser != null">
+       		and create_user =  #{createUser}
+       </if>
+  	   <if test="updateTime != '' and updateTime != null">
+       		and update_time =  #{updateTime}
+       </if>
+  	   <if test="updateUser != '' and updateUser != null">
+       		and update_user =  #{updateUser}
+       </if>
+  	   <if test="code != '' and code != null">
+       		and code =  #{code}
+       </if>
+  	   <if test="name != '' and name != null">
+       		and name =  #{name}
+       </if>
+  	   <if test="isVisible != '' and isVisible != null">
+       		and is_visible =  #{isVisible}
+       </if>
+	</delete>
+	
+	
+	<!-- (更新)更新所有信息 (慎用)-->
+	<update id="updateRole" parameterType="com.sjq.security.bean.SecurityRole">
+		update sys_security_role
+		<set>
+	  	    <if test="createTime != '' and createTime != null">
+	       		create_time =  #{createTime,jdbcType=TIMESTAMP},
+	       		
+	        </if>
+	  	    <if test="createUser != '' and createUser != null">
+	       		create_user =  #{createUser,jdbcType=VARCHAR},
+	       		
+	        </if>
+	  	    <if test="updateTime != '' and updateTime != null">
+	       		update_time =  #{updateTime,jdbcType=TIMESTAMP},
+	       		
+	        </if>
+	  	    <if test="updateUser != '' and updateUser != null">
+	       		update_user =  #{updateUser,jdbcType=VARCHAR},
+	       		
+	        </if>
+	  	    <if test="code != '' and code != null">
+	       		code =  #{code,jdbcType=},
+	       		
+	        </if>
+	  	    <if test="name != '' and name != null">
+	       		name =  #{name,jdbcType=},
+	       		
+	        </if>
+	  	    <if test="isVisible != '' and isVisible != null">
+	       		is_visible =  #{isVisible,jdbcType=CHAR},
+	       		
+	        </if>
+		</set>
+	</update>
+	
+	
+	<!-- (更新)根据ID更新所有信息 -->
+	<update id="updateRoleById" parameterType="com.sjq.security.bean.SecurityRole" >
+		update sys_security_role
+		<set>
+	  	    <if test="createTime != '' and createTime != null">
+	       		create_time =  #{createTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="createUser != '' and createUser != null">
+	       		create_user =  #{createUser,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="updateTime != '' and updateTime != null">
+	       		update_time =  #{updateTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="updateUser != '' and updateUser != null">
+	       		update_user =  #{updateUser,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="code != '' and code != null">
+	       		code =  #{code,jdbcType=},
+	        </if>
+	  	    <if test="name != '' and name != null">
+	       		name =  #{name,jdbcType=},
+	        </if>
+	  	    <if test="isVisible != '' and isVisible != null">
+	       		is_visible =  #{isVisible,jdbcType=CHAR},
+	        </if>
+		</set>
+		where 1 = 1 and id = #{id,jdbcType=BIGINT} 
+	</update>
+	
+	
+	<!-- (更新)根据IDS更新有信息 -->
+	<update id="updateRoleByIds"  parameterType="java.util.Map">
+		update sys_security_role
+		<set>
+	  	    <if test="createTime != '' and createTime != null">
+	       		create_time =  #{createTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="createUser != '' and createUser != null">
+	       		create_user =  #{createUser,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="updateTime != '' and updateTime != null">
+	       		update_time =  #{updateTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="updateUser != '' and updateUser != null">
+	       		update_user =  #{updateUser,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="code != '' and code != null">
+	       		code =  #{code,jdbcType=},
+	        </if>
+	  	    <if test="name != '' and name != null">
+	       		name =  #{name,jdbcType=},
+	        </if>
+	  	    <if test="isVisible != '' and isVisible != null">
+	       		is_visible =  #{isVisible,jdbcType=CHAR},
+	        </if>
+		</set>
+		where 1 = 1 and id in 
+	   <foreach collection="Ids" item="id" open="(" close=")" separator=",">
+	   #{id}
+	   </foreach>
+	</update>
+	
+	
+	<!-- (更新)根据条件更新所有信息 -->
+	<update id="updateRoleBySearch"  parameterType="java.util.Map" >
+		update sys_security_role
+		<set>
+	  	    <if test="createTime != '' and createTime != null">
+	       		create_time =  #{createTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="createUser != '' and createUser != null">
+	       		create_user =  #{createUser,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="updateTime != '' and updateTime != null">
+	       		update_time =  #{updateTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="updateUser != '' and updateUser != null">
+	       		update_user =  #{updateUser,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="code != '' and code != null">
+	       		code =  #{code,jdbcType=},
+	        </if>
+	  	    <if test="name != '' and name != null">
+	       		name =  #{name,jdbcType=},
+	        </if>
+	  	    <if test="isVisible != '' and isVisible != null">
+	       		is_visible =  #{isVisible,jdbcType=CHAR},
+	        </if>
+		</set>
+		where 
+  	   <if test="id != '' and id != null">
+       		and id = #{id}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time = #{createTime}
+       </if>
+  	   <if test="createUser != '' and createUser != null">
+       		and create_user = #{createUser}
+       </if>
+  	   <if test="updateTime != '' and updateTime != null">
+       		and update_time = #{updateTime}
+       </if>
+  	   <if test="updateUser != '' and updateUser != null">
+       		and update_user = #{updateUser}
+       </if>
+  	   <if test="code != '' and code != null">
+       		and code = #{code}
+       </if>
+  	   <if test="name != '' and name != null">
+       		and name = #{name}
+       </if>
+  	   <if test="isVisible != '' and isVisible != null">
+       		and is_visible = #{isVisible}
+       </if>
+	</update>
+	
+	<!-- (增加)增加信息 --> 
+	<insert id="insertRole" parameterType="com.sjq.security.bean.SecurityRole">
+		insert into sys_security_role
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	  	   <if test="createTime != '' and createTime != null">
+	       		 create_time,
+	       </if>
+	  	   <if test="createUser != '' and createUser != null">
+	       		 create_user,
+	       </if>
+	  	   <if test="updateTime != '' and updateTime != null">
+	       		 update_time,
+	       </if>
+	  	   <if test="updateUser != '' and updateUser != null">
+	       		 update_user,
+	       </if>
+	  	   <if test="code != '' and code != null">
+	       		 code,
+	       </if>
+	  	   <if test="name != '' and name != null">
+	       		 name,
+	       </if>
+	  	   <if test="isVisible != '' and isVisible != null">
+	       		 is_visible,
+	       </if>
+	       <if test="description != '' and description != null">
+	       		 description,
+	       </if>
+	       <if test="type != '' and type != null">
+	       		 type,
+	       </if>
+	        <if test="sort != '' and sort != null">
+	       		 sort,
+	       </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	  	    <if test="createTime != '' and createTime != null">
+	       		#{createTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="createUser != '' and createUser != null">
+	       		#{createUser,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="updateTime != '' and updateTime != null">
+	       		#{updateTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="updateUser != '' and updateUser != null">
+	       		#{updateUser,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="code != '' and code != null">
+	       		#{code,jdbcType=CHAR},
+	        </if>
+	  	    <if test="name != '' and name != null">
+	       		#{name,jdbcType=CHAR},
+	        </if>
+	  	    <if test="isVisible != '' and isVisible != null">
+	       		#{isVisible,jdbcType=CHAR},
+	        </if>
+	        <if test="description != '' and description != null">
+	       		#{description,jdbcType=VARCHAR},
+	        </if>
+	        <if test="type != '' and type != null">
+	       		#{type,jdbcType=CHAR},
+	       </if>
+	  	    <if test="sort != '' and sort != null">
+	       		#{sort,jdbcType=BIGINT},
+	        </if>
+		</trim>
+	</insert>
+    
+	   
+</mapper>

@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sjq.report.dao.InterlocutionReportMapper">
+	<resultMap id="BaseResultMap" type="com.sjq.report.vo.InterlocutionReportVo">
+  		<result column="id" property="id" jdbcType="BIGINT" />
+  		<result column="create_name" property="createName" jdbcType="VARCHAR" />
+  		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  		<result column="mod_name" property="modName" jdbcType="VARCHAR" />
+  		<result column="mod_time" property="modTime" jdbcType="TIMESTAMP" />
+  		<result column="delflag" property="delflag" jdbcType="CHAR" />
+  		<result column="type" property="type" jdbcType="CHAR" />
+  		<result column="report_num" property="reportNum" jdbcType="BIGINT" />
+  		<result column="status" property="status" jdbcType="CHAR" />
+  		<result column="result" property="result" jdbcType="CHAR" />
+  		<result column="area_id" property="areaId" jdbcType="BIGINT" />
+  		<result column="school_id" property="schoolId" jdbcType="BIGINT" />
+  		<result column="ask_id" property="askId" jdbcType="BIGINT" />
+  		<result column="answer_id" property="answerId" jdbcType="BIGINT" />
+  		
+  		<association property="interlocutionAskVo" column="ask_id"		
+  			select="com.sjq.ask.dao.InterlocutionAskMapper.queryInterlocutionAskById1"></association>
+  			
+  		<association property="interlocutionAnswerAskVo" column="answer_id"		
+  			select="com.sjq.answerAsk.dao.InterlocutionAnswerAskMapper.queryInterlocutionAnswerAskById1"></association>
+  		
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+  		id,
+  		create_name,
+  		create_time,
+  		mod_name,
+  		mod_time,
+  		delflag,
+  		type,
+  		report_num,
+  		status,
+  		result,
+  		area_id,
+  		school_id,
+  		ask_id,
+  		answer_id
+	</sql>
+	
+	
+	<!-- 根据ID查询举报信息信息 -->
+	<select id="queryInterlocutionReportById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_interlocution_report
+       where delflag='0' and id =#{id,jdbcType=BIGINT}
+    </select>
+    
+    
+	<!-- 根据IDS查询所有举报信息信息 -->
+	<select id="queryInterlocutionReportByIds" resultMap="BaseResultMap"  parameterType="java.util.Map">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_interlocution_report
+       where delflag='0' and id in 
+	   <foreach collection="Ids" item="id" open="(" close=")" separator=",">
+	   #{id}
+	   </foreach>
+	</select>     
+	
+					
+	<!-- 根据条件查询所有举报信息信息 -->
+	<select id="queryInterlocutionReportBySearch" resultMap="BaseResultMap"  parameterType="java.util.Map">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_interlocution_report
+       where 1=1 
+  	   <if test="id != '' and id != null">
+       		and id = #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name = #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time = #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name = #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time = #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag = #{delflag}
+       </if>
+  	   <if test="type != '' and type != null">
+       		and type = #{type}
+       </if>
+  	   <if test="reportNum != '' and reportNum != null">
+       		and report_num = #{reportNum}
+       </if>
+  	   <if test="status != '' and status != null">
+       		and status = #{status}
+       </if>
+  	   <if test="result != '' and result != null">
+       		and result = #{result}
+       </if>
+  	   <if test="areaId != '' and areaId != null">
+       		and area_id = #{areaId}
+       </if>
+  	   <if test="schoolId != '' and schoolId != null">
+       		and school_id = #{schoolId}
+       </if>
+  	   <if test="askId != '' and askId != null">
+       		and ask_id = #{askId}
+       </if>
+  	   <if test="answerId != '' and answerId != null">
+       		and answer_id = #{answerId}
+       </if>
+	</select>
+	
+					
+	<!-- 根据条件查询举报信息count总数 -->
+	<select id="queryInterlocutionReportTotalCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(1) from
+		edu_interlocution_report where delflag='0'
+  	   <if test="id != '' and id != null">
+       		and id =  #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name =  #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time =  #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name =  #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time =  #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag =  #{delflag}
+       </if>
+  	   <if test="type != '' and type != null">
+       		and type =  #{type}
+       </if>
+  	   and report_num >  0
+  	   <if test="status != '' and status != null">
+       		and status =  #{status}
+       </if>
+  	   <if test="result != '' and result != null">
+       		and result =  #{result}
+       </if>
+  	   <if test="areaId != '' and areaId != null">
+       		and area_id =  #{areaId}
+       </if>
+  	   <if test="schoolId != '' and schoolId != null">
+       		and school_id =  #{schoolId}
+       </if>
+  	   <if test="askId != '' and askId != null">
+       		and ask_id =  #{askId}
+       </if>
+  	   <if test="answerId != '' and answerId != null">
+       		and answer_id =  #{answerId}
+       </if>
+	</select>
+	
+
+					
+	<!-- 分页查询举报信息 -->
+	<select id="queryInterlocutionReportPage" resultMap="BaseResultMap"  parameterType="java.util.Map">
+		select   
+	    <include refid="Base_Column_List" />
+		from
+		edu_interlocution_report where delflag='0'
+  	   <if test="id != '' and id != null">
+       		and id =  #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name =  #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time =  #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name =  #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time =  #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag =  #{delflag}
+       </if>
+  	   <if test="type != '' and type != null">
+       		and type =  #{type}
+       </if>
+  	   <if test="reportNum != '' and reportNum != null">
+       		and report_num =  #{reportNum}
+       </if>
+  	    and report_num >  0
+  	    <if test="status != '' and status != null">
+       		and status =  #{status}
+       </if>
+  	   <if test="result != '' and result != null">
+       		and result =  #{result}
+       </if>
+  	   <if test="areaId != '' and areaId != null">
+       		and area_id =  #{areaId}
+       </if>
+  	   <if test="schoolId != '' and schoolId != null">
+       		and school_id =  #{schoolId}
+       </if>
+  	   <if test="askId != '' and askId != null">
+       		and ask_id =  #{askId}
+       </if>
+  	   <if test="answerId != '' and answerId != null">
+       		and answer_id =  #{answerId}
+       </if>
+  	   limit #{startRowNum},#{endRowNum}
+	</select>
+
+					
+	<!-- (更新)根据ID更新所有举报信息信息 -->
+	<update id="updateInterlocutionReportById" parameterType="com.sjq.report.bean.InterlocutionReportBean" >
+		update edu_interlocution_report
+		<set>
+	  	    <if test="modName != '' and modName != null">
+	       	mod_name =  #{modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="modTime != '' and modTime != null">
+	       	mod_time =  #{modTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != '' and delflag != null">
+	       	delflag =  #{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="type != '' and type != null">
+	       	type =  #{type,jdbcType=CHAR},
+	        </if>
+	  	    <if test="reportNum != '' and reportNum != null">
+	       	report_num =  #{reportNum,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="status != '' and status != null">
+	       	status =  #{status,jdbcType=CHAR},
+	        </if>
+	  	    <if test="result != '' and result != null">
+	       	result =  #{result,jdbcType=CHAR},
+	        </if>
+	  	    <if test="areaId != '' and areaId != null">
+	       	area_id =  #{areaId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="schoolId != '' and schoolId != null">
+	       	school_id =  #{schoolId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="askId != '' and askId != null">
+	       	ask_id =  #{askId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="answerId != '' and answerId != null">
+	       	answer_id =  #{answerId,jdbcType=BIGINT},
+	        </if>
+		</set>
+		where 1 = 1 and id = #{id,jdbcType=BIGINT} 
+	</update>
+					
+	<!-- (更新)根据条件更新所有举报信息信息 -->
+	<update id="updateInterlocutionReportBySearch"  parameterType="java.util.Map" >
+		update edu_interlocution_report
+		<set>
+	  	    <if test="modName != '' and modName != null">
+	       	mod_name =  #{modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="modTime != '' and modTime != null">
+	       	mod_time =  #{modTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != '' and delflag != null">
+	       	delflag =  #{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="type != '' and type != null">
+	       	type =  #{type,jdbcType=CHAR},
+	        </if>
+	  	    <if test="reportNum != '' and reportNum != null">
+	       	report_num =  ${reportNum},
+	        </if>
+	  	    <if test="status != '' and status != null">
+	       	status =  #{status,jdbcType=CHAR},
+	        </if>
+	  	    <if test="result != '' and result != null">
+	       	result =  #{result,jdbcType=CHAR},
+	        </if>
+	  	    <if test="areaId != '' and areaId != null">
+	       	area_id =  #{areaId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="schoolId != '' and schoolId != null">
+	       	school_id =  #{schoolId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="askId != '' and askId != null">
+	       	ask_id =  #{askId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="answerId != '' and answerId != null">
+	       	answer_id =  #{answerId,jdbcType=BIGINT},
+	        </if>
+		</set>
+		where 1=1
+  	   <if test="id != '' and id != null">
+       		and id = #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name = #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time = #{createTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag = #{delflag}
+       </if>
+  	   <if test="type != '' and type != null">
+       		and type = #{type}
+       </if>
+  	   <if test="status != '' and status != null">
+       		and status = #{status}
+       </if>
+  	   <if test="result != '' and result != null">
+       		and result = #{result}
+       </if>
+  	   <if test="areaId != '' and areaId != null">
+       		and area_id = #{areaId}
+       </if>
+  	   <if test="schoolId != '' and schoolId != null">
+       		and school_id = #{schoolId}
+       </if>
+  	   <if test="askId != '' and askId != null">
+       		and ask_id = #{askId}
+       </if>
+  	   <if test="answerId != '' and answerId != null">
+       		and answer_id = #{answerId}
+       </if>
+	</update>
+	
+					
+	<!-- (增加)增加举报信息信息 --> 
+	<insert id="insertInterlocutionReport" parameterType="com.sjq.report.bean.InterlocutionReportBean">
+		insert into edu_interlocution_report
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	  	   <if test="id != '' and id != null">
+	       	id,
+	       </if>
+	  	   <if test="createName != '' and createName != null">
+	       	create_name,
+	       </if>
+	  	   <if test="createTime != '' and createTime != null">
+	       	create_time,
+	       </if>
+	  	   <if test="delflag != '' and delflag != null">
+	       	delflag,
+	       </if>
+	  	   <if test="type != '' and type != null">
+	       	type,
+	       </if>
+	  	   <if test="reportNum != '' and reportNum != null">
+	       	report_num,
+	       </if>
+	  	   <if test="status != '' and status != null">
+	       	status,
+	       </if>
+	  	   <if test="result != '' and result != null">
+	       	result,
+	       </if>
+	  	   <if test="areaId != '' and areaId != null">
+	       	area_id,
+	       </if>
+	  	   <if test="schoolId != '' and schoolId != null">
+	       	school_id,
+	       </if>
+	  	   <if test="askId != '' and askId != null">
+	       	ask_id,
+	       </if>
+	  	   <if test="answerId != '' and answerId != null">
+	       	answer_id,
+	       </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	  	    <if test="id != '' and id != null">
+	       		#{id,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="createName != '' and createName != null">
+	       		#{createName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="createTime != '' and createTime != null">
+	       		#{createTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != '' and delflag != null">
+	       		#{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="type != '' and type != null">
+	       		#{type,jdbcType=CHAR},
+	        </if>
+	  	    <if test="reportNum != '' and reportNum != null">
+	       		#{reportNum,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="status != '' and status != null">
+	       		#{status,jdbcType=CHAR},
+	        </if>
+	  	    <if test="result != '' and result != null">
+	       		#{result,jdbcType=CHAR},
+	        </if>
+	  	    <if test="areaId != '' and areaId != null">
+	       		#{areaId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="schoolId != '' and schoolId != null">
+	       		#{schoolId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="askId != '' and askId != null">
+	       		#{askId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="answerId != '' and answerId != null">
+	       		#{answerId,jdbcType=BIGINT},
+	        </if>
+		</trim>
+	</insert>
+    
+	   
+</mapper>

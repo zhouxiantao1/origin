@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sjq.exam.offline.dao.OfflineAnswerDataMapper">
+	
+	<!-- 批量插入线下考生作答数据 -->
+	<insert id="insertOfflineAnswerDataBatch" useGeneratedKeys="true" parameterType="java.util.List">  
+    <selectKey resultType="long" keyProperty="id" order="AFTER">  
+        select last_insert_id()
+    </selectKey>  
+   	insert into t_line_exam_answer (exam_code,subject_code,student_id_gz,question_no,score)   
+   	values  
+   <foreach collection="list" item="item" index="index" separator="," >  
+        (#{item.examCode},#{item.subjectCode},#{item.studentIdGz},#{item.questionNo},#{item.score})  
+    </foreach>  
+	</insert>  
+	
+</mapper>

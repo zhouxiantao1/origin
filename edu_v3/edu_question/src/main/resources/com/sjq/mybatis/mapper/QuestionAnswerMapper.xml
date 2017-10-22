@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sjq.answer.dao.QuestionAnswerMapper">
+	<resultMap id="BaseResultMap" type="com.sjq.answer.vo.QuestionAnswerVo">
+  		<result column="id" property="id" jdbcType="BIGINT" />
+  		<result column="create_name" property="createName" jdbcType="VARCHAR" />
+  		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  		<result column="mod_name" property="modName" jdbcType="VARCHAR" />
+  		<result column="mod_time" property="modTime" jdbcType="TIMESTAMP" />
+  		<result column="delflag" property="delflag" jdbcType="CHAR" />
+  		<result column="question_id" property="questionId" jdbcType="BIGINT" />
+  		<result column="answer_value" property="answerValue" jdbcType="VARCHAR" />
+  		<result column="answer_description" property="answerDescription" jdbcType="VARCHAR" />
+  		<result column="status" property="status" jdbcType="CHAR" />
+  		<result column="remark" property="remark" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+  		id,
+  		create_name,
+  		create_time,
+  		mod_name,
+  		mod_time,
+  		delflag,
+  		question_id,
+  		answer_value,
+  		answer_description,
+  		status,
+  		remark
+	</sql>
+	
+	
+	<!-- 根据ID查询题库模块-题库答案信息 -->
+	<select id="queryQuestionAnswerById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_question_answer
+       where delflag='0' and id =#{id,jdbcType=BIGINT}
+    </select>
+    
+    
+    
+    
+    <!-- 根据question_id查询题库模块-题库答案信息 -->
+	<select id="queryQuestionAnswerByQuestionId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_question_answer
+       where delflag='0' and question_id =#{id,jdbcType=BIGINT}
+    </select>
+    
+    
+    <!-- (增加)增加题库模块-题库答案信息 --> 
+	<insert id="insertQuestionAnswer" parameterType="com.sjq.answer.bean.QuestionAnswerBean">
+		insert into edu_question_answer
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	  	   <if test="id != '' and id != null">
+	       	id,
+	       </if>
+	  	   <if test="createName != '' and createName != null">
+	       	create_name,
+	       </if>
+	  	   <if test="createTime != '' and createTime != null">
+	       	create_time,
+	       </if>
+	  	   <if test="delflag != '' and delflag != null">
+	       	delflag,
+	       </if>
+	  	   <if test="questionId != '' and questionId != null">
+	       	question_id,
+	       </if>
+	  	   <if test="answerValue != '' and answerValue != null">
+	       	answer_value,
+	       </if>
+	  	   <if test="answerDescription != '' and answerDescription != null">
+	       	answer_description,
+	       </if>
+	  	   <if test="status != '' and status != null">
+	       	status,
+	       </if>
+	  	   <if test="remark != '' and remark != null">
+	       	remark,
+	       </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	  	    <if test="id != '' and id != null">
+	       		#{id,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="createName != '' and createName != null">
+	       		#{createName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="createTime != '' and createTime != null">
+	       		#{createTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != '' and delflag != null">
+	       		#{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="questionId != '' and questionId != null">
+	       		#{questionId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="answerValue != '' and answerValue != null">
+	       		#{answerValue,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="answerDescription != '' and answerDescription != null">
+	       		#{answerDescription,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="status != '' and status != null">
+	       		#{status,jdbcType=CHAR},
+	        </if>
+	  	    <if test="remark != '' and remark != null">
+	       		#{remark,jdbcType=VARCHAR},
+	        </if>
+		</trim>
+	</insert>
+	
+	
+					
+	<!-- (更新)根据ID更新所有题库模块-题库答案信息 -->
+	<update id="updateQuestionAnswerById" parameterType="com.sjq.answer.bean.QuestionAnswerBean" >
+		update edu_question_answer
+		<set>
+	  	    <if test="modName != null">
+	       	mod_name =  #{modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="modTime != null">
+	       	mod_time =  #{modTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != null">
+	       	delflag =  #{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="questionId != null">
+	       	question_id =  #{questionId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="answerValue != null">
+	       	answer_value =  #{answerValue,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="answerDescription != null">
+	       	answer_description =  #{answerDescription,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="status != null">
+	       	status =  #{status,jdbcType=CHAR},
+	        </if>
+	  	    <if test="remark != null">
+	       	remark =  #{remark,jdbcType=VARCHAR},
+	        </if>
+		</set>
+		where 1 = 1 and id = #{id,jdbcType=BIGINT} 
+	</update>
+	
+    
+	   
+</mapper>

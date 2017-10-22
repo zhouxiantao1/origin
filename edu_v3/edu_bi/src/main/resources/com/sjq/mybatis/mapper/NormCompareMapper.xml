@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sjq.compare.dao.NormCompareMapper">
+	<resultMap id="BaseResultMap" type="com.sjq.compare.vo.NormCompareVo">
+  		<result column="id" property="id" jdbcType="BIGINT" />
+  		<result column="create_name" property="createName" jdbcType="VARCHAR" />
+  		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  		<result column="mod_name" property="modName" jdbcType="VARCHAR" />
+  		<result column="mod_time" property="modTime" jdbcType="TIMESTAMP" />
+  		<result column="delflag" property="delflag" jdbcType="CHAR" />
+  		<result column="def_id" property="defId" jdbcType="BIGINT" />
+  		<result column="original_score" property="originalScore" jdbcType="DECIMAL" />
+  		<result column="standard_score" property="standardScore" jdbcType="DECIMAL" />
+  		<result column="norm_percent" property="normPercent" jdbcType="DECIMAL" />
+  		<association property="examDetailVo" column="exam_detail_id" select="com.sjq.detail.dao.ExamDetailMapper.queryExamDetailById"/>
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+  		id,
+  		create_name,
+  		create_time,
+  		mod_name,
+  		mod_time,
+  		delflag,
+  		def_id,
+  		original_score,
+  		standard_score,
+  		norm_percent,
+  		exam_detail_id
+	</sql>
+	
+	
+	<!-- 根据ID查询常模管理-常模对照信息 -->
+	<select id="queryNormCompareById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_norm_compare
+       where delflag='0' and id =#{id,jdbcType=BIGINT}
+    </select>
+    
+    <resultMap id="BaseBeanResultMap" type="com.sjq.compare.bean.NormCompareBean">
+  		<result column="id" property="id" jdbcType="BIGINT" />
+  		<result column="create_name" property="createName" jdbcType="VARCHAR" />
+  		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  		<result column="mod_name" property="modName" jdbcType="VARCHAR" />
+  		<result column="mod_time" property="modTime" jdbcType="TIMESTAMP" />
+  		<result column="delflag" property="delflag" jdbcType="CHAR" />
+  		<result column="def_id" property="defId" jdbcType="BIGINT" />
+  		<result column="original_score" property="originalScore" jdbcType="DECIMAL" />
+  		<result column="standard_score" property="standardScore" jdbcType="DECIMAL" />
+  		<result column="norm_percent" property="normPercent" jdbcType="DECIMAL" />
+  		<result column="exam_detail_id" property="examDetailId" jdbcType="BIGINT" />
+	</resultMap>
+    <select id="queryNormCompareByExamId" resultMap="BaseBeanResultMap"  parameterType="java.util.Map">
+		select total_score original_score,10*(total_score-avg(full_score))/stddev_samp(full_score)+50 standard_score,exam_detail_id from edu_exam_paperscore pap
+		inner join edu_exam_detail det on pap.exam_detail_id = det.id
+		inner join edu_papers_info inf on inf.id = det.paper_id where pap.exam_id = #{examId,jdbcType=BIGINT} group by exam_detail_id
+    </select>
+    
+    <select id="queryNormCompareByExam" resultMap="BaseBeanResultMap"  parameterType="java.util.Map">
+		select total_score original_score,count(1)/b.cou norm_percent,a.exam_detail_id from edu_exam_paperscore a 
+		inner join (select count(1) cou,avg(full_score) full_score,exam_detail_id from edu_exam_paperscore where exam_id = #{examId,jdbcType=BIGINT} group by exam_detail_id) b on a.exam_detail_id = b.exam_detail_id 
+		inner join edu_exam_detail det on a.exam_detail_id = det.id
+		inner join edu_papers_info inf on inf.id = det.paper_id
+		where b.full_score>a.full_score and a.exam_id = #{examId,jdbcType=BIGINT} group by a.exam_detail_id
+    </select>
+					
+	<!-- 根据条件查询所有常模管理-常模对照信息 -->
+	<select id="queryNormCompareBySearch" resultMap="BaseResultMap"  parameterType="java.util.Map">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_norm_compare
+       where 1=1 
+  	   <if test="id != null">
+       		and id = #{id}
+       </if>
+  	   <if test="createName != null">
+       		and create_name = #{createName}
+       </if>
+  	   <if test="createTime != null">
+       		and create_time = #{createTime}
+       </if>
+  	   <if test="modName != null">
+       		and mod_name = #{modName}
+       </if>
+  	   <if test="modTime != null">
+       		and mod_time = #{modTime}
+       </if>
+  	   <if test="delflag != null">
+       		and delflag = #{delflag}
+       </if>
+  	   <if test="defId != null">
+       		and def_id = #{defId}
+       </if>
+  	   <if test="originalScore != null">
+       		and original_score = #{originalScore}
+       </if>
+  	   <if test="standardScore != null">
+       		and standard_score = #{standardScore}
+       </if>
+  	   <if test="normPercent != null">
+       		and norm_percent = #{normPercent}
+       </if>
+	</select>
+	
+					
+	<!-- 根据条件查询常模管理-常模对照count总数 -->
+	<select id="queryNormCompareTotalCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(1) from
+		edu_norm_compare where delflag='0'
+  	   <if test="id != null">
+       		and id =  #{id}
+       </if>
+  	   <if test="createName != null">
+       		and create_name =  #{createName}
+       </if>
+  	   <if test="createTime != null">
+       		and create_time =  #{createTime}
+       </if>
+  	   <if test="modName != null">
+       		and mod_name =  #{modName}
+       </if>
+  	   <if test="modTime != null">
+       		and mod_time =  #{modTime}
+       </if>
+  	   <if test="delflag != null">
+       		and delflag =  #{delflag}
+       </if>
+  	   <if test="defId != null">
+       		and def_id =  #{defId}
+       </if>
+  	   <if test="originalScore != null">
+       		and original_score =  #{originalScore}
+       </if>
+  	   <if test="standardScore != null">
+       		and standard_score =  #{standardScore}
+       </if>
+  	   <if test="normPercent != null">
+       		and norm_percent =  #{normPercent}
+       </if>
+	</select>
+	
+
+					
+	<!-- 分页查询常模管理-常模对照 -->
+	<select id="queryNormComparePage" resultMap="BaseResultMap"  parameterType="java.util.Map">
+		select   
+	    <include refid="Base_Column_List" />
+		from
+		edu_norm_compare where delflag='0'
+  	   <if test="id != null">
+       		and id =  #{id}
+       </if>
+  	   <if test="createName != null">
+       		and create_name =  #{createName}
+       </if>
+  	   <if test="createTime != null">
+       		and create_time =  #{createTime}
+       </if>
+  	   <if test="modName != null">
+       		and mod_name =  #{modName}
+       </if>
+  	   <if test="modTime != null">
+       		and mod_time =  #{modTime}
+       </if>
+  	   <if test="delflag != null">
+       		and delflag =  #{delflag}
+       </if>
+  	   <if test="defId != null">
+       		and def_id =  #{defId}
+       </if>
+  	   <if test="originalScore != null">
+       		and original_score =  #{originalScore}
+       </if>
+  	   <if test="standardScore != null">
+       		and standard_score =  #{standardScore}
+       </if>
+  	   <if test="normPercent != null">
+       		and norm_percent =  #{normPercent}
+       </if>
+  	   limit #{startRowNum},#{endRowNum}
+	</select>
+
+					
+	<!-- (删除)根据ID删除常模管理-常模对照信息 --> 
+	<delete id="deleteNormCompareById" parameterType="java.lang.Long">
+		update edu_norm_compare 
+		<set> 
+	  	    <if test="modName != null">
+	       	mod_name =  #{modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="modTime != null">
+	       	mod_time =  #{modTime,jdbcType=TIMESTAMP},
+	        </if>
+		delflag = '1'
+		</set>
+		where  id = #{id,jdbcType=BIGINT} 
+	</delete>
+	
+	<delete id="deleteNormCompareBySerach" parameterType="java.util.Map">
+		update edu_norm_compare 
+		<set> 
+	  	    <if test="modName != null">
+	       	mod_name =  #{modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="modTime != null">
+	       	mod_time =  #{modTime,jdbcType=TIMESTAMP},
+	        </if>
+		delflag = '1'
+		</set>
+		where  def_id = #{defId,jdbcType=BIGINT} 
+	</delete>
+	
+	<insert id="insertNormCompareBatch" useGeneratedKeys="true" parameterType="java.util.List">  
+	    <selectKey resultType="long" keyProperty="id" order="AFTER">
+			select last_insert_id()
+	    </selectKey>
+	    insert into edu_norm_compare (create_name,create_time,def_id,original_score,standard_score,exam_detail_id,norm_percent)
+	    values
+	    <foreach collection="list" item="item" index="index" separator="," >  
+	        (#{item.createName},#{item.createTime},#{item.defId},#{item.originalScore},#{item.standardScore},#{item.examDetailId},#{item.normPercent})  
+	    </foreach>  
+	</insert>  
+	
+					
+	<!-- (增加)增加常模管理-常模对照信息 --> 
+	<insert id="insertNormCompare" parameterType="com.sjq.compare.bean.NormCompareBean">
+		insert into edu_norm_compare
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	  	   <if test="id != null">
+	       	id,
+	       </if>
+	  	   <if test="createName != null">
+	       	create_name,
+	       </if>
+	  	   <if test="createTime != null">
+	       	create_time,
+	       </if>
+	  	   <if test="delflag != null">
+	       	delflag,
+	       </if>
+	  	   <if test="defId != null">
+	       	def_id,
+	       </if>
+	  	   <if test="originalScore != null">
+	       	original_score,
+	       </if>
+	  	   <if test="standardScore != null">
+	       	standard_score,
+	       </if>
+	  	   <if test="normPercent != null">
+	       	norm_percent,
+	       </if>
+	       <if test="examDetailId != null">
+	       	exam_detail_id,
+	       </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	  	    <if test="id != null">
+	       		#{id,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="createName != null">
+	       		#{createName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="createTime != null">
+	       		#{createTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != null">
+	       		#{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="defId != null">
+	       		#{defId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="originalScore != null">
+	       		#{originalScore,jdbcType=DECIMAL},
+	        </if>
+	  	    <if test="standardScore != null">
+	       		#{standardScore,jdbcType=DECIMAL},
+	        </if>
+	  	    <if test="normPercent != null">
+	       		#{normPercent,jdbcType=DECIMAL},
+	        </if>
+	        <if test="examDetailId != null">
+	       		#{examDetailId,jdbcType=BIGINT},
+	        </if>
+		</trim>
+	</insert>
+    
+	   
+</mapper>

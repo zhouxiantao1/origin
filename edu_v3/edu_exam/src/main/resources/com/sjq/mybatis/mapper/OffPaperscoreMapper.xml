@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sjq.offpaperscore.dao.OffPaperscoreMapper">
+	
+	<!-- 批量插入线下考生作答数据 -->
+	<insert id="insertOffPaperscoreBatch" useGeneratedKeys="true" parameterType="java.util.List">  
+    <selectKey resultType="long" keyProperty="id" order="AFTER">  
+        select last_insert_id()
+    </selectKey>  
+   	insert into edu_off_exam_paperscore (exam_id,exam_detail_id,student_id,full_score,subject_id,district_name,school_name,class_name,district_id,school_id,class_id)   
+   	values  
+   <foreach collection="list" item="item" index="index" separator="," >  
+        (#{item.examId},#{item.examDetailId},#{item.studentId},#{item.fullScore},#{item.subjectId},#{item.districtName},#{item.schoolName},#{item.className},#{item.districtId},#{item.schoolId},#{item.classId})  
+    </foreach>  
+	</insert>  
+	
+	<delete id="deleteOffPaperscoreBatch" parameterType="java.util.Map">
+		delete from edu_off_exam_paperscore 
+		where 1=1
+		<if test="examId != null">
+       		and exam_id =  #{examId}
+       	</if>
+  	   	<if test="examDetailId != null">
+       		and exam_detail_id =  #{examDetailId}
+       	</if>
+	</delete>
+	
+	<select id="queryOffPaperscoreBySearch" resultType="java.util.HashMap"  parameterType="java.util.Map">
+		select concat(are.`name`,sch.`name`,cla.`name`) cname,concat(are.id,'-',sch.id,'-',cla.id) cid from edu_base_area are
+		inner join edu_base_school sch on are.id = sch.area_id
+		inner join edu_base_classes cla on cla.school_id = sch.id
+		where cla.grade_id = #{gradeId}
+	</select>
+</mapper>

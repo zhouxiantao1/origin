@@ -1,0 +1,504 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sjq.wrong.dao.WorkWrongMapper">
+	<resultMap id="BaseResultMap" type="com.sjq.wrong.vo.WorkWrongVo">
+  		<result column="id" property="id" jdbcType="BIGINT" />
+  		<result column="create_name" property="createName" jdbcType="VARCHAR" />
+  		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  		<result column="mod_name" property="modName" jdbcType="VARCHAR" />
+  		<result column="mod_time" property="modTime" jdbcType="TIMESTAMP" />
+  		<result column="delflag" property="delflag" jdbcType="CHAR" />
+  		<result column="homework_id" property="homeworkId" jdbcType="BIGINT" />
+  		<result column="question_id" property="questionId" jdbcType="BIGINT" />
+  		<result column="status" property="status" jdbcType="CHAR" />
+  		<result column="type" property="type" jdbcType="CHAR" />
+  		<result column="remake" property="remake" jdbcType="VARCHAR" />
+  		<result column="wrong_num" property="wrongNum" jdbcType="BIGINT" />
+  		<result column="stage_id" property="stageId" jdbcType="BIGINT" />
+  		<result column="grade_id" property="gradeId" jdbcType="BIGINT" />
+  		<result column="subject_id" property="subjectId" jdbcType="BIGINT" />
+  		<result column="question_type" property="questionType" jdbcType="BIGINT" />
+  		<result column="user_id" property="userId" jdbcType="BIGINT" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+  		id,
+  		create_name,
+  		create_time,
+  		mod_name,
+  		mod_time,
+  		delflag,
+  		homework_id,
+  		question_id,
+  		status,
+  		type,
+  		remake,
+  		wrong_num,
+  		stage_id,
+  		grade_id,
+  		subject_id,
+  		question_type,
+  		user_id
+	</sql>
+	
+	
+	<!-- 根据ID查询错题信息信息 -->
+	<select id="queryWorkWrongById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_work_wrong
+       where delflag='0' and id =#{id,jdbcType=BIGINT}
+    </select>
+    
+					
+	<!-- 根据条件查询所有错题信息信息 -->
+	<select id="queryWorkWrongBySearch" resultMap="BaseResultMap"  parameterType="java.util.Map">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_work_wrong
+       where 1=1 
+  	   <if test="id != null">
+       		and id = #{id}
+       </if>
+  	   <if test="createName != null">
+       		and create_name = #{createName}
+       </if>
+  	   <if test="createTime != null">
+       		and create_time = #{createTime}
+       </if>
+  	   <if test="modName != null">
+       		and mod_name = #{modName}
+       </if>
+  	   <if test="modTime != null">
+       		and mod_time = #{modTime}
+       </if>
+  	   <if test="delflag != null">
+       		and delflag = #{delflag}
+       </if>
+  	   <if test="homeworkId != null">
+       		and homework_id = #{homeworkId}
+       </if>
+  	   <if test="questionId != null">
+       		and question_id = #{questionId}
+       </if>
+  	   <if test="status != null">
+       		and status = #{status}
+       </if>
+  	   <if test="type != null">
+       		and type = #{type}
+       </if>
+  	   <if test="remake != null">
+       		and remake = #{remake}
+       </if>
+  	   <if test="wrongNum != null">
+       		and wrong_num = #{wrongNum}
+       </if>
+  	   <if test="stageId != null">
+       		and stage_id = #{stageId}
+       </if>
+  	   <if test="gradeId != null">
+       		and grade_id = #{gradeId}
+       </if>
+  	   <if test="subjectId != null">
+       		and subject_id = #{subjectId}
+       </if>
+  	   <if test="questionType != null">
+       		and question_type = #{questionType}
+       </if>
+  	   <if test="userId != null">
+       		and user_id = #{userId}
+       </if>
+       ORDER BY wrong_num DESC
+	</select>
+	
+					
+	<!-- 根据条件查询错题信息count总数 -->
+	<select id="queryWorkWrongTotalCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(1) from
+		edu_work_wrong where delflag='0'
+  	   <if test="id != null">
+       		and id =  #{id}
+       </if>
+  	   <if test="createName != null">
+       		and create_name =  #{createName}
+       </if>
+  	   <if test="createTime != null">
+       		and create_time =  #{createTime}
+       </if>
+  	   <if test="modName != null">
+       		and mod_name =  #{modName}
+       </if>
+  	   <if test="modTime != null">
+       		and mod_time =  #{modTime}
+       </if>
+  	   <if test="delflag != null">
+       		and delflag =  #{delflag}
+       </if>
+  	   <if test="homeworkId != null">
+       		and homework_id =  #{homeworkId}
+       </if>
+  	   <if test="questionId != null">
+       		and question_id =  #{questionId}
+       </if>
+  	   <if test="status != null">
+       		and status =  #{status}
+       </if>
+  	   <if test="type != null">
+       		and type =  #{type}
+       </if>
+  	   <if test="remake != null">
+       		and remake =  #{remake}
+       </if>
+  	   <if test="wrongNum != null">
+       		and wrong_num =  #{wrongNum}
+       </if>
+  	   <if test="stageId != null">
+       		and stage_id =  #{stageId}
+       </if>
+  	   <if test="gradeId != null">
+       		and grade_id =  #{gradeId}
+       </if>
+  	   <if test="subjectId != null">
+       		and subject_id =  #{subjectId}
+       </if>
+  	   <if test="questionType != null">
+       		and question_type =  #{questionType}
+       </if>
+  	   <if test="userId != null">
+       		and user_id =  #{userId}
+       </if>
+	</select>
+	
+
+					
+	<!-- 分页查询错题信息 -->
+	<select id="queryWorkWrongPage" resultMap="BaseResultMap"  parameterType="java.util.Map">
+		select   
+	    <include refid="Base_Column_List" />
+		from
+		edu_work_wrong where delflag='0'
+  	   <if test="id != null">
+       		and id =  #{id}
+       </if>
+  	   <if test="createName != null">
+       		and create_name =  #{createName}
+       </if>
+  	   <if test="createTime != null">
+       		and create_time =  #{createTime}
+       </if>
+  	   <if test="modName != null">
+       		and mod_name =  #{modName}
+       </if>
+  	   <if test="modTime != null">
+       		and mod_time =  #{modTime}
+       </if>
+  	   <if test="delflag != null">
+       		and delflag =  #{delflag}
+       </if>
+  	   <if test="homeworkId != null">
+       		and homework_id =  #{homeworkId}
+       </if>
+  	   <if test="questionId != null">
+       		and question_id =  #{questionId}
+       </if>
+  	   <if test="status != null">
+       		and status =  #{status}
+       </if>
+  	   <if test="type != null">
+       		and type =  #{type}
+       </if>
+  	   <if test="remake != null">
+       		and remake =  #{remake}
+       </if>
+  	   <if test="wrongNum != null">
+       		and wrong_num =  #{wrongNum}
+       </if>
+  	   <if test="stageId != null">
+       		and stage_id =  #{stageId}
+       </if>
+  	   <if test="gradeId != null">
+       		and grade_id =  #{gradeId}
+       </if>
+  	   <if test="subjectId != null">
+       		and subject_id =  #{subjectId}
+       </if>
+  	   <if test="questionType != null">
+       		and question_type =  #{questionType}
+       </if>
+  	   <if test="userId != null">
+       		and user_id =  #{userId}
+       </if>
+  	   limit #{startRowNum},#{endRowNum}
+	</select>
+
+					
+	<!-- (删除)根据ID删除错题信息信息 --> 
+	<delete id="deleteWorkWrongById" parameterType="java.lang.Long">
+		update edu_work_wrong 
+		<set> 
+	  	    <if test="modName != null">
+	       	mod_name =  #{modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="modTime != null">
+	       	mod_time =  #{modTime,jdbcType=TIMESTAMP},
+	        </if>
+		delflag = '1'
+		</set>
+		where  id = #{id,jdbcType=BIGINT} 
+	</delete>
+	
+					
+	<!-- (更新)根据ID更新所有错题信息信息 -->
+	<update id="updateWorkWrongById" parameterType="com.sjq.wrong.bean.WorkWrongBean" >
+		update edu_work_wrong
+		<set>
+	  	    <if test="modName != null">
+	       	mod_name =  #{modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="modTime != null">
+	       	mod_time =  #{modTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != null">
+	       	delflag =  #{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="homeworkId != null">
+	       	homework_id =  #{homeworkId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="questionId != null">
+	       	question_id =  #{questionId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="status != null">
+	       	status =  #{status,jdbcType=CHAR},
+	        </if>
+	  	    <if test="type != null">
+	       	type =  #{type,jdbcType=CHAR},
+	        </if>
+	  	    <if test="remake != null">
+	       	remake =  #{remake,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="wrongNum != null">
+	       	wrong_num =  #{wrongNum,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="stageId != null">
+	       	stage_id =  #{stageId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="gradeId != null">
+	       	grade_id =  #{gradeId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="subjectId != null">
+	       	subject_id =  #{subjectId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="questionType != null">
+	       	question_type =  #{questionType,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="userId != null">
+	       	user_id =  #{userId,jdbcType=BIGINT},
+	        </if>
+		</set>
+		where 1 = 1 and id = #{id,jdbcType=BIGINT} 
+	</update>
+	
+					
+	<!-- (更新)根据条件更新所有错题信息信息 -->
+	<update id="updateWorkWrongBySearch"  parameterType="java.util.Map" >
+		update edu_work_wrong
+		<set>
+	  	    <if test="bean.modName != null">
+	       	mod_name =  #{bean.modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="bean.modTime != null">
+	       	mod_time =  #{bean.modTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="bean.delflag != null">
+	       	delflag =  #{bean.delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="bean.homeworkId != null">
+	       	homework_id =  #{bean.homeworkId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="bean.questionId != null">
+	       	question_id =  #{bean.questionId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="bean.status != null">
+	       	status =  #{bean.status,jdbcType=CHAR},
+	        </if>
+	  	    <if test="bean.type != null">
+	       	type =  #{bean.type,jdbcType=CHAR},
+	        </if>
+	  	    <if test="bean.remake != null">
+	       	remake =  #{bean.remake,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="bean.wrongNum != null">
+	       	wrong_num =  #{bean.wrongNum,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="bean.stageId != null">
+	       	stage_id =  #{bean.stageId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="bean.gradeId != null">
+	       	grade_id =  #{bean.gradeId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="bean.subjectId != null">
+	       	subject_id =  #{bean.subjectId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="bean.questionType != null">
+	       	question_type =  #{bean.questionType,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="bean.userId != null">
+	       	user_id =  #{bean.userId,jdbcType=BIGINT},
+	        </if>
+		</set>
+		where 1=1
+  	   <if test="search.id != null">
+       		and id = #{search.id}
+       </if>
+  	   <if test="search.createName != null">
+       		and create_name = #{search.createName}
+       </if>
+  	   <if test="search.createTime != null">
+       		and create_time = #{search.createTime}
+       </if>
+  	   <if test="search.modName != null">
+       		and mod_name = #{search.modName}
+       </if>
+  	   <if test="search.modTime != null">
+       		and mod_time = #{search.modTime}
+       </if>
+  	   <if test="search.delflag != null">
+       		and delflag = #{search.delflag}
+       </if>
+  	   <if test="search.homeworkId != null">
+       		and homework_id = #{search.homeworkId}
+       </if>
+  	   <if test="search.questionId != null">
+       		and question_id = #{search.questionId}
+       </if>
+  	   <if test="search.status != null">
+       		and status = #{search.status}
+       </if>
+  	   <if test="search.type != null">
+       		and type = #{search.type}
+       </if>
+  	   <if test="search.remake != null">
+       		and remake = #{search.remake}
+       </if>
+  	   <if test="search.wrongNum != null">
+       		and wrong_num = #{search.wrongNum}
+       </if>
+  	   <if test="search.stageId != null">
+       		and stage_id = #{search.stageId}
+       </if>
+  	   <if test="search.gradeId != null">
+       		and grade_id = #{search.gradeId}
+       </if>
+  	   <if test="search.subjectId != null">
+       		and subject_id = #{search.subjectId}
+       </if>
+  	   <if test="search.questionType != null">
+       		and question_type = #{search.questionType}
+       </if>
+  	   <if test="search.userId != null">
+       		and user_id = #{search.userId}
+       </if>
+	</update>
+	
+					
+	<!-- (增加)增加错题信息信息 --> 
+	<insert id="insertWorkWrong" parameterType="com.sjq.wrong.bean.WorkWrongBean">
+		insert into edu_work_wrong
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	  	   <if test="id != null">
+	       	id,
+	       </if>
+	  	   <if test="createName != null">
+	       	create_name,
+	       </if>
+	  	   <if test="createTime != null">
+	       	create_time,
+	       </if>
+	  	   <if test="delflag != null">
+	       	delflag,
+	       </if>
+	  	   <if test="homeworkId != null">
+	       	homework_id,
+	       </if>
+	  	   <if test="questionId != null">
+	       	question_id,
+	       </if>
+	  	   <if test="status != null">
+	       	status,
+	       </if>
+	  	   <if test="type != null">
+	       	type,
+	       </if>
+	  	   <if test="remake != null">
+	       	remake,
+	       </if>
+	  	   <if test="wrongNum != null">
+	       	wrong_num,
+	       </if>
+	  	   <if test="stageId != null">
+	       	stage_id,
+	       </if>
+	  	   <if test="gradeId != null">
+	       	grade_id,
+	       </if>
+	  	   <if test="subjectId != null">
+	       	subject_id,
+	       </if>
+	  	   <if test="questionType != null">
+	       	question_type,
+	       </if>
+	  	   <if test="userId != null">
+	       	user_id,
+	       </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	  	    <if test="id != null">
+	       		#{id,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="createName != null">
+	       		#{createName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="createTime != null">
+	       		#{createTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != null">
+	       		#{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="homeworkId != null">
+	       		#{homeworkId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="questionId != null">
+	       		#{questionId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="status != null">
+	       		#{status,jdbcType=CHAR},
+	        </if>
+	  	    <if test="type != null">
+	       		#{type,jdbcType=CHAR},
+	        </if>
+	  	    <if test="remake != null">
+	       		#{remake,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="wrongNum != null">
+	       		#{wrongNum,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="stageId != null">
+	       		#{stageId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="gradeId != null">
+	       		#{gradeId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="subjectId != null">
+	       		#{subjectId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="questionType != null">
+	       		#{questionType,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="userId != null">
+	       		#{userId,jdbcType=BIGINT},
+	        </if>
+		</trim>
+	</insert>
+    
+	   
+</mapper>

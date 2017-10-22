@@ -1,0 +1,130 @@
+
+.question_square{
+	width:846px;
+	margin:0 auto;
+}
+.question{
+	margin-top:34px;
+}
+.question dl,.answer dl{
+	margin-right:22px;
+	width:62px;
+}
+.question dt img,.answer dt img{
+	width:60px;
+	height:60px;
+}
+.question dd,.answer dd{
+	text-align: center;
+}
+.wenti{
+	width:760px;
+
+}
+.wenti .topic span,.wenti .klass span{
+	display: inline-block;
+	width:600px;
+	float:left;
+}
+.wenti .topic i,.wenti .klass i,.daan p i{
+	float:right;
+	font-size: 12px;
+	color:#666;
+}
+.wenti .klass{
+	margin-top:22px;
+}
+.wenti .klass i{
+	font-size: 14px;
+}
+.wenti .klass span{
+	color:#0075b1;
+}
+
+.answers{
+	margin-left: 84px;
+}
+.answer{
+	border-bottom: 1px dashed #e5e5e5;
+	margin-bottom: 12px;
+}
+.huida{
+	height:40px;
+	line-height: 40px;
+	color:#666;
+	font-size: 12px;
+	background:#f2f2f2;
+	margin:18px 0 24px 0;
+	text-indent: 20px;
+}
+.daan{
+	width:678px;
+}
+.daan p span{
+	float: left;
+	width:70%;
+	
+}
+
+.daan .klass{
+	margin:20px 0;
+}
+.daan .klass i{
+	font-size:14px;
+	line-height:60px;
+	cursor: pointer;
+}
+
+.ue_editor{
+	border:1px solid #ccc;
+	margin-top:50px;
+	margin-bottom: 20px;
+	height:176px;
+}
+
+.fabu{
+	height:36px;
+	margin-bottom: 50px;
+}
+.fabu button{
+	width:108px;
+	height:36px;
+	line-height: 36px;
+	background:#0075b1;
+	text-align: center;
+	color:#fff;
+	float:right;
+}
+
+
+
+/*右侧边栏*/
+
+.focus{
+	margin:20px 0 16px;
+}
+.focus i{
+	color:#01ada8;
+	font-weight: 900;
+}
+.focus span{
+	color:#fff;
+	font-size: 14px;
+	border-radius: 2px;
+	background:#00abec;
+	text-align: center;
+	width:56px;
+	height:22px;
+	line-height: 22px;
+	cursor: pointer;
+}
+
+.head_pic li{
+	width:24px;
+	height:24px;
+	float:left;
+	margin:2px 2px 0 0;
+}
+.head_pic li img{
+	width:100%;
+}

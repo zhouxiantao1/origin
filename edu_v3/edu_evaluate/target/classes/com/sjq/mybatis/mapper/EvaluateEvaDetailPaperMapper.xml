@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sjq.evaDetailPaper.dao.EvaluateEvaDetailPaperMapper">
+	<resultMap id="BaseResultMap" type="com.sjq.evaDetailPaper.vo.EvaluateEvaDetailPaperVo">
+  		<result column="id" property="id" jdbcType="BIGINT" />
+  		<result column="create_name" property="createName" jdbcType="VARCHAR" />
+  		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  		<result column="mod_name" property="modName" jdbcType="VARCHAR" />
+  		<result column="mod_time" property="modTime" jdbcType="TIMESTAMP" />
+  		<result column="delflag" property="delflag" jdbcType="CHAR" />
+  		<result column="evaDetail_id" property="evaDetailId" jdbcType="BIGINT" />
+  		<result column="paper_id" property="paperId" jdbcType="BIGINT" />
+  		<result column="sort" property="sort" jdbcType="BIGINT" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+  		id,
+  		create_name,
+  		create_time,
+  		mod_name,
+  		mod_time,
+  		delflag,
+  		evaDetail_id,
+  		paper_id,
+  		sort
+	</sql>
+	
+	<!-- 查询所有的测评明细问卷信息信息 -->
+	<select id="queryAllEvaluateEvaDetailPaper" resultMap="BaseResultMap" >
+ 	   select 
+       <include refid="Base_Column_List" />
+       from edu_evaluate_evaDetailPaper
+       where delflag='0'
+    </select>
+	
+	<!-- 根据evaDetailId查询测评明细问卷信息信息 -->
+	<select id="queryEvaluateEvaDetailPaperByEvaDetailId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_evaluate_evaDetailPaper
+       where delflag='0' and evaDetail_id =#{evaDetailId,jdbcType=BIGINT}
+    </select>
+	
+	<!-- 根据ID查询测评明细问卷信息信息 -->
+	<select id="queryEvaluateEvaDetailPaperById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_evaluate_evaDetailPaper
+       where delflag='0' and id =#{id,jdbcType=BIGINT}
+    </select>
+    
+					
+	<!-- 根据条件查询所有测评明细问卷信息信息 -->
+	<select id="queryEvaluateEvaDetailPaperBySearch" resultMap="BaseResultMap"  parameterType="java.util.Map">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_evaluate_evaDetailPaper
+       where 1=1 
+  	   <if test="id != '' and id != null">
+       		and id = #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name = #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time = #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name = #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time = #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag = #{delflag}
+       </if>
+  	   <if test="evaDetailId != '' and evaDetailId != null">
+       		and evaDetail_id = #{evaDetailId}
+       </if>
+  	   <if test="paperId != '' and paperId != null">
+       		and paper_id = #{paperId}
+       </if>
+  	   <if test="sort != '' and sort != null">
+       		and sort = #{sort}
+       </if>
+	</select>
+	
+					
+	<!-- 根据条件查询测评明细问卷信息count总数 -->
+	<select id="queryEvaluateEvaDetailPaperTotalCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(1) from
+		edu_evaluate_evaDetailPaper where delflag='0'
+  	   <if test="id != '' and id != null">
+       		and id =  #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name =  #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time =  #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name =  #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time =  #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag =  #{delflag}
+       </if>
+  	   <if test="evaDetailId != '' and evaDetailId != null">
+       		and evaDetail_id =  #{evaDetailId}
+       </if>
+  	   <if test="paperId != '' and paperId != null">
+       		and paper_id =  #{paperId}
+       </if>
+  	   <if test="sort != '' and sort != null">
+       		and sort =  #{sort}
+       </if>
+	</select>
+	
+
+					
+	<!-- 分页查询测评明细问卷信息 -->
+	<select id="queryEvaluateEvaDetailPaperPage" resultMap="BaseResultMap"  parameterType="java.util.Map">
+		select   
+	    <include refid="Base_Column_List" />
+		from
+		edu_evaluate_evaDetailPaper where delflag='0'
+  	   <if test="id != '' and id != null">
+       		and id =  #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name =  #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time =  #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name =  #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time =  #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag =  #{delflag}
+       </if>
+  	   <if test="evaDetailId != '' and evaDetailId != null">
+       		and evaDetail_id =  #{evaDetailId}
+       </if>
+  	   <if test="paperId != '' and paperId != null">
+       		and paper_id =  #{paperId}
+       </if>
+  	   <if test="sort != '' and sort != null">
+       		and sort =  #{sort}
+       </if>
+  	   limit #{startRowNum},#{endRowNum}
+	</select>
+
+					
+	<!-- (更新)根据条件更新所有测评明细问卷信息信息 -->
+	<update id="updateEvaluateEvaDetailPaperBySearch"  parameterType="java.util.Map" >
+		update edu_evaluate_evaDetailPaper
+		<set>
+	  	    <if test="modName != '' and modName != null">
+	       	mod_name =  #{modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="modTime != '' and modTime != null">
+	       	mod_time =  #{modTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != '' and delflag != null">
+	       	delflag =  #{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="evaDetailId != '' and evaDetailId != null">
+	       	evaDetail_id =  #{evaDetailId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="paperId != '' and paperId != null">
+	       	paper_id =  #{paperId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="sort != '' and sort != null">
+	       	sort =  #{sort,jdbcType=BIGINT},
+	        </if>
+		</set>
+		where 
+  	   <if test="id != '' and id != null">
+       		and id = #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name = #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time = #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name = #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time = #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag = #{delflag}
+       </if>
+  	   <if test="evaDetailId != '' and evaDetailId != null">
+       		and evaDetail_id = #{evaDetailId}
+       </if>
+  	   <if test="paperId != '' and paperId != null">
+       		and paper_id = #{paperId}
+       </if>
+  	   <if test="sort != '' and sort != null">
+       		and sort = #{sort}
+       </if>
+	</update>
+	
+					
+	<!-- (增加)增加测评明细问卷信息信息 --> 
+	<insert id="insertEvaluateEvaDetailPaper" parameterType="com.sjq.evaDetailPaper.bean.EvaluateEvaDetailPaperBean">
+		insert into edu_evaluate_evaDetailPaper
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	  	   <if test="id != '' and id != null">
+	       	id,
+	       </if>
+	  	   <if test="createName != '' and createName != null">
+	       	create_name,
+	       </if>
+	  	   <if test="createTime != '' and createTime != null">
+	       	create_time,
+	       </if>
+	  	   <if test="delflag != '' and delflag != null">
+	       	delflag,
+	       </if>
+	  	   <if test="evaDetailId != '' and evaDetailId != null">
+	       	evaDetail_id,
+	       </if>
+	  	   <if test="paperId != '' and paperId != null">
+	       	paper_id,
+	       </if>
+	  	   <if test="sort != '' and sort != null">
+	       	sort,
+	       </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	  	    <if test="id != '' and id != null">
+	       		#{id,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="createName != '' and createName != null">
+	       		#{createName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="createTime != '' and createTime != null">
+	       		#{createTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != '' and delflag != null">
+	       		#{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="evaDetailId != '' and evaDetailId != null">
+	       		#{evaDetailId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="paperId != '' and paperId != null">
+	       		#{paperId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="sort != '' and sort != null">
+	       		#{sort,jdbcType=BIGINT},
+	        </if>
+		</trim>
+	</insert>
+    
+	   
+</mapper>

@@ -1,0 +1,219 @@
+
+.cl {
+	clear: both;
+}
+.ques-hl {
+	width: 1020px;
+	min-height: 160px;
+}
+.paper-title {
+	margin: 20px;
+}
+.paper-title input {
+	width: 100%;
+	padding: 8px 5px;
+	border: 1px solid #b4d0de;
+	box-sizing: border-box;
+}
+.paper-box {
+	margin: 20px;
+}
+.paper-item {
+	margin: 20px 0;
+}
+.paper-box .info-body {
+	padding: 20px 42px 0 42px;
+	border: 1px solid #e5e5e5;
+}
+.paper-box .info-body1 {
+	padding: 20px 42px 20px 42px;
+	border: 1px solid #e5e5e5;
+}
+.paper-box .info-item {
+	margin-bottom: 20px;
+}
+.paper-box .info-item input,.paper-box .info-item span{
+	vertical-align: middle;
+}
+.info-item span{
+	margin-left: 4px;
+}
+.paper-info .info-item span {
+	display: inline-block;
+	cursor: pointer;
+	
+}
+.paper-info .type span {
+	width: 94px;
+	height: 34px;
+	text-align: center;
+	line-height: 34px;
+	border: 1px solid #ccc;
+	margin-right: 14px;
+}
+.paper-info .type .current {
+	background: #e4393c;
+	color: #fff;
+}
+.paper-box .info-item>select.grade {
+	width: 440px;
+	height: 28px;
+	background: #f2f2f2;
+}
+.paper-info .subject span {
+	margin-right: 30px;
+}
+.paper-info .subject .current {
+	color: #00abed;
+}
+.paper-box .title {
+	font-size: 14px;
+	color: #333;
+}
+.paper-box .info-item table tr {
+	height: 40px;
+}
+.paper-box .info-item table tr td {
+	width: 135px;
+}
+.paper-box .info-item table tr .mana {
+	width: 79px;
+}
+.paper-box .info-item table  select {
+	width: 59px;
+	height: 25px;
+}
+.paper-box .info-item table input[type='text'] {
+	width: 55px;
+}
+.paper-box .info-item>select {
+	width: 167px;
+	height: 25px;
+}
+.add-question {
+	margin: 34px 20px;
+	font-family: '宋体';
+}
+.add-question select{
+	width:150px;
+}
+.add-question .title {
+	color: #333;
+	font-weight: bold;
+}
+.add-question label {
+	margin-right: 20px;
+	text-align: right;
+	display: inline-block;
+	width: 70px;
+}
+.add-question .info-item {
+	padding-top: 20px;
+}
+.info-item .hard{
+	margin-left: 215px;
+}
+.info-item .zhishi{
+margin-left: 165px;
+}
+.easy_hard .drag-step {
+	position: relative;
+	top: -10px;
+	display: inline-block;
+	width: 54%;
+	cursor: pointer;
+	margin: 0 10px;
+}
+.drag-step .ball, .drag-step .bottom, .drag-step .top, .drag-step .value {
+	position: absolute;
+	display: inline-block;
+	cursor: pointer
+}
+.drag-step .value {
+	top: -25px;
+	z-index: 3;
+	display: none;
+	margin-left: 15px
+}
+.drag-step .ball {
+	top: -5px;
+	z-index: 3;
+	background: url(../images/ball.png);
+	width: 20px;
+	height: 20px
+}
+.drag-step .top {
+	z-index: 2;
+	height: 10px;
+	background: #4d8693
+}
+.drag-step .bottom {
+	z-index: 1;
+	width: 100%;
+	height: 10px;
+	background: #ccc
+}
+.S_qfd_div .S_qfd {
+	display: inline-block;
+	padding: 3px 0;
+	text-align: center;
+	font-size: 13px
+}
+.S_qfd_div .active {
+	background: #149a8a;
+	color: #fff
+}
+.easy_hard {
+	padding-left: 13px;
+	width: 240px;
+}
+#add-chapter{
+	cursor: pointer;
+	color: #00abed;
+}
+#add-question{
+	margin:30px 20px;
+	cursor: pointer;
+	color: #f43e60;
+	font-size: 16px;
+
+}
+.paper-box .chapter{
+	margin-left: 215px;
+}
+.paper-box .paper-hard{
+	padding-bottom: 10px;
+	margin-bottom: 15px;
+	border-bottom: 1px dashed #ccc;
+}
+.paper-box .jiaocai{
+	border-top: 1px dashed #ccc;
+	padding-top: 10px;
+}
+.paper-box .jiaocai select{
+	width:150px;
+	height: 25px;
+}
+#catalog_select{
+	width:240px;
+	height: 25px;
+}
+.operation {
+    margin: 30px 24px;
+}
+.operation button {
+    width: 120px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    color: #fff;
+    border-radius: 2px;
+    cursor: pointer;
+}
+.operation button.submit {
+    background: #0075b1;
+}
+.operation button.cancel {
+    background: #999;
+    margin-left: 30px;
+}

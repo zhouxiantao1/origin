@@ -1,0 +1,88 @@
+.choice_type,.choice_grade,.choice_subject{
+	margin-top:12px;
+	margin-bottom:22px;
+}
+
+.choice_grade select{
+	width:416px;
+	height:28px;
+	padding:3px;
+	border:1px solid #a9a9a9;
+}
+.choice_subject p{
+	line-height:22px;
+	margin-left:6px;
+}
+.choice_subject p span{
+	margin-right:30px;
+	color:#333;
+	cursor: pointer;
+}
+.choice_subject p span.active{
+	color:#009aff;
+}
+
+.kaoshi_type{
+	border:1px solid #e5e5e5;
+}
+.kaoshi_type li{
+	float:left;
+	background:#f3f3f3;
+	height:36px;
+	width:94px;
+	line-height:36px;
+	border-right:1px solid #e5e5e5;
+	text-align: center;
+	color:#343434;
+	cursor: pointer;
+}
+.kaoshi_type li.active{
+	background:#0075b1;
+	color:#fff;
+}
+
+.choice_type span{
+	line-height: 38px;
+}
+
+.time_box .clock{
+	width:220px;
+	margin-right: 30px;
+	padding:3px 0;
+	text-indent: 3px;
+}
+
+.exam_detail{
+	min-height: 450px;
+	margin-bottom: 40px;
+}
+
+textarea .msg{
+	text-align: left;
+}
+
+.test_intreduce{
+	margin-top: 30px;
+}
+.test_intreduce textarea{
+	width:83%;
+	height:100px;
+	border: 1px solid #ccc;
+    padding: 4px
+}
+.baocun{
+	margin:20px;
+
+}
+.baocun button{
+	display: inline-block;
+	width:120px;
+	height:32px;
+	background:#0075b1;
+	margin-right: 10px;
+	color:#fff;
+	cursor: pointer;
+}
+.baocun button.qx{
+	background:#ccc;
+}

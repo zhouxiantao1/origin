@@ -1,0 +1,225 @@
+button{
+	cursor: pointer;
+}
+.back{
+	color:#0075b1;
+	margin-right:20px;
+	font-size: 16px;
+	line-height: 36px;
+	cursor: pointer;
+}
+.mid{
+	min-height: 806px;
+}
+
+.preview{
+	margin:20px 30px 0px 30px;
+}
+
+.add_question{
+	margin:30px;
+	border:1px solid #e5e5e5;
+	overflow: hidden;
+	display: none;
+}
+
+.basic_msg,.topic_show{
+	margin:10px 30px;
+	border:1px solid #e5e5e5;
+	overflow: hidden;
+}
+.basic_msg h3,.topic_show h3{
+	font-size: 18px;
+	font-weight: 300;
+	text-align: center;
+	margin: 20px 0 30px 0;
+	color:#333;
+}
+
+.basic_msg span{
+	display: inline-block;
+	line-height: 32px;
+	width:120px;
+	margin-right: 5px;
+	text-align: right;
+}
+
+.add_reduces{
+	margin:20px 0;
+}
+.add_title{
+	width:50%;
+}
+
+.add_title input{
+	padding:6px 0;
+	width:340px;
+	text-indent: 4px;
+}
+.add_reduces span,.add_reduces textarea{
+	vertical-align: middle;
+}
+.add_reduces textarea{
+	width:900px;
+	height:150px;
+	padding:4px;
+}
+
+.gl_target select{
+	width:340px;
+	padding:7px 0;
+	margin-bottom: 20px;
+}
+
+.add_button{
+	margin:0 30px 10px 30px;
+}
+.add_button button,.preview button{
+	float: right;
+	width:140px;
+	height:34px;
+	background:#0075b1;
+	color:#fff;
+}
+
+.choice_tixi,.choice_type{
+	margin-top:30px;
+	margin-bottom: 10px;
+}
+.choice_tixi span,.choice_type span{
+	display: inline-block;
+	width:180px;
+	text-align: right;
+	line-height: 34px;
+	margin-right: 4px;
+}
+.choice_tixi select,.choice_type select{
+	padding:6px 0;
+	width:300px;
+}
+
+
+.add_question{
+	padding-bottom: 30px;
+}
+.set_question span{
+	display: inline-block;
+	width:90px;
+	text-align: right;
+	line-height: 34px;
+	margin-right: 4px;
+}
+.set_question .title{
+	width:900px;
+	height:34px;
+	line-height: 34px;
+	border-bottom: 1px solid #e5e5e5;
+}
+.answers .bd_one{
+	width:700px;
+	height:34px;
+	border-bottom: 1px solid #e5e5e5;
+	line-height: 34px;
+	margin-left: 12px;
+}
+
+
+.eidt_width{
+	width:100%;
+	margin-top: 5px;
+}
+.timu .eidt_width{
+	width:900px;
+	margin-left: 90px;
+}
+
+
+.edit button{
+	width:140px;
+	height: 30px;
+	background: #0075b1;
+	line-height: 30px;
+	color: #fff;
+	float: right;
+	margin: 5px 0;
+}
+#topic{
+	margin:0 auto;
+}
+
+.answers{
+	margin-top: 14px;
+
+}
+.score {
+	margin-right: 30px;
+	vertical-align: middle;
+}
+.score input{
+	padding:3px 0;
+	text-indent: 4px;
+	width:120px;
+}
+
+.choices{
+	width:86%;
+}
+.answers span{
+	display: inline;
+	vertical-align: middle;
+}
+.answers label input,.answers .bd_one{
+	vertical-align: middle;
+}
+
+.add_reduce{
+	width:88%;
+	margin:0 auto;
+	margin-top: 10px;
+}
+.add_reduce button{
+	width:76px;
+	height: 30px;
+	line-height: 30px;
+	color:#fff;
+	background: #0075b1;
+	margin-left: 10px;
+}
+
+.queding{
+	text-align: center;
+	margin-top: 20px;
+}
+.queding button{
+	width: 100px;
+	height: 32px;
+	background: #0075b1;
+	color:#fff;
+	margin-left: 10px;
+}
+
+.bao{
+	display: none;
+}
+
+
+.topic_detail{
+	margin:0 30px 20px 30px;
+	padding: 20px;
+	border-bottom: 1px dashed #ccc;
+}
+.topic_detail p{
+	line-height: 30px;
+}
+.topic_detail .tit{
+	font-size: 16px;
+}
+.topic_detail .ans_one{
+	text-indent:16px;
+}
+.topic_detail .ans_one span,.topic_detail .ans_one input,.topic_detail .ans_one i{
+	vertical-align: middle;
+}
+.topic_detail .ans_one input{
+	margin:0 5px;
+}

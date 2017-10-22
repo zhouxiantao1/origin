@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sjq.offquestionscore.dao.OffQuestionscoreMapper">
+	
+	<!-- 批量插入线下考生作答数据 -->
+	<insert id="insertOffQuestionScoreBatch" useGeneratedKeys="true" parameterType="java.util.List">  
+    <selectKey resultType="long" keyProperty="id" order="AFTER">  
+        select last_insert_id()
+    </selectKey>  
+   	insert into edu_off_exam_questionscore (exam_id,exam_detail_id,question_id,score,student_id)   
+   	values  
+   <foreach collection="list" item="item" index="index" separator="," >  
+        (#{item.examId},#{item.examDetailId},#{item.questionId},#{item.score},#{item.studentId})  
+    </foreach>  
+	</insert>  
+	
+	<delete id="deleteOffQuestionScoreBatch" parameterType="java.util.Map">
+		delete from edu_off_exam_questionscore 
+		where 1=1
+		<if test="examId != null">
+       		and exam_id =  #{examId}
+       	</if>
+  	   	<if test="examDetailId != null">
+       		and exam_detail_id =  #{examDetailId}
+       	</if>
+	</delete>
+</mapper>

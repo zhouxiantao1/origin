@@ -1,0 +1,392 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sjq.studentHistory.dao.BaseStudentHistoryMapper">
+	<resultMap id="BaseResultMap" type="com.sjq.studentHistory.vo.BaseStudentHistoryVo">
+  		<result column="id" property="id" jdbcType="BIGINT" />
+  		<result column="create_name" property="createName" jdbcType="VARCHAR" />
+  		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  		<result column="mod_name" property="modName" jdbcType="VARCHAR" />
+  		<result column="mod_time" property="modTime" jdbcType="TIMESTAMP" />
+  		<result column="delflag" property="delflag" jdbcType="CHAR" />
+  		<result column="user_id" property="userId" jdbcType="BIGINT" />
+  		<result column="student_id" property="studentId" jdbcType="BIGINT" />
+  		<result column="code" property="code" jdbcType="BIGINT" />
+  		<result column="school_id" property="schoolId" jdbcType="BIGINT" />
+  		<result column="classes_id" property="classesId" jdbcType="BIGINT" />
+  		<result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+  		<result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+  		<result column="term_name" property="termName" jdbcType="VARCHAR" />
+  		<result column="remake" property="remake" jdbcType="VARCHAR" />
+  		<result column="term_id" property="termId" jdbcType="BIGINT" />
+  		<result column="year_id" property="yearId" jdbcType="BIGINT" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+  		id,
+  		create_name,
+  		create_time,
+  		mod_name,
+  		mod_time,
+  		delflag,
+  		user_id,
+  		student_id,
+  		code,
+  		school_id,
+  		classes_id,
+  		start_time,
+  		end_time,
+  		term_name,
+  		remake,
+  		term_id,
+  		year_id
+	</sql>
+	
+					
+	<!-- 根据条件查询所有学生历史信息信息 -->
+	<select id="queryBaseStudentHistoryBySearch" resultMap="BaseResultMap"  parameterType="java.util.Map">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_base_studentHistory
+       where 1=1 
+  	   <if test="id != '' and id != null">
+       		and id = #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name = #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time = #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name = #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time = #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag = #{delflag}
+       </if>
+  	   <if test="userId != '' and userId != null">
+       		and user_id = #{userId}
+       </if>
+  	   <if test="studentId != '' and studentId != null">
+       		and student_id = #{studentId}
+       </if>
+  	   <if test="code != '' and code != null">
+       		and code = #{code}
+       </if>
+  	   <if test="schoolId != '' and schoolId != null">
+       		and school_id = #{schoolId}
+       </if>
+  	   <if test="classesId != '' and classesId != null">
+       		and classes_id = #{classesId}
+       </if>
+  	   <if test="startTime != '' and startTime != null">
+       		and start_time = #{startTime}
+       </if>
+  	   <if test="endTime != '' and endTime != null">
+       		and end_time = #{endTime}
+       </if>
+  	   <if test="termName != '' and termName != null">
+       		and term_name = #{termName}
+       </if>
+  	   <if test="remake != '' and remake != null">
+       		and remake = #{remake}
+       </if>
+  	   <if test="termId != '' and termId != null">
+       		and term_id = #{termId}
+       </if>
+  	   <if test="yearId != '' and yearId != null">
+       		and year_id = #{yearId}
+       </if>
+	</select>
+	
+					
+	<!-- 根据条件查询学生历史信息count总数 -->
+	<select id="queryBaseStudentHistoryTotalCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(1) from
+		edu_base_studentHistory where delflag='0'
+  	   <if test="id != '' and id != null">
+       		and id =  #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name =  #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time =  #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name =  #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time =  #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag =  #{delflag}
+       </if>
+  	   <if test="userId != '' and userId != null">
+       		and user_id =  #{userId}
+       </if>
+  	   <if test="studentId != '' and studentId != null">
+       		and student_id =  #{studentId}
+       </if>
+  	   <if test="code != '' and code != null">
+       		and code =  #{code}
+       </if>
+  	   <if test="schoolId != '' and schoolId != null">
+       		and school_id =  #{schoolId}
+       </if>
+  	   <if test="classesId != '' and classesId != null">
+       		and classes_id =  #{classesId}
+       </if>
+  	   <if test="startTime != '' and startTime != null">
+       		and start_time =  #{startTime}
+       </if>
+  	   <if test="endTime != '' and endTime != null">
+       		and end_time =  #{endTime}
+       </if>
+  	   <if test="termName != '' and termName != null">
+       		and term_name =  #{termName}
+       </if>
+  	   <if test="remake != '' and remake != null">
+       		and remake =  #{remake}
+       </if>
+  	   <if test="termId != '' and termId != null">
+       		and term_id =  #{termId}
+       </if>
+  	   <if test="yearId != '' and yearId != null">
+       		and year_id =  #{yearId}
+       </if>
+	</select>
+	
+
+					
+	<!-- 分页查询学生历史信息 -->
+	<select id="queryBaseStudentHistoryPage" resultMap="BaseResultMap"  parameterType="java.util.Map">
+		select   
+	    <include refid="Base_Column_List" />
+		from
+		edu_base_studentHistory where delflag='0'
+  	   <if test="id != '' and id != null">
+       		and id =  #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name =  #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time =  #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name =  #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time =  #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag =  #{delflag}
+       </if>
+  	   <if test="userId != '' and userId != null">
+       		and user_id =  #{userId}
+       </if>
+  	   <if test="studentId != '' and studentId != null">
+       		and student_id =  #{studentId}
+       </if>
+  	   <if test="code != '' and code != null">
+       		and code =  #{code}
+       </if>
+  	   <if test="schoolId != '' and schoolId != null">
+       		and school_id =  #{schoolId}
+       </if>
+  	   <if test="classesId != '' and classesId != null">
+       		and classes_id =  #{classesId}
+       </if>
+  	   <if test="startTime != '' and startTime != null">
+       		and start_time =  #{startTime}
+       </if>
+  	   <if test="endTime != '' and endTime != null">
+       		and end_time =  #{endTime}
+       </if>
+  	   <if test="termName != '' and termName != null">
+       		and term_name =  #{termName}
+       </if>
+  	   <if test="remake != '' and remake != null">
+       		and remake =  #{remake}
+       </if>
+  	   <if test="termId != '' and termId != null">
+       		and term_id =  #{termId}
+       </if>
+  	   <if test="yearId != '' and yearId != null">
+       		and year_id =  #{yearId}
+       </if>
+  	   limit #{startRowNum},#{endRowNum}
+	</select>
+
+					
+	<!-- (删除)根据ID删除学生历史信息信息 --> 
+	<delete id="deleteBaseStudentHistoryById" parameterType="java.lang.Long">
+		update edu_base_studentHistory 
+		<set> 
+	  	    <if test="modName != '' and modName != null">
+	       	mod_name =  #{modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="modTime != '' and modTime != null">
+	       	mod_time =  #{modTime,jdbcType=TIMESTAMP},
+	        </if>
+		delflag = '1'
+		</set>
+		where  id = #{id,jdbcType=BIGINT} 
+	</delete>
+	
+					
+	<!-- (更新)根据ID更新所有学生历史信息信息 -->
+	<update id="updateBaseStudentHistoryById" parameterType="com.sjq.studentHistory.bean.BaseStudentHistoryBean" >
+		update edu_base_studentHistory
+		<set>
+	  	    <if test="modName != '' and modName != null">
+	       	mod_name =  #{modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="modTime != '' and modTime != null">
+	       	mod_time =  #{modTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != '' and delflag != null">
+	       	delflag =  #{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="userId != '' and userId != null">
+	       	user_id =  #{userId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="studentId != '' and studentId != null">
+	       	student_id =  #{studentId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="code != '' and code != null">
+	       	code =  #{code,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="schoolId != '' and schoolId != null">
+	       	school_id =  #{schoolId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="classesId != '' and classesId != null">
+	       	classes_id =  #{classesId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="startTime != '' and startTime != null">
+	       	start_time =  #{startTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="endTime != '' and endTime != null">
+	       	end_time =  #{endTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="termName != '' and termName != null">
+	       	term_name =  #{termName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="remake != '' and remake != null">
+	       	remake =  #{remake,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="termId != '' and termId != null">
+	       	term_id =  #{termId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="yearId != '' and yearId != null">
+	       	year_id =  #{yearId,jdbcType=BIGINT},
+	        </if>
+		</set>
+		where 1 = 1 and id = #{id,jdbcType=BIGINT} 
+	</update>
+	
+					
+	<!-- (增加)增加学生历史信息信息 --> 
+	<insert id="insertBaseStudentHistory" parameterType="com.sjq.studentHistory.bean.BaseStudentHistoryBean">
+		insert into edu_base_studentHistory
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	  	   <if test="id != '' and id != null">
+	       	id,
+	       </if>
+	  	   <if test="createName != '' and createName != null">
+	       	create_name,
+	       </if>
+	  	   <if test="createTime != '' and createTime != null">
+	       	create_time,
+	       </if>
+	  	   <if test="delflag != '' and delflag != null">
+	       	delflag,
+	       </if>
+	  	   <if test="userId != '' and userId != null">
+	       	user_id,
+	       </if>
+	  	   <if test="studentId != '' and studentId != null">
+	       	student_id,
+	       </if>
+	  	   <if test="code != '' and code != null">
+	       	code,
+	       </if>
+	  	   <if test="schoolId != '' and schoolId != null">
+	       	school_id,
+	       </if>
+	  	   <if test="classesId != '' and classesId != null">
+	       	classes_id,
+	       </if>
+	  	   <if test="startTime != '' and startTime != null">
+	       	start_time,
+	       </if>
+	  	   <if test="endTime != '' and endTime != null">
+	       	end_time,
+	       </if>
+	  	   <if test="termName != '' and termName != null">
+	       	term_name,
+	       </if>
+	  	   <if test="remake != '' and remake != null">
+	       	remake,
+	       </if>
+	  	   <if test="termId != '' and termId != null">
+	       	term_id,
+	       </if>
+	  	   <if test="yearId != '' and yearId != null">
+	       	year_id,
+	       </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	  	    <if test="id != '' and id != null">
+	       		#{id,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="createName != '' and createName != null">
+	       		#{createName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="createTime != '' and createTime != null">
+	       		#{createTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != '' and delflag != null">
+	       		#{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="userId != '' and userId != null">
+	       		#{userId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="studentId != '' and studentId != null">
+	       		#{studentId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="code != '' and code != null">
+	       		#{code,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="schoolId != '' and schoolId != null">
+	       		#{schoolId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="classesId != '' and classesId != null">
+	       		#{classesId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="startTime != '' and startTime != null">
+	       		#{startTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="endTime != '' and endTime != null">
+	       		#{endTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="termName != '' and termName != null">
+	       		#{termName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="remake != '' and remake != null">
+	       		#{remake,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="termId != '' and termId != null">
+	       		#{termId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="yearId != '' and yearId != null">
+	       		#{yearId,jdbcType=BIGINT},
+	        </if>
+		</trim>
+	</insert>
+    
+	   
+</mapper>

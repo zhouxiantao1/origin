@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sjq.develop.dao.DevelopCodeMapper">
+	<resultMap id="BaseResultMap" type="com.sjq.develop.vo.DevelopCodeVo">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="create_name" property="createName" jdbcType="VARCHAR" />
+		<result column="mod_time" property="modTime" jdbcType="TIMESTAMP" />
+		<result column="mod_name" property="modName" jdbcType="VARCHAR" />
+		<result column="delflag" property="delflag" jdbcType="CHAR" />
+  		<result column="code_name" property="codeName" jdbcType="VARCHAR" />
+  		<result column="project_name" property="projectName" jdbcType="VARCHAR" />
+  		<result column="module_name" property="moduleName" jdbcType="VARCHAR" />
+  		<result column="code_comment" property="codeComment" jdbcType="VARCHAR" />
+  		<result column="last_generate_time" property="lastGenerateTime" jdbcType="TIMESTAMP"/>
+  		<result column="table_top" property="tableTop" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	
+	
+	<sql id="Base_Column_List">
+		id, 
+		create_time, 
+		create_name, 
+		mod_time, 
+		mod_name,
+		delflag,
+  		code_name,
+  		project_name,
+  		module_name,
+  		code_comment,
+  		last_generate_time,
+  		table_top
+	</sql>
+	
+	<!-- (查询)查询所有的信息-->
+	<select id="selectAll" resultMap="BaseResultMap" >
+ 	   select 
+       <include refid="Base_Column_List" />
+       from edu_develop_code
+       where delflag='0' order by create_time desc
+    </select>
+	
+	
+	<!-- (查询)根据ID查询所有信息 -->
+	<select id="queryCodeById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_develop_code
+       where delflag='0' and id =#{id,jdbcType=BIGINT} order by create_time desc
+    </select>
+    
+    
+	<!-- (查询)根据IDS查询所有信息 -->
+	<select id="queryCodeByIds" resultMap="BaseResultMap"  parameterType="java.util.Map">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_develop_code
+       where delflag='0' and id in 
+	   <foreach collection="Ids" item="id" open="(" close=")" separator=",">
+	   #{id}
+	   </foreach>
+	</select>     
+	
+	
+	<!-- (查询)根据条件查询所有信息 -->
+	<select id="queryCodeBySearch" resultMap="BaseResultMap"  parameterType="java.util.Map">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_develop_code
+       where 1=1 
+       <if test="id != '' and id != null ">
+            and id = #{id}
+       </if>
+       <if test="createTime != '' and createTime != null">
+       		and create_time = #{createTime}
+       </if>
+       <if test="createName != '' and createName != null">
+       		and create_name = #{createName}
+       </if>
+       <if test="modTime != '' and modTime != null">
+       		and mod_time = #{modTime}
+       </if>
+       <if test="modName != '' and modName != null">
+       		and mod_name = #{modName}
+       </if>
+       <if test="delflag != '' and delflag != null">
+       		and delflag = #{delflag}
+       </if>
+  	   <if test="codeName != '' and codeName != null">
+       		and code_name = #{codeName}
+       </if>
+  	   <if test="projectName != '' and projectName != null">
+       		and project_name = #{projectName}
+       </if>
+  	   <if test="moduleName != '' and moduleName != null">
+       		and module_name = #{moduleName}
+       </if>
+  	   <if test="codeComment != '' and codeComment != null">
+       		and code_comment = #{codeComment}
+       </if>
+  	  
+	</select>
+	
+	
+	<!-- (查询)分页根据条件查询count总数 -->
+	<select id="queryTotalCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(1) from
+		edu_develop_code where delflag='0'
+		<if test="id != '' and id != null ">
+            and id = #{id}
+       </if>
+       <if test="createTime != '' and createTime != null">
+       		and create_time = #{createTime}
+       </if>
+       <if test="createName != '' and createName != null">
+       		and create_name = #{createName}
+       </if>
+       <if test="modTime != '' and modTime != null">
+       		and mod_time = #{modTime}
+       </if>
+       <if test="modName != '' and modName != null">
+       		and mod_name = #{modName}
+       </if>
+       <if test="delflag != '' and delflag != null">
+       		and delflag = #{delflag}
+       </if>
+  	   <if test="codeName != '' and codeName != null">
+       		and code_name =  #{codeName}
+       </if>
+  	   <if test="projectName != '' and projectName != null">
+       		and project_name =  #{projectName}
+       </if>
+  	   <if test="moduleName != '' and moduleName != null">
+       		and module_name =  #{moduleName}
+       </if>
+  	   <if test="codeComment != '' and codeComment != null">
+       		and code_comment =  #{codeComment}
+       </if>
+  	  
+	</select>
+	
+	
+	<!-- (查询)分布根据条件查询信息 -->
+	<select id="queryByPageBean" resultMap="BaseResultMap"  parameterType="java.util.Map">
+		select   
+	    <include refid="Base_Column_List" />
+		from
+		edu_develop_code where delflag='0'
+		<if test="id != '' and id != null ">
+            and id = #{id}
+       </if>
+       <if test="createTime != '' and createTime != null">
+       		and create_time = #{createTime}
+       </if>
+       <if test="createName != '' and createName != null">
+       		and create_name = #{createName}
+       </if>
+       <if test="modTime != '' and modTime != null">
+       		and mod_time = #{modTime}
+       </if>
+       <if test="modName != '' and modName != null">
+       		and mod_name = #{modName}
+       </if>
+       <if test="delflag != '' and delflag != null">
+       		and delflag = #{delflag}
+       </if>
+  	   <if test="codeName != '' and codeName != null">
+       		and code_name =  #{codeName}
+       </if>
+  	   <if test="projectName != '' and projectName != null">
+       		and project_name =  #{projectName}
+       </if>
+  	   <if test="moduleName != '' and moduleName != null">
+       		and module_name =  #{moduleName}
+       </if>
+  	   <if test="codeComment != '' and codeComment != null">
+       		and code_comment =  #{codeComment}
+       </if>
+  	   limit #{startRowNum},#{endRowNum}
+	</select>
+	
+  	
+
+	<!-- (删除)删除所有的 信息  -->
+	<delete id="deleteAll">
+		update edu_develop_code set delflag = '1'
+	</delete>
+	
+	<!-- (删除)根据ID删除信息 --> 
+	<delete id="deleteCodeById" parameterType="java.lang.Long">
+		update edu_develop_code set delflag = '1' where  id = #{id,jdbcType=BIGINT} 
+	</delete>
+	
+	
+	<!-- (删除)根据IDS删除信息 -->
+	<delete id="deleteCodeByIds"  parameterType="java.util.Map">
+	   update 
+       edu_develop_code
+       set delflag = '1' 
+       where in 
+	   <foreach collection="Ids" item="id" open="(" close=")" separator=",">
+	   #{id}
+	   </foreach>
+	</delete>
+	
+	
+	<!-- (删除)根据条件删除信息 -->
+	<delete id="deleteCodeBySearch" parameterType="java.util.Map">
+		update 
+		edu_develop_code
+		set delflag = '1'
+		where 1=1
+		<if test="id != '' and id != null ">
+            and id = #{id}
+       </if>
+       <if test="createTime != '' and createTime != null">
+       		and create_time = #{createTime}
+       </if>
+       <if test="createName != '' and createName != null">
+       		and create_name = #{createName}
+       </if>
+       <if test="modTime != '' and modTime != null">
+       		and mod_time = #{modTime}
+       </if>
+       <if test="modName != '' and modName != null">
+       		and mod_name = #{modName}
+       </if>
+       <if test="delflag != '' and delflag != null">
+       		and delflag = #{delflag}
+       </if>
+  	   <if test="codeName != '' and codeName != null">
+       		and code_name =  #{codeName}
+       </if>
+  	   <if test="projectName != '' and projectName != null">
+       		and project_name =  #{projectName}
+       </if>
+  	   <if test="moduleName != '' and moduleName != null">
+       		and module_name =  #{moduleName}
+       </if>
+  	   <if test="codeComment != '' and codeComment != null">
+       		and code_comment =  #{codeComment}
+       </if>
+	</delete>
+	
+	
+	
+	
+	<!-- (更新)根据ID更新所有信息 -->
+	<update id="updateCodeById" parameterType="com.sjq.develop.bean.DevelopCodeBean" >
+		update edu_develop_code
+		<set>
+	       	mod_time = now(),
+	        <if test="modName != '' and modName != null">
+	       		mod_name = #{modName,jdbcType=VARCHAR},
+	        </if>
+	        <if test="delflag != '' and delflag != null">
+	       		delflag = #{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="codeName != '' and codeName != null">
+	       		code_name =  #{codeName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="projectName != '' and projectName != null">
+	       		project_name =  #{projectName,jdbcType=},
+	        </if>
+	  	    <if test="moduleName != '' and moduleName != null">
+	       		module_name =  #{moduleName,jdbcType=},
+	        </if>
+	  	    <if test="codeComment != '' and codeComment != null">
+	       		code_comment =  #{codeComment,jdbcType=},
+	        </if>
+	          <if test="lastGenerateTime != '' and lastGenerateTime != null">
+	       		last_generate_time = #{lastGenerateTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	   
+		</set>
+		where 1 = 1 and id = #{id,jdbcType=BIGINT} 
+	</update>
+	
+	
+	<!-- (更新)根据IDS更新有信息 -->
+	<update id="updateCodeByIds"  parameterType="java.util.Map">
+		update edu_develop_code
+		<set>
+			<if test="createTime != '' and createTime != null">
+	       		create_time = #{createTime,jdbcType=TIMESTAMP},
+	        </if>
+	        <if test="createName != '' and createName != null">
+	       		create_name = #{createName,jdbcType=VARCHAR},
+	        </if>
+	        <if test="modTime != '' and modTime != null">
+	       		mod_time = #{modTime,jdbcType=TIMESTAMP},
+	        </if>
+	        <if test="modName != '' and modName != null">
+	       		mod_name = #{modName,jdbcType=VARCHAR},
+	        </if>
+	        <if test="delflag != '' and delflag != null">
+	       		delflag = #{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="codeName != '' and codeName != null">
+	       		code_name =  #{codeName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="projectName != '' and projectName != null">
+	       		project_name =  #{projectName,jdbcType=},
+	        </if>
+	  	    <if test="moduleName != '' and moduleName != null">
+	       		module_name =  #{moduleName,jdbcType=},
+	        </if>
+	  	    <if test="codeComment != '' and codeComment != null">
+	       		code_comment =  #{codeComment,jdbcType=},
+	        </if>
+	  	   
+		</set>
+		where 1 = 1 and id in 
+	   <foreach collection="Ids" item="id" open="(" close=")" separator=",">
+	   #{id}
+	   </foreach>
+	</update>
+	
+	
+	<!-- (更新)根据条件更新所有信息 -->
+	<update id="updateCodeBySearch"  parameterType="java.util.Map" >
+		update edu_develop_code
+		<set>
+			<if test="createTime != '' and createTime != null">
+	       		create_time = #{createTime,jdbcType=TIMESTAMP},
+	        </if>
+	        <if test="createName != '' and createName != null">
+	       		create_name = #{createName,jdbcType=VARCHAR},
+	        </if>
+	        <if test="modTime != '' and modTime != null">
+	       		mod_time = #{modTime,jdbcType=TIMESTAMP},
+	        </if>
+	        <if test="modName != '' and modName != null">
+	       		mod_name = #{modName,jdbcType=VARCHAR},
+	        </if>
+	        <if test="delflag != '' and delflag != null">
+	       		delflag = #{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="codeName != '' and codeName != null">
+	       		code_name =  #{codeName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="projectName != '' and projectName != null">
+	       		project_name =  #{projectName,jdbcType=},
+	        </if>
+	  	    <if test="moduleName != '' and moduleName != null">
+	       		module_name =  #{moduleName,jdbcType=},
+	        </if>
+	  	    <if test="codeComment != '' and codeComment != null">
+	       		code_comment =  #{codeComment,jdbcType=},
+	        </if>
+	  	  
+		</set>
+		where 
+       <if test="id != '' and id != null ">
+            and id = #{id}
+       </if>
+       <if test="createTime != '' and createTime != null">
+       		and create_time = #{createTime}
+       </if>
+       <if test="createName != '' and createName != null">
+       		and create_name = #{createName}
+       </if>
+       <if test="modTime != '' and modTime != null">
+       		and mod_time = #{modTime}
+       </if>
+       <if test="modName != '' and modName != null">
+       		and mod_name = #{modName}
+       </if>
+       <if test="delflag != '' and delflag != null">
+       		and delflag = #{delflag}
+       </if>
+  	   <if test="codeName != '' and codeName != null">
+       		and code_name = #{codeName}
+       </if>
+  	   <if test="projectName != '' and projectName != null">
+       		and project_name = #{projectName}
+       </if>
+  	   <if test="moduleName != '' and moduleName != null">
+       		and module_name = #{moduleName}
+       </if>
+  	   <if test="codeComment != '' and codeComment != null">
+       		and code_comment = #{codeComment}
+       </if>
+  	   
+	</update>
+	
+	<!-- (增加)增加信息 --> 
+	<insert id="insertCode" parameterType="com.sjq.develop.bean.DevelopCodeBean"  
+        useGeneratedKeys="true" keyProperty="id">
+		insert into edu_develop_code
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	       		 create_time,
+	       <if test="createName != '' and createName != null">
+	       		 create_name,
+	       </if>
+	       		 delflag,
+	  	   <if test="codeName != '' and codeName != null">
+	       		 code_name,
+	       </if>
+	  	   <if test="projectName != '' and projectName != null">
+	       		 project_name,
+	       </if>
+	  	   <if test="moduleName != '' and moduleName != null">
+	       		 module_name,
+	       </if>
+	  	   <if test="codeComment != '' and codeComment != null">
+	       		 code_comment,
+	       </if>
+	        <if test="tableTop != '' and tableTop != null">
+	       		table_top,
+	        </if>
+	  	   
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			now(),
+	        <if test="createName != '' and createName != null">
+	       		#{createName,jdbcType=VARCHAR},
+	        </if>
+	        '0',
+	  	    <if test="codeName != '' and codeName != null">
+	       		#{codeName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="projectName != '' and projectName != null">
+	       		#{projectName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="moduleName != '' and moduleName != null">
+	       		#{moduleName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="codeComment != '' and codeComment != null">
+	       		#{codeComment,jdbcType=VARCHAR},
+	        </if>
+	        <if test="tableTop != '' and tableTop != null">
+	       		#{tableTop,jdbcType=VARCHAR},
+	        </if>
+	  	   
+		</trim>
+	</insert>
+    
+	   
+</mapper>

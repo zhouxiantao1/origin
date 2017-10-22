@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sjq.statistics.dao.QuestionStatisticsMapper">
+	
+	 <!-- 获取试题总数 -->
+	 <select id="queryQuestionStatisticsCount"   resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM edu_question_ware WHERE delflag = '0'
+	 </select>
+	 
+	  <!-- 今日命题数 -->
+	 <select id="queryQuestionStatisticsCountByToDay"   resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM edu_question_ware WHERE UNIX_TIMESTAMP(create_time) > UNIX_TIMESTAMP(DATE(SYSDATE())) AND  delflag = '0'  
+	 </select>
+	 
+	 
+	 <!-- 审核状态 -->
+	 <select id="queryQuestionStatisticsCountGroupByCheckStatus"  resultType="java.util.Map"  >
+		SELECT check_status,COUNT(*) as count FROM edu_question_ware WHERE delflag = '0'  GROUP BY check_status;
+	 </select>	
+	
+	
+	 <!-- 学段试题 -->
+	 <select id="queryQuestionStatisticsCountGroupByStage"  resultType="java.util.Map"  >
+		SELECT b.`name` as name,COUNT(*) as value FROM edu_question_ware a LEFT JOIN edu_base_stage b ON a.`stage_id` = b.`id` WHERE a.delflag = '0'  GROUP BY a.stage_id,b.`name`
+	 </select>	
+	 
+	  <!-- 年级试题 -->
+	 <select id="queryQuestionStatisticsCountGroupByGrade"  resultType="java.util.Map"  >
+	   	SELECT b.name AS name,COUNT(*) AS value FROM edu_question_ware a LEFT JOIN edu_base_grade b ON a.`grade_id` = b.`id` WHERE a.delflag = '0' AND b.`id` IS NOT NULL GROUP BY a.grade_id,b.`name`
+	 </select>	
+	 
+	 
+	   <!-- 学科试题 -->
+	 <select id="queryQuestionStatisticsCountGroupBySubject"  resultType="java.util.Map"  >
+	 	SELECT b.name AS name,COUNT(*) AS value FROM edu_question_ware a LEFT JOIN edu_base_subject b ON a.`subject_id` = b.`id` WHERE a.delflag = '0' AND b.`id` IS NOT NULL GROUP BY a.subject_id,b.`name`
+	 </select>	
+	 
+	  <!-- 题库试题 -->
+	 <select id="queryQuestionStatisticsCountGroupByBelongToLib"  resultType="java.util.Map"  >
+		SELECT CASE belong_to_lib WHEN '1' THEN '考试题库'
+		WHEN '2' THEN '作业题库'
+		WHEN '3' THEN '锚题库'
+		WHEN '4' THEN '种子题库'
+		WHEN '5' THEN '个人题库'
+		WHEN '6' THEN '专家题库'
+		WHEN '7' THEN '自适应题库' ELSE '未知题库' END AS name
+		,COUNT(*) AS value FROM edu_question_ware WHERE delflag = '0' AND belong_to_lib &lt;&gt; '5' GROUP BY belong_to_lib;
+	 </select>	
+	
+	
+</mapper>

@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sjq.adaptation.dao.ExamAdaptationUserKnowledgeMapper">
+	<resultMap id="BaseResultMap" type="com.sjq.adaptation.vo.ExamAdaptationUserKnowledgeVo">
+  		<result column="id" property="id" jdbcType="BIGINT" />
+  		<result column="create_name" property="createName" jdbcType="VARCHAR" />
+  		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  		<result column="mod_name" property="modName" jdbcType="VARCHAR" />
+  		<result column="mod_time" property="modTime" jdbcType="TIMESTAMP" />
+  		<result column="delflag" property="delflag" jdbcType="CHAR" />
+  		<result column="knowledge_id" property="knowledgeId" jdbcType="BIGINT" />
+  		<result column="user_id" property="userId" jdbcType="BIGINT" />
+  		<result column="difficulty" property="difficulty" jdbcType="DECIMAL" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+  		id,
+  		create_name,
+  		create_time,
+  		mod_name,
+  		mod_time,
+  		delflag,
+  		knowledge_id,
+  		user_id,
+  		difficulty
+	</sql>
+	
+					
+	<!-- 根据条件查询所有考试模块-自适应测试用户知识点难度历史记录表信息 -->
+	<select id="queryExamAdaptationUserKnowledgeBySearch" resultMap="BaseResultMap"  parameterType="java.util.Map">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_exam_adaptation_user_knowledge
+       where 1=1  
+  	   <if test="id != '' and id != null">
+       		and id = #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name = #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time = #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name = #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time = #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag = #{delflag}
+       </if>
+  	   <if test="knowledgeId != '' and knowledgeId != null">
+       		and knowledge_id = #{knowledgeId}
+       </if>
+  	   <if test="userId != '' and userId != null">
+       		and user_id = #{userId}
+       </if>
+  	   <if test="difficulty != '' and difficulty != null">
+       		and difficulty = #{difficulty}
+       </if>
+	</select>
+	
+					
+	<!-- (更新)根据ID更新所有考试模块-自适应测试用户知识点难度历史记录表信息 -->
+	<update id="updateExamAdaptationUserKnowledgeById" parameterType="com.sjq.adaptation.bean.ExamAdaptationUserKnowledgeBean" >
+		update edu_exam_adaptation_user_knowledge
+		<set>
+	  	    <if test="modName != '' and modName != null">
+	       	mod_name =  #{modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="modTime != '' and modTime != null">
+	       	mod_time =  #{modTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != '' and delflag != null">
+	       	delflag =  #{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="knowledgeId != '' and knowledgeId != null">
+	       	knowledge_id =  #{knowledgeId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="userId != '' and userId != null">
+	       	user_id =  #{userId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="difficulty != '' and difficulty != null">
+	       	difficulty =  #{difficulty,jdbcType=DECIMAL},
+	        </if>
+		</set>
+		where 1 = 1 and id = #{id,jdbcType=BIGINT} 
+	</update>
+	
+					
+	<!-- (增加)增加考试模块-自适应测试用户知识点难度历史记录表信息 --> 
+	<insert id="insertExamAdaptationUserKnowledge" parameterType="com.sjq.adaptation.bean.ExamAdaptationUserKnowledgeBean">
+		insert into edu_exam_adaptation_user_knowledge
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	  	   <if test="id != '' and id != null">
+	       	id,
+	       </if>
+	  	   <if test="createName != '' and createName != null">
+	       	create_name,
+	       </if>
+	  	   <if test="createTime != '' and createTime != null">
+	       	create_time,
+	       </if>
+	  	   <if test="delflag != '' and delflag != null">
+	       	delflag,
+	       </if>
+	  	   <if test="knowledgeId != '' and knowledgeId != null">
+	       	knowledge_id,
+	       </if>
+	  	   <if test="userId != '' and userId != null">
+	       	user_id,
+	       </if>
+	  	   <if test="difficulty != '' and difficulty != null">
+	       	difficulty,
+	       </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	  	    <if test="id != '' and id != null">
+	       		#{id,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="createName != '' and createName != null">
+	       		#{createName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="createTime != '' and createTime != null">
+	       		#{createTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != '' and delflag != null">
+	       		#{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="knowledgeId != '' and knowledgeId != null">
+	       		#{knowledgeId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="userId != '' and userId != null">
+	       		#{userId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="difficulty != '' and difficulty != null">
+	       		#{difficulty,jdbcType=DECIMAL},
+	        </if>
+		</trim>
+	</insert>
+	
+	
+					
+	<!-- (更新)根据条件更新所有考试模块-自适应测试用户知识点难度历史记录表信息 -->
+	<update id="updateExamAdaptationUserKnowledgeBySearch"  parameterType="java.util.Map" >
+		update edu_exam_adaptation_user_knowledge
+		<set>
+	  	    <if test="bean.modName != null">
+	       	mod_name =  #{bean.modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="bean.modTime != null">
+	       	mod_time =  #{bean.modTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="bean.delflag != null">
+	       	delflag =  #{bean.delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="bean.knowledgeId != null">
+	       	knowledge_id =  #{bean.knowledgeId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="bean.userId != null">
+	       	user_id =  #{bean.userId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="bean.difficulty != null">
+	       	difficulty =  #{bean.difficulty,jdbcType=DECIMAL},
+	        </if>
+		</set>
+		where 1=1
+  	   <if test="search.id != null">
+       		and id = #{search.id}
+       </if>
+  	   <if test="search.knowledgeId != null">
+       		and knowledge_id = #{search.knowledgeId}
+       </if>
+  	   <if test="search.userId != null">
+       		and user_id = #{search.userId}
+       </if>
+  	 
+	</update>
+    
+	   
+</mapper>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sjq.job.dao.jobTriggerConfigMapper">
+	<resultMap id="BaseResultMap" type="com.sjq.job.bean.JobTriggerConfig">
+		<id column="id" property="id" jdbcType="BIGINT" />
+  		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  		<result column="create_user" property="createUser" jdbcType="VARCHAR" />
+  		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  		<result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+  		<result column="trigger_type" property="triggerType" jdbcType="VARCHAR" />
+  		<result column="trigger_note" property="triggerNote" jdbcType="VARCHAR" />
+  		<result column="scheduler_name" property="schedulerName" jdbcType="VARCHAR" />
+  		<result column="group_name" property="groupName" jdbcType="VARCHAR" />
+  		<result column="trigger_name" property="triggerName" jdbcType="VARCHAR" />
+  		<result column="cron_expression" property="cronExpression" jdbcType="VARCHAR" />
+  		<result column="spring_batck_job_id" property="springBatchJobId" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	
+	<sql id="Base_Column_List">
+  		id,
+		create_user,
+		create_time,
+		update_user,
+		update_time,
+		trigger_type,
+		trigger_note,
+		scheduler_name,
+		group_name,
+		trigger_name,
+		cron_expression,
+		spring_batck_job_id
+	</sql>
+	
+	<!-- (查询)根据条件查询所有信息 -->
+	<select id="queryJobTriggerConfigBySearch" resultMap="BaseResultMap"  parameterType="java.util.Map">
+	   select 
+       <include refid="Base_Column_List" />
+       from batch_trigger_config
+       where 1=1 
+  	   <if test="id != '' and id != null">
+       		and id = #{id}
+       </if>
+  	   <if test="triggerType != '' and triggerType != null">
+       		and trigger_type = #{triggerType}
+       </if>
+	</select>
+	   
+</mapper>

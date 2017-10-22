@@ -1,0 +1,464 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sjq.comment.dao.ArchivesCommentMapper">
+	<resultMap id="BaseResultMap" type="com.sjq.comment.vo.ArchivesCommentVo">
+  		<result column="id" property="id" jdbcType="BIGINT" />
+  		<result column="create_name" property="createName" jdbcType="VARCHAR" />
+  		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  		<result column="mod_name" property="modName" jdbcType="VARCHAR" />
+  		<result column="mod_time" property="modTime" jdbcType="TIMESTAMP" />
+  		<result column="delflag" property="delflag" jdbcType="CHAR" />
+  		<result column="student_id" property="studentId" jdbcType="BIGINT" />
+  		<result column="student_name" property="studentName" jdbcType="VARCHAR" />
+  		<result column="school_id" property="schoolId" jdbcType="BIGINT" />
+  		<result column="classes_id" property="classesId" jdbcType="BIGINT" />
+  		<result column="term_id" property="termId" jdbcType="BIGINT" />
+  		<result column="score_remake" property="scoreRemake" jdbcType="VARCHAR" />
+  		<result column="action_remake" property="actionRemake" jdbcType="VARCHAR" />
+  		<result column="guide_remake" property="guideRemake" jdbcType="VARCHAR" />
+  		<result column="teacher_id" property="teacherId" jdbcType="BIGINT" />
+  		<result column="teacher_name" property="teacherName" jdbcType="VARCHAR" />
+  		<result column="honor_remark" property="honorRemark" jdbcType="VARCHAR" />
+  		<result column="remark_name" property="remarkName" jdbcType="VARCHAR" />
+  		<result column="subject_id" property="subjectId" jdbcType="BIGINT" />
+  		<result column="title" property="title" jdbcType="VARCHAR" />
+  		
+  		<association property="baseSubjectVo" column="subject_id"
+			select="com.sjq.subject.dao.BaseSubjectMapper.queryBaseSubjectById"></association>	
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+  		id,
+  		create_name,
+  		create_time,
+  		mod_name,
+  		mod_time,
+  		delflag,
+  		student_id,
+  		student_name,
+  		school_id,
+  		classes_id,
+  		term_id,
+  		score_remake,
+  		action_remake,
+  		guide_remake,
+  		teacher_id,
+  		teacher_name,
+  		honor_remark,
+  		remark_name,
+  		subject_id,
+  		title
+	</sql>
+	
+	
+	<!-- 根据ID查询评语信息信息 -->
+	<select id="queryArchivesCommentById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_archives_comment
+       where delflag='0' and id =#{id,jdbcType=BIGINT}
+    </select>
+    
+					
+	<!-- 根据条件查询所有评语信息信息 -->
+	<select id="queryArchivesCommentBySearch" resultMap="BaseResultMap"  parameterType="java.util.Map">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_archives_comment
+       where 1=1 
+  	   <if test="id != '' and id != null">
+       		and id = #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name = #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time = #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name = #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time = #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag = #{delflag}
+       </if>
+  	   <if test="studentId != '' and studentId != null">
+       		and student_id = #{studentId}
+       </if>
+  	   <if test="studentName != '' and studentName != null">
+       		and student_name = #{studentName}
+       </if>
+  	   <if test="schoolId != '' and schoolId != null">
+       		and school_id = #{schoolId}
+       </if>
+  	   <if test="classesId != '' and classesId != null">
+       		and classes_id = #{classesId}
+       </if>
+  	   <if test="termId != '' and termId != null">
+       		and term_id = #{termId}
+       </if>
+  	   <if test="scoreRemake != '' and scoreRemake != null">
+       		and score_remake = #{scoreRemake}
+       </if>
+  	   <if test="actionRemake != '' and actionRemake != null">
+       		and action_remake = #{actionRemake}
+       </if>
+  	   <if test="guideRemake != '' and guideRemake != null">
+       		and guide_remake = #{guideRemake}
+       </if>
+  	   <if test="teacherId != '' and teacherId != null">
+       		and teacher_id = #{teacherId}
+       </if>
+  	   <if test="teacherName != '' and teacherName != null">
+       		and teacher_name = #{teacherName}
+       </if>
+  	   <if test="honorRemark != '' and honorRemark != null">
+       		and honor_remark = #{honorRemark}
+       </if>
+  	   <if test="remarkName != '' and remarkName != null">
+       		and remark_name = #{remarkName}
+       </if>
+  	   <if test="subjectId != '' and subjectId != null">
+       		and subject_id = #{subjectId}
+       </if>
+       <if test="title != '' and title != null">
+       		and title = #{title}
+       </if>
+	</select>
+	
+					
+	<!-- 根据条件查询评语信息count总数 -->
+	<select id="queryArchivesCommentTotalCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(1) from
+		edu_archives_comment where delflag='0'
+  	   <if test="id != '' and id != null">
+       		and id =  #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name =  #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time =  #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name =  #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time =  #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag =  #{delflag}
+       </if>
+  	   <if test="studentId != '' and studentId != null">
+       		and student_id =  #{studentId}
+       </if>
+  	   <if test="studentName != '' and studentName != null">
+       		and student_name =  #{studentName}
+       </if>
+  	   <if test="schoolId != '' and schoolId != null">
+       		and school_id =  #{schoolId}
+       </if>
+  	   <if test="classesId != '' and classesId != null">
+       		and classes_id =  #{classesId}
+       </if>
+  	   <if test="termId != '' and termId != null">
+       		and term_id =  #{termId}
+       </if>
+  	   <if test="scoreRemake != '' and scoreRemake != null">
+       		and score_remake =  #{scoreRemake}
+       </if>
+  	   <if test="actionRemake != '' and actionRemake != null">
+       		and action_remake =  #{actionRemake}
+       </if>
+  	   <if test="guideRemake != '' and guideRemake != null">
+       		and guide_remake =  #{guideRemake}
+       </if>
+  	   <if test="teacherId != '' and teacherId != null">
+       		and teacher_id =  #{teacherId}
+       </if>
+  	   <if test="teacherName != '' and teacherName != null">
+       		and teacher_name =  #{teacherName}
+       </if>
+  	   <if test="honorRemark != '' and honorRemark != null">
+       		and honor_remark =  #{honorRemark}
+       </if>
+  	   <if test="remarkName != '' and remarkName != null">
+       		and remark_name =  #{remarkName}
+       </if>
+  	   <if test="subjectId != '' and subjectId != null">
+       		and subject_id =  #{subjectId}
+       </if>
+       <if test="title != '' and title != null">
+       		and title =  #{title}
+       </if>
+	</select>
+	
+
+					
+	<!-- 分页查询评语信息 -->
+	<select id="queryArchivesCommentPage" resultMap="BaseResultMap"  parameterType="java.util.Map">
+		select   
+	    <include refid="Base_Column_List" />
+		from
+		edu_archives_comment where delflag='0'
+  	   <if test="id != '' and id != null">
+       		and id =  #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name =  #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time =  #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name =  #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time =  #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag =  #{delflag}
+       </if>
+  	   <if test="studentId != '' and studentId != null">
+       		and student_id =  #{studentId}
+       </if>
+  	   <if test="studentName != '' and studentName != null">
+       		and student_name =  #{studentName}
+       </if>
+  	   <if test="schoolId != '' and schoolId != null">
+       		and school_id =  #{schoolId}
+       </if>
+  	   <if test="classesId != '' and classesId != null">
+       		and classes_id =  #{classesId}
+       </if>
+  	   <if test="termId != '' and termId != null">
+       		and term_id =  #{termId}
+       </if>
+  	   <if test="scoreRemake != '' and scoreRemake != null">
+       		and score_remake =  #{scoreRemake}
+       </if>
+  	   <if test="actionRemake != '' and actionRemake != null">
+       		and action_remake =  #{actionRemake}
+       </if>
+  	   <if test="guideRemake != '' and guideRemake != null">
+       		and guide_remake =  #{guideRemake}
+       </if>
+  	   <if test="teacherId != '' and teacherId != null">
+       		and teacher_id =  #{teacherId}
+       </if>
+  	   <if test="teacherName != '' and teacherName != null">
+       		and teacher_name =  #{teacherName}
+       </if>
+  	   <if test="honorRemark != '' and honorRemark != null">
+       		and honor_remark =  #{honorRemark}
+       </if>
+  	   <if test="remarkName != '' and remarkName != null">
+       		and remark_name =  #{remarkName}
+       </if>
+  	   <if test="subjectId != '' and subjectId != null">
+       		and subject_id =  #{subjectId}
+       </if>
+       <if test="title != '' and title != null">
+       		and title =  #{title}
+       </if>
+  	   limit #{startRowNum},#{endRowNum}
+	</select>
+
+					
+	<!-- (删除)根据ID删除评语信息信息 --> 
+	<delete id="deleteArchivesCommentById" parameterType="java.lang.Long">
+		update edu_archives_comment 
+		<set> 
+	  	    <if test="modName != '' and modName != null">
+	       	mod_name =  #{modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="modTime != '' and modTime != null">
+	       	mod_time =  #{modTime,jdbcType=TIMESTAMP},
+	        </if>
+		delflag = '1'
+		</set>
+		where  id = #{id,jdbcType=BIGINT} 
+	</delete>
+	
+					
+	<!-- (更新)根据ID更新所有评语信息信息 -->
+	<update id="updateArchivesCommentById" parameterType="com.sjq.comment.bean.ArchivesCommentBean" >
+		update edu_archives_comment
+		<set>
+	  	    <if test="modName != '' and modName != null">
+	       	mod_name =  #{modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="modTime != '' and modTime != null">
+	       	mod_time =  #{modTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != '' and delflag != null">
+	       	delflag =  #{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="studentId != '' and studentId != null">
+	       	student_id =  #{studentId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="studentName != '' and studentName != null">
+	       	student_name =  #{studentName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="schoolId != '' and schoolId != null">
+	       	school_id =  #{schoolId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="classesId != '' and classesId != null">
+	       	classes_id =  #{classesId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="termId != '' and termId != null">
+	       	term_id =  #{termId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="scoreRemake != '' and scoreRemake != null">
+	       	score_remake =  #{scoreRemake,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="actionRemake != '' and actionRemake != null">
+	       	action_remake =  #{actionRemake,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="guideRemake != '' and guideRemake != null">
+	       	guide_remake =  #{guideRemake,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="teacherId != '' and teacherId != null">
+	       	teacher_id =  #{teacherId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="teacherName != '' and teacherName != null">
+	       	teacher_name =  #{teacherName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="honorRemark != '' and honorRemark != null">
+	       	honor_remark =  #{honorRemark,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="remarkName != '' and remarkName != null">
+	       	remark_name =  #{remarkName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="subjectId != '' and subjectId != null">
+	       	subject_id =  #{subjectId,jdbcType=BIGINT},
+	        </if>
+	        <if test="title != '' and title != null">
+	       	title =  #{title,jdbcType=VARCHAR},
+	        </if>
+		</set>
+		where 1 = 1 and id = #{id,jdbcType=BIGINT} 
+	</update>
+	
+					
+	<!-- (增加)增加评语信息信息 --> 
+	<insert id="insertArchivesComment" parameterType="com.sjq.comment.bean.ArchivesCommentBean">
+		insert into edu_archives_comment
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	  	   <if test="id != '' and id != null">
+	       	id,
+	       </if>
+	  	   <if test="createName != '' and createName != null">
+	       	create_name,
+	       </if>
+	  	   <if test="createTime != '' and createTime != null">
+	       	create_time,
+	       </if>
+	  	   <if test="delflag != '' and delflag != null">
+	       	delflag,
+	       </if>
+	  	   <if test="studentId != '' and studentId != null">
+	       	student_id,
+	       </if>
+	  	   <if test="studentName != '' and studentName != null">
+	       	student_name,
+	       </if>
+	  	   <if test="schoolId != '' and schoolId != null">
+	       	school_id,
+	       </if>
+	  	   <if test="classesId != '' and classesId != null">
+	       	classes_id,
+	       </if>
+	  	   <if test="termId != '' and termId != null">
+	       	term_id,
+	       </if>
+	  	   <if test="scoreRemake != '' and scoreRemake != null">
+	       	score_remake,
+	       </if>
+	  	   <if test="actionRemake != '' and actionRemake != null">
+	       	action_remake,
+	       </if>
+	  	   <if test="guideRemake != '' and guideRemake != null">
+	       	guide_remake,
+	       </if>
+	  	   <if test="teacherId != '' and teacherId != null">
+	       	teacher_id,
+	       </if>
+	  	   <if test="teacherName != '' and teacherName != null">
+	       	teacher_name,
+	       </if>
+	  	   <if test="honorRemark != '' and honorRemark != null">
+	       	honor_remark,
+	       </if>
+	  	   <if test="remarkName != '' and remarkName != null">
+	       	remark_name,
+	       </if>
+	  	   <if test="subjectId != '' and subjectId != null">
+	       	subject_id,
+	       </if>
+	       <if test="title != '' and title != null">
+	       	title,
+	       </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	  	    <if test="id != '' and id != null">
+	       		#{id,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="createName != '' and createName != null">
+	       		#{createName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="createTime != '' and createTime != null">
+	       		#{createTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != '' and delflag != null">
+	       		#{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="studentId != '' and studentId != null">
+	       		#{studentId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="studentName != '' and studentName != null">
+	       		#{studentName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="schoolId != '' and schoolId != null">
+	       		#{schoolId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="classesId != '' and classesId != null">
+	       		#{classesId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="termId != '' and termId != null">
+	       		#{termId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="scoreRemake != '' and scoreRemake != null">
+	       		#{scoreRemake,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="actionRemake != '' and actionRemake != null">
+	       		#{actionRemake,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="guideRemake != '' and guideRemake != null">
+	       		#{guideRemake,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="teacherId != '' and teacherId != null">
+	       		#{teacherId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="teacherName != '' and teacherName != null">
+	       		#{teacherName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="honorRemark != '' and honorRemark != null">
+	       		#{honorRemark,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="remarkName != '' and remarkName != null">
+	       		#{remarkName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="subjectId != '' and subjectId != null">
+	       		#{subjectId,jdbcType=BIGINT},
+	        </if>
+	        <if test="title != '' and title != null">
+	       		#{title,jdbcType=VARCHAR},
+	        </if>
+		</trim>
+	</insert>
+    
+	   
+</mapper>

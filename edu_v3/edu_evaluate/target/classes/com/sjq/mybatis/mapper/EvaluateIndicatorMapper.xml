@@ -1,0 +1,567 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sjq.indicator.dao.EvaluateIndicatorMapper">
+	<resultMap id="BaseResultMap" type="com.sjq.indicator.vo.EvaluateIndicatorVo">
+  		<result column="id" property="id" jdbcType="BIGINT" />
+  		<result column="create_name" property="createName" jdbcType="VARCHAR" />
+  		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  		<result column="mod_name" property="modName" jdbcType="VARCHAR" />
+  		<result column="mod_time" property="modTime" jdbcType="TIMESTAMP" />
+  		<result column="delflag" property="delflag" jdbcType="CHAR" />
+  		<result column="name" property="name" jdbcType="VARCHAR" />
+  		<result column="content" property="content" jdbcType="VARCHAR" />
+  		<result column="parent_id" property="parentId" jdbcType="BIGINT" />
+  		<result column="parent_ids" property="parentIds" jdbcType="VARCHAR" />
+  		<result column="weight" property="weight" jdbcType="DECIMAL" />
+  		<result column="sort" property="sort" jdbcType="BIGINT" />
+  		<result column="remake" property="remake" jdbcType="VARCHAR" />
+  		<result column="type" property="type" jdbcType="CHAR" />
+  		<result column="user_id" property="userId" jdbcType="BIGINT" />
+  		<result column="use_num" property="useNum" jdbcType="BIGINT" />
+	</resultMap>
+	
+	<resultMap id="TreeNodesResultMap" type="com.sjq.ware.dto.ZTreeNodesDto">
+  		<result column="id" property="id" jdbcType="BIGINT" />
+  		<result column="name" property="name" jdbcType="VARCHAR" />
+ 		<collection property="children" column="id" javaType="ArrayList"
+			ofType="com.sjq.ware.dto.ZTreeNodesDto" select="com.sjq.indicator.dao.EvaluateIndicatorMapper.queryEvaluateIndicatorByParentId"></collection>
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+  		id,
+  		create_name,
+  		create_time,
+  		mod_name,
+  		mod_time,
+  		delflag,
+  		name,
+  		content,
+  		parent_id,
+  		parent_ids,
+  		weight,
+  		sort,
+  		remake,
+  		type,
+  		user_id,
+  		use_num
+	</sql>
+	
+	<!-- 查询所有的指标信息信息 -->
+	<select id="queryAllEvaluateIndicator" resultMap="BaseResultMap" >
+ 	   select 
+       <include refid="Base_Column_List" />
+       from edu_evaluate_indicator
+       where delflag='0'
+    </select>
+	
+	
+	<!-- 根据ID查询指标信息信息 -->
+	<select id="queryEvaluateIndicatorById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_evaluate_indicator
+       where delflag='0' and id =#{id,jdbcType=BIGINT}
+    </select>
+    
+    <!-- 根据ID删除指标 物理删除 -->
+	<delete id="deleteEvaluateIndicatorById" parameterType="java.lang.Long">
+	  delete from edu_evaluate_indicator
+       where id =#{id,jdbcType=BIGINT}
+    </delete>
+    
+    <!-- 根据ID查询状态为1的信息指标信息信息 -->
+	<select id="queryEvaluateIndicatorById1" resultMap="BaseResultMap" parameterType="java.lang.Long">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_evaluate_indicator
+       where  id =#{id,jdbcType=BIGINT}
+    </select>
+    
+    <!-- 根据父类ID查询指标信息信息 -->
+	<select id="queryEvaluateIndicatorByParentId" resultMap="TreeNodesResultMap" parameterType="java.lang.Long">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_evaluate_indicator
+       where delflag='0' and parent_id =#{id,jdbcType=BIGINT}
+    </select>
+    
+    <!-- 根据条件查询所有指标信息信息-没有树 -->
+	<select id="queryEvaluateIndicatorBySearch1" resultMap="BaseResultMap"  parameterType="java.util.Map">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_evaluate_indicator
+       where 1=1 
+  	   <if test="id != '' and id != null">
+       		and id = #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name = #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time = #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name = #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time = #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag = #{delflag}
+       </if>
+  	   <if test="name != '' and name != null">
+       		and name = #{name}
+       </if>
+  	   <if test="content != '' and content != null">
+       		and content = #{content}
+       </if>
+  	   <if test="parentId != null">
+       		and parent_id = #{parentId}
+       </if>
+  	   <if test="parentIds != '' and parentIds != null">
+       		and parent_ids = #{parentIds}
+       </if>
+  	   <if test="weight != '' and weight != null">
+       		and weight = #{weight}
+       </if>
+  	   <if test="sort != '' and sort != null">
+       		and sort = #{sort}
+       </if>
+  	   <if test="remake != '' and remake != null">
+       		and remake = #{remake}
+       </if>
+       <if test='type =="2" and userId != null '>
+       		and user_id = #{userId}
+       </if>
+        <if test='type =="1"'>
+       		and type = #{type}
+       </if>
+         <if test='type =="3"'>
+       		and (type = '1' or user_id = #{userId})
+       </if>
+        <if test="useNum ==0">
+       		and use_num = #{useNum}
+       </if>
+        <if test="useNum != null and useNum !=0">
+       		and use_num = use_num + #{useNum}
+       </if>
+	</select>
+    
+					
+	<!-- 根据条件查询所有指标信息信息 -树-->
+	<select id="queryEvaluateIndicatorBySearch" resultMap="TreeNodesResultMap"  parameterType="java.util.Map">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_evaluate_indicator
+       where 1=1 
+  	   <if test="id != '' and id != null">
+       		and id = #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name = #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time = #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name = #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time = #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag = #{delflag}
+       </if>
+  	   <if test="name != '' and name != null">
+       		and name = #{name}
+       </if>
+  	   <if test="content != '' and content != null">
+       		and content = #{content}
+       </if>
+  	   <if test="parentId != '' and parentId != null">
+       		and parent_id = #{parentId}
+       </if>
+  	   <if test="parentIds != '' and parentIds != null">
+       		and parent_ids = #{parentIds}
+       </if>
+  	   <if test="weight != '' and weight != null">
+       		and weight = #{weight}
+       </if>
+  	   <if test="sort != '' and sort != null">
+       		and sort = #{sort}
+       </if>
+  	   <if test="remake != '' and remake != null">
+       		and remake = #{remake}
+       </if>
+       <if test="type != '' and type != null">
+       		and type = #{type}
+       </if>
+       <if test="userId != null">
+       		and user_id = #{userId}
+       </if>
+        <if test="useNum != null">
+       		and use_num = #{useNum}
+       </if>
+	</select>
+	
+					
+	<!-- 根据条件查询指标信息count总数 -->
+	<select id="queryEvaluateIndicatorTotalCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(1) from
+		edu_evaluate_indicator where delflag='0'
+  	   <if test="id != '' and id != null">
+       		and id =  #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name =  #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time =  #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name =  #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time =  #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag =  #{delflag}
+       </if>
+  	   <if test="name != '' and name != null">
+       		and name =  #{name}
+       </if>
+  	   <if test="content != '' and content != null">
+       		and content =  #{content}
+       </if>
+  	   <if test="parentId != null">
+       		and parent_id =  #{parentId}
+       </if>
+  	   <if test="parentIds != '' and parentIds != null">
+       		and parent_ids =  #{parentIds}
+       </if>
+  	   <if test="weight != '' and weight != null">
+       		and weight =  #{weight}
+       </if>
+  	   <if test="sort != '' and sort != null">
+       		and sort =  #{sort}
+       </if>
+  	   <if test="remake != '' and remake != null">
+       		and remake =  #{remake}
+       </if>
+       <if test='type =="2" and userId != null '>
+       		and user_id = #{userId} and type = #{type}
+       </if>
+        <if test='type =="1"'>
+       		and type = #{type}
+       </if>
+         <if test='type =="3"'>
+       		and (type = '1' or user_id = #{userId})
+       </if>
+        <if test="useNum != null">
+       		and use_num = #{useNum}
+       </if>
+	</select>
+	
+
+					
+	<!-- 分页查询指标信息 -->
+	<select id="queryEvaluateIndicatorPage" resultMap="BaseResultMap"  parameterType="java.util.Map">
+		select   
+	    <include refid="Base_Column_List" />
+		from
+		edu_evaluate_indicator where delflag='0'
+  	   <if test="id != '' and id != null">
+       		and id =  #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name =  #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time =  #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name =  #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time =  #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag =  #{delflag}
+       </if>
+  	   <if test="name != '' and name != null">
+       		and name =  #{name}
+       </if>
+  	   <if test="content != '' and content != null">
+       		and content =  #{content}
+       </if>
+  	   <if test="parentId != null">
+       		and parent_id =  #{parentId}
+       </if>
+  	   <if test="parentIds != '' and parentIds != null">
+       		and parent_ids =  #{parentIds}
+       </if>
+  	   <if test="weight != '' and weight != null">
+       		and weight =  #{weight}
+       </if>
+  	   <if test="sort != '' and sort != null">
+       		and sort =  #{sort}
+       </if>
+  	   <if test="remake != '' and remake != null">
+       		and remake =  #{remake}
+       </if>
+       <if test='type =="2" and userId != null '>
+       		and user_id = #{userId} and type = #{type}
+       </if>
+        <if test='type =="1"'>
+       		and type = #{type}
+       </if>
+         <if test='type =="3"'>
+       		and (type = '1' or user_id = #{userId})
+       </if>
+        <if test="useNum != null">
+       		and use_num = #{useNum}
+       </if>
+       ORDER BY mod_time desc,create_time desc
+  	   limit #{startRowNum},#{endRowNum}
+	</select>
+
+					
+	<!-- (更新)根据ID更新所有指标信息信息 -->
+	<update id="updateEvaluateIndicatorById" parameterType="com.sjq.indicator.bean.EvaluateIndicatorBean" >
+		update edu_evaluate_indicator
+		<set>
+	  	    <if test="modName != '' and modName != null">
+	       	mod_name =  #{modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="modTime != '' and modTime != null">
+	       	mod_time =  #{modTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != '' and delflag != null">
+	       	delflag =  #{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="name != '' and name != null">
+	       	name =  #{name,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="content != '' and content != null">
+	       	content =  #{content,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="parentId != '' and parentId != null">
+	       	parent_id =  #{parentId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="parentIds != '' and parentIds != null">
+	       	parent_ids =  #{parentIds,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="weight != '' and weight != null">
+	       	weight =  #{weight,jdbcType=DECIMAL},
+	        </if>
+	  	    <if test="sort != '' and sort != null">
+	       	sort =  #{sort,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="remake != '' and remake != null">
+	       	remake =  #{remake,jdbcType=VARCHAR},
+	        </if>
+	        <if test="type != '' and type != null">
+	       	type =  #{type,jdbcType=CHAR},
+	        </if>
+	        <if test="userId != null">
+	       	user_id =  #{userId,jdbcType=BIGINT},
+	        </if>
+	        <if test="useNum != null">
+	       	use_num =  #{useNum,jdbcType=BIGINT},
+	        </if>
+		</set>
+		where 1 = 1 and id = #{id,jdbcType=BIGINT} 
+	</update>
+	
+					
+	<!-- (更新)根据条件更新所有指标信息信息 -->
+	<update id="updateEvaluateIndicatorBySearch"  parameterType="java.util.Map" >
+		update edu_evaluate_indicator
+		<set>
+	  	    <if test="modName != '' and modName != null">
+	       	mod_name =  #{modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="modTime != '' and modTime != null">
+	       	mod_time =  #{modTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != '' and delflag != null">
+	       	delflag =  #{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="name != '' and name != null">
+	       	name =  #{name,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="content != '' and content != null">
+	       	content =  #{content,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="parentId != '' and parentId != null">
+	       	parent_id =  #{parentId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="parentIds != '' and parentIds != null">
+	       	parent_ids =  #{parentIds,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="weight != '' and weight != null">
+	       	weight =  #{weight,jdbcType=DECIMAL},
+	        </if>
+	  	    <if test="sort != '' and sort != null">
+	       	sort =  #{sort,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="remake != '' and remake != null">
+	       	remake =  #{remake,jdbcType=VARCHAR},
+	        </if>
+	        <if test="type != '' and type != null">
+	       	type =  #{type,jdbcType=CHAR},
+	        </if>
+	         <if test="bean.userId != null">
+	       	user_id =  #{bean.userId,jdbcType=BIGINT},
+	        </if>
+	         <if test="bean.useNum != null">
+	       	use_num =  #{bean.useNum,jdbcType=BIGINT},
+	        </if>
+		</set>
+		where  1=1
+  	   <if test="id != '' and id != null">
+       		and id = #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name = #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time = #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name = #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time = #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag = #{delflag}
+       </if>
+  	   <if test="name != '' and name != null">
+       		and name = #{name}
+       </if>
+  	   <if test="content != '' and content != null">
+       		and content = #{content}
+       </if>
+  	   <if test="parentId != '' and parentId != null">
+       		and parent_id = #{parentId}
+       </if>
+  	   <if test="parentIds != '' and parentIds != null">
+       		and parent_ids = #{parentIds}
+       </if>
+  	   <if test="weight != '' and weight != null">
+       		and weight = #{weight}
+       </if>
+  	   <if test="sort != '' and sort != null">
+       		and sort = #{sort}
+       </if>
+  	   <if test="remake != '' and remake != null">
+       		and remake = #{remake}
+       </if>
+       <if test="type != '' and type != null">
+       		and type = #{type}
+       </if>
+        <if test="search.userId != null">
+       		and user_id = #{search.userId}
+       </if>
+        <if test="search.useNum != null">
+       		and use_num = #{search.useNum}
+       </if>
+	</update>
+	
+					
+	<!-- (增加)增加指标信息信息 --> 
+	<insert id="insertEvaluateIndicator" parameterType="com.sjq.indicator.bean.EvaluateIndicatorBean" useGeneratedKeys="true" keyProperty="id">
+		insert into edu_evaluate_indicator
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	  	   <if test="id != '' and id != null">
+	       	id,
+	       </if>
+	  	   <if test="createName != '' and createName != null">
+	       	create_name,
+	       </if>
+	  	   <if test="createTime != '' and createTime != null">
+	       	create_time,
+	       </if>
+	  	   <if test="delflag != '' and delflag != null">
+	       	delflag,
+	       </if>
+	  	   <if test="name != '' and name != null">
+	       	name,
+	       </if>
+	  	   <if test="content != '' and content != null">
+	       	content,
+	       </if>
+	  	   <if test="parentId != null">
+	       	parent_id,
+	       </if>
+	  	   <if test=" parentIds != '' and parentIds != null">
+	       	parent_ids,
+	       </if>
+	  	   <if test="weight != '' and weight != null">
+	       	weight,
+	       </if>
+	  	   <if test="sort != '' and sort != null">
+	       	sort,
+	       </if>
+	  	   <if test="remake != '' and remake != null">
+	       	remake,
+	       </if>
+	       <if test="type != '' and type != null">
+	       	type,
+	       </if>
+	        <if test="userId != null">
+	       	user_id,
+	       </if>
+	        <if test="useNum != null">
+	       	use_num,
+	       </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	  	    <if test="id != '' and id != null">
+	       		#{id,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="createName != '' and createName != null">
+	       		#{createName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="createTime != '' and createTime != null">
+	       		#{createTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != '' and delflag != null">
+	       		#{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="name != '' and name != null">
+	       		#{name,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="content != '' and content != null">
+	       		#{content,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="parentId != null">
+	       		#{parentId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="parentIds != '' and parentIds != null">
+	       		#{parentIds,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="weight != '' and weight != null">
+	       		#{weight,jdbcType=DECIMAL},
+	        </if>
+	  	    <if test="sort != '' and sort != null">
+	       		#{sort,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="remake != '' and remake != null">
+	       		#{remake,jdbcType=VARCHAR},
+	        </if>
+	        <if test="type != '' and type != null">
+	       		#{type,jdbcType=CHAR},
+	        </if>
+	        <if test="userId != null">
+	       		#{userId,jdbcType=BIGINT},
+	        </if>
+	         <if test="useNum != null">
+	       		#{useNum,jdbcType=BIGINT},
+	        </if>
+		</trim>
+	</insert>
+    
+	   
+</mapper>

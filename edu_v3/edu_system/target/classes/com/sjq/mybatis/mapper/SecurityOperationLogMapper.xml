@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sjq.operationLog.dao.SecurityOperationLogMapper">
+	<resultMap id="BaseResultMap" type="com.sjq.security.vo.SecurityOperationLogVo">
+  		<result column="id" property="id" jdbcType="BIGINT" />
+  		<result column="create_name" property="createName" jdbcType="VARCHAR" />
+  		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  		<result column="mod_name" property="modName" jdbcType="VARCHAR" />
+  		<result column="mod_time" property="modTime" jdbcType="TIMESTAMP" />
+  		<result column="delflag" property="delflag" jdbcType="CHAR" />
+  		<result column="ip" property="ip" jdbcType="VARCHAR" />
+  		<result column="user_code" property="userCode" jdbcType="VARCHAR" />
+  		<result column="user_name" property="userName" jdbcType="VARCHAR" />
+  		<result column="operate_time" property="operateTime" jdbcType="TIMESTAMP" />
+  		<result column="operate_data" property="operateData" jdbcType="VARCHAR" />
+  		<result column="operate_url" property="operateUrl" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+  		id,
+  		create_name,
+  		create_time,
+  		mod_name,
+  		mod_time,
+  		delflag,
+  		ip,
+  		user_code,
+  		user_name,
+  		operate_time,
+  		operate_data,
+  		operate_url
+	</sql>
+	
+					
+	<!-- 根据条件查询系统日志操作count总数 -->
+	<select id="querySecurityOperationLogTotalCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(1) from
+		sys_security_operation_log where delflag='0'
+  	   <if test="id != null">
+       		and id =  #{id}
+       </if>
+  	   <if test="createName != null">
+       		and create_name =  #{createName}
+       </if>
+  	   <if test="createTime != null">
+       		and create_time =  #{createTime}
+       </if>
+  	   <if test="modName != null">
+       		and mod_name =  #{modName}
+       </if>
+  	   <if test="modTime != null">
+       		and mod_time =  #{modTime}
+       </if>
+  	   <if test="delflag != null">
+       		and delflag =  #{delflag}
+       </if>
+  	   <if test="ip != null">
+       		and ip =  #{ip}
+       </if>
+  	   <if test="userCode != null">
+       		and user_code =  #{userCode}
+       </if>
+  	   <if test="userName != null">
+       		and user_name =  #{userName}
+       </if>
+  	   <if test="operateTime != null">
+       		and operate_time =  #{operateTime}
+       </if>
+  	   <if test="operateData != null">
+       		and operate_data =  #{operateData}
+       </if>
+  	   <if test="operateUrl != null">
+       		and operate_url =  #{operateUrl}
+       </if>
+	</select>
+	
+
+					
+	<!-- 分页查询系统日志操作 -->
+	<select id="querySecurityOperationLogPage" resultMap="BaseResultMap"  parameterType="java.util.Map">
+		select   
+	    <include refid="Base_Column_List" />
+		from
+		sys_security_operation_log where delflag='0'
+  	   <if test="id != null">
+       		and id =  #{id}
+       </if>
+  	   <if test="createName != null">
+       		and create_name =  #{createName}
+       </if>
+  	   <if test="createTime != null">
+       		and create_time =  #{createTime}
+       </if>
+  	   <if test="modName != null">
+       		and mod_name =  #{modName}
+       </if>
+  	   <if test="modTime != null">
+       		and mod_time =  #{modTime}
+       </if>
+  	   <if test="delflag != null">
+       		and delflag =  #{delflag}
+       </if>
+  	   <if test="ip != null">
+       		and ip =  #{ip}
+       </if>
+  	   <if test="userCode != null">
+       		and user_code =  #{userCode}
+       </if>
+  	   <if test="userName != null">
+       		and user_name =  #{userName}
+       </if>
+  	   <if test="operateTime != null">
+       		and operate_time =  #{operateTime}
+       </if>
+  	   <if test="operateData != null">
+       		and operate_data =  #{operateData}
+       </if>
+  	   <if test="operateUrl != null">
+       		and operate_url =  #{operateUrl}
+       </if>
+       order by operate_time desc
+  	   limit #{startRowNum},#{endRowNum}
+  
+	</select>
+
+					
+	<!-- (增加)增加系统日志操作信息 --> 
+	<insert id="insertSecurityOperationLog" parameterType="com.sjq.security.bean.SecurityOperationLogBean">
+		insert into sys_security_operation_log
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	  	   <if test="id != null">
+	       	id,
+	       </if>
+	  	   <if test="createName != null">
+	       	create_name,
+	       </if>
+	  	   <if test="createTime != null">
+	       	create_time,
+	       </if>
+	  	   <if test="delflag != null">
+	       	delflag,
+	       </if>
+	  	   <if test="ip != null">
+	       	ip,
+	       </if>
+	  	   <if test="userCode != null">
+	       	user_code,
+	       </if>
+	  	   <if test="userName != null">
+	       	user_name,
+	       </if>
+	  	   <if test="operateTime != null">
+	       	operate_time,
+	       </if>
+	  	   <if test="operateData != null">
+	       	operate_data,
+	       </if>
+	  	   <if test="operateUrl != null">
+	       	operate_url,
+	       </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	  	    <if test="id != null">
+	       		#{id,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="createName != null">
+	       		#{createName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="createTime != null">
+	       		#{createTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != null">
+	       		#{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="ip != null">
+	       		#{ip,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="userCode != null">
+	       		#{userCode,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="userName != null">
+	       		#{userName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="operateTime != null">
+	       		#{operateTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="operateData != null">
+	       		#{operateData,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="operateUrl != null">
+	       		#{operateUrl,jdbcType=VARCHAR},
+	        </if>
+		</trim>
+	</insert>
+    
+	   
+</mapper>

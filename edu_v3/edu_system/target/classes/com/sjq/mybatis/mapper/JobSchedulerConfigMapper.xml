@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sjq.job.dao.jobSchedulerConfigMapper">
+	<resultMap id="BaseResultMap" type="com.sjq.job.bean.JobSchedulerConfig">
+		<id column="id" property="id" jdbcType="BIGINT" />
+  		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  		<result column="create_user" property="createUser" jdbcType="VARCHAR" />
+  		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  		<result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+  		<result column="start_type" property="startType" jdbcType="VARCHAR" />
+  		<result column="scheduler_note" property="schedulerNote" jdbcType="VARCHAR" />
+  		<result column="scheduler_name" property="schedulerName" jdbcType="VARCHAR" />
+  		<result column="rmi_export" property="rmiExport" jdbcType="VARCHAR" />
+  		<result column="rmi_proxy" property="rmiProxy" jdbcType="VARCHAR" />
+  		<result column="wrap_in_user_transaction" property="wrapInUserTransaction" jdbcType="VARCHAR" />
+  		<result column="thread_pool_class" property="threadPoolClass" jdbcType="VARCHAR" />
+  		<result column="thread_count" property="threadCount" jdbcType="BIGINT" />
+  		<result column="thread_priority" property="threadPriority" jdbcType="BIGINT" />
+  		<result column="inherit_context_class_loadre" property="inheritContextClassLoader" jdbcType="VARCHAR" />
+  		<result column="job_store_misfire_threshold" property="jobStoreMisfireThreshold" jdbcType="BIGINT" />
+  		<result column="job_store_class" property="jobStoreClass" jdbcType="VARCHAR" />
+  		<result column="delflag" property="delflag" jdbcType="VARCHAR" />
+	</resultMap>
+
+	
+	
+	<sql id="Base_Column_List">
+		id,
+		create_user,
+		create_time,
+		update_user,
+		update_time,
+		start_type,
+		scheduler_note,
+		scheduler_name,
+		rmi_export,
+		rmi_proxy,
+		wrap_in_user_transaction,
+		thread_pool_class,
+		thread_count,
+		thread_priority,
+		inherit_context_class_loadre,
+		job_store_misfire_threshold,
+		job_store_class,
+		delflag
+	</sql>
+	
+	
+	<!-- (查询)根据条件查询所有信息 -->
+	<select id="queryJobSchedulerConfigBySearch" resultMap="BaseResultMap"  parameterType="java.util.Map">
+	   select 
+       <include refid="Base_Column_List" />
+       from batch_scheduler_config
+       where 1=1 
+  	   <if test="id != '' and id != null">
+       		and id = #{id}
+       </if>
+  	   <if test="startType != '' and startType != null">
+       		and start_type = #{startType}
+       </if>
+	</select>
+	
+	
+	<!-- (查询)分页根据条件查询count总数 -->
+	<select id="queryTotalCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(1) from
+		batch_scheduler_config where delflag='0'
+  	   <if test="startType != '' and startType != null">
+       		and start_type =  #{startType}
+       </if>
+  	   <if test="schedulerNote != '' and schedulerNote != null">
+       		and scheduler_note =  #{schedulerNote}
+       </if>
+	</select>
+	
+	<!-- (查询)分布根据条件查询信息 -->
+	<select id="queryByPageBean" resultMap="BaseResultMap"  parameterType="java.util.Map">
+		select   
+	    <include refid="Base_Column_List" />
+		from
+		batch_scheduler_config where delflag='0'
+  	   <if test="startType != '' and startType != null">
+       		and start_type =  #{startType}
+       </if>
+  	   <if test="schedulerNote != '' and schedulerNote != null">
+       		and scheduler_note =  #{schedulerNote}
+       </if>
+  	   limit #{startRowNum},#{endRowNum}
+	</select>
+	
+	
+	<!-- (增加)增加信息 --> 
+	<insert id="insertSchedulerConfig" parameterType="com.sjq.job.bean.JobSchedulerConfig">
+		insert into batch_scheduler_config
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	  	   <if test="createTime != '' and createTime != null">
+	       		 create_time,
+	       </if>
+	  	   <if test="createUser != '' and createUser != null">
+	       		 create_user,
+	       </if>
+	  	   <if test="updateTime != '' and updateTime != null">
+	       		 update_time,
+	       </if>
+	  	   <if test="updateUser != '' and updateUser != null">
+	       		 update_user,
+	       </if>
+	       
+	  	   <if test="startType != '' and startType != null">
+	       		 start_type,
+	       </if>
+	  	   <if test="schedulerNote != '' and schedulerNote != null">
+	       		 scheduler_note,
+	       </if>
+	  	   <if test="schedulerName != '' and schedulerName != null">
+	       		 scheduler_name,
+	       </if>
+	       <if test="rmiExport != '' and rmiExport != null">
+	       		 rmi_export,
+	       </if>
+	       <if test="rmiProxy != '' and rmiProxy != null">
+	       		 rmi_proxy,
+	       </if>
+	        <if test="wrapInUserTransaction != '' and wrapInUserTransaction != null">
+	       		 wrap_in_user_transaction,
+	       </if>
+	       
+	        <if test="threadPoolClass != '' and threadPoolClass != null">
+	       		 thread_pool_class,
+	       </if>
+	       <if test="threadCount != '' and threadCount != null">
+	       		 thread_count,
+	       </if>
+	       <if test="threadPriority != '' and threadPriority != null">
+	       		 thread_priority,
+	       </if>
+	        <if test="inheritContextClassLoader != '' and inheritContextClassLoader != null">
+	       		 inherit_context_class_loader,
+	       </if>
+	       
+	        <if test="jobStoreMisfireThreshold != '' and jobStoreMisfireThreshold != null">
+	       		 job_store_misfire_threshold,
+	       </if>
+	        <if test="jobStoreClass != '' and jobStoreClass != null">
+	       		 job_store_class,
+	       </if>
+	       
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	  	    <if test="createTime != '' and createTime != null">
+	       		now(),
+	        </if>
+	  	    <if test="createUser != '' and createUser != null">
+	       		#{createUser,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="updateTime != '' and updateTime != null">
+	       		#{updateTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="updateUser != '' and updateUser != null">
+	       		#{updateUser,jdbcType=VARCHAR},
+	        </if>
+	  	      
+	  	   <if test="startType != '' and startType != null">
+	       		#{startType,jdbcType=VARCHAR},
+	       </if>
+	  	   <if test="schedulerNote != '' and schedulerNote != null">
+	       		#{schedulerNote,jdbcType=VARCHAR},
+	       </if>
+	  	   <if test="schedulerName != '' and schedulerName != null">
+	       		#{schedulerName,jdbcType=VARCHAR},
+	       </if>
+	       <if test="rmiExport != '' and rmiExport != null">
+	       		#{rmiExport,jdbcType=VARCHAR},
+	       </if>
+	       <if test="rmiProxy != '' and rmiProxy != null">
+	       		#{rmiProxy,jdbcType=VARCHAR},
+	       </if>
+	        <if test="wrapInUserTransaction != '' and wrapInUserTransaction != null">
+	       		#{wrapInUserTransaction,jdbcType=VARCHAR},
+	       </if>
+	       
+	        <if test="threadPoolClass != '' and threadPoolClass != null">
+	       		#{threadPoolClass,jdbcType=VARCHAR},
+	       </if>
+	       <if test="threadCount != '' and threadCount != null">
+	       		#{threadCount,jdbcType=VARCHAR},
+	       </if>
+	       <if test="threadPriority != '' and threadPriority != null">
+	       		#{threadPriority,jdbcType=VARCHAR},
+	       </if>
+	        <if test="inheritContextClassLoader != '' and inheritContextClassLoader != null">
+	       		#{inheritContextClassLoader,jdbcType=VARCHAR},
+	       </if>
+	       
+	        <if test="jobStoreMisfireThreshold != '' and jobStoreMisfireThreshold != null">
+	       		#{jobStoreMisfireThreshold,jdbcType=VARCHAR},
+	       </if>
+	        <if test="jobStoreClass != '' and jobStoreClass != null">
+	       		#{jobStoreClass,jdbcType=VARCHAR},
+	       </if>
+	       
+		</trim>
+	</insert>
+    
+
+	   
+</mapper>

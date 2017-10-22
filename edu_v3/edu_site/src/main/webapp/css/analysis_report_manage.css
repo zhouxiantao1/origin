@@ -1,0 +1,142 @@
+.container{
+	margin:20px;
+	color:#333;
+}
+.grade_show{
+	text-align: center;
+}
+.export button{
+	width:110px;
+	height: 32px;
+	background:#0075b1;
+	color:#fff;
+	line-height: 32px;
+	cursor:pointer;
+	border-radius: 4px;
+}
+.grade_name{
+	font-size: 18px;
+	font-weight: 300;
+	margin:20px 0 10px 0;
+}
+
+.grade_type{
+	height: 32px;
+	background: #f2f2f2;
+	line-height: 32px;
+	margin-bottom: 36px;
+	width:100%;
+	overflow: hidden;
+	text-align: left;
+	text-indent: 12px;
+}
+.grade_type span{
+	color:#666;
+}
+
+.report_list{
+	width:22%;
+	background:#f2f2f2;
+	// box-shadow: 3px 0 4px rgba(0,0,0,.3)
+}	
+.report_list .title{
+	text-align: center;
+	margin-top: 10px;
+}
+.report_list .nav{
+	margin:20px 0;
+	height:32px;
+	line-height: 32px;
+	background:#0075b1;
+	font-size: 18px;
+	color:#fff;
+	text-align: center;
+}
+
+.report_list ul{
+	margin-left: 10px;
+}
+.report_list ul li{
+	line-height: 30px;
+}
+
+.report_list label{
+	cursor: pointer;
+}
+.report_list ul li label input,.report_list ul li label span{
+	vertical-align: middle;
+}
+.report_list ul li label input{
+	margin-right: 3px;
+}
+
+.show_report{
+	width:70%;
+	padding:0 3%;
+	padding-bottom: 30px;
+	border:1px solid #e5e5e5;
+}	
+
+.show_report h2{
+	text-align: center;
+	font-size: 18px;
+	margin:20px 0;
+}
+
+.show_report h3{
+	font-size: 16px;
+	margin:40px 0 10px 0;
+}
+.show_report h4{
+	font-size: 14px;
+	margin:15px 0 10px 0;
+}
+
+table{
+	width:96%;
+	margin:10px auto;
+}
+table.tb_one td{
+	width:50%;
+}
+
+table td.one{
+	background:#e4e4e4;
+}
+table td.two{
+	background:#63c6c3;
+}
+table td.three{
+	background:#b1c765;
+}
+table td.four{
+	background:#95d3d1;
+}
+table,td{
+	border:1px solid #ccc;
+}
+td{
+	height:30px;
+	text-align: center;
+}
+.show_report .tab_name{
+	text-align: center;
+	margin:16px 0;
+}
+.show_report .tab_name_top{
+	margin-top: 36px;
+}
+.show_report .zhu{
+	margin-left: 26px;
+	font-size: 12px;
+	color:#666;
+}
+.show_report .zhu span{
+	display: inline-block;
+	height:14px;
+	border-radius: 7px;
+	background: #00ada7;
+	width:14px;
+	margin-right: 5px;
+	vertical-align: middle;
+}

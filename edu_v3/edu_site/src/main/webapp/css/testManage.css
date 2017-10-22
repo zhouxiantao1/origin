@@ -1,0 +1,149 @@
+
+.list{
+	padding:0 20px;
+}
+.list_project{
+	height:28px;
+	background:#f3f3f3;
+	border-bottom:1px solid #e5e5e5;
+	line-height:52px;
+	padding:12px;
+	margin-top:20px;
+}
+.list_project span{
+	display: inline-block;
+	font:14px '微软雅黑';
+	font-weight: 900;
+	margin-left: 20px;
+	height:28px;
+	line-height:28px;
+	float:left;
+}
+.list_project ul{
+	width:90%;
+	float:left;
+	height:100%;
+	
+}
+.list_project li{
+	padding:5px 12px;
+	color:#666;
+	float:left;
+	height:100%;
+	line-height:18px;
+	box-sizing: border-box;
+	margin-right:10px;
+	cursor: pointer;
+}
+.list_project li.active{
+	background:#0075b1;
+	color:#fff;
+}
+
+
+.list_1,.list_2{
+	min-height:102px;
+	margin-top:20px;
+	border:1px solid #d7d7d7;
+}
+.list_1 .list_reduce,.list_2 .list_reduce{
+	padding:10px 14px;
+	background:#e4e4e4;
+	font-size: 14px;
+	color:#333;
+}
+.list_1 .list_reduce p,.list_2 .list_reduce p{
+}
+.list_1 .list_reduce .title,.list_2 .list_reduce .title{
+	width: 40%;
+	margin-right: 30px;
+}
+.list_1 .list_reduce .time,.list_2 .list_reduce .time{
+	width: 22%;
+    margin-right: 42px;
+}
+.list_1 .list_reduce .time i,.list_2 .list_reduce .time i{
+	margin:0 6px;
+}
+
+.status1{
+}
+
+.list_reduce .edit{
+	color:#0075b1;
+	cursor: pointer;
+	margin-right: 30px;
+}
+
+.list_reduce .edit1{
+	color: #999;
+}
+
+
+.add_more{
+	padding:20px 32px;
+}
+.add_more p {
+	font:18px '宋体';
+	color:#0075b1;
+	margin-right:60px;
+	cursor: pointer;
+}
+
+
+.list_item{
+	padding:12px 14px;
+	font-size: 14px;
+	color:#333;
+	border-bottom:1px solid #e5e5e5;
+}
+.list_item .time{
+	width: 40%;
+	margin-right:24px;
+}
+.list_item .active{
+	color:#0198ff;
+}
+.list_item .address,.list_item .status{
+	/* margin-right:50px;*/
+	width: 10%;
+}
+.list_item .create{
+	margin-right: 70px;
+	width: 10%;
+}
+.list_item .edit{
+	/* margin-left:770px; */
+	float: right;
+	margin-right: 19px;
+}
+
+.list_item .edit span{
+	color:#0075b1;
+	cursor: pointer;
+	margin-left:12px;
+}
+
+.list_item .edit span1{
+	color: #999;
+	margin-left:12px;
+}
+
+
+.edit1{
+	color:#0075b1;
+	cursor: pointer;
+	margin-right:30px;
+}
+
+.answer_msg{
+	padding: 90px 10px;
+	border:1px solid #e5e5e5;
+	text-align: center;
+	color: #656161;
+	font-size: 12px;
+	margin-top: 20px;
+}
+/*右侧边栏*/
+
+

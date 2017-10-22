@@ -1,0 +1,494 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sjq.bi.dao.BiMapper">
+
+	<!-- 市级 -->
+	<select id="queryBiCitySurveyBySearch" resultType="java.util.HashMap"  parameterType="java.util.Map">
+	   select *
+       from edu_on_city_survey
+       where 1=1 
+       <if test="examId != null">
+       		and exam_id = #{examId}
+       </if>
+	</select>
+	
+	<select id="queryBiCityAbilityBySearch" resultType="java.util.HashMap"  parameterType="java.util.Map">
+	   select *
+       from edu_on_city_ability_name
+       where 1=1 
+       <if test="examId != null">
+       		and exam_id = #{examId}
+       </if>
+	</select>
+	
+	<select id="queryBiCityPointBySearch" resultType="java.util.HashMap"  parameterType="java.util.Map">
+	   select *
+       from edu_on_city_point_name
+       where 1=1 
+       <if test="examId != null">
+       		and exam_id = #{examId}
+       </if>
+	</select>
+	
+	<select id="queryBiCityQuestionTypeBySearch" resultType="java.util.HashMap"  parameterType="java.util.Map">
+	   select *
+       from edu_on_city_question_type
+       where 1=1 
+       <if test="examId != null">
+       		and exam_id = #{examId}
+       </if>
+	</select>
+	
+	<select id="queryBiCityLevelBySearch" resultType="java.util.HashMap"  parameterType="java.util.Map">
+	   select *
+       from edu_on_city_level_spread
+       where 1=1 
+       <if test="examId != null">
+       		and exam_id = #{examId}
+       </if>
+	</select>
+	
+	<select id="queryBiCityQuestionIdBySearch" resultType="java.util.HashMap"  parameterType="java.util.Map">
+	   select *
+       from edu_on_city_question_id
+       where 1=1 
+       <if test="examId != null">
+       		and exam_id = #{examId}
+       </if>
+	</select>
+	
+	<select id="queryBiCityScoreBySearch" resultType="java.util.HashMap"  parameterType="java.util.Map">
+	   select *
+       from edu_on_city_score_contrast
+       where 1=1 
+       <if test="examId != null">
+       		and exam_id = #{examId}
+       </if>
+	</select>
+	
+	<select id="queryBiCityExamSituationBySearch" resultType="java.util.HashMap"  parameterType="java.util.Map">
+	   select *
+       from edu_on_city_exam_situation
+       where 1=1 
+       <if test="examId != null">
+       		and exam_id = #{examId}
+       </if>
+	</select>
+	
+	<select id="queryBiCitySubjectSubsectionBySearch" resultType="java.util.HashMap"  parameterType="java.util.Map">
+	   select *
+       from edu_on_city_subject_subsection
+       where 1=1 
+       <if test="examId != null">
+       		and exam_id = #{examId}
+       </if>
+	</select>
+	
+	<select id="queryBiCitySubjectScatterBySearch" resultType="java.util.HashMap"  parameterType="java.util.Map">
+	   select *
+       from edu_on_city_subject_scatter
+       where 1=1 
+       <if test="examId != null">
+       		and exam_id = #{examId}
+       </if>
+	</select>
+	
+	<select id="queryBiCitySumSubsectionBySearch" resultType="java.util.HashMap"  parameterType="java.util.Map">
+	   select *
+       from edu_on_city_sum_subsection
+       where 1=1 
+       <if test="examId != null">
+       		and exam_id = #{examId}
+       </if>
+	</select>
+	
+	<!-- 区级 -->
+	<select id="queryBiRegionSurveyBySearch" resultType="java.util.HashMap"  parameterType="java.util.Map">
+	   select *
+       from edu_on_region_survey
+       where 1=1 
+       <if test="examId != null">
+       		and exam_id = #{examId}
+       </if>
+       <if test="districtId != null">
+       		and district_id = #{districtId}
+       </if>
+	</select>
+	
+	<select id="queryBiRegionAbilityBySearch" resultType="java.util.HashMap"  parameterType="java.util.Map">
+	   select *
+       from edu_on_region_ability_name
+       where 1=1 
+       <if test="examId != null">
+       		and exam_id = #{examId}
+       </if>
+       <if test="districtId != null">
+       		and district_id = #{districtId}
+       </if>
+	</select>
+	
+	<select id="queryBiRegionPointBySearch" resultType="java.util.HashMap"  parameterType="java.util.Map">
+	   select *
+       from edu_on_region_point_name
+       where 1=1 
+       <if test="examId != null">
+       		and exam_id = #{examId}
+       </if>
+       <if test="districtId != null">
+       		and district_id = #{districtId}
+       </if>
+	</select>
+	
+	<select id="queryBiRegionQuestionTypeBySearch" resultType="java.util.HashMap"  parameterType="java.util.Map">
+	   select *
+       from edu_on_region_question_type
+       where 1=1 
+       <if test="examId != null">
+       		and exam_id = #{examId}
+       </if>
+       <if test="districtId != null">
+       		and district_id = #{districtId}
+       </if>
+	</select>
+	
+	<select id="queryBiRegionLevelBySearch" resultType="java.util.HashMap"  parameterType="java.util.Map">
+	   select *
+       from edu_on_region_level_spread
+       where 1=1 
+       <if test="examId != null">
+       		and exam_id = #{examId}
+       </if>
+       <if test="districtId != null">
+       		and district_id = #{districtId}
+       </if>
+	</select>
+	
+	<select id="queryBiRegionQuestionIdBySearch" resultType="java.util.HashMap"  parameterType="java.util.Map">
+	   select *
+       from edu_on_region_question_id
+       where 1=1 
+       <if test="examId != null">
+       		and exam_id = #{examId}
+       </if>
+       <if test="districtId != null">
+       		and district_id = #{districtId}
+       </if>
+	</select>
+	
+	<select id="queryBiRegionScoreBySearch" resultType="java.util.HashMap"  parameterType="java.util.Map">
+	   select *
+       from edu_on_region_score_contrast
+       where 1=1 
+       <if test="examId != null">
+       		and exam_id = #{examId}
+       </if>
+       <if test="districtId != null">
+       		and district_id = #{districtId}
+       </if>
+	</select>
+	
+	<select id="queryBiRegionExamSituationBySearch" resultType="java.util.HashMap"  parameterType="java.util.Map">
+	   select *
+       from edu_on_region_exam_situation
+       where 1=1 
+       <if test="examId != null">
+       		and exam_id = #{examId}
+       </if>
+       <if test="districtId != null">
+       		and district_id = #{districtId}
+       </if>
+	</select>
+	
+	<select id="queryBiRegionSubjectSubsectionBySearch" resultType="java.util.HashMap"  parameterType="java.util.Map">
+	   select *
+       from edu_on_region_subject_subsection
+       where 1=1 
+       <if test="examId != null">
+       		and exam_id = #{examId}
+       </if>
+       <if test="districtId != null">
+       		and district_id = #{districtId}
+       </if>
+	</select>
+	
+	<select id="queryBiRegionSubjectScatterBySearch" resultType="java.util.HashMap"  parameterType="java.util.Map">
+	   select *
+       from edu_on_region_subject_scatter
+       where 1=1 
+       <if test="examId != null">
+       		and exam_id = #{examId}
+       </if>
+       <if test="districtId != null">
+       		and district_id = #{districtId}
+       </if>
+	</select>
+	
+	<select id="queryBiRegionSumSubsectionBySearch" resultType="java.util.HashMap"  parameterType="java.util.Map">
+	   select *
+       from edu_on_region_sum_subsection
+       where 1=1 
+       <if test="examId != null">
+       		and exam_id = #{examId}
+       </if>
+       <if test="districtId != null">
+       		and district_id = #{districtId}
+       </if>
+	</select>
+	
+	<!-- 校级 -->
+	<select id="queryBiSchoolSurveyBySearch" resultType="java.util.HashMap"  parameterType="java.util.Map">
+	   select *
+       from edu_on_school_survey
+       where 1=1 
+       <if test="examId != null">
+       		and exam_id = #{examId}
+       </if>
+       <if test="schoolId != null">
+       		and school_id = #{schoolId}
+       </if>
+	</select>
+	
+	<select id="queryBiSchoolAbilityBySearch" resultType="java.util.HashMap"  parameterType="java.util.Map">
+	   select *
+       from edu_on_school_ability_name
+       where 1=1 
+       <if test="examId != null">
+       		and exam_id = #{examId}
+       </if>
+       <if test="schoolId != null">
+       		and school_id = #{schoolId}
+       </if>
+	</select>
+	
+	<select id="queryBiSchoolPointBySearch" resultType="java.util.HashMap"  parameterType="java.util.Map">
+	   select *
+       from edu_on_school_point_name
+       where 1=1 
+       <if test="examId != null">
+       		and exam_id = #{examId}
+       </if>
+       <if test="schoolId != null">
+       		and school_id = #{schoolId}
+       </if>
+	</select>
+	
+	<select id="queryBiSchoolQuestionTypeBySearch" resultType="java.util.HashMap"  parameterType="java.util.Map">
+	   select *
+       from edu_on_school_question_type
+       where 1=1 
+       <if test="examId != null">
+       		and exam_id = #{examId}
+       </if>
+       <if test="schoolId != null">
+       		and school_id = #{schoolId}
+       </if>
+	</select>
+	
+	<select id="queryBiSchoolLevelBySearch" resultType="java.util.HashMap"  parameterType="java.util.Map">
+	   select *
+       from edu_on_school_level_spread
+       where 1=1 
+       <if test="examId != null">
+       		and exam_id = #{examId}
+       </if>
+       <if test="schoolId != null">
+       		and school_id = #{schoolId}
+       </if>
+	</select>
+	
+	<select id="queryBiSchoolQuestionIdBySearch" resultType="java.util.HashMap"  parameterType="java.util.Map">
+	   select *
+       from edu_on_school_question_id
+       where 1=1 
+       <if test="examId != null">
+       		and exam_id = #{examId}
+       </if>
+       <if test="schoolId != null">
+       		and school_id = #{schoolId}
+       </if>
+	</select>
+	
+	<select id="queryBiSchoolScoreBySearch" resultType="java.util.HashMap"  parameterType="java.util.Map">
+	   select *
+       from edu_on_school_score_contrast
+       where 1=1 
+       <if test="examId != null">
+       		and exam_id = #{examId}
+       </if>
+       <if test="schoolId != null">
+       		and school_id = #{schoolId}
+       </if>
+	</select>
+	
+	<select id="queryBiSchoolExamSituationBySearch" resultType="java.util.HashMap"  parameterType="java.util.Map">
+	   select *
+       from edu_on_school_exam_situation
+       where 1=1 
+       <if test="examId != null">
+       		and exam_id = #{examId}
+       </if>
+       <if test="schoolId != null">
+       		and school_id = #{schoolId}
+       </if>
+	</select>
+	
+	<select id="queryBiSchoolSubjectSubsectionBySearch" resultType="java.util.HashMap"  parameterType="java.util.Map">
+	   select *
+       from edu_on_school_subject_subsection
+       where 1=1 
+       <if test="examId != null">
+       		and exam_id = #{examId}
+       </if>
+       <if test="schoolId != null">
+       		and school_id = #{schoolId}
+       </if>
+	</select>
+	
+	<select id="queryBiSchoolSumSubsectionBySearch" resultType="java.util.HashMap"  parameterType="java.util.Map">
+	   select *
+       from edu_on_school_sum_subsection
+       where 1=1 
+       <if test="examId != null">
+       		and exam_id = #{examId}
+       </if>
+       <if test="schoolId != null">
+       		and school_id = #{schoolId}
+       </if>
+	</select>
+	
+	<!-- 班级 -->
+	<select id="queryBiClazzSurveyBySearch" resultType="java.util.HashMap"  parameterType="java.util.Map">
+	   select *
+       from edu_on_class_survey
+       where 1=1 
+       <if test="examId != null">
+       		and exam_id = #{examId}
+       </if>
+       <if test="classId != null">
+       		and class_id = #{classId}
+       </if>
+	</select>
+	
+	<select id="queryBiClazzAbilityBySearch" resultType="java.util.HashMap"  parameterType="java.util.Map">
+	   select *
+       from edu_on_class_ability_name
+       where 1=1 
+       <if test="examId != null">
+       		and exam_id = #{examId}
+       </if>
+       <if test="classId != null">
+       		and class_id = #{classId}
+       </if>
+	</select>
+	
+	<select id="queryBiClazzPointBySearch" resultType="java.util.HashMap"  parameterType="java.util.Map">
+	   select *
+       from edu_on_class_point_name
+       where 1=1 
+       <if test="examId != null">
+       		and exam_id = #{examId}
+       </if>
+       <if test="classId != null">
+       		and class_id = #{classId}
+       </if>
+	</select>
+	
+	<select id="queryBiClazzQuestionTypeBySearch" resultType="java.util.HashMap"  parameterType="java.util.Map">
+	   select *
+       from edu_on_class_question_type
+       where 1=1 
+       <if test="examId != null">
+       		and exam_id = #{examId}
+       </if>
+       <if test="classId != null">
+       		and class_id = #{classId}
+       </if>
+	</select>
+	
+	<select id="queryBiClazzLevelBySearch" resultType="java.util.HashMap"  parameterType="java.util.Map">
+	   select *
+       from edu_on_class_level_spread
+       where 1=1 
+       <if test="examId != null">
+       		and exam_id = #{examId}
+       </if>
+       <if test="classId != null">
+       		and class_id = #{classId}
+       </if>
+	</select>
+	
+	<select id="queryBiClazzQuestionIdBySearch" resultType="java.util.HashMap"  parameterType="java.util.Map">
+	   select *
+       from edu_on_class_question_id
+       where 1=1 
+       <if test="examId != null">
+       		and exam_id = #{examId}
+       </if>
+       <if test="classId != null">
+       		and class_id = #{classId}
+       </if>
+	</select>
+	
+	<select id="queryBiClazzScoreBySearch" resultType="java.util.HashMap"  parameterType="java.util.Map">
+	   select *
+       from edu_on_class_score_contrast
+       where 1=1 
+       <if test="examId != null">
+       		and exam_id = #{examId}
+       </if>
+       <if test="classId != null">
+       		and class_id = #{classId}
+       </if>
+	</select>
+	
+	<!-- 学生 -->
+	<select id="queryBiStudentSurveyBySearch" resultType="java.util.HashMap"  parameterType="java.util.Map">
+	   select sur.*,sub.name
+       from edu_on_student_survey sur
+       inner join edu_base_subject sub on sub.id = sur.subject_id
+       where 1=1 
+       <if test="examId != null">
+       		and exam_id = #{examId}
+       </if>
+       <if test="studentId != null">
+       		and student_id = #{studentId}
+       </if>
+	</select>
+	
+	<select id="queryBiStudentAbilityBySearch" resultType="java.util.HashMap"  parameterType="java.util.Map">
+	   select *
+       from edu_on_student_ability_name
+       where 1=1 
+       <if test="examId != null">
+       		and exam_id = #{examId}
+       </if>
+       <if test="studentId != null">
+       		and student_id = #{studentId}
+       </if>
+	</select>
+	
+	<select id="queryBiStudentPointBySearch" resultType="java.util.HashMap"  parameterType="java.util.Map">
+	   select *
+       from edu_on_student_point_name
+       where 1=1 
+       <if test="examId != null">
+       		and exam_id = #{examId}
+       </if>
+       <if test="studentId != null">
+       		and student_id = #{studentId}
+       </if>
+	</select>
+	
+	<select id="queryBiStudentQuestionTypeBySearch" resultType="java.util.HashMap"  parameterType="java.util.Map">
+	   select *
+       from edu_on_student_question_type
+       where 1=1 
+       <if test="examId != null">
+       		and exam_id = #{examId}
+       </if>
+       <if test="studentId != null">
+       		and student_id = #{studentId}
+       </if>
+	</select>
+	   
+</mapper>

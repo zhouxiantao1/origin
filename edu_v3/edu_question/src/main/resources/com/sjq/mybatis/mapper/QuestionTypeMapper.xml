@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sjq.type.dao.QuestionTypeMapper">
+	<resultMap id="BaseResultMap" type="com.sjq.type.vo.QuestionTypeVo">
+  		<result column="id" property="id" jdbcType="BIGINT" />
+  		<result column="create_name" property="createName" jdbcType="VARCHAR" />
+  		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  		<result column="mod_name" property="modName" jdbcType="VARCHAR" />
+  		<result column="mod_time" property="modTime" jdbcType="TIMESTAMP" />
+  		<result column="delflag" property="delflag" jdbcType="CHAR" />
+  		<result column="type_name" property="typeName" jdbcType="VARCHAR" />
+  		<result column="is_objective" property="isObjective" jdbcType="CHAR" />
+  		<result column="marking_code" property="markingCode" jdbcType="CHAR" />
+  		<result column="status" property="status" jdbcType="CHAR" />
+  		<result column="remark" property="remark" jdbcType="VARCHAR" />
+  		<result column="subject_id" property="subjectId" jdbcType="BIGINT" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+  		id,
+  		create_name,
+  		create_time,
+  		mod_name,
+  		mod_time,
+  		delflag,
+  		type_name,
+  		is_objective,
+  		marking_code,
+  		status,
+  		remark,
+  		subject_id
+	</sql>
+	
+	<!-- 查询所有的题库模块-题型信息信息 -->
+	<select id="queryAllQuestionType" resultMap="BaseResultMap" >
+ 	   select 
+       <include refid="Base_Column_List" />
+       from edu_question_type
+       where delflag='0'
+    </select>
+	
+	
+	<!-- 根据ID查询题库模块-题型信息信息 -->
+	<select id="queryQuestionTypeById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_question_type
+       where delflag='0' and id =#{id,jdbcType=BIGINT}
+    </select>
+    
+    
+    <!-- 根据SubjectId查询题库模块-题型信息信息 -->
+	<select id="queryQuestionTypeBySubjectId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_question_type
+       where delflag='0' and subject_id =#{id,jdbcType=BIGINT}
+    </select>
+    
+	  <select id="queryQuestionTypeBySearch" resultMap="BaseResultMap" parameterType="java.util.Map">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_question_type
+       where delflag='0' 
+       <if test="subjectId != '' and subjectId != null">
+       		and subject_id = #{subjectId}
+       </if>
+  	   <if test="isObjective != '' and isObjective != null">
+       		and is_objective = #{isObjective}
+       </if>
+       <if test="markingCode != '' and markingCode != null">
+       		and marking_code = #{markingCode}
+       </if>
+    </select>
+    
+    <!-- 分页查询题库模块-题型信息 -->
+	<select id="queryQuestionTypePage" resultMap="BaseResultMap"  parameterType="java.util.Map">
+		select   
+	    <include refid="Base_Column_List" />
+		from
+		edu_question_type where delflag='0'
+  	   <if test="id != null">
+       		and id =  #{id}
+       </if>
+  	   <if test="createName != null">
+       		and create_name =  #{createName}
+       </if>
+  	   <if test="createTime != null">
+       		and create_time =  #{createTime}
+       </if>
+  	   <if test="modName != null">
+       		and mod_name =  #{modName}
+       </if>
+  	   <if test="modTime != null">
+       		and mod_time =  #{modTime}
+       </if>
+  	   <if test="delflag != null">
+       		and delflag =  #{delflag}
+       </if>
+  	   <if test="typeName != null">
+       		and type_name =  #{typeName}
+       </if>
+  	   <if test="typeRemark != null">
+       		and type_remark =  #{typeRemark}
+       </if>
+  	   <if test="isObjective != null">
+       		and is_objective =  #{isObjective}
+       </if>
+  	   <if test="markingCode != null">
+       		and marking_code =  #{markingCode}
+       </if>
+  	   <if test="status != null">
+       		and status =  #{status}
+       </if>
+  	   <if test="remark != null">
+       		and remark =  #{remark}
+       </if>
+  	   <if test="subjectId != null">
+       		and subject_id =  #{subjectId}
+       </if>
+  	   limit #{startRowNum},#{endRowNum}
+	</select>
+    
+    <!-- 根据条件查询题库模块-题型信息count总数 -->
+	<select id="queryQuestionTypeTotalCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(1) from
+		edu_question_type where delflag='0'
+  	   <if test="id != null">
+       		and id =  #{id}
+       </if>
+  	   <if test="createName != null">
+       		and create_name =  #{createName}
+       </if>
+  	   <if test="createTime != null">
+       		and create_time =  #{createTime}
+       </if>
+  	   <if test="modName != null">
+       		and mod_name =  #{modName}
+       </if>
+  	   <if test="modTime != null">
+       		and mod_time =  #{modTime}
+       </if>
+  	   <if test="delflag != null">
+       		and delflag =  #{delflag}
+       </if>
+  	   <if test="typeName != null">
+       		and type_name =  #{typeName}
+       </if>
+  	   <if test="typeRemark != null">
+       		and type_remark =  #{typeRemark}
+       </if>
+  	   <if test="isObjective != null">
+       		and is_objective =  #{isObjective}
+       </if>
+  	   <if test="markingCode != null">
+       		and marking_code =  #{markingCode}
+       </if>
+  	   <if test="status != null">
+       		and status =  #{status}
+       </if>
+  	   <if test="remark != null">
+       		and remark =  #{remark}
+       </if>
+  	   <if test="subjectId != null">
+       		and subject_id =  #{subjectId}
+       </if>
+	</select>
+    
+    <!-- (增加)增加题库模块-题型信息信息 --> 
+	<insert id="insertQuestionType" parameterType="com.sjq.type.bean.QuestionTypeBean">
+		insert into edu_question_type
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	  	   <if test="id != null">
+	       	id,
+	       </if>
+	  	   <if test="createName != null">
+	       	create_name,
+	       </if>
+	  	   <if test="createTime != null">
+	       	create_time,
+	       </if>
+	  	   <if test="delflag != null">
+	       	delflag,
+	       </if>
+	  	   <if test="typeName != null">
+	       	type_name,
+	       </if>
+	  	   <if test="isObjective != null">
+	       	is_objective,
+	       </if>
+	  	   <if test="markingCode != null">
+	       	marking_code,
+	       </if>
+	  	   <if test="status != null">
+	       	status,
+	       </if>
+	  	   <if test="remark != null">
+	       	remark,
+	       </if>
+	  	   <if test="subjectId != null">
+	       	subject_id,
+	       </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	  	    <if test="id != null">
+	       		#{id,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="createName != null">
+	       		#{createName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="createTime != null">
+	       		#{createTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != null">
+	       		#{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="typeName != null">
+	       		#{typeName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="isObjective != null">
+	       		#{isObjective,jdbcType=CHAR},
+	        </if>
+	  	    <if test="markingCode != null">
+	       		#{markingCode,jdbcType=CHAR},
+	        </if>
+	  	    <if test="status != null">
+	       		#{status,jdbcType=CHAR},
+	        </if>
+	  	    <if test="remark != null">
+	       		#{remark,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="subjectId != null">
+	       		#{subjectId,jdbcType=BIGINT},
+	        </if>
+		</trim>
+	</insert> 
+	   
+</mapper>

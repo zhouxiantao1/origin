@@ -1,0 +1,546 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sjq.evaDetail.dao.EvaluateEvaDetailMapper">
+	<resultMap id="BaseResultMap" type="com.sjq.evaDetail.vo.EvaluateEvaDetailVo">
+  		<result column="id" property="id" jdbcType="BIGINT" />
+  		<result column="create_name" property="createName" jdbcType="VARCHAR" />
+  		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  		<result column="mod_name" property="modName" jdbcType="VARCHAR" />
+  		<result column="mod_time" property="modTime" jdbcType="TIMESTAMP" />
+  		<result column="delflag" property="delflag" jdbcType="CHAR" />
+  		<result column="eva_id" property="evaId" jdbcType="BIGINT" />
+  		<result column="name" property="name" jdbcType="VARCHAR" />
+  		<result column="eva_object" property="evaObject" jdbcType="CHAR" />
+  		<result column="stage_id" property="stageId" jdbcType="BIGINT" />
+  		<result column="type" property="type" jdbcType="CHAR" />
+  		<result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+  		<result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+  		<result column="answer_time" property="answerTime" jdbcType="BIGINT" />
+  		<result column="introduction" property="introduction" jdbcType="VARCHAR" />
+  		<result column="remake" property="remake" jdbcType="VARCHAR" />
+  		<result column="all_num" property="allNum" jdbcType="BIGINT" />
+  		<result column="issue_num" property="issueNum" jdbcType="BIGINT" />
+  		<result column="status" property="status" jdbcType="CHAR" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+  		id,
+  		create_name,
+  		create_time,
+  		mod_name,
+  		mod_time,
+  		delflag,
+  		eva_id,
+  		name,
+  		eva_object,
+  		stage_id,
+  		type,
+  		start_time,
+  		end_time,
+  		answer_time,
+  		introduction,
+  		remake,
+  		all_num,
+  		issue_num,
+  		status
+	</sql>
+	
+	<!-- 查询所有的测评明细信息信息 -->
+	<select id="queryAllEvaluateEvaDetail" resultMap="BaseResultMap" >
+ 	   select 
+       <include refid="Base_Column_List" />
+       from edu_evaluate_evaDetail
+       where delflag='0'
+    </select>
+	
+	
+	<!-- 根据ID查询测评明细信息信息 -->
+	<select id="queryEvaluateEvaDetailById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_evaluate_evaDetail
+       where delflag='0' and id =#{id,jdbcType=BIGINT}
+    </select>
+    
+					
+	<!-- 根据条件查询所有测评明细信息信息 -->
+	<select id="queryEvaluateEvaDetailBySearch" resultMap="BaseResultMap"  parameterType="java.util.Map">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_evaluate_evaDetail
+       where 1=1 
+  	   <if test="id != '' and id != null">
+       		and id = #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name = #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time = #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name = #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time = #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag = #{delflag}
+       </if>
+  	   <if test="evaId != '' and evaId != null">
+       		and eva_id = #{evaId}
+       </if>
+  	   <if test="name != '' and name != null">
+       		and name = #{name}
+       </if>
+  	   <if test="evaObject != '' and evaObject != null">
+       		and eva_object = #{evaObject}
+       </if>
+  	   <if test="stageId != '' and stageId != null">
+       		and stage_id = #{stageId}
+       </if>
+  	   <if test="type != '' and type != null">
+       		and type = #{type}
+       </if>
+  	   <if test="startTime != '' and startTime != null">
+       		and start_time = #{startTime}
+       </if>
+  	   <if test="endTime != '' and endTime != null">
+       		and end_time = #{endTime}
+       </if>
+  	   <if test="answerTime != '' and answerTime != null">
+       		and answer_time = #{answerTime}
+       </if>
+  	   <if test="introduction != '' and introduction != null">
+       		and introduction = #{introduction}
+       </if>
+  	   <if test="remake != '' and remake != null">
+       		and remake = #{remake}
+       </if>
+  	   <if test="allNum != '' and allNum != null">
+       		and all_num = #{allNum}
+       </if>
+  	   <if test="issueNum != '' and issueNum != null">
+       		and issue_num = #{issueNum}
+       </if>
+  	   <if test="status != '' and status != null">
+       		and status = #{status}
+       </if>
+	</select>
+	
+					
+	<!-- 根据条件查询测评明细信息count总数 -->
+	<select id="queryEvaluateEvaDetailTotalCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(1) from
+		edu_evaluate_evaDetail where delflag='0'
+  	   <if test="id != '' and id != null">
+       		and id =  #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name =  #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time =  #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name =  #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time =  #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag =  #{delflag}
+       </if>
+  	   <if test="evaId != '' and evaId != null">
+       		and eva_id =  #{evaId}
+       </if>
+  	   <if test="name != '' and name != null">
+       		and name =  #{name}
+       </if>
+  	   <if test="evaObject != '' and evaObject != null">
+       		and eva_object =  #{evaObject}
+       </if>
+  	   <if test="stageId != '' and stageId != null">
+       		and stage_id =  #{stageId}
+       </if>
+  	   <if test="type != '' and type != null">
+       		and type =  #{type}
+       </if>
+  	   <if test="startTime != '' and startTime != null">
+       		and start_time =  #{startTime}
+       </if>
+  	   <if test="endTime != '' and endTime != null">
+       		and end_time =  #{endTime}
+       </if>
+  	   <if test="answerTime != '' and answerTime != null">
+       		and answer_time =  #{answerTime}
+       </if>
+  	   <if test="introduction != '' and introduction != null">
+       		and introduction =  #{introduction}
+       </if>
+  	   <if test="remake != '' and remake != null">
+       		and remake =  #{remake}
+       </if>
+  	   <if test="allNum != '' and allNum != null">
+       		and all_num =  #{allNum}
+       </if>
+  	   <if test="issueNum != '' and issueNum != null">
+       		and issue_num =  #{issueNum}
+       </if>
+  	   <if test="status != '' and status != null">
+       		and status =  #{status}
+       </if>
+	</select>
+	
+
+					
+	<!-- 分页查询测评明细信息 -->
+	<select id="queryEvaluateEvaDetailPage" resultMap="BaseResultMap"  parameterType="java.util.Map">
+		select   
+	    <include refid="Base_Column_List" />
+		from
+		edu_evaluate_evaDetail where delflag='0'
+  	   <if test="id != '' and id != null">
+       		and id =  #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name =  #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time =  #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name =  #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time =  #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag =  #{delflag}
+       </if>
+  	   <if test="evaId != '' and evaId != null">
+       		and eva_id =  #{evaId}
+       </if>
+  	   <if test="name != '' and name != null">
+       		and name =  #{name}
+       </if>
+  	   <if test="evaObject != '' and evaObject != null">
+       		and eva_object =  #{evaObject}
+       </if>
+  	   <if test="stageId != '' and stageId != null">
+       		and stage_id =  #{stageId}
+       </if>
+  	   <if test="type != '' and type != null">
+       		and type =  #{type}
+       </if>
+  	   <if test="startTime != '' and startTime != null">
+       		and start_time =  #{startTime}
+       </if>
+  	   <if test="endTime != '' and endTime != null">
+       		and end_time =  #{endTime}
+       </if>
+  	   <if test="answerTime != '' and answerTime != null">
+       		and answer_time =  #{answerTime}
+       </if>
+  	   <if test="introduction != '' and introduction != null">
+       		and introduction =  #{introduction}
+       </if>
+  	   <if test="remake != '' and remake != null">
+       		and remake =  #{remake}
+       </if>
+  	   <if test="allNum != '' and allNum != null">
+       		and all_num =  #{allNum}
+       </if>
+  	   <if test="issueNum != '' and issueNum != null">
+       		and issue_num =  #{issueNum}
+       </if>
+  	   <if test="status != '' and status != null">
+       		and status =  #{status}
+       </if>
+  	   limit #{startRowNum},#{endRowNum}
+	</select>
+	
+	<!-- (更新)根据ID更新所有测评明细信息信息 -->
+	<update id="updateEvaluateEvaDetailById" parameterType="com.sjq.evaDetail.bean.EvaluateEvaDetailBean" >
+		update edu_evaluate_evaDetail
+		<set>
+	  	    <if test="modName != null">
+	       	mod_name =  #{modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="modTime != null">
+	       	mod_time =  #{modTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != null">
+	       	delflag =  #{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="evaId != null">
+	       	eva_id =  #{evaId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="name != null">
+	       	name =  #{name,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="evaObject != null">
+	       	eva_object =  #{evaObject,jdbcType=CHAR},
+	        </if>
+	  	    <if test="stageId != null">
+	       	stage_id =  #{stageId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="type != null">
+	       	type =  #{type,jdbcType=CHAR},
+	        </if>
+	  	    <if test="startTime != null">
+	       	start_time =  #{startTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="endTime != null">
+	       	end_time =  #{endTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="answerTime != null">
+	       	answer_time =  #{answerTime,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="introduction != null">
+	       	introduction =  #{introduction,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="remake != null">
+	       	remake =  #{remake,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="allNum != null">
+	       	all_num =  #{allNum,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="issueNum != null">
+	       	issue_num =  #{issueNum,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="status != null">
+	       	status =  #{status,jdbcType=CHAR},
+	        </if>
+		</set>
+		where 1 = 1 and id = #{id,jdbcType=BIGINT} 
+	</update>
+	
+					
+	<!-- (更新)根据条件更新所有测评明细信息信息 -->
+	<update id="updateEvaluateEvaDetailBySearch"  parameterType="java.util.Map" >
+		update edu_evaluate_evaDetail
+		<set>
+	  	    <if test="modName != '' and modName != null">
+	       	mod_name =  #{modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="modTime != '' and modTime != null">
+	       	mod_time =  #{modTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != '' and delflag != null">
+	       	delflag =  #{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="evaId != '' and evaId != null">
+	       	eva_id =  #{evaId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="name != '' and name != null">
+	       	name =  #{name,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="evaObject != '' and evaObject != null">
+	       	eva_object =  #{evaObject,jdbcType=CHAR},
+	        </if>
+	  	    <if test="stageId != '' and stageId != null">
+	       	stage_id =  #{stageId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="type != '' and type != null">
+	       	type =  #{type,jdbcType=CHAR},
+	        </if>
+	  	    <if test="startTime != '' and startTime != null">
+	       	start_time =  #{startTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="endTime != '' and endTime != null">
+	       	end_time =  #{endTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="answerTime != '' and answerTime != null">
+	       	answer_time =  #{answerTime,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="introduction != '' and introduction != null">
+	       	introduction =  #{introduction,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="remake != '' and remake != null">
+	       	remake =  #{remake,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="allNum != '' and allNum != null">
+	       	all_num =  #{allNum,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="issueNum != '' and issueNum != null">
+	       	issue_num =  #{issueNum,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="status != '' and status != null">
+	       	status =  #{status,jdbcType=CHAR},
+	        </if>
+		</set>
+		where 
+  	   <if test="id != '' and id != null">
+       		and id = #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name = #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time = #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name = #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time = #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag = #{delflag}
+       </if>
+  	   <if test="evaId != '' and evaId != null">
+       		and eva_id = #{evaId}
+       </if>
+  	   <if test="name != '' and name != null">
+       		and name = #{name}
+       </if>
+  	   <if test="evaObject != '' and evaObject != null">
+       		and eva_object = #{evaObject}
+       </if>
+  	   <if test="stageId != '' and stageId != null">
+       		and stage_id = #{stageId}
+       </if>
+  	   <if test="type != '' and type != null">
+       		and type = #{type}
+       </if>
+  	   <if test="startTime != '' and startTime != null">
+       		and start_time = #{startTime}
+       </if>
+  	   <if test="endTime != '' and endTime != null">
+       		and end_time = #{endTime}
+       </if>
+  	   <if test="answerTime != '' and answerTime != null">
+       		and answer_time = #{answerTime}
+       </if>
+  	   <if test="introduction != '' and introduction != null">
+       		and introduction = #{introduction}
+       </if>
+  	   <if test="remake != '' and remake != null">
+       		and remake = #{remake}
+       </if>
+  	   <if test="allNum != '' and allNum != null">
+       		and all_num = #{allNum}
+       </if>
+  	   <if test="issueNum != '' and issueNum != null">
+       		and issue_num = #{issueNum}
+       </if>
+  	   <if test="status != '' and status != null">
+       		and status = #{status}
+       </if>
+	</update>
+	
+					
+	<!-- (增加)增加测评明细信息信息 --> 
+	<insert id="insertEvaluateEvaDetail" parameterType="com.sjq.evaDetail.bean.EvaluateEvaDetailBean" useGeneratedKeys="true" keyProperty="id">
+		insert into edu_evaluate_evaDetail
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	  	   <if test="id != '' and id != null">
+	       	id,
+	       </if>
+	  	   <if test="createName != '' and createName != null">
+	       	create_name,
+	       </if>
+	  	   <if test="createTime != '' and createTime != null">
+	       	create_time,
+	       </if>
+	  	   <if test="delflag != '' and delflag != null">
+	       	delflag,
+	       </if>
+	  	   <if test="evaId != '' and evaId != null">
+	       	eva_id,
+	       </if>
+	  	   <if test="name != '' and name != null">
+	       	name,
+	       </if>
+	  	   <if test="evaObject != '' and evaObject != null">
+	       	eva_object,
+	       </if>
+	  	   <if test="stageId != '' and stageId != null">
+	       	stage_id,
+	       </if>
+	  	   <if test="type != '' and type != null">
+	       	type,
+	       </if>
+	  	   <if test="startTime != '' and startTime != null">
+	       	start_time,
+	       </if>
+	  	   <if test="endTime != '' and endTime != null">
+	       	end_time,
+	       </if>
+	  	   <if test="answerTime != '' and answerTime != null">
+	       	answer_time,
+	       </if>
+	  	   <if test="introduction != '' and introduction != null">
+	       	introduction,
+	       </if>
+	  	   <if test="remake != '' and remake != null">
+	       	remake,
+	       </if>
+	  	   <if test="allNum != '' and allNum != null">
+	       	all_num,
+	       </if>
+	  	   <if test="issueNum != '' and issueNum != null">
+	       	issue_num,
+	       </if>
+	  	   <if test="status != '' and status != null">
+	       	status,
+	       </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	  	    <if test="id != '' and id != null">
+	       		#{id,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="createName != '' and createName != null">
+	       		#{createName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="createTime != '' and createTime != null">
+	       		#{createTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != '' and delflag != null">
+	       		#{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="evaId != '' and evaId != null">
+	       		#{evaId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="name != '' and name != null">
+	       		#{name,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="evaObject != '' and evaObject != null">
+	       		#{evaObject,jdbcType=CHAR},
+	        </if>
+	  	    <if test="stageId != '' and stageId != null">
+	       		#{stageId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="type != '' and type != null">
+	       		#{type,jdbcType=CHAR},
+	        </if>
+	  	    <if test="startTime != '' and startTime != null">
+	       		#{startTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="endTime != '' and endTime != null">
+	       		#{endTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="answerTime != '' and answerTime != null">
+	       		#{answerTime,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="introduction != '' and introduction != null">
+	       		#{introduction,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="remake != '' and remake != null">
+	       		#{remake,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="allNum != '' and allNum != null">
+	       		#{allNum,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="issueNum != '' and issueNum != null">
+	       		#{issueNum,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="status != '' and status != null">
+	       		#{status,jdbcType=CHAR},
+	        </if>
+		</trim>
+	</insert>
+    
+	   
+</mapper>

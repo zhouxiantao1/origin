@@ -1,0 +1,227 @@
+.baocun_1,.baocun{
+	margin:20px;
+	margin-top: 40px;
+	text-align: center;
+}
+
+.baocun_1 button,.baocun button{
+	display: inline-block;
+	width:120px;
+	height:32px;
+	background:#0075b1;
+	margin-right: 10px;
+	color:#fff;
+	cursor: pointer;
+}
+.baocun button{
+	width:180px;
+}
+.baocun_1 button.qx{
+	background:#ccc;
+}
+
+.test_object{
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+.test_object span{
+	line-height: 30px;
+}
+.test_object ul li{
+	float:left;	
+	padding:5px 20px;
+	color:#666;
+	height:100%;
+	line-height:18px;
+	margin-right: 10px;
+	box-sizing: border-box;
+	cursor: pointer;
+}
+.test_object li.active{
+	background:#e4393c;
+	color:#fff;
+}
+
+.test_object select{
+	width: 20%;
+    height: 32.22px; 
+}
+
+.test_object input{
+	width:700px;
+	padding:5px 0;
+	text-indent: 5px; 
+}
+
+.test_way,.test_name{
+	margin-top: 20px;
+}
+.test_name input{
+	width:360px;
+	padding:5px 0;
+	text-indent: 5px;
+}
+
+.select_paper_title{
+	margin:30px 20px 10px 20px;
+	font:16px '宋体';
+	color:#333;
+	font-weight: 800;
+	text-indent: 4px;
+}	
+
+.select_paper_ope{
+	border:1px solid #e5e5e5;
+	margin:0 20px;
+	padding: 20px 0px 1px 0px;
+	height: 420px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+.line_one span{
+	display: inline-block;
+	width:120px;
+	text-align: right;
+}
+.choice_zhibiao select{
+	padding:6px 0;
+	width:260px;
+}
+
+.paper_name_check input{
+	width: 260px;
+	padding:4px 0;
+	// text-indent: 4px;
+}
+.paper_name_check button{
+	width:100px;
+	height: 32px;
+	line-height: 32px;
+	color:#fff;
+	background:#0075b1;
+	margin:0 10px;
+}
+.nav_list{
+	height:36px;
+	line-height: 36px;
+	background:#f2f2f2;
+	margin-top: 10px;
+}
+.nav_list span,.wenjuan_one span{
+	display: inline-block;
+	text-align: center;
+}
+span.wenjuan_name{
+	width:22%;
+	text-align: left;
+	padding-left: 8px;
+}
+span.wenjuan_name1{
+	width:22%;
+	text-align: left;
+	padding-left: 31px;
+}
+
+span.create,span.update{
+	width:15%;
+}
+.use_count,.ans_count,span.caozuo{
+	width:14%;
+}
+.contain .caozuo{
+	color:#0075b1;
+}
+.wenjuan_one .caozuo{
+	cursor: pointer;
+}
+.wenjuan_one label input,.wenjuan_one .wenjuan_name,.nav_list label input,.nav_list .wenjuan_name{
+	vertical-align: middle;
+}
+.wenjuan_one label input,.nav_list label input{
+	margin-left: 10px;
+}
+
+.test_way label{
+	margin-right: 12px;
+}
+.test_way label input,.test_way label i{
+	vertical-align: middle;
+}
+.test_way label input{
+	margin-right: 4px;
+}
+
+.wenjuan_one{
+	height:40px;
+	line-height: 40px;
+	border-bottom: 1px solid #e5e5e5;
+}
+
+
+.select_wenjuan{
+	margin-top: 20px;
+}
+.select_wenjuan button{
+	color:#0075b1;
+	font-size: 16px;
+	width:120px;
+	height: 32px;
+	text-align: center;
+	cursor: pointer;
+}
+.select_wenjuan p{
+	display: inline-block;
+	margin-right: 40px;
+	font-size: 16px;
+}
+
+.layer_select{
+	height:600px;
+	overflow-y: scroll;
+	display: none;	
+}
+
+/* 弹窗*/
+.layer_open{
+	margin:0 20px;
+	display: none;
+} 
+.layer_open h3{
+	margin: 20px 0 10px 20px;
+    font: 16px '宋体';
+    color: #333;
+    font-weight: 800;
+    text-indent: 4px;
+}
+
+.test_msg_list{
+	margin:20px;
+	border:1px solid #ccc;
+	padding:10px 0;
+	height:200px;
+	overflow-y: scroll;
+}
+.test_msg_list li{
+	padding:0 20px;
+	height:40px;
+	line-height: 40px;
+	border-bottom: 1px solid #e5e5e5;
+}
+
+.test_msg_list li span,.test_msg_list li input{
+	vertical-align: middle;
+}
+.test_msg_list li input{
+	margin-right: 40px;
+}
+.answer_msg{
+	padding: 60px 10px;
+	text-align: center;
+	color: #656161;
+	font-size: 12px;
+}
+.warning_msg{
+	vertical-align:middle;
+	margin-left: 5px;
+    margin-right: 3px;
+}

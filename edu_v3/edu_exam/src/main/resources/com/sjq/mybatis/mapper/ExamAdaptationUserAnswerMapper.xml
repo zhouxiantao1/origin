@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sjq.adaptation.dao.ExamAdaptationUserAnswerMapper">
+	<resultMap id="BaseResultMap" type="com.sjq.adaptation.vo.ExamAdaptationUserAnswerVo">
+  		<result column="id" property="id" jdbcType="BIGINT" />
+  		<result column="create_name" property="createName" jdbcType="VARCHAR" />
+  		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  		<result column="mod_name" property="modName" jdbcType="VARCHAR" />
+  		<result column="mod_time" property="modTime" jdbcType="TIMESTAMP" />
+  		<result column="delflag" property="delflag" jdbcType="CHAR" />
+  		<result column="number" property="number" jdbcType="BIGINT" />
+  		<result column="is_right" property="isRight" jdbcType="CHAR" />
+  		<result column="knowledge_id" property="knowledgeId" jdbcType="BIGINT" />
+  		<result column="adaptation_id" property="adaptationId" jdbcType="BIGINT" />
+  		<result column="user_id" property="userId" jdbcType="BIGINT" />
+  		<result column="question_id" property="questionId" jdbcType="BIGINT" />
+  		<result column="answer_time" property="answerTime" jdbcType="TIMESTAMP" />
+  		<result column="answer_second" property="answerSecond" jdbcType="BIGINT" />
+  		<result column="bloom_taxonomy" property="bloomTaxonomy" jdbcType="CHAR" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+  		id,
+  		create_name,
+  		create_time,
+  		mod_name,
+  		mod_time,
+  		delflag,
+  		number,
+  		is_right,
+  		knowledge_id,
+  		adaptation_id,
+  		user_id,
+  		question_id,
+  		answer_time,
+  		answer_second,
+  		bloom_taxonomy
+	</sql>
+	
+					
+	<!-- 根据条件查询所有考试模块-自适应测试用户答题记录表信息 -->
+	<select id="queryExamAdaptationUserAnswerBySearch" resultMap="BaseResultMap"  parameterType="java.util.Map">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_exam_adaptation_user_answer
+       where 1=1 
+  	   <if test="id != '' and id != null">
+       		and id = #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name = #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time = #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name = #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time = #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag = #{delflag}
+       </if>
+  	   <if test="number != '' and number != null">
+       		and number = #{number}
+       </if>
+  	   <if test="isRight != '' and isRight != null">
+       		and is_right = #{isRight}
+       </if>
+  	   <if test="knowledgeId != '' and knowledgeId != null">
+       		and knowledge_id = #{knowledgeId}
+       </if>
+  	   <if test="adaptationId != '' and adaptationId != null">
+       		and adaptation_id = #{adaptationId}
+       </if>
+  	   <if test="userId != '' and userId != null">
+       		and user_id = #{userId}
+       </if>
+  	   <if test="questionId != '' and questionId != null">
+       		and question_id = #{questionId}
+       </if>
+  	   <if test="answerTime != '' and answerTime != null">
+       		and answer_time = #{answerTime}
+       </if>
+  	   <if test="answerSecond != '' and answerSecond != null">
+       		and answer_second = #{answerSecond}
+       </if>
+	</select>
+	
+	
+	
+	<!-- 根据条件查询所有考试模块-自适应测试用户答题记录表信息 -->
+	<select id="queryRecentExamAdaptationUserAnswerLimit1BySearch" resultMap="BaseResultMap"  parameterType="java.util.Map">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_exam_adaptation_user_answer
+       where 1=1 
+  	   <if test="id != '' and id != null">
+       		and id = #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name = #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time = #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name = #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time = #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag = #{delflag}
+       </if>
+  	   <if test="number != '' and number != null">
+       		and number = #{number}
+       </if>
+  	   <if test="isRight != '' and isRight != null">
+       		and is_right = #{isRight}
+       </if>
+  	   <if test="knowledgeId != '' and knowledgeId != null">
+       		and knowledge_id = #{knowledgeId}
+       </if>
+  	   <if test="adaptationId != '' and adaptationId != null">
+       		and adaptation_id = #{adaptationId}
+       </if>
+  	   <if test="userId != '' and userId != null">
+       		and user_id = #{userId}
+       </if>
+  	   <if test="questionId != '' and questionId != null">
+       		and question_id = #{questionId}
+       </if>
+  	   <if test="answerTime != '' and answerTime != null">
+       		and answer_time = #{answerTime}
+       </if>
+  	   <if test="answerSecond != '' and answerSecond != null">
+       		and answer_second = #{answerSecond}
+       </if>
+       ORDER BY number desc LIMIT 1
+	</select>
+	
+					
+	<!-- 根据条件查询考试模块-自适应测试用户答题记录表count总数 -->
+	<select id="queryExamAdaptationUserAnswerTotalCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(1) from
+		edu_exam_adaptation_user_answer where delflag='0'
+  	   <if test="id != '' and id != null">
+       		and id =  #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name =  #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time =  #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name =  #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time =  #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag =  #{delflag}
+       </if>
+  	   <if test="number != '' and number != null">
+       		and number =  #{number}
+       </if>
+  	   <if test="isRight != '' and isRight != null">
+       		and is_right =  #{isRight}
+       </if>
+  	   <if test="knowledgeId != '' and knowledgeId != null">
+       		and knowledge_id =  #{knowledgeId}
+       </if>
+  	   <if test="adaptationId != '' and adaptationId != null">
+       		and adaptation_id =  #{adaptationId}
+       </if>
+  	   <if test="userId != '' and userId != null">
+       		and user_id =  #{userId}
+       </if>
+  	   <if test="questionId != '' and questionId != null">
+       		and question_id =  #{questionId}
+       </if>
+  	   <if test="answerTime != '' and answerTime != null">
+       		and answer_time =  #{answerTime}
+       </if>
+  	   <if test="answerSecond != '' and answerSecond != null">
+       		and answer_second =  #{answerSecond}
+       </if>
+	</select>
+	
+
+					
+	<!-- (更新)根据ID更新所有考试模块-自适应测试用户答题记录表信息 -->
+	<update id="updateExamAdaptationUserAnswerById" parameterType="com.sjq.adaptation.bean.ExamAdaptationUserAnswerBean" >
+		update edu_exam_adaptation_user_answer
+		<set>
+	  	    <if test="modName != '' and modName != null">
+	       	mod_name =  #{modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="modTime != '' and modTime != null">
+	       	mod_time =  #{modTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != '' and delflag != null">
+	       	delflag =  #{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="number != '' and number != null">
+	       	number =  #{number,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="isRight != '' and isRight != null">
+	       	is_right =  #{isRight,jdbcType=CHAR},
+	        </if>
+	  	    <if test="knowledgeId != '' and knowledgeId != null">
+	       	knowledge_id =  #{knowledgeId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="adaptationId != '' and adaptationId != null">
+	       	adaptation_id =  #{adaptationId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="userId != '' and userId != null">
+	       	user_id =  #{userId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="questionId != '' and questionId != null">
+	       	question_id =  #{questionId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="answerTime != '' and answerTime != null">
+	       	answer_time =  now(),
+	        </if>
+	  	    <if test="answerSecond != '' and answerSecond != null">
+	       	answer_second =  TIMESTAMPDIFF(SECOND,create_time,DATE_FORMAT(NOW(),'%Y-%m-%d %H:%i:%s')),
+	        </if>
+		</set>
+		where 1 = 1 and id = #{id,jdbcType=BIGINT} 
+	</update>
+	
+					
+	<!-- (更新)根据条件更新所有考试模块-自适应测试用户答题记录表信息 -->
+	<update id="updateExamAdaptationUserAnswerBySearch"  parameterType="java.util.Map" >
+		update edu_exam_adaptation_user_answer
+		<set>
+	  	    <if test="bean.modName != null">
+	       	mod_name =  #{bean.modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="bean.modTime != null">
+	       	mod_time =  #{bean.modTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="bean.delflag != null">
+	       	delflag =  #{bean.delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="bean.number != null">
+	       	number =  #{bean.number,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="bean.isRight != null">
+	       	is_right =  #{bean.isRight,jdbcType=CHAR},
+	        </if>
+	  	    <if test="bean.knowledgeId != null">
+	       	knowledge_id =  #{bean.knowledgeId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="bean.adaptationId != null">
+	       	adaptation_id =  #{bean.adaptationId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="bean.userId != null">
+	       	user_id =  #{bean.userId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="bean.questionId != null">
+	       	question_id =  #{bean.questionId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="bean.answerTime != null">
+	       	answer_time =  #{bean.answerTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="bean.answerSecond != null">
+	       	answer_second =  TIMESTAMPDIFF(SECOND,create_time,DATE_FORMAT(NOW(),'%Y-%m-%d %H:%i:%s')),
+	        </if>
+		</set>
+		where 
+  	   <if test="search.id != null">
+       		and id = #{search.id}
+       </if>
+  	   <if test="search.createName != null">
+       		and create_name = #{search.createName}
+       </if>
+  	   <if test="search.createTime != null">
+       		and create_time = #{search.createTime}
+       </if>
+  	   <if test="search.modName != null">
+       		and mod_name = #{search.modName}
+       </if>
+  	   <if test="search.modTime != null">
+       		and mod_time = #{search.modTime}
+       </if>
+  	   <if test="search.delflag != null">
+       		and delflag = #{search.delflag}
+       </if>
+  	   <if test="search.number != null">
+       		and number = #{search.number}
+       </if>
+  	   <if test="search.isRight != null">
+       		and is_right = #{search.isRight}
+       </if>
+  	   <if test="search.knowledgeId != null">
+       		and knowledge_id = #{search.knowledgeId}
+       </if>
+  	   <if test="search.adaptationId != null">
+       		and adaptation_id = #{search.adaptationId}
+       </if>
+  	   <if test="search.userId != null">
+       		and user_id = #{search.userId}
+       </if>
+  	   <if test="search.questionId != null">
+       		and question_id = #{search.questionId}
+       </if>
+  	   <if test="search.answerTime != null">
+       		and answer_time = #{search.answerTime}
+       </if>
+  	   <if test="search.answerSecond != null">
+       		and answer_second = #{search.answerSecond}
+       </if>
+	</update>
+	
+					
+	<!-- (增加)增加考试模块-自适应测试用户答题记录表信息 --> 
+	<insert id="insertExamAdaptationUserAnswer" parameterType="com.sjq.adaptation.bean.ExamAdaptationUserAnswerBean" useGeneratedKeys="true" keyProperty="id">
+		insert into edu_exam_adaptation_user_answer
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	  	   <if test="id != null">
+	       	id,
+	       </if>
+	  	   <if test="createName != null">
+	       	create_name,
+	       </if>
+	  	   <if test="createTime != null">
+	       	create_time,
+	       </if>
+	  	   <if test="delflag != null">
+	       	delflag,
+	       </if>
+	  	   <if test="number != null">
+	       	number,
+	       </if>
+	  	   <if test="isRight != null">
+	       	is_right,
+	       </if>
+	  	   <if test="knowledgeId != null">
+	       	knowledge_id,
+	       </if>
+	  	   <if test="adaptationId != null">
+	       	adaptation_id,
+	       </if>
+	  	   <if test="userId != null">
+	       	user_id,
+	       </if>
+	  	   <if test="questionId != null">
+	       	question_id,
+	       </if>
+	  	   <if test="answerTime != null">
+	       	answer_time,
+	       </if>
+	  	   <if test="answerSecond != null">
+	       	answer_second,
+	       </if>
+	       <if test="bloomTaxonomy != null">
+	       	bloom_taxonomy,
+	       </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	  	    <if test="id != null">
+	       		#{id,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="createName != null">
+	       		#{createName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="createTime != null">
+	       		now(),
+	        </if>
+	  	    <if test="delflag != null">
+	       		#{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="number != null">
+	       		#{number,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="isRight != null">
+	       		#{isRight,jdbcType=CHAR},
+	        </if>
+	  	    <if test="knowledgeId != null">
+	       		#{knowledgeId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="adaptationId != null">
+	       		#{adaptationId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="userId != null">
+	       		#{userId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="questionId != null">
+	       		#{questionId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="answerTime != null">
+	       		#{answerTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="answerSecond != null">
+	       		#{answerSecond,jdbcType=BIGINT},
+	        </if>
+	        <if test="bloomTaxonomy != null">
+	       		#{bloomTaxonomy,jdbcType=VARCHAR},
+	       </if>
+		</trim>
+	</insert>
+    
+    
+    <!-- 根据自适应id与用户id查询总共所花时间 -->
+    <select id="getExamAdaptationUserAnswerSecond" parameterType="java.util.Map" resultType="java.lang.Integer">
+		
+		SELECT IFNULL(SUM(answer_second),0) FROM edu_exam_adaptation_user_answer WHERE user_id = #{userId} AND adaptation_id = #{adaptationId}
+		
+	</select>
+	
+	   
+</mapper>

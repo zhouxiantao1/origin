@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sjq.adaptationUser.dao.ExamAdaptationUserMapper">
+	<resultMap id="BaseResultMap" type="com.sjq.adaptation.vo.ExamAdaptationUserVo">
+  		<result column="id" property="id" jdbcType="BIGINT" />
+  		<result column="create_name" property="createName" jdbcType="VARCHAR" />
+  		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  		<result column="mod_name" property="modName" jdbcType="VARCHAR" />
+  		<result column="mod_time" property="modTime" jdbcType="TIMESTAMP" />
+  		<result column="delflag" property="delflag" jdbcType="CHAR" />
+  		<result column="answer_start_time" property="answerStartTime" jdbcType="TIMESTAMP" />
+  		<result column="answer_final_time" property="answerFinalTime" jdbcType="TIMESTAMP" />
+  		<result column="status" property="status" jdbcType="CHAR" />
+  		<result column="answer_time" property="answerTime" jdbcType="BIGINT" />
+  		<result column="right_num" property="rightNum" jdbcType="BIGINT" />
+  		<result column="error_num" property="errorNum" jdbcType="BIGINT" />
+  		<result column="last_answer_number" property="lastAnswerNumber" jdbcType="BIGINT" />
+  		<result column="user_id" property="userId" jdbcType="BIGINT" />
+  		<result column="adaptation_id" property="adaptationId" jdbcType="BIGINT" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+  		id,
+  		create_name,
+  		create_time,
+  		mod_name,
+  		mod_time,
+  		delflag,
+  		answer_start_time,
+  		answer_final_time,
+  		status,
+  		answer_time,
+  		right_num,
+  		error_num,
+  		last_answer_number,
+  		user_id,
+  		adaptation_id
+	</sql>
+	
+	
+	<!-- 根据ID查询考试模块-自适应测试用户记录表信息 -->
+	<select id="queryExamAdaptationUserById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_exam_adaptation_user
+       where delflag='0' and id =#{id,jdbcType=BIGINT}
+       order by create_time desc
+    </select>
+    
+					
+					
+	<!-- 根据条件查询所有考试模块-自适应测试用户记录表信息 -->
+	<select id="queryExamAdaptationUserBySearch" resultMap="BaseResultMap"  parameterType="java.util.Map">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_exam_adaptation_user
+       where 1=1 
+  	   <if test="id != '' and id != null">
+       		and id = #{id}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag = #{delflag}
+       </if>
+  	   <if test="answerStartTime != '' and answerStartTime != null">
+       		and answer_start_time = #{answerStartTime}
+       </if>
+  	   <if test="answerFinalTime != '' and answerFinalTime != null">
+       		and answer_final_time = #{answerFinalTime}
+       </if>
+  	   <if test="status != '' and status != null">
+       		and status = #{status}
+       </if>
+  	   <if test="answerTime != null">
+       		and answer_time = #{answerTime}
+       </if>
+  	   <if test="rightNum != null">
+       		and right_num = #{rightNum}
+       </if>
+  	   <if test="errorNum != null">
+       		and error_num = #{errorNum}
+       </if>
+  	   <if test="lastAnswerNumber != null">
+       		and last_answer_number = #{lastAnswerNumber}
+       </if>
+  	   <if test="userId != '' and userId != null">
+       		and user_id = #{userId}
+       </if>
+  	   <if test="adaptationId != '' and adaptationId != null">
+       		and adaptation_id = #{adaptationId}
+       </if>
+              order by create_time desc
+	</select>
+	
+					
+	<!-- (删除)根据ID删除考试模块-自适应测试用户记录表信息 --> 
+	<delete id="deleteExamAdaptationUserById" parameterType="java.lang.Long">
+		update edu_exam_adaptation_user 
+		<set> 
+	  	    <if test="modName != '' and modName != null">
+	       	mod_name =  #{modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="modTime != '' and modTime != null">
+	       	mod_time =  #{modTime,jdbcType=TIMESTAMP},
+	        </if>
+		delflag = '1'
+		</set>
+		where  id = #{id,jdbcType=BIGINT} 
+	</delete>
+	
+					
+		<!-- (增加)增加考试模块-自适应测试用户记录表信息 --> 
+	<insert id="insertExamAdaptationUser" parameterType="com.sjq.adaptation.bean.ExamAdaptationUserBean">
+		insert into edu_exam_adaptation_user
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	  	   <if test="id != '' and id != null">
+	       	id,
+	       </if>
+	  	   <if test="createName != '' and createName != null">
+	       	create_name,
+	       </if>
+	  	   <if test="createTime != '' and createTime != null">
+	       	create_time,
+	       </if>
+	  	   <if test="delflag != '' and delflag != null">
+	       	delflag,
+	       </if>
+	  	   <if test="answerStartTime != '' and answerStartTime != null">
+	       	answer_start_time,
+	       </if>
+	  	   <if test="answerFinalTime != '' and answerFinalTime != null">
+	       	answer_final_time,
+	       </if>
+	  	   <if test="status != '' and status != null">
+	       	status,
+	       </if>
+	  	   <if test="answerTime != null">
+	       	answer_time,
+	       </if>
+	  	   <if test="rightNum != null">
+	       	right_num,
+	       </if>
+	  	   <if test="errorNum != null">
+	       	error_num,
+	       </if>
+	  	   <if test="lastAnswerNumber != null">
+	       	last_answer_number,
+	       </if>
+	  	   <if test="userId != '' and userId != null">
+	       	user_id,
+	       </if>
+	  	   <if test="adaptationId != '' and adaptationId != null">
+	       	adaptation_id,
+	       </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	  	    <if test="id != '' and id != null">
+	       		#{id,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="createName != '' and createName != null">
+	       		#{createName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="createTime != '' and createTime != null">
+	       		#{createTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != '' and delflag != null">
+	       		#{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="answerStartTime != '' and answerStartTime != null">
+	       		#{answerStartTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="answerFinalTime != '' and answerFinalTime != null">
+	       		#{answerFinalTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="status != '' and status != null">
+	       		#{status,jdbcType=CHAR},
+	        </if>
+	  	    <if test="answerTime != null">
+	       		#{answerTime,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="rightNum != null">
+	       		#{rightNum,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="errorNum != null">
+	       		#{errorNum,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="lastAnswerNumber != null">
+	       		#{lastAnswerNumber,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="userId != null">
+	       		#{userId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="adaptationId != '' and adaptationId != null">
+	       		#{adaptationId,jdbcType=BIGINT},
+	        </if>
+		</trim>
+	</insert>
+	
+	
+					
+	<!-- (更新)根据条件更新所有考试模块-自适应测试用户记录表信息 -->
+	<update id="updateExamAdaptationUserBySearch"  parameterType="java.util.Map" >
+		update edu_exam_adaptation_user
+		<set>
+	  	    <if test="bean.modName != '' and bean.modName != null">
+	       	mod_name =  #{bean.modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="bean.modTime != '' and bean.modTime != null">
+	       	mod_time =  #{bean.modTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="bean.delflag != '' and bean.delflag != null">
+	       	delflag =  #{bean.delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="bean.answerStartTime != '' and bean.answerStartTime != null">
+	       	answer_start_time =  #{bean.answerStartTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="bean.answerFinalTime != '' and bean.answerFinalTime != null">
+	       	answer_final_time =  #{bean.answerFinalTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="bean.status != '' and bean.status != null">
+	       	status =  #{bean.status,jdbcType=CHAR},
+	        </if>
+	  	    <if test="bean.answerTime != '' and bean.answerTime != null">
+	       	answer_time =  answer_time + #{bean.answerTime,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="bean.rightNum  != null">
+	       	right_num =  right_num + 1,
+	        </if>
+	  	    <if test="bean.errorNum  != null">
+	       	error_num =  error_num + 1,
+	        </if>
+	  	    <if test="bean.lastAnswerNumber != null">
+	       	last_answer_number =  #{bean.lastAnswerNumber,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="bean.userId != '' and userId != null">
+	       	user_id =  #{bean.userId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="bean.adaptationId != '' and bean.adaptationId != null">
+	       	adaptation_id =  #{bean.adaptationId,jdbcType=BIGINT},
+	        </if>
+		</set>
+		where 1=1
+  	   <if test="search.id != null">
+       		and id = #{search.id}
+       </if>
+  	   <if test="search.userId != null">
+       		and user_id = #{search.userId}
+       </if>
+  	   <if test="search.adaptationId != null">
+       		and adaptation_id = #{search.adaptationId}
+       </if>
+	</update>
+    
+	   
+</mapper>

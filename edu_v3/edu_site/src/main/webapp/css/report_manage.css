@@ -1,0 +1,156 @@
+ul li,button{
+	cursor: pointer;
+}
+
+.all_content{
+	margin:20px;
+
+}
+.all_content .operation{
+	border-bottom: 1px solid #ccc;
+}
+.all_content .operation p{
+	float:left;
+	width:80px;
+	text-align: center;
+	height: 30px;
+	line-height: 30px;
+	font-size: 12px;
+	cursor: pointer;
+}
+.all_content .operation p.active{
+	border-bottom: 2px solid #0075b1;
+	color:#0075b1;
+}
+
+.situation{
+	margin:30px 0 20px 0;
+	background:#f2f2f2;
+	height:40px;
+	line-height: 40px;
+}
+.situation span{
+	display: inline-block;
+	text-align: center;
+}
+.situation span.ques,.left_msg{
+	width:50%;
+}
+.situation span.report_count,.situation span.manage_status,.situation span.manage_op,.count,.chuli,.caozuo{
+	width:12%;
+}
+
+.all_question{
+	margin:24px 0;
+	text-align: center;
+}
+
+
+.all_question dl{
+	margin-right: 20px;
+	text-align: center;
+}
+.all_question .head{
+	width:60px;
+	height:60px;
+	border:1px solid #ccc;
+	margin-bottom: 12px;
+}
+.all_question .head img{
+	width:100%;
+}
+
+.qus_detail{
+	width:360px;
+	text-align: left;
+}
+.qus_detail .tit{
+	padding:0 40px 20px 0;
+	width:100%;
+	color: #0075b1;
+	cursor: pointer;
+}
+.qus_detail .tit span{
+	//color:#999;
+	font-size: 12px;
+}
+
+.qus_detail .math{
+	width:240px;
+	height:36px;
+	background:#a49c95;
+	line-height:36px;
+	text-indent: 10px;
+}
+
+.qus_detail .detail{
+	margin:18px 0;
+}
+.qus_detail .detail p{
+	width:60%;
+	color: #666;
+}
+
+.chuli{
+	line-height: 30px;
+	color:#666;
+}
+.count{
+	color:#0075b1;
+}
+.caozuo{
+	line-height: 30px;
+	color:#0075b1;
+}
+.caozuo p{
+	cursor: pointer;
+}
+
+.caozuo p1{
+	color:#0075b1;
+	color: #666;
+}
+.ques_one{
+	padding:12px 0;
+	border-bottom: 1px solid #e5e5e5;
+}
+
+.answer_msg{
+	padding: 90px 10px;
+	border:1px solid #e5e5e5;
+	text-align: center;
+	color: #656161;
+	font-size: 12px;
+}
+
+.middle {
+    min-height: 730px;
+
+}
+
+.klass_sub {
+    margin: 30px 20px 0 20px;
+}
+.klass_sub select {
+    vertical-align: middle;
+    padding: 5px 20px 5px 3px;
+}
+.klass_sub span {
+    display: inline-block;
+    line-height: 30px;
+    margin-right: 5px;
+}
+.klass_sub input {
+    width: 200px;
+    padding: 4px 2px;
+    vertical-align: middle;
+}
+
+.klass_sub button {
+    width: 90px;
+    height: 32px;
+    line-height: 32px;
+    color: #fff;
+    background: #0075b1;
+    cursor: pointer;
+}

@@ -1,0 +1,90 @@
+ul li{
+	cursor:pointer;
+}
+.mid{
+	width:1192px;
+	background:#fff;
+	min-height: 600px;
+}
+
+.back{
+	color:#00abed;
+	margin-right:20px;
+	font-size: 16px;
+	line-height: 36px;
+}
+
+.check_paper{
+	width:100%;
+	margin:20px 0;
+}
+.check_paper button{
+	width:122px;
+	height: 32px;
+	border-radius: 16px;
+	margin-right:24px;
+	color:#fff;
+	text-align: center;
+	line-height:32px;
+	cursor:pointer;
+}
+.check_paper button.export_paper{
+	background:#188eee;
+}
+.check_paper button.check_ans{
+	background:#92b938;
+}
+
+
+.paper_raduce{
+	width:88%;
+	margin:0 auto;
+}
+.paper_raduce h3{
+	text-align: center;
+	font-size: 18px;
+	color:#333;
+	font-weight: 300;
+	line-height:40px;
+}
+.paper_raduce p{
+	text-align: center;
+	font-size: 12px;
+	color:#9b9796;
+	margin:12px 0 16px 0;
+}
+
+.detail{
+	background:#f2f2f2;
+	height:36px;
+	line-height: 36px;
+	color:#666762;
+}
+.detail span{
+	margin-left:45px;
+}
+
+.choice_area{
+	margin:28px 0;
+}
+.choice_area select{
+	padding:5px 0;
+	font-size: 12px;
+	width:180px;
+	margin-right: 24px;
+}
+
+
+/*表格*/
+.tb_contain{
+	width:88%;
+	margin:0 auto;
+}
+.tb{
+	width:1048px;
+}
+.tb td{
+	height:28px;
+	border:1px solid #d8d8d8;
+	text-align: center;
+}

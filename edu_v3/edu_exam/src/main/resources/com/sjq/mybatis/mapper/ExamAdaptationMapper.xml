@@ -1,0 +1,460 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sjq.adaptation.dao.ExamAdaptationMapper">
+	<resultMap id="BaseResultMap" type="com.sjq.adaptation.vo.ExamAdaptationVo">
+  		<result column="id" property="id" jdbcType="BIGINT" />
+  		<result column="create_name" property="createName" jdbcType="VARCHAR" />
+  		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  		<result column="mod_name" property="modName" jdbcType="VARCHAR" />
+  		<result column="mod_time" property="modTime" jdbcType="TIMESTAMP" />
+  		<result column="delflag" property="delflag" jdbcType="CHAR" />
+  		<result column="name" property="name" jdbcType="VARCHAR" />
+  		<result column="stage_id" property="stageId" jdbcType="BIGINT" />
+  		<result column="subject_id" property="subjectId" jdbcType="BIGINT" />
+  		<result column="grade_id" property="gradeId" jdbcType="BIGINT" />
+  		<result column="num" property="num" jdbcType="BIGINT" />
+  		<result column="duration" property="duration" jdbcType="BIGINT" />
+  		<result column="test_start_time" property="testStartTime" jdbcType="TIMESTAMP" />
+  		<result column="test_end_time" property="testEndTime" jdbcType="TIMESTAMP" />
+  		<result column="remark" property="remark" jdbcType="VARCHAR" />
+  		
+ 		<association property="bs" column="stage_id" select="com.sjq.stage.dao.BaseStageMapper.queryBaseStageById"></association>
+	 	<association property="bgv" column="grade_id" select="com.sjq.grade.dao.BaseGradeMapper.queryBaseGradeById"></association>
+	 	<association property="bsv" column="subject_id" select="com.sjq.subject.dao.BaseSubjectMapper.queryBaseSubjectById"></association>
+	 
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+  		id,
+  		create_name,
+  		create_time,
+  		mod_name,
+  		mod_time,
+  		delflag,
+  		name,
+  		stage_id,
+  		subject_id,
+  		grade_id,
+  		num,
+  		duration,
+  		test_start_time,
+  		test_end_time,
+  		remark
+	</sql>
+	
+	
+	<!-- 根据ID查询考试模块-自适应测试信息 -->
+	<select id="queryExamAdaptationById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_exam_adaptation
+       where delflag='0' and id =#{id,jdbcType=BIGINT}
+    </select>
+    
+					
+	<!-- 根据条件查询所有考试模块-自适应测试信息 -->
+	<select id="queryExamAdaptationBySearch" resultMap="BaseResultMap"  parameterType="java.util.Map">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_exam_adaptation
+       where 1=1 
+  	   <if test="id != '' and id != null">
+       		and id = #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name = #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time = #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name = #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time = #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag = #{delflag}
+       </if>
+  	   <if test="name != '' and name != null">
+       		and name = #{name}
+       </if>
+  	   <if test="subjectId != '' and subjectId != null">
+       		and subject_id = #{subjectId}
+       </if>
+  	   <if test="gradeId != '' and gradeId != null">
+       		and grade_id = #{gradeId}
+       </if>
+  	   <if test="num != '' and num != null">
+       		and num = #{num}
+       </if>
+  	   <if test="duration != '' and duration != null">
+       		and duration = #{duration}
+       </if>
+  	   <if test="testStartTime != '' and testStartTime != null">
+       		and test_start_time = #{testStartTime}
+       </if>
+  	   <if test="testEndTime != '' and testEndTime != null">
+       		and test_end_time = #{testEndTime}
+       </if>
+  	   <if test="remark != '' and remark != null">
+       		and remark = #{remark}
+       </if>
+       <if test="isValid !=null and isValid == '1'">
+       		and test_start_time &lt;= NOW() AND test_end_time &gt; NOW()
+       </if>
+       order by create_time desc
+	</select>
+	
+					
+	<!-- 根据条件查询考试模块-自适应测试count总数 -->
+	<select id="queryExamAdaptationTotalCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(1) from
+		edu_exam_adaptation where delflag='0'
+  	   <if test="id != '' and id != null">
+       		and id =  #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name =  #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time =  #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name =  #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time =  #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag =  #{delflag}
+       </if>
+  	   <if test="name != '' and name != null">
+       		and name =  #{name}
+       </if>
+  	   <if test="subjectId != '' and subjectId != null">
+       		and subject_id =  #{subjectId}
+       </if>
+  	   <if test="gradeId != '' and gradeId != null">
+       		and grade_id =  #{gradeId}
+       </if>
+       <if test="stageId != '' and stageId != null">
+       		and stage_id =  #{stageId}
+       </if>
+  	   <if test="num != '' and num != null">
+       		and num =  #{num}
+       </if>
+  	   <if test="duration != '' and duration != null">
+       		and duration =  #{duration}
+       </if>
+  	   <if test="testStartTime != '' and testStartTime != null">
+       		and test_start_time =  #{testStartTime}
+       </if>
+  	   <if test="testEndTime != '' and testEndTime != null">
+       		and test_end_time =  #{testEndTime}
+       </if>
+  	   <if test="remark != '' and remark != null">
+       		and remark =  #{remark}
+       </if>
+	</select>
+	
+
+					
+	<!-- 分页查询考试模块-自适应测试 -->
+	<select id="queryExamAdaptationPage" resultMap="BaseResultMap"  parameterType="java.util.Map">
+		select   
+	    <include refid="Base_Column_List" />
+		from
+		edu_exam_adaptation where delflag='0'
+  	   <if test="id != '' and id != null">
+       		and id =  #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name =  #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time =  #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name =  #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time =  #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag =  #{delflag}
+       </if>
+  	   <if test="name != '' and name != null">
+       		and name =  #{name}
+       </if>
+  	   <if test="subjectId != '' and subjectId != null">
+       		and subject_id =  #{subjectId}
+       </if>
+  	   <if test="gradeId != '' and gradeId != null">
+       		and grade_id =  #{gradeId}
+       </if>
+        <if test="stageId != '' and stageId != null">
+       		and stage_id =  #{stageId}
+       </if>
+  	   <if test="num != '' and num != null">
+       		and num =  #{num}
+       </if>
+  	   <if test="duration != '' and duration != null">
+       		and duration =  #{duration}
+       </if>
+  	   <if test="testStartTime != '' and testStartTime != null">
+       		and test_start_time =  #{testStartTime}
+       </if>
+  	   <if test="testEndTime != '' and testEndTime != null">
+       		and test_end_time =  #{testEndTime}
+       </if>
+  	   <if test="remark != '' and remark != null">
+       		and remark =  #{remark}
+       </if>
+       order by create_time desc
+  	   limit #{startRowNum},#{endRowNum}
+	</select>
+
+					
+	<!-- (删除)根据ID删除考试模块-自适应测试信息 --> 
+	<delete id="deleteExamAdaptationById" parameterType="java.lang.Long">
+		update edu_exam_adaptation 
+		<set> 
+	  	    <if test="modName != '' and modName != null">
+	       	mod_name =  #{modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="modTime != '' and modTime != null">
+	       	mod_time =  #{modTime,jdbcType=TIMESTAMP},
+	        </if>
+		delflag = '1'
+		</set>
+		where  id = #{id,jdbcType=BIGINT} 
+	</delete>
+	
+					
+	<!-- (更新)根据ID更新所有考试模块-自适应测试信息 -->
+	<update id="updateExamAdaptationById" parameterType="com.sjq.adaptation.bean.ExamAdaptationBean" >
+		update edu_exam_adaptation
+		<set>
+	  	    <if test="modName != '' and modName != null">
+	       	mod_name =  #{modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="modTime != '' and modTime != null">
+	       	mod_time =  #{modTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != '' and delflag != null">
+	       	delflag =  #{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="name != '' and name != null">
+	       	name =  #{name,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="subjectId != '' and subjectId != null">
+	       	subject_id =  #{subjectId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="gradeId != '' and gradeId != null">
+	       	grade_id =  #{gradeId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="num != '' and num != null">
+	       	num =  #{num,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="duration != '' and duration != null">
+	       	duration =  #{duration,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="testStartTime != '' and testStartTime != null">
+	       	test_start_time =  #{testStartTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="testEndTime != '' and testEndTime != null">
+	       	test_end_time =  #{testEndTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="remark != '' and remark != null">
+	       	remark =  #{remark,jdbcType=VARCHAR},
+	        </if>
+		</set>
+		where 1 = 1 and id = #{id,jdbcType=BIGINT} 
+	</update>
+	
+					
+	<!-- (增加)增加考试模块-自适应测试信息 --> 
+	<insert id="insertExamAdaptation" parameterType="com.sjq.adaptation.bean.ExamAdaptationBean"  useGeneratedKeys="true" keyProperty="id" > 
+		insert into edu_exam_adaptation
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	  	   <if test="id != '' and id != null">
+	       	id,
+	       </if>
+	  	   <if test="createName != '' and createName != null">
+	       	create_name,
+	       </if>
+	  	   <if test="createTime != '' and createTime != null">
+	       	create_time,
+	       </if>
+	  	   <if test="delflag != '' and delflag != null">
+	       	delflag,
+	       </if>
+	  	   <if test="name != '' and name != null">
+	       	name,
+	       </if>
+	       <if test="stageId != '' and stageId != null">
+	       	stage_id,
+	       </if>
+	  	   <if test="subjectId != '' and subjectId != null">
+	       	subject_id,
+	       </if>
+	  	   <if test="gradeId != '' and gradeId != null">
+	       	grade_id,
+	       </if>
+	  	   <if test="num != '' and num != null">
+	       	num,
+	       </if>
+	  	   <if test="duration != '' and duration != null">
+	       	duration,
+	       </if>
+	  	   <if test="testStartTime != '' and testStartTime != null">
+	       	test_start_time,
+	       </if>
+	  	   <if test="testEndTime != '' and testEndTime != null">
+	       	test_end_time,
+	       </if>
+	  	   <if test="remark != '' and remark != null">
+	       	remark,
+	       </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	  	    <if test="id != '' and id != null">
+	       		#{id,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="createName != '' and createName != null">
+	       		#{createName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="createTime != '' and createTime != null">
+	       		#{createTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != '' and delflag != null">
+	       		#{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="name != '' and name != null">
+	       		#{name,jdbcType=VARCHAR},
+	        </if>
+	        <if test="stageId != '' and stageId != null">
+	       		#{stageId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="subjectId != '' and subjectId != null">
+	       		#{subjectId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="gradeId != '' and gradeId != null">
+	       		#{gradeId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="num != '' and num != null">
+	       		#{num,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="duration != '' and duration != null">
+	       		#{duration,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="testStartTime != '' and testStartTime != null">
+	       		#{testStartTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="testEndTime != '' and testEndTime != null">
+	       		#{testEndTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="remark != '' and remark != null">
+	       		#{remark,jdbcType=VARCHAR},
+	        </if>
+		</trim>
+	</insert>
+	
+	<!-- 扫描符合自适应测试的试题并创建自适应题库 -->
+	<insert id="setExamAdaptationQuestion"  parameterType="java.lang.Long">
+		INSERT INTO edu_exam_adaptation_question (
+		  `type_id`,
+		  `knowledge_id`,
+		  `bloom_taxonomy`,
+		  `difficulty`,
+		  `question_content`,
+		  `options`,
+		  `adaptation_id`,
+		  `create_time`,
+		  `question_id`
+		) 
+		SELECT DISTINCT type_id,b.knowledge_id,c.bloom_taxonomy,c.difficulty,c.question_content,c.options,b.adaptation_id,now(),c.id 
+		FROM edu_base_questionrelated a  
+		LEFT JOIN edu_exam_adaptation_knowledge b ON a.related_id = b.knowledge_id AND related_type = 2 AND b.adaptation_id = #{adapatationId}
+		LEFT JOIN edu_question_ware c ON a.question_id = c.id
+		LEFT JOIN edu_question_type d ON c.type_id = d.id AND d.marking_code IN('1','2')
+		WHERE b.knowledge_id IS NOT NULL
+		ORDER BY b.knowledge_id,difficulty DESC;
+	</insert>
+    
+    
+    <!-- 获取自适应有多少个知识模点（例如：创建时选择10个知识点，但其中2个知识点并未扫描到符合要求的试题，故只剩下 8个有效的知识点 -->
+    <select id="getExamAdaptationKnowledge"   parameterType="java.lang.Long" resultType="java.lang.Integer">
+    	SELECT COUNT(*) FROM(SELECT knowledge_id,COUNT(*) FROM edu_exam_adaptation_question where adaptation_id =#{adaptationId} GROUP BY knowledge_id) t1 ;
+    </select>
+    
+    <!-- 获取自适应所有的有效知识点信息 -->
+    <select id="getExamAdaptationKnowledgeIdList"   parameterType="java.lang.Long"  resultType="java.util.Map">
+    	SELECT knowledge_id,COUNT(*) FROM edu_exam_adaptation_question where adaptation_id =#{adaptationId} GROUP BY knowledge_id
+    </select>
+    
+    <!-- 获取自适应知识点的择题数与现已测试过的知识点测试数 -->
+    <select id="getExamAdaptationKnowledgeAnswerCount"   parameterType="java.util.Map"  resultType="java.util.Map">
+    	SELECT a.knowledge_id,a.c knowledge_c,IFNULL(b.c,0) answer_c FROM (
+			SELECT knowledge_id,num c FROM edu_exam_adaptation_knowledge WHERE adaptation_id = #{adaptationId}  AND num > 0 
+		) a LEFT JOIN (
+			SELECT knowledge_id,COUNT(*) c FROM edu_exam_adaptation_user_answer WHERE adaptation_id = #{adaptationId} AND user_id = #{userId} GROUP BY knowledge_id
+		) b ON a.knowledge_id  =  b.knowledge_id 
+    </select>
+	   
+	   
+	 <!-- 根据条件查询考试模块-自适应测试count总数 -->
+	<select id="queryMyExamAdaptationTotalCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT count(a.id) FROM edu_exam_adaptation a 
+		LEFT JOIN  edu_exam_adaptation_user b ON a.id = b.adaptation_id AND b.`user_id` =  #{userId} 
+		  WHERE  a.`stage_id` = #{stageId} AND a.`grade_id` = #{gradeId} AND a.`subject_id` = #{subjectId}
+		<!-- 已完成 -->
+		<if test="status == 1">
+	        and (status = '1' OR STATUS = '2')
+	    </if>
+	    <!-- 未完成 -->
+	    <if test="status == 0">
+	    	and (status = '0' OR status IS NULL)
+	    </if>
+	</select>
+	
+	  
+
+					
+	<!-- 分页查询考试模块-自适应测试 -->
+	<select id="queryMyExamAdaptationPage" resultType="java.util.Map"  parameterType="java.util.Map">
+		SELECT a.id,a.`name`,
+		(SELECT NAME FROM edu_base_stage WHERE id = a.`stage_id`) AS stage_name,
+		(SELECT NAME FROM edu_base_grade WHERE id = a.`grade_id`) AS grade_name,
+		(SELECT NAME FROM edu_base_subject WHERE id = a.`subject_id`) AS subject_name,
+		a.`test_start_time`,a.`test_end_time`,a.`num`,a.`duration`,b.`user_id`,b.`status`
+		  FROM edu_exam_adaptation a LEFT JOIN 
+		  edu_exam_adaptation_user b ON a.id = b.adaptation_id AND b.`user_id` =  #{userId} 
+		  WHERE  a.`stage_id` = #{stageId} AND a.`grade_id` = #{gradeId} AND a.`subject_id` = #{subjectId}
+		<!-- 已完成 -->
+		<if test="status == 1">
+	       	and (status = '1' OR STATUS = '2')
+	    </if>
+	    <!-- 未完成 -->
+	    <if test="status == 0">
+	    	and (status = '0' OR status IS NULL)
+	    </if>
+	    order by a.create_time desc
+  	   limit #{startRowNum},#{endRowNum}
+	</select>
+	 
+	 <!-- 获取该知识点下有多少题试题 -->
+	 <select id="queryExamAdaptationQuestionNum"  parameterType="java.util.Map"  resultType="java.lang.Integer">
+		SELECT COUNT(DISTINCT a.id) FROM edu_base_questionrelated a 
+		INNER JOIN edu_question_ware b ON a.`question_id` = b.id AND a.`related_type`='2' 
+		<if test="ids != null">
+	       AND a.`related_id` IN 
+		   <foreach collection="ids" item="id" open="(" close=")" separator=",">
+		   #{id}
+		   </foreach>
+       </if>
+		INNER JOIN edu_question_type c ON b.type_id = c.`id` AND c.marking_code IN('1','2')
+	
+	 </select>
+</mapper>

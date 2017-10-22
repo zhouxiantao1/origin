@@ -1,0 +1,112 @@
+.some_content{
+	margin: 20px;
+	border:1px solid #e5e5e5;
+	padding:20px;
+}
+
+.export_report span{
+	float:right;
+	width:100px;
+	height: 32px;
+	line-height: 32px;
+	text-align:center;
+	color:#fff;
+	background:#00ada7;
+	// border-radius: 5px;
+	cursor: pointer;
+}
+
+.report_title{
+	text-align: center;
+	margin:30px 0;
+	font-size: 18px;
+}
+
+.report_detail{
+	height:32px;
+	color:#666;
+	line-height: 32px;
+	text-align: center;
+	background:#f2f2f2;
+	
+}
+.report_detail span{
+	margin-right: 45px;
+}
+
+.total_analysis,.total_list,.total_grade{
+	margin-top: 30px;
+}
+.total_analysis h3,.total_list h3,.total_grade h3{
+	font-size: 16px;
+	text-align: center;
+	margin:20px 0;
+}
+
+table,th,td{
+	border:1px solid #ccc;
+}
+table{
+	width:100%;
+}
+table th,table td{
+	text-align: center;
+}
+table th{
+	background:#009966;
+	color:#fff;
+	height:46px;
+}
+table td{
+	height:46px;
+}
+table .img img{
+	display: inline-block; 
+	width:24px;
+	height:24px;
+	vertical-align: middle;
+}
+
+.explain{
+	margin-top: 10px;
+	padding-left: 20px;
+}
+.explain span{
+	margin-right: 16px;
+	color:#666
+}
+.explain img{
+	width:24px;
+	height: 24px;
+	vertical-align: middle;
+}
+
+.show_pic{
+	width:100%;
+	height: 500px;
+}
+.show_pic .imgs{
+	width:40%;
+	height:100%;
+
+}
+.show_pic .imgs img{
+	margin-top: 30%;
+	margin-left: 30%;
+}
+.show_pic #analysis_pic{
+	width:60%;
+	height:100%;
+}
+#pic{
+	width:100%;
+	height: 500px;
+}
+
+.back {
+	color: #00ada7;
+	margin:0 20px;
+	font-size: 16px;
+	line-height: 36px;
+	cursor: pointer;
+}

@@ -1,0 +1,113 @@
+
+.cl {
+	clear: both;
+}
+.paper-info1{
+	text-align: center;
+	margin:25px 0;
+}
+.paper-info1 .title{
+	font-size: 18px;
+	font-family: '宋体';
+	font-weight: bold;
+}
+.paper-info1 span{
+	color: #fc7c73;
+	margin-left: 45px;
+	font-family: '宋体'
+}
+.question-list{
+	margin:20px 30px;
+}
+.question-list .question-item{
+	padding: 10px;
+	border:1px solid #ccc;
+	margin:15px 0;s
+}
+.question-list .question-item span{
+	color: #666;
+	margin-right: 30px;
+}
+.question-list .question-item span.score{
+	margin-right: 0
+}
+.question-list .question-item span input{
+	width:45px;
+	margin-left: 10px;
+}
+.question-list .question-item .ques-info{
+	margin: 5px 0px;
+	width:80%;
+}
+.answer{
+	width:80%;
+	clear:both
+}
+.question-list .question-item .ques-info p{
+	line-height: 30px;
+}
+.question-list .question-item .oper p{
+	margin:40px 0;
+	background: #f2f2f2;
+	border:1px solid #ccc;
+	width:50px;
+	text-align: center;
+	cursor: pointer;
+}
+.ques-setting{
+	margin:10px 0;
+}
+.ques-setting table{
+	border:1px solid #ccc;
+	width: 100%;
+	/*text-align: center;*/
+}
+.ques-setting table tr{
+	border:1px solid #ccc;
+	height: 36px;
+}
+.ques-setting table tr td{
+	padding:5px;
+}
+.ques-setting table tr td.count{
+	color: #3896d9;
+}
+.ques-setting table tr td.score{
+	width: 38%;
+}
+.ques-setting table tr td.score i{
+	color: #fd817f;
+}
+.konwledge{
+	margin-top:30px;
+	height: 32px;
+	background:#93bb39;
+	color: #fff;
+	text-align: center;
+	line-height: 32px;
+}
+
+
+.stage_choice span{
+	display: inline-block;
+	color:#323232;
+	margin-right: 10px;
+	line-height:32px;
+	font-weight: 800;
+	width:5%;
+}
+.stage_choice li{
+	float:left;
+	padding:5px 10px;
+	color:#686868;
+	cursor:pointer;
+}
+.stage_choice li.active{
+	background:#00ada7;
+	color:#fff;
+	font-weight: 800;
+}
+
+.stage_choice{
+	padding:2px 0 12px 0;
+}

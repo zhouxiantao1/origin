@@ -1,0 +1,212 @@
+
+.message{
+	background:#f2f2f2;
+	padding:10px 20px;
+	margin:14px 20px;
+	line-height: 50px;
+}
+
+.message span{
+	display: inline-block;
+}
+.message  img,.message span{
+	vertical-align: middle;
+	float:left;
+}
+.message  img{
+	margin-right: 30px;
+	left: 0px;
+    top: 0px;
+    width: 40px;
+    height: 40px;
+}
+.message span.name{
+	width:26%;
+}
+.behavior span {
+	color:#0075b1;
+	cursor:pointer;
+}
+.behavior span.name{
+	margin-left: 80px;
+}
+
+.message span.xh{
+	width:28%;
+}
+.message span.grade{
+	width:19%;
+}
+
+
+.select_project{
+	margin:20px;
+}
+.select_project span{
+	display: inline-block;
+	width:80px;
+	text-align: right;
+	line-height: 34px;
+}
+.select_project select{
+	width:120px;
+	height: 34px;
+	box-sizing: border-box;
+	padding:5px 0;
+	margin-right: 30px;
+}
+
+.grade_list{
+	margin:20px 20px;
+}
+.grade_list .list_one{
+	border:1px solid #e5e5e5;
+	margin:30px 0;
+}
+.grade_list .list_one .term{
+	height: 42px;
+	line-height: 42px;
+	background:#f2f2f2;
+}
+.list_one .term input,.list_one .subject input{
+	margin:0 16px 0 10px;
+	vertical-align: middle;	
+}
+
+.list_one .term span{
+	display:inline-block;
+	margin-right: 34px;
+	vertical-align: middle;
+}
+.list_one .term span.time{
+	width: 28%;
+}
+
+.subject{
+	height:50px;
+	line-height: 50px;
+	border-top:1px solid #e5e5e5;
+}
+.list_one .subject .sub{
+	width: 42%;
+} 
+.list_one .subject input{
+	margin-top: 18px;
+}
+.list_one .subject .sub span{
+	margin-right: 20px;
+}
+.list_one .subject .sub span.color,.analysis_report{
+	color:#00ada7
+}
+.all,.time_long,.analysis_report{
+	margin-right: 34px;
+}
+
+.list_reduce {
+    background: #e4e4e4;
+    color: #333;
+    padding: 16px 14px;
+}
+.list_reduce  p{
+	text-align: center;
+	float:left;
+}
+.list_reduce .time{
+	width:26%;
+}
+.list_reduce .time i{
+	margin:0 6px;
+}
+.list_reduce .address{
+	width: 18%;
+	margin-left: 113px;
+}
+.list_reduce .address_a{
+	width: 23%;
+}
+
+.list_reduce .status_a{
+	width: 10%;
+    margin-left: 30px;
+}
+
+.list_reduce .create{
+	margin-left:16px;
+}
+.list_reduce .an_report{
+	margin-left: 10px;
+}
+.list_reduce .create,.list_reduce .status,.list_reduce .exam{
+	width:10%;
+}
+.list_item {
+    padding: 16px 0;
+    border-top: 1px solid #e5e5e5;
+}
+.list_item{
+	padding:16px  0;
+	border-top:1px solid #e5e5e5;
+}
+.list_item p{
+	float: left;
+	text-align: center;
+}
+.list_item .time{
+	width:12%;
+}
+.list_item .time_a{
+	width:12%;
+	color: #0075b1;
+	cursor: pointer;
+}
+.list_item .time_b{
+	width:12%;
+	color: #999;
+}
+
+
+.list_item .time span{
+	margin:0 16px;
+}
+.list_item .address{
+	width:26%;
+}
+.list_item .create,.list_item .status{
+	width:12%;
+	margin-left:10px;
+}
+.list_item .status{
+	margin-right:15px;
+}
+.analysis_xueye {
+    border: 1px solid #e5e5e5;
+    margin: 30px 0px;
+}
+
+.check {
+    width: 90px;
+    height: 32px;
+    line-height: 32px;
+    color: #fff;
+    background: #0075b1;
+    margin-right: 20px;
+    float: right;
+    cursor: pointer;
+}
+
+a {
+    color: inherit;
+}
+
+.answer_msg {
+    padding: 90px 10px;
+    border: 1px solid #e5e5e5;
+    text-align: center;
+    color: #656161;
+    font-size: 12px;
+    margin-top: 15px;
+}
+.mid {
+    min-height: 730px;
+}

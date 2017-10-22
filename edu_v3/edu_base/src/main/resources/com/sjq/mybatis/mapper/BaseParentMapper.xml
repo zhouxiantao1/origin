@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sjq.parent.dao.BaseParentMapper">
+	<resultMap id="BaseResultMap" type="com.sjq.parent.vo.BaseParentVo">
+  		<result column="id" property="id" jdbcType="BIGINT" />
+  		<result column="create_name" property="createName" jdbcType="VARCHAR" />
+  		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  		<result column="mod_name" property="modName" jdbcType="VARCHAR" />
+  		<result column="mod_time" property="modTime" jdbcType="TIMESTAMP" />
+  		<result column="delflag" property="delflag" jdbcType="CHAR" />
+  		<result column="name" property="name" jdbcType="VARCHAR" />
+  		<result column="student_id" property="studentId" jdbcType="BIGINT" />
+  		<result column="sex" property="sex" jdbcType="CHAR" />
+  		<result column="relation" property="relation" jdbcType="VARCHAR" />
+  		<result column="phone" property="phone" jdbcType="BIGINT" />
+  		<result column="email" property="email" jdbcType="VARCHAR" />
+  		<result column="remake" property="remake" jdbcType="VARCHAR" />
+  		<result column="user_id" property="userId" jdbcType="BIGINT" />
+  		
+  		<association property="baseStudentVo" column="student_id"
+			select="com.sjq.student.dao.BaseStudentMapper.queryBaseStudentById"></association>
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+  		id,
+  		create_name,
+  		create_time,
+  		mod_name,
+  		mod_time,
+  		delflag,
+  		name,
+  		student_id,
+  		sex,
+  		relation,
+  		phone,
+  		email,
+  		remake,
+  		user_id
+	</sql>
+	
+	<!-- 查询所有的基础模块-家长信息信息 -->
+	<select id="queryAllBaseParent" resultMap="BaseResultMap" >
+ 	   select 
+       <include refid="Base_Column_List" />
+       from edu_base_parent
+       where delflag='0'
+    </select>
+	
+	<!-- 根据userId查询基础模块-家长信息信息 -->
+	<select id="queryBaseParentByUserId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_base_parent
+       where delflag='0' and user_id =#{userId,jdbcType=BIGINT}
+    </select>
+    
+	
+	<!-- 根据ID查询基础模块-家长信息信息 -->
+	<select id="queryBaseParentById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_base_parent
+       where delflag='0' and id =#{id,jdbcType=BIGINT}
+    </select>
+    
+					
+	<!-- 根据条件查询所有基础模块-家长信息信息 -->
+	<select id="queryBaseParentBySearch" resultMap="BaseResultMap"  parameterType="java.util.Map">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_base_parent
+       where 1=1 
+  	   <if test="id != '' and id != null">
+       		and id = #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name = #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time = #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name = #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time = #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag = #{delflag}
+       </if>
+  	   <if test="name != '' and name != null">
+       		and name = #{name}
+       </if>
+  	   <if test="studentId != '' and studentId != null">
+       		and student_id = #{studentId}
+       </if>
+  	   <if test="sex != '' and sex != null">
+       		and sex = #{sex}
+       </if>
+  	   <if test="relation != '' and relation != null">
+       		and relation = #{relation}
+       </if>
+  	   <if test="phone != '' and phone != null">
+       		and phone = #{phone}
+       </if>
+  	   <if test="email != '' and email != null">
+       		and email = #{email}
+       </if>
+  	   <if test="remake != '' and remake != null">
+       		and remake = #{remake}
+       </if>
+  	   <if test="userId != '' and userId != null">
+       		and user_id = #{userId}
+       </if>
+	</select>
+	
+					
+	<!-- 根据条件查询基础模块-家长信息count总数 -->
+	<select id="queryBaseParentTotalCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(1) from
+		edu_base_parent where delflag='0'
+  	   <if test="id != '' and id != null">
+       		and id =  #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name =  #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time =  #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name =  #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time =  #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag =  #{delflag}
+       </if>
+  	   <if test="name != '' and name != null">
+       		and name =  #{name}
+       </if>
+  	   <if test="studentId != '' and studentId != null">
+       		and student_id =  #{studentId}
+       </if>
+  	   <if test="sex != '' and sex != null">
+       		and sex =  #{sex}
+       </if>
+  	   <if test="relation != '' and relation != null">
+       		and relation =  #{relation}
+       </if>
+  	   <if test="phone != '' and phone != null">
+       		and phone =  #{phone}
+       </if>
+  	   <if test="email != '' and email != null">
+       		and email =  #{email}
+       </if>
+  	   <if test="remake != '' and remake != null">
+       		and remake =  #{remake}
+       </if>
+  	   <if test="userId != '' and userId != null">
+       		and user_id =  #{userId}
+       </if>
+	</select>
+	
+
+					
+	<!-- 分页查询基础模块-家长信息 -->
+	<select id="queryBaseParentPage" resultMap="BaseResultMap"  parameterType="java.util.Map">
+		select   
+	    <include refid="Base_Column_List" />
+		from
+		edu_base_parent where delflag='0'
+  	   <if test="id != '' and id != null">
+       		and id =  #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name =  #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time =  #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name =  #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time =  #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag =  #{delflag}
+       </if>
+  	   <if test="name != '' and name != null">
+       		and name =  #{name}
+       </if>
+  	   <if test="studentId != '' and studentId != null">
+       		and student_id =  #{studentId}
+       </if>
+  	   <if test="sex != '' and sex != null">
+       		and sex =  #{sex}
+       </if>
+  	   <if test="relation != '' and relation != null">
+       		and relation =  #{relation}
+       </if>
+  	   <if test="phone != '' and phone != null">
+       		and phone =  #{phone}
+       </if>
+  	   <if test="email != '' and email != null">
+       		and email =  #{email}
+       </if>
+  	   <if test="remake != '' and remake != null">
+       		and remake =  #{remake}
+       </if>
+  	   <if test="userId != '' and userId != null">
+       		and user_id =  #{userId}
+       </if>
+  	   limit #{startRowNum},#{endRowNum}
+	</select>
+
+					
+	<!-- (删除)根据ID删除基础模块-家长信息信息 --> 
+	<delete id="deleteBaseParentById" parameterType="java.lang.Long">
+		update edu_base_parent 
+		<set> 
+	  	    <if test="modName != '' and modName != null">
+	       	mod_name =  #{modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="modTime != '' and modTime != null">
+	       	mod_time =  #{modTime,jdbcType=TIMESTAMP},
+	        </if>
+		delflag = '1'
+		</set>
+		where  id = #{id,jdbcType=BIGINT} 
+	</delete>
+	
+					
+	<!-- (增加)增加基础模块-家长信息信息 --> 
+	<insert id="insertBaseParent" parameterType="com.sjq.parent.bean.BaseParentBean">
+		insert into edu_base_parent
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	  	   <if test="id != '' and id != null">
+	       	id,
+	       </if>
+	  	   <if test="createName != '' and createName != null">
+	       	create_name,
+	       </if>
+	  	   <if test="createTime != '' and createTime != null">
+	       	create_time,
+	       </if>
+	  	   <if test="delflag != '' and delflag != null">
+	       	delflag,
+	       </if>
+	  	   <if test="name != '' and name != null">
+	       	name,
+	       </if>
+	  	   <if test="studentId != '' and studentId != null">
+	       	student_id,
+	       </if>
+	  	   <if test="sex != '' and sex != null">
+	       	sex,
+	       </if>
+	  	   <if test="relation != '' and relation != null">
+	       	relation,
+	       </if>
+	  	   <if test="phone != '' and phone != null">
+	       	phone,
+	       </if>
+	  	   <if test="email != '' and email != null">
+	       	email,
+	       </if>
+	  	   <if test="remake != '' and remake != null">
+	       	remake,
+	       </if>
+	  	   <if test="userId != '' and userId != null">
+	       	user_id,
+	       </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	  	    <if test="id != '' and id != null">
+	       		#{id,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="createName != '' and createName != null">
+	       		#{createName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="createTime != '' and createTime != null">
+	       		#{createTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != '' and delflag != null">
+	       		#{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="name != '' and name != null">
+	       		#{name,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="studentId != '' and studentId != null">
+	       		#{studentId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="sex != '' and sex != null">
+	       		#{sex,jdbcType=CHAR},
+	        </if>
+	  	    <if test="relation != '' and relation != null">
+	       		#{relation,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="phone != '' and phone != null">
+	       		#{phone,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="email != '' and email != null">
+	       		#{email,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="remake != '' and remake != null">
+	       		#{remake,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="userId != '' and userId != null">
+	       		#{userId,jdbcType=BIGINT},
+	        </if>
+		</trim>
+	</insert>
+    
+	   
+</mapper>

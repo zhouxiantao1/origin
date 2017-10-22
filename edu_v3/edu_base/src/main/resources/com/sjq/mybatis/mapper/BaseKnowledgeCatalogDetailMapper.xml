@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sjq.knowledgeCatalogDetail.dao.BaseKnowledgeCatalogDetailMapper">
+	<resultMap id="BaseResultMap" type="com.sjq.knowledgeCatalogDetail.vo.BaseKnowledgeCatalogDetailVo">
+  		<result column="id" property="id" jdbcType="BIGINT" />
+  		<result column="create_name" property="createName" jdbcType="VARCHAR" />
+  		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  		<result column="mod_name" property="modName" jdbcType="VARCHAR" />
+  		<result column="mod_time" property="modTime" jdbcType="TIMESTAMP" />
+  		<result column="delflag" property="delflag" jdbcType="CHAR" />
+  		<result column="catalogdetail_id" property="catalogdetailId" jdbcType="BIGINT" />
+  		<result column="knowledge_id" property="knowledgeId" jdbcType="BIGINT" />
+  		<result column="sort" property="sort" jdbcType="BIGINT" />
+  		
+  		<association property="bkv" column="knowledge_id" select="com.sjq.knowledge.dao.BaseKnowledgeMapper.queryBaseKnowledgeById"></association>
+		 	
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+  		id,
+  		create_name,
+  		create_time,
+  		mod_name,
+  		mod_time,
+  		delflag,
+  		catalogdetail_id,
+  		knowledge_id,
+  		sort
+	</sql>
+	
+	<!-- 查询所有的知识点目录详情信息信息 -->
+	<select id="queryAllBaseKnowledgeCatalogDetail" resultMap="BaseResultMap" >
+ 	   select 
+       <include refid="Base_Column_List" />
+       from edu_base_knowledgeCatalogDetail
+       where delflag='0'
+    </select>
+	
+	
+	<!-- 根据ID查询知识点目录详情信息信息 -->
+	<select id="queryBaseKnowledgeCatalogDetailById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_base_knowledgeCatalogDetail
+       where delflag='0' and id =#{id,jdbcType=BIGINT}
+    </select>
+    
+					
+	<!-- 根据条件查询所有知识点目录详情信息信息 -->
+	<select id="queryBaseKnowledgeCatalogDetailBySearch" resultMap="BaseResultMap"  parameterType="java.util.Map">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_base_knowledgeCatalogDetail
+       where 1=1 
+  	   <if test="id != '' and id != null">
+       		and id = #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name = #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time = #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name = #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time = #{modTime}
+       </if>
+  	    	and delflag = '0'
+  	   <if test="catalogdetailId != '' and catalogdetailId != null">
+       		and catalogdetail_id = #{catalogdetailId}
+       </if>
+  	   <if test="knowledgeId != '' and knowledgeId != null">
+       		and knowledge_id = #{knowledgeId}
+       </if>
+  	   <if test="sort != '' and sort != null">
+       		and sort = #{sort}
+       </if>
+	</select>
+	
+					
+	<!-- 根据条件查询知识点目录详情信息count总数 -->
+	<select id="queryBaseKnowledgeCatalogDetailTotalCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(1) from
+		edu_base_knowledgeCatalogDetail where delflag='0'
+  	   <if test="id != '' and id != null">
+       		and id =  #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name =  #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time =  #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name =  #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time =  #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag =  #{delflag}
+       </if>
+  	   <if test="catalogdetailId != '' and catalogdetailId != null">
+       		and catalogdetail_id =  #{catalogdetailId}
+       </if>
+  	   <if test="knowledgeId != '' and knowledgeId != null">
+       		and knowledge_id =  #{knowledgeId}
+       </if>
+  	   <if test="sort != '' and sort != null">
+       		and sort =  #{sort}
+       </if>
+	</select>
+	
+
+					
+	<!-- 分页查询知识点目录详情信息 -->
+	<select id="queryBaseKnowledgeCatalogDetailPage" resultMap="BaseResultMap"  parameterType="java.util.Map">
+		select   
+	    <include refid="Base_Column_List" />
+		from
+		edu_base_knowledgeCatalogDetail where delflag='0'
+  	   <if test="id != '' and id != null">
+       		and id =  #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name =  #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time =  #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name =  #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time =  #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag =  #{delflag}
+       </if>
+  	   <if test="catalogdetailId != '' and catalogdetailId != null">
+       		and catalogdetail_id =  #{catalogdetailId}
+       </if>
+  	   <if test="knowledgeId != '' and knowledgeId != null">
+       		and knowledge_id =  #{knowledgeId}
+       </if>
+  	   <if test="sort != '' and sort != null">
+       		and sort =  #{sort}
+       </if>
+  	   limit #{startRowNum},#{endRowNum}
+	</select>
+
+					
+	<!-- (增加)增加知识点目录详情信息信息 --> 
+	<insert id="insertBaseKnowledgeCatalogDetail" parameterType="com.sjq.knowledgeCatalogDetail.bean.BaseKnowledgeCatalogDetailBean">
+		insert into edu_base_knowledgeCatalogDetail
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	  	   <if test="id != '' and id != null">
+	       	id,
+	       </if>
+	  	   <if test="createName != '' and createName != null">
+	       	create_name,
+	       </if>
+	  	   <if test="createTime != '' and createTime != null">
+	       	create_time,
+	       </if>
+	  	   <if test="delflag != '' and delflag != null">
+	       	delflag,
+	       </if>
+	  	   <if test="catalogdetailId != '' and catalogdetailId != null">
+	       	catalogdetail_id,
+	       </if>
+	  	   <if test="knowledgeId != '' and knowledgeId != null">
+	       	knowledge_id,
+	       </if>
+	  	   <if test="sort != '' and sort != null">
+	       	sort,
+	       </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	  	    <if test="id != '' and id != null">
+	       		#{id,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="createName != '' and createName != null">
+	       		#{createName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="createTime != '' and createTime != null">
+	       		#{createTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != '' and delflag != null">
+	       		#{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="catalogdetailId != '' and catalogdetailId != null">
+	       		#{catalogdetailId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="knowledgeId != '' and knowledgeId != null">
+	       		#{knowledgeId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="sort != '' and sort != null">
+	       		#{sort,jdbcType=BIGINT},
+	        </if>
+		</trim>
+	</insert>
+    
+	   
+</mapper>

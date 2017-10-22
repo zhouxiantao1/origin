@@ -1,0 +1,99 @@
+.mid{
+	min-height: 800px;
+}
+.backs{
+	color:#666;
+	margin-right:40px;
+	font-size: 12px;
+	line-height: 36px;
+	cursor: pointer;
+}
+.backs i{
+	color: #0075b1;
+    font-weight: bold;
+    font-size:18px;
+}
+
+.next_time{
+	background:#0075b1 !important;
+}
+
+.start_doit{
+	margin:30px 50px 30px;
+}
+.start_doit h3{
+	text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.progress{
+	width:750px;
+	margin:30px auto;
+    font-size: 12px;
+}
+.progress_bar{
+	width:600px;
+	height:16px;
+	position: relative;
+	border-radius: 8px;
+	margin-right: 20px;
+	vertical-align: middle;
+	top:3px;
+}
+.progress_bar p{
+	position: absolute;
+	height:100%;
+}
+.progress_bar p.up{
+	z-index: 100;
+	background:#0075b1;
+	border-radius: 8px;
+}
+.progress_bar p.bottom{
+	z-index: 10;
+	width:100%;
+	background:#e5e5e5;
+	border-radius: 8px;    
+}
+
+.question{
+	margin-top:10px;
+	font-size: 14px;
+}
+.question h2{
+	color:#0075b1;
+	margin:10px 0;
+}
+.answer_area{
+}
+.answer_area p{
+	line-height: 30px;
+	margin:10px 0;
+}
+
+.answer_area label span,.answer_area label input{
+	vertical-align: middle;
+}
+.answer_area label input{
+	margin-right: 5px;
+}
+.answer_area .next{
+	width: 124px;
+    background: #0075b1;
+    line-height: 32px;
+    color: #fff;
+    border-radius: 16px;
+    vertical-align: middle;
+    font-size: 12px;
+    margin-right: 10px;
+    margin-top:30px;
+}
+
+.load_msg{
+	
+	padding-top:80px;
+	text-align:center;
+	color: #656161;
+    font-size: 12px;
+}

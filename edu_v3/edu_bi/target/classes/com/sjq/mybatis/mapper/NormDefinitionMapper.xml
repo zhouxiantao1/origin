@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sjq.definition.dao.NormDefinitionMapper">
+	<resultMap id="BaseResultMap" type="com.sjq.definition.vo.NormDefinitionVo">
+  		<result column="id" property="id" jdbcType="BIGINT" />
+  		<result column="create_name" property="createName" jdbcType="VARCHAR" />
+  		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  		<result column="mod_name" property="modName" jdbcType="VARCHAR" />
+  		<result column="mod_time" property="modTime" jdbcType="TIMESTAMP" />
+  		<result column="delflag" property="delflag" jdbcType="CHAR" />
+  		<result column="norm_name" property="normName" jdbcType="VARCHAR" />
+  		<result column="exam_id" property="examId" jdbcType="BIGINT" />
+  		<result column="exam_score_sum" property="examScoreSum" jdbcType="DECIMAL" />
+  		<result column="norm_desc" property="normDesc" jdbcType="VARCHAR" />
+  		<result column="calculation_method" property="calculationMethod" jdbcType="CHAR" />
+  		<association property="examInfoVo" column="exam_id" select="com.sjq.info.dao.ExamInfoMapper.queryExamInfoById"/>
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+  		id,
+  		create_name,
+  		create_time,
+  		mod_name,
+  		mod_time,
+  		delflag,
+  		norm_name,
+  		exam_id,
+  		exam_score_sum,
+  		norm_desc,
+  		calculation_method
+	</sql>
+	
+	
+	<!-- 根据ID查询常模管理-常模定义信息 -->
+	<select id="queryNormDefinitionById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_norm_definition
+       where delflag='0' and id =#{id,jdbcType=BIGINT}
+    </select>
+    
+					
+	<!-- 根据条件查询所有常模管理-常模定义信息 -->
+	<select id="queryNormDefinitionBySearch" resultMap="BaseResultMap"  parameterType="java.util.Map">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_norm_definition
+       where 1=1 
+  	   <if test="id != null">
+       		and id = #{id}
+       </if>
+  	   <if test="createName != null">
+       		and create_name = #{createName}
+       </if>
+  	   <if test="createTime != null">
+       		and create_time = #{createTime}
+       </if>
+  	   <if test="modName != null">
+       		and mod_name = #{modName}
+       </if>
+  	   <if test="modTime != null">
+       		and mod_time = #{modTime}
+       </if>
+  	   <if test="delflag != null">
+       		and delflag = #{delflag}
+       </if>
+  	   <if test="normName != null">
+       		and norm_name = #{normName}
+       </if>
+  	   <if test="examId != null">
+       		and exam_id = #{examId}
+       </if>
+  	   <if test="examScoreSum != null">
+       		and exam_score_sum = #{examScoreSum}
+       </if>
+  	   <if test="normDesc != null">
+       		and norm_desc = #{normDesc}
+       </if>
+  	   <if test="calculationMethod != null">
+       		and calculation_method = #{calculationMethod}
+       </if>
+	</select>
+	
+					
+	<!-- 根据条件查询常模管理-常模定义count总数 -->
+	<select id="queryNormDefinitionTotalCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(1) from
+		edu_norm_definition where delflag='0'
+  	   <if test="id != null">
+       		and id =  #{id}
+       </if>
+  	   <if test="createName != null">
+       		and create_name =  #{createName}
+       </if>
+  	   <if test="createTime != null">
+       		and create_time =  #{createTime}
+       </if>
+  	   <if test="modName != null">
+       		and mod_name =  #{modName}
+       </if>
+  	   <if test="modTime != null">
+       		and mod_time =  #{modTime}
+       </if>
+  	   <if test="delflag != null">
+       		and delflag =  #{delflag}
+       </if>
+  	   <if test="normName != null">
+       		and norm_name =  #{normName}
+       </if>
+  	   <if test="examId != null">
+       		and exam_id =  #{examId}
+       </if>
+  	   <if test="examScoreSum != null">
+       		and exam_score_sum =  #{examScoreSum}
+       </if>
+  	   <if test="normDesc != null">
+       		and norm_desc =  #{normDesc}
+       </if>
+  	   <if test="calculationMethod != null">
+       		and calculation_method =  #{calculationMethod}
+       </if>
+	</select>
+	
+
+					
+	<!-- 分页查询常模管理-常模定义 -->
+	<select id="queryNormDefinitionPage" resultMap="BaseResultMap"  parameterType="java.util.Map">
+		select   
+	    <include refid="Base_Column_List" />
+		from
+		edu_norm_definition where delflag='0'
+  	   <if test="id != null">
+       		and id =  #{id}
+       </if>
+  	   <if test="createName != null">
+       		and create_name =  #{createName}
+       </if>
+  	   <if test="createTime != null">
+       		and create_time =  #{createTime}
+       </if>
+  	   <if test="modName != null">
+       		and mod_name =  #{modName}
+       </if>
+  	   <if test="modTime != null">
+       		and mod_time =  #{modTime}
+       </if>
+  	   <if test="delflag != null">
+       		and delflag =  #{delflag}
+       </if>
+  	   <if test="normName != null">
+       		and norm_name =  #{normName}
+       </if>
+  	   <if test="examId != null">
+       		and exam_id =  #{examId}
+       </if>
+  	   <if test="examScoreSum != null">
+       		and exam_score_sum =  #{examScoreSum}
+       </if>
+  	   <if test="normDesc != null">
+       		and norm_desc =  #{normDesc}
+       </if>
+  	   <if test="calculationMethod != null">
+       		and calculation_method =  #{calculationMethod}
+       </if>
+  	   limit #{startRowNum},#{endRowNum}
+	</select>
+
+					
+	<!-- (删除)根据ID删除常模管理-常模定义信息 --> 
+	<delete id="deleteNormDefinitionById" parameterType="java.lang.Long">
+		update edu_norm_definition 
+		<set> 
+	  	    <if test="modName != null">
+	       	mod_name =  #{modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="modTime != null">
+	       	mod_time =  #{modTime,jdbcType=TIMESTAMP},
+	        </if>
+		delflag = '1'
+		</set>
+		where  id = #{id,jdbcType=BIGINT} 
+	</delete>
+	
+					
+	<!-- (删除)根据条件删除常模管理-常模定义信息  -->
+	<delete id="deleteNormDefinitionBySearch" parameterType="java.util.Map">
+		update 
+		edu_norm_definition
+		<set> 
+	  	    <if test="bean.modName != null">
+	       	mod_name =  #{bean.modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="bean.modTime != null">
+	       	mod_time =  #{bean.modTime,jdbcType=TIMESTAMP},
+	        </if>
+		delflag = '1'
+		</set>
+		where 1=1
+  	   <if test="search.id != null">
+       		and id =  #{search.id}
+       </if>
+  	   <if test="search.createName != null">
+       		and create_name =  #{search.createName}
+       </if>
+  	   <if test="search.createTime != null">
+       		and create_time =  #{search.createTime}
+       </if>
+  	   <if test="search.modName != null">
+       		and mod_name =  #{search.modName}
+       </if>
+  	   <if test="search.modTime != null">
+       		and mod_time =  #{search.modTime}
+       </if>
+  	   <if test="search.delflag != null">
+       		and delflag =  #{search.delflag}
+       </if>
+  	   <if test="search.normName != null">
+       		and norm_name =  #{search.normName}
+       </if>
+  	   <if test="search.examId != null">
+       		and exam_id =  #{search.examId}
+       </if>
+  	   <if test="search.examScoreSum != null">
+       		and exam_score_sum =  #{search.examScoreSum}
+       </if>
+  	   <if test="search.normDesc != null">
+       		and norm_desc =  #{search.normDesc}
+       </if>
+  	   <if test="search.calculationMethod != null">
+       		and calculation_method =  #{search.calculationMethod}
+       </if>
+	</delete>
+	
+					
+	<!-- (增加)增加常模管理-常模定义信息 --> 
+	<insert id="insertNormDefinition" useGeneratedKeys="true" keyProperty="id" parameterType="com.sjq.definition.bean.NormDefinitionBean">
+		insert into edu_norm_definition
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	  	   <if test="id != null">
+	       	id,
+	       </if>
+	  	   <if test="createName != null">
+	       	create_name,
+	       </if>
+	  	   <if test="createTime != null">
+	       	create_time,
+	       </if>
+	  	   <if test="delflag != null">
+	       	delflag,
+	       </if>
+	  	   <if test="normName != null">
+	       	norm_name,
+	       </if>
+	  	   <if test="examId != null">
+	       	exam_id,
+	       </if>
+	  	   <if test="examScoreSum != null">
+	       	exam_score_sum,
+	       </if>
+	  	   <if test="normDesc != null">
+	       	norm_desc,
+	       </if>
+	  	   <if test="calculationMethod != null">
+	       	calculation_method,
+	       </if>
+	       <if test="gradeId != null">
+	       	grade_id,
+	       </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	  	    <if test="id != null">
+	       		#{id,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="createName != null">
+	       		#{createName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="createTime != null">
+	       		#{createTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != null">
+	       		#{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="normName != null">
+	       		#{normName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="examId != null">
+	       		#{examId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="examScoreSum != null">
+	       		#{examScoreSum,jdbcType=DECIMAL},
+	        </if>
+	  	    <if test="normDesc != null">
+	       		#{normDesc,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="calculationMethod != null">
+	       		#{calculationMethod,jdbcType=CHAR},
+	        </if>
+	         <if test="gradeId != null">
+	       		#{gradeId,jdbcType=BIGINT},
+	        </if>
+		</trim>
+	</insert>
+	
+	<select id="queryNormBySearchTotalCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(1) from
+		edu_norm_definition where delflag='0'
+  	   <if test="gradeId != null">
+       		and grade_id =  #{gradeId}
+       </if>
+  	   <if test="startTime != null and endTime != null">
+       		and unix_timestamp(create_time) > unix_timestamp(#{startTime}) and unix_timestamp(#{endTime}) > unix_timestamp(create_time)
+       </if>
+  	   <if test="normName != null and normName != ''">
+       		and norm_name =  #{normName}
+       </if>
+	</select>
+	
+
+					
+	<!-- 分页查询常模管理-常模定义 -->
+	<select id="queryNormDefinitionPageBySearch" resultMap="BaseResultMap"  parameterType="java.util.Map">
+		select   
+	    <include refid="Base_Column_List" />
+		from
+		edu_norm_definition where delflag='0'
+  	   <if test="gradeId != null">
+       		and grade_id =  #{gradeId}
+       </if>
+  	   <if test="startTime != null and endTime != null">
+       		and unix_timestamp(create_time) >  unix_timestamp(#{startTime}) and unix_timestamp(#{endTime}) > unix_timestamp(create_time)
+       </if>
+  	   <if test="normName != null">
+       		and norm_name =  #{normName}
+       </if>
+  	   limit #{startRowNum},#{endRowNum}
+	</select>
+    
+	   
+</mapper>

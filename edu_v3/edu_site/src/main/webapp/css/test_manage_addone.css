@@ -1,0 +1,199 @@
+
+.add_name{
+	margin:24px 20px 26px 20px;
+}
+.add_name input{
+	width:1142px;
+	border:1px solid #b3d0de;
+	padding:8px 0;
+	text-indent: 5px;
+}
+
+
+.exam_set{
+	margin:0 20px 10px 20px;
+	font:14px '宋体';
+	color:#333;
+}
+.exam_detail{
+	margin:0 20px;
+	border:1px solid #ccc;
+	padding-left: 18px;
+	color:#333;
+	margin-bottom: 20px;
+}
+.exam_detail span{
+	display: inline-block;
+	width:90px;
+	margin-right: 15px;
+	color:#000;
+	text-align: right;
+}
+
+.exam_detail em{
+	display: inline-block;
+	width:90px;
+	color:#000;
+}
+
+.exam_detail span1{
+	display: inline-block;
+	width:140px;
+	margin-right: 15px;
+	color:#000;
+	text-align: right;
+}
+
+.exam_way{
+	margin:30px 0;
+}
+.exam_way label input,.exam_way label i,.exam_way span{
+	vertical-align: middle;
+}
+.exam_way label input{
+	margin-right: 5px;
+}
+.exam_way label.lb_1{
+	margin-right: 60px;
+}
+
+.exam_sub {
+	width:88%;
+}
+.exam_sub li{
+	float:left;
+	padding:3px 14px;
+	text-align: center;
+	cursor: pointer;
+}
+.exam_sub li.active{
+	background : #4dbcfe;
+	color:#fff;
+}
+
+.test_time{
+	margin-top:32px;
+	margin-bottom: 30px;
+}
+.time_box{
+	width:80%;
+	border:1px solid #ccc;
+	padding:20px;
+}
+
+.time_box p.kssj{
+	margin-bottom: 16px;
+}
+.time_box .date,.time_box .min{
+	width:220px;
+	//margin-right: 30px;
+	padding:3px 0;
+	text-indent: 3px;
+}
+.time_box .clock{
+	width:220px;
+	padding:3px 0;
+	text-indent: 3px;
+}
+
+.test_address input{
+	width:945px;
+	padding:5px 0;
+	text-indent: 3px;
+	text-align: left;
+}
+
+.test_msg{
+	margin-top:30px;
+	margin-bottom: 45px;
+}
+.test_msg .msg,.test_intreduce .daokao{
+	width:945px;
+	min-height:160px;
+	border:1px solid #ccc;
+	padding:4px;
+	text-align: left;
+}
+
+
+.select_paper{
+	margin:0 20px;
+	height:40px;
+	line-height: 40px;
+	margin-top:8px;
+	background:#f2f2f2;
+	padding-left: 24px;
+}
+.select_paper span{
+	color:#f4662f;
+}
+
+.paper_name{
+	margin:20px 20px 14px 20px;
+}
+
+.paper_name span{
+	display: inline-block;
+	margin-right: 6px;
+}
+.paper_name select{
+	padding:6px 0;
+	margin-right: 32px;
+}
+.paper_name .pp_name{
+	width:210px;
+	height:30px;
+	margin-right: 40px;
+}
+.paper_name select.xq_select{
+	width:170px;
+}
+.paper_name select.xk_select,.paper_name select.nj_select{
+	width:130px;
+}
+.paper_name .check{
+	width:100px;
+	height:34px;
+	background:#2fa6ff;
+	color:#fff;
+	margin-left: 20px;
+}
+
+.list_reduce{
+	height:36px;
+	line-height: 36px;
+	background: #e5e5e5;
+}
+
+.paper_list span{
+	text-align: center;
+	display: inline-block;
+	width:92px;
+}
+.paper_list input{
+	width:50px;
+	
+}
+.paper_list .p_name{
+	width:24%;
+}
+
+.paper_one{
+	height:42px;
+	line-height: 42px;
+	border-top:1px solid #e5e5e5;
+}
+.paper_one .p_name{
+	color:#009965;
+}
+.paper_one .operation{
+	color:#2fa6ff;
+}
+
+.test_teacher,.test_name{
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+.test_teacher label{
+	    margin-right: 20px;
+}

@@ -1,0 +1,473 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sjq.info.dao.PapersInfoMapper">
+	<resultMap id="BaseResultMap" type="com.sjq.info.vo.PapersInfoVo">
+  		<result column="id" property="id" jdbcType="BIGINT" />
+  		<result column="create_name" property="createName" jdbcType="VARCHAR" />
+  		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  		<result column="mod_name" property="modName" jdbcType="VARCHAR" />
+  		<result column="mod_time" property="modTime" jdbcType="TIMESTAMP" />
+  		<result column="delflag" property="delflag" jdbcType="CHAR" />
+  		<result column="paper_name" property="paperName" jdbcType="VARCHAR" />
+  		<result column="paper_type" property="paperType" jdbcType="CHAR" />
+  		<result column="subject_id" property="subjectId" jdbcType="BIGINT" />
+  		<result column="grade_id" property="gradeId" jdbcType="BIGINT" />
+  		<result column="is_public" property="isPublic" jdbcType="CHAR" />
+  		<result column="test_time" property="testTime" jdbcType="BIGINT" />
+  		<result column="total_quantity" property="totalQuantity" jdbcType="BIGINT" />
+  		<result column="total_score" property="totalScore" jdbcType="BIGINT" />
+  		<result column="is_release" property="isRelease" jdbcType="CHAR" />
+  		<result column="status" property="status" jdbcType="CHAR" />
+  		<result column="remark" property="remark" jdbcType="VARCHAR" />
+  		<result column="paper_difficulty" property="paperDifficulty" jdbcType="DECIMAL" />		
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+  		id,
+  		create_name,
+  		create_time,
+  		mod_name,
+  		mod_time,
+  		delflag,
+  		paper_name,
+  		paper_type,
+  		subject_id,
+  		grade_id,
+  		is_public,
+  		test_time,
+  		total_quantity,
+  		total_score,
+  		is_release,
+  		status,
+  		remark,
+  		paper_difficulty
+	</sql>
+	
+	<resultMap id="QueryAllPapersResultMap" type="com.sjq.info.vo.PapersInfoVo">
+  		<result column="id" property="id" jdbcType="BIGINT" />
+  		<result column="create_name" property="createName" jdbcType="VARCHAR" />
+  		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  		<result column="mod_name" property="modName" jdbcType="VARCHAR" />
+  		<result column="mod_time" property="modTime" jdbcType="TIMESTAMP" />
+  		<result column="delflag" property="delflag" jdbcType="CHAR" />
+  		<result column="paper_name" property="paperName" jdbcType="VARCHAR" />
+  		<result column="paper_type" property="paperType" jdbcType="CHAR" />
+  		<result column="subject_id" property="subjectId" jdbcType="BIGINT" />
+  		<result column="grade_id" property="gradeId" jdbcType="BIGINT" />
+  		<result column="is_public" property="isPublic" jdbcType="CHAR" />
+  		<result column="test_time" property="testTime" jdbcType="BIGINT" />
+  		<result column="total_quantity" property="totalQuantity" jdbcType="BIGINT" />
+  		<result column="total_score" property="totalScore" jdbcType="BIGINT" />
+  		<result column="is_release" property="isRelease" jdbcType="CHAR" />
+  		<result column="status" property="status" jdbcType="CHAR" />
+  		<result column="remark" property="remark" jdbcType="VARCHAR" />
+  		<result column="paper_difficulty" property="paperDifficulty" jdbcType="DECIMAL" />
+  		<association property="bsb" column="subject_id" select="com.sjq.subject.dao.BaseSubjectMapper.queryBaseSubjectById"/>
+  		<association property="bgv" column="grade_id" select="com.sjq.grade.dao.BaseGradeMapper.queryBaseGradeById"/>
+	</resultMap>
+	<!-- 查询所有的试卷模块-试卷信息信息 -->
+	<select id="queryAllPapersInfo" resultMap="QueryAllPapersResultMap" >
+ 	   select 
+       <include refid="Base_Column_List" />
+       from edu_papers_info
+       where delflag='0'
+    </select>
+	
+	<!-- 根据ID查询试卷模块-试卷信息信息 -->
+	<select id="queryPapersInfoById" resultMap="QueryAllPapersResultMap" parameterType="java.lang.Long">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_papers_info
+       where delflag='0' and id =#{id,jdbcType=BIGINT}
+    </select>
+					
+	<!-- 根据条件查询所有试卷模块-试卷信息信息 -->
+	<select id="queryPapersInfoBySearch" resultMap="BaseResultMap"  parameterType="java.util.Map">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_papers_info
+       where 1=1 
+  	   <if test="id != '' and id != null">
+       		and id = #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name = #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time = #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name = #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time = #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag = #{delflag}
+       </if>
+  	   <if test="paperName != '' and paperName != null">
+       		and paper_name = #{paperName}
+       </if>
+  	   <if test="paperType != '' and paperType != null">
+       		and paper_type = #{paperType}
+       </if>
+  	   <if test="subjectId != '' and subjectId != null">
+       		and subject_id = #{subjectId}
+       </if>
+  	   <if test="gradeId != '' and gradeId != null">
+       		and grade_id = #{gradeId}
+       </if>
+  	   <if test="isPublic != '' and isPublic != null">
+       		and is_public = #{isPublic}
+       </if>
+  	   <if test="testTime != '' and testTime != null">
+       		and test_time = #{testTime}
+       </if>
+  	   <if test="totalQuantity != '' and totalQuantity != null">
+       		and total_quantity = #{totalQuantity}
+       </if>
+  	   <if test="totalScore != '' and totalScore != null">
+       		and total_score = #{totalScore}
+       </if>
+  	   <if test="isRelease != '' and isRelease != null">
+       		and is_release = #{isRelease}
+       </if>
+  	   <if test="status != '' and status != null">
+       		and status = #{status}
+       </if>
+  	   <if test="remark != '' and remark != null">
+       		and remark = #{remark}
+       </if>
+  	   <if test="paperDifficulty != '' and paperDifficulty != null">
+       		and paper_difficulty = #{paperDifficulty}
+       </if>
+	</select>
+	
+					
+	<!-- 根据条件查询试卷模块-试卷信息count总数 -->
+	<select id="queryPapersInfoTotalCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(1) from
+		edu_papers_info where delflag='0'
+  	   <if test="id != '' and id != null">
+       		and id =  #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name =  #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time =  #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name =  #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time =  #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag =  #{delflag}
+       </if>
+  	   <if test="paperName != '' and paperName != null">
+       		and paper_name =  #{paperName}
+       </if>
+  	   <if test="paperType != '' and paperType != null">
+       		and paper_type =  #{paperType}
+       </if>
+  	   <if test="subjectId != '' and subjectId != null">
+       		and subject_id =  #{subjectId}
+       </if>
+  	   <if test="gradeId != '' and gradeId != null">
+       		and grade_id =  #{gradeId}
+       </if>
+  	   <if test="isPublic != '' and isPublic != null">
+       		and is_public =  #{isPublic}
+       </if>
+  	   <if test="testTime != '' and testTime != null">
+       		and test_time =  #{testTime}
+       </if>
+  	   <if test="totalQuantity != '' and totalQuantity != null">
+       		and total_quantity =  #{totalQuantity}
+       </if>
+  	   <if test="totalScore != '' and totalScore != null">
+       		and total_score =  #{totalScore}
+       </if>
+  	   <if test="isRelease != '' and isRelease != null">
+       		and is_release =  #{isRelease}
+       </if>
+  	   <if test="status != '' and status != null">
+       		and status =  #{status}
+       </if>
+  	   <if test="remark != '' and remark != null">
+       		and remark =  #{remark}
+       </if>
+  	   <if test="paperDifficulty != '' and paperDifficulty != null">
+       		and paper_difficulty =  #{paperDifficulty}
+       </if>
+       <if test="examType != '' and examType != null">
+       		and exam_type =  #{examType}
+       </if>
+       <if test="isSubjective != '' and isSubjective != null">
+       		and is_subjective =  #{isSubjective}
+       </if>
+	</select>
+	
+
+					
+	<!-- 分页查询试卷模块-试卷信息 -->
+	<select id="queryPapersInfoPage" resultMap="QueryAllPapersResultMap"  parameterType="java.util.Map">
+		select   
+	    <include refid="Base_Column_List" />
+		from
+		edu_papers_info where delflag='0'
+  	   <if test="id != '' and id != null">
+       		and id =  #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name =  #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time =  #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name =  #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time =  #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag =  #{delflag}
+       </if>
+  	   <if test="paperName != '' and paperName != null">
+       		and paper_name =  #{paperName}
+       </if>
+  	   <if test="paperType != '' and paperType != null">
+       		and paper_type =  #{paperType}
+       </if>
+  	   <if test="subjectId != '' and subjectId != null">
+       		and subject_id =  #{subjectId}
+       </if>
+  	   <if test="gradeId != '' and gradeId != null">
+       		and grade_id =  #{gradeId}
+       </if>
+  	   <if test="isPublic != '' and isPublic != null">
+       		and is_public =  #{isPublic}
+       </if>
+  	   <if test="testTime != '' and testTime != null">
+       		and test_time =  #{testTime}
+       </if>
+  	   <if test="totalQuantity != '' and totalQuantity != null">
+       		and total_quantity =  #{totalQuantity}
+       </if>
+  	   <if test="totalScore != '' and totalScore != null">
+       		and total_score =  #{totalScore}
+       </if>
+  	   <if test="isRelease != '' and isRelease != null">
+       		and is_release =  #{isRelease}
+       </if>
+  	   <if test="status != '' and status != null">
+       		and status =  #{status}
+       </if>
+  	   <if test="remark != '' and remark != null">
+       		and remark =  #{remark}
+       </if>
+  	   <if test="paperDifficulty != '' and paperDifficulty != null">
+       		and paper_difficulty =  #{paperDifficulty}
+       </if>
+       <if test="examType != '' and examType != null">
+       		and exam_type =  #{examType}
+       </if>
+       <if test="isSubjective != '' and isSubjective != null">
+       		and is_subjective =  #{isSubjective}
+       </if>
+  	   limit #{startRowNum},#{endRowNum}
+	</select>
+
+					
+	<!-- (删除)根据ID删除试卷模块-试卷信息信息 --> 
+	<delete id="deletePapersInfoById" parameterType="java.lang.Long">
+		update edu_papers_info 
+		<set> 
+	  	    <if test="modName != '' and modName != null">
+	       	mod_name =  #{modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="modTime != '' and modTime != null">
+	       	mod_time =  #{modTime,jdbcType=TIMESTAMP},
+	        </if>
+		delflag = '1'
+		</set>
+		where  id = #{id,jdbcType=BIGINT} 
+	</delete>
+	
+					
+	<!-- (更新)根据ID更新所有试卷模块-试卷信息信息 -->
+	<update id="updatePapersInfoById" parameterType="com.sjq.info.bean.PapersInfoBean" >
+		update edu_papers_info
+		<set>
+	  	    <if test="modName != '' and modName != null">
+	       	mod_name =  #{modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="modTime != '' and modTime != null">
+	       	mod_time =  #{modTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != '' and delflag != null">
+	       	delflag =  #{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="paperName != '' and paperName != null">
+	       	paper_name =  #{paperName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="paperType != '' and paperType != null">
+	       	paper_type =  #{paperType,jdbcType=CHAR},
+	        </if>
+	  	    <if test="subjectId != '' and subjectId != null">
+	       	subject_id =  #{subjectId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="gradeId != '' and gradeId != null">
+	       	grade_id =  #{gradeId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="isPublic != '' and isPublic != null">
+	       	is_public =  #{isPublic,jdbcType=CHAR},
+	        </if>
+	  	    <if test="testTime != '' and testTime != null">
+	       	test_time =  #{testTime,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="totalQuantity != '' and totalQuantity != null">
+	       	total_quantity =  #{totalQuantity,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="totalScore != '' and totalScore != null">
+	       	total_score =  #{totalScore,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="isRelease != '' and isRelease != null">
+	       	is_release =  #{isRelease,jdbcType=CHAR},
+	        </if>
+	  	    <if test="status != '' and status != null">
+	       	status =  #{status,jdbcType=CHAR},
+	        </if>
+	  	    <if test="remark != '' and remark != null">
+	       	remark =  #{remark,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="paperDifficulty != '' and paperDifficulty != null">
+	       	paper_difficulty =  #{paperDifficulty,jdbcType=DECIMAL},
+	        </if>
+		</set>
+		where 1 = 1 and id = #{id,jdbcType=BIGINT} 
+	</update>
+	
+					
+	<!-- (增加)增加试卷模块-试卷信息信息 --> 
+	<insert id="insertPapersInfo" useGeneratedKeys="true" keyProperty="id" parameterType="com.sjq.info.bean.PapersInfoBean">
+		insert into edu_papers_info
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	  	   <if test="id != '' and id != null">
+	       	id,
+	       </if>
+	  	   <if test="createName != '' and createName != null">
+	       	create_name,
+	       </if>
+	  	   <if test="createTime != '' and createTime != null">
+	       	create_time,
+	       </if>
+	  	   <if test="delflag != '' and delflag != null">
+	       	delflag,
+	       </if>
+	  	   <if test="paperName != '' and paperName != null">
+	       	paper_name,
+	       </if>
+	  	   <if test="paperType != '' and paperType != null">
+	       	paper_type,
+	       </if>
+	  	   <if test="subjectId != '' and subjectId != null">
+	       	subject_id,
+	       </if>
+	  	   <if test="gradeId != '' and gradeId != null">
+	       	grade_id,
+	       </if>
+	  	   <if test="isPublic != '' and isPublic != null">
+	       	is_public,
+	       </if>
+	  	   <if test="testTime != '' and testTime != null">
+	       	test_time,
+	       </if>
+	  	   <if test="totalQuantity != '' and totalQuantity != null">
+	       	total_quantity,
+	       </if>
+	  	   <if test="totalScore != '' and totalScore != null">
+	       	total_score,
+	       </if>
+	  	   <if test="isRelease != '' and isRelease != null">
+	       	is_release,
+	       </if>
+	  	   <if test="status != '' and status != null">
+	       	status,
+	       </if>
+	  	   <if test="remark != '' and remark != null">
+	       	remark,
+	       </if>
+	  	   <if test="paperDifficulty != '' and paperDifficulty != null">
+	       	paper_difficulty,
+	       </if>
+	       <if test="examType != '' and examType != null">
+	       	exam_type,
+	       </if>
+	        <if test="isSubjective != '' and isSubjective != null">
+	       	is_subjective,
+	       </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	  	    <if test="id != '' and id != null">
+	       		#{id,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="createName != '' and createName != null">
+	       		#{createName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="createTime != '' and createTime != null">
+	       		#{createTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != '' and delflag != null">
+	       		#{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="paperName != '' and paperName != null">
+	       		#{paperName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="paperType != '' and paperType != null">
+	       		#{paperType,jdbcType=CHAR},
+	        </if>
+	  	    <if test="subjectId != '' and subjectId != null">
+	       		#{subjectId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="gradeId != '' and gradeId != null">
+	       		#{gradeId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="isPublic != '' and isPublic != null">
+	       		#{isPublic,jdbcType=CHAR},
+	        </if>
+	  	    <if test="testTime != '' and testTime != null">
+	       		#{testTime,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="totalQuantity != '' and totalQuantity != null">
+	       		#{totalQuantity,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="totalScore != '' and totalScore != null">
+	       		#{totalScore,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="isRelease != '' and isRelease != null">
+	       		#{isRelease,jdbcType=CHAR},
+	        </if>
+	  	    <if test="status != '' and status != null">
+	       		#{status,jdbcType=CHAR},
+	        </if>
+	  	    <if test="remark != '' and remark != null">
+	       		#{remark,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="paperDifficulty != '' and paperDifficulty != null">
+	       		#{paperDifficulty,jdbcType=DECIMAL},
+	        </if>
+	        <if test="examType != '' and examType != null">
+	       		#{examType,jdbcType=DECIMAL},
+	        </if>
+	        <if test="isSubjective != '' and isSubjective != null">
+	       		#{isSubjective,jdbcType=VARCHAR},
+	        </if>
+		</trim>
+	</insert>
+    
+	   
+</mapper>

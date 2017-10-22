@@ -1,0 +1,608 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sjq.student.dao.ExamStudentMapper">
+	<resultMap id="BaseResultMap" type="com.sjq.student.vo.ExamStudentVo">
+  		<result column="id" property="id" jdbcType="BIGINT" />
+  		<result column="create_name" property="createName" jdbcType="VARCHAR" />
+  		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  		<result column="mod_name" property="modName" jdbcType="VARCHAR" />
+  		<result column="mod_time" property="modTime" jdbcType="TIMESTAMP" />
+  		<result column="delflag" property="delflag" jdbcType="CHAR" />
+  		<result column="exam_id" property="examId" jdbcType="BIGINT" />
+  		<result column="exam_detail_id" property="examDetailId" jdbcType="BIGINT" />
+  		<result column="paper_id" property="paperId" jdbcType="BIGINT" />
+  		<result column="student_id" property="studentId" jdbcType="VARCHAR" />
+  		<result column="student_name" property="studentName" jdbcType="VARCHAR" />
+  		<result column="sex" property="sex" jdbcType="CHAR" />
+  		<result column="status" property="status" jdbcType="CHAR" />
+  		<result column="remark" property="remark" jdbcType="VARCHAR" />
+  		<result column="is_submit" property="isSubmit" jdbcType="CHAR" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+  		id,
+  		create_name,
+  		create_time,
+  		mod_name,
+  		mod_time,
+  		delflag,
+  		exam_id,
+  		exam_detail_id,
+  		paper_id,
+  		student_id,
+  		student_name,
+  		sex,
+  		status,
+  		remark,
+  		is_submit
+	</sql>
+	
+	
+	<!-- 根据ID查询线上考试-考生信息信息 -->
+	<select id="queryExamStudentById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_exam_student
+       where delflag='0' and id =#{id,jdbcType=BIGINT}
+    </select>
+    
+    <resultMap id="queryExamStudentResultMap" type="com.sjq.student.vo.ExamStudentVo">
+  		<result column="id" property="id" jdbcType="BIGINT" />
+  		<result column="create_name" property="createName" jdbcType="VARCHAR" />
+  		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  		<result column="mod_name" property="modName" jdbcType="VARCHAR" />
+  		<result column="mod_time" property="modTime" jdbcType="TIMESTAMP" />
+  		<result column="delflag" property="delflag" jdbcType="CHAR" />  		
+  		<result column="exam_id" property="examId" jdbcType="BIGINT" />
+  		<result column="exam_detail_id" property="examDetailId" jdbcType="BIGINT" />
+  		<result column="paper_id" property="paperId" jdbcType="BIGINT" />  		
+  		<result column="student_id" property="studentId" jdbcType="VARCHAR" />
+  		<result column="student_name" property="studentName" jdbcType="VARCHAR" />
+  		<result column="sex" property="sex" jdbcType="CHAR" />
+  		<result column="status" property="status" jdbcType="CHAR" />
+  		<result column="remark" property="remark" jdbcType="VARCHAR" />
+  		<result column="is_submit" property="isSubmit" jdbcType="CHAR" />
+  		<association property="examInfoVo" column="exam_id" select="com.sjq.info.dao.ExamInfoMapper.queryExamInfoById"/>
+  		<association property="examDetailVo" column="exam_detail_id" select="com.sjq.detail.dao.ExamDetailMapper.queryExamDetailById"/>
+	</resultMap>
+					
+	<!-- 根据条件查询所有线上考试-考生信息信息 -->
+	<select id="queryExamStudentBySearch" resultMap="queryExamStudentResultMap"  parameterType="java.util.Map">
+	   select 
+       	stu.id,
+  		stu.create_name,
+  		stu.create_time,
+  		stu.mod_name,
+  		stu.mod_time,
+  		stu.delflag,
+  		stu.exam_id,
+  		stu.exam_detail_id,
+  		stu.paper_id,
+  		stu.student_id,
+  		stu.student_name,
+  		stu.sex,
+  		stu.status,
+  		stu.remark,
+  		stu.is_submit
+       from edu_exam_student stu 
+       inner join edu_exam_info inf on stu.exam_id = inf.id
+       inner join edu_exam_detail det on stu.exam_detail_id = det.id
+       where 1=1 
+       <if test="studentId != null">
+       		and stu.student_id = #{studentId}
+       </if>
+       <if test="examType != null">
+       		and inf.exam_type = #{examType}
+       </if>
+       <if test="gradeId != null">
+       		and inf.grade_id = #{gradeId}
+       </if>
+       <if test="subjectId != null">
+       		and det.subject_id = #{subjectId}
+       </if>
+       <if test="examName !='' and examName != null">
+       		and inf.exam_name =  #{examName}
+       </if>
+       <if test="isSubmit != null">
+       		and stu.is_submit =  #{isSubmit}
+       </if>
+	</select>
+	
+	<resultMap id="queryDistinctExamStudentResultMap" type="com.sjq.student.vo.ExamStudentVo">
+  		<association property="examInfoVo" column="exam_id" select="com.sjq.info.dao.ExamInfoMapper.queryExamInfoById"/>
+	</resultMap>
+	
+	<select id="queryExamStudentByPageTotalCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(1) from (
+		select stu.exam_id exam_id
+		from edu_exam_student stu 
+		inner join edu_exam_info inf on stu.exam_id = inf.id 
+		where inf.delflag = '0' 
+       <if test="studentId != null">
+       		and stu.student_id = #{studentId}
+       </if>
+       <if test="examType != null">
+       		and inf.exam_type = #{examType}
+       </if>
+       <if test="gradeId != null">
+       		and inf.grade_id = #{gradeId}
+       </if>
+       <if test="examName !='' and examName != null">
+       		and inf.exam_name =  #{examName}
+       </if>
+       <if test="isSubmit != null">
+       		and stu.is_submit =  #{isSubmit}
+       </if>
+       <if test="subjectId != null">
+       		and stu.subject_id = #{subjectId}
+       </if>
+       ) z
+	</select>
+	
+	<select id="queryExamStudentByPage" resultMap="queryDistinctExamStudentResultMap"  parameterType="java.util.Map">
+	   select stu.exam_id exam_id
+		from edu_exam_student stu 
+		inner join edu_exam_info inf on stu.exam_id = inf.id 
+		where inf.delflag = '0' 
+       <if test="studentId != null">
+       		and stu.student_id = #{studentId}
+       </if>
+       <if test="examType != null">
+       		and inf.exam_type = #{examType}
+       </if>
+       <if test="gradeId != null">
+       		and inf.grade_id = #{gradeId}
+       </if>
+       <if test="examName !='' and examName != null">
+       		and inf.exam_name =  #{examName}
+       </if>
+       <if test="isSubmit != null">
+       		and stu.is_submit =  #{isSubmit}
+       </if>
+       <if test="subjectId != null">
+       		and stu.subject_id = #{subjectId}
+       </if>
+       limit #{startRowNum},#{endRowNum}
+	</select>
+	
+	<select id="queryDistinctExamStudentTotalCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(1) from (
+		select distinct stu.exam_id exam_id
+		from edu_exam_student stu 
+		inner join edu_exam_info inf on stu.exam_id = inf.id 
+		where unix_timestamp(NOW())>unix_timestamp(inf.end_time) 
+       <if test="studentId != null">
+       		and stu.student_id = #{studentId}
+       </if>
+       <if test="examType != null">
+       		and inf.exam_type = #{examType}
+       </if>
+       <if test="gradeId != null">
+       		and inf.grade_id = #{gradeId}
+       </if>
+       <if test="examName !='' and examName != null">
+       		and inf.exam_name =  #{examName}
+       </if>
+       <if test="isSubmit != null">
+       		and stu.is_submit =  #{isSubmit}
+       </if>
+       <if test="examRange == 4">
+       		and inf.exam_range = 4
+       </if>
+       <if test="examRange == 3">
+       		and inf.exam_range>2
+       </if>
+       <if test="examRange == 2">
+       		and inf.exam_range>1
+       </if>
+       <if test="districtId != null">
+       		and stu.district_id =  #{districtId}
+       </if>
+       <if test="schoolId != null">
+       		and stu.school_id =  #{schoolId}
+       </if>
+       <if test="classId != null">
+       		and stu.class_id =  #{classId}
+       </if>
+       union
+       select distinct pap.exam_id exam_id 
+       from edu_off_exam_paperscore pap
+	   inner join edu_exam_info inf on pap.exam_id = inf.id 
+	   where unix_timestamp(NOW())>unix_timestamp(inf.end_time)
+	   <if test="studentId != null">
+       		and pap.student_id = #{studentId}
+       </if>
+       <if test="examType != null">
+       		and inf.exam_type = #{examType}
+       </if>
+       <if test="gradeId != null">
+       		and inf.grade_id = #{gradeId}
+       </if>
+       <if test="examName !='' and examName != null">
+       		and inf.exam_name =  #{examName}
+       </if>
+       <if test="examRange == 4">
+       		and inf.exam_range = 4
+       </if>
+       <if test="examRange == 3">
+       		and inf.exam_range>2
+       </if>
+       <if test="examRange == 2">
+       		and inf.exam_range>1
+       </if>
+       <if test="districtId != null">
+       		and pap.district_id =  #{districtId}
+       </if>
+       <if test="schoolId != null">
+       		and pap.school_id =  #{schoolId}
+       </if>
+       <if test="classId != null">
+       		and pap.class_id =  #{classId}
+       </if>
+       ) z
+	</select>
+	
+	<select id="queryDistinctExamStudentPage" resultMap="queryDistinctExamStudentResultMap"  parameterType="java.util.Map">
+	   select distinct stu.exam_id exam_id
+		from edu_exam_student stu 
+		inner join edu_exam_info inf on stu.exam_id = inf.id 
+		where unix_timestamp(NOW())>unix_timestamp(inf.end_time) 
+       <if test="studentId != null">
+       		and stu.student_id = #{studentId}
+       </if>
+       <if test="examType != null">
+       		and inf.exam_type = #{examType}
+       </if>
+       <if test="gradeId != null">
+       		and inf.grade_id = #{gradeId}
+       </if>
+       <if test="examName !='' and examName != null">
+       		and inf.exam_name =  #{examName}
+       </if>
+       <if test="isSubmit != null">
+       		and stu.is_submit =  #{isSubmit}
+       </if>
+       <if test="examRange == 4">
+       		and inf.exam_range = 4
+       </if>
+       <if test="examRange == 3">
+       		and inf.exam_range>2
+       </if>
+       <if test="examRange == 2">
+       		and inf.exam_range>1
+       </if>
+       <if test="districtId != null">
+       		and stu.district_id =  #{districtId}
+       </if>
+       <if test="schoolId != null">
+       		and stu.school_id =  #{schoolId}
+       </if>
+       <if test="classId != null">
+       		and stu.class_id =  #{classId}
+       </if>
+       union
+       select distinct pap.exam_id exam_id 
+       from edu_off_exam_paperscore pap
+	   inner join edu_exam_info inf on pap.exam_id = inf.id 
+	   where unix_timestamp(NOW())>unix_timestamp(inf.end_time)
+	   <if test="studentId != null">
+       		and pap.student_id = #{studentId}
+       </if>
+       <if test="examType != null">
+       		and inf.exam_type = #{examType}
+       </if>
+       <if test="gradeId != null">
+       		and inf.grade_id = #{gradeId}
+       </if>
+       <if test="examName !='' and examName != null">
+       		and inf.exam_name =  #{examName}
+       </if>
+       <if test="examRange == 4">
+       		and inf.exam_range = 4
+       </if>
+       <if test="examRange == 3">
+       		and inf.exam_range>2
+       </if>
+       <if test="examRange == 2">
+       		and inf.exam_range>1
+       </if>
+       <if test="districtId != null">
+       		and pap.district_id =  #{districtId}
+       </if>
+       <if test="schoolId != null">
+       		and pap.school_id =  #{schoolId}
+       </if>
+       <if test="classId != null">
+       		and pap.class_id =  #{classId}
+       </if>
+       limit #{startRowNum},#{endRowNum}
+	</select>
+				
+	<!-- (删除)根据条件删除线上考试-考生信息信息  -->
+	<delete id="deleteExamStudentBySearch" parameterType="java.util.Map">
+		update 
+		edu_exam_student
+		<set> 
+	  	    <if test="bean.modName != '' and bean.modName != null">
+	       	mod_name =  #{bean.modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="bean.modTime != '' and bean.modTime != null">
+	       	mod_time =  #{bean.modTime,jdbcType=TIMESTAMP},
+	        </if>
+		delflag = '1'
+		</set>
+		where 1=1
+  	   <if test="search.id != '' and search.id != null">
+       		and id =  #{search.id}
+       </if>
+  	   <if test="search.createName != '' and search.createName != null">
+       		and create_name =  #{search.createName}
+       </if>
+  	   <if test="search.createTime != '' and search.createTime != null">
+       		and create_time =  #{search.createTime}
+       </if>
+  	   <if test="search.modName != '' and search.modName != null">
+       		and mod_name =  #{search.modName}
+       </if>
+  	   <if test="search.modTime != '' and search.modTime != null">
+       		and mod_time =  #{search.modTime}
+       </if>
+  	   <if test="search.delflag != '' and search.delflag != null">
+       		and delflag =  #{search.delflag}
+       </if>
+  	   <if test="search.examDetailId != '' and search.examDetailId != null">
+       		and exam_detail_id =  #{search.examDetailId}
+       </if>
+       <if test="search.examId != '' and search.examId != null">
+       		and exam_id = #{search.examId}
+       </if>
+       <if test="search.paperId != '' and search.paperId != null">
+       		and paper_id = #{search.paperId}
+       </if>
+  	   <if test="search.studentId != '' and search.studentId != null">
+       		and student_id =  #{search.studentId}
+       </if>
+  	   <if test="search.studentName != '' and search.studentName != null">
+       		and student_name =  #{search.studentName}
+       </if>
+  	   <if test="search.sex != '' and search.sex != null">
+       		and sex =  #{search.sex}
+       </if>
+  	   <if test="search.status != '' and search.status != null">
+       		and status =  #{search.status}
+       </if>
+  	   <if test="search.remark != '' and search.remark != null">
+       		and remark =  #{search.remark}
+       </if>
+  	   <if test="search.isSubmit != '' and search.isSubmit != null">
+       		and is_submit =  #{search.isSubmit}
+       </if>
+	</delete>
+	
+					
+	<!-- (更新)根据ID更新所有线上考试-考生信息信息 -->
+	<update id="updateExamStudentById" parameterType="com.sjq.student.bean.ExamStudentBean" >
+		update edu_exam_student
+		<set>
+	  	    <if test="modName != '' and modName != null">
+	       	mod_name =  #{modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="modTime != '' and modTime != null">
+	       	mod_time =  #{modTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != '' and delflag != null">
+	       	delflag =  #{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="examDetailId != '' and examDetailId != null">
+	       	exam_detail_id =  #{examDetailId,jdbcType=BIGINT},
+	        </if>
+	         <if test="examId != '' and examId != null">
+	       	exam_id =  #{examId,jdbcType=BIGINT},
+	        </if>
+	         <if test="paperId != '' and paperId != null">
+	       	paper_id =  #{paperId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="studentId != '' and studentId != null">
+	       	student_id =  #{studentId,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="studentName != '' and studentName != null">
+	       	student_name =  #{studentName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="sex != '' and sex != null">
+	       	sex =  #{sex,jdbcType=CHAR},
+	        </if>
+	  	    <if test="status != '' and status != null">
+	       	status =  #{status,jdbcType=CHAR},
+	        </if>
+	  	    <if test="remark != '' and remark != null">
+	       	remark =  #{remark,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="isSubmit != '' and isSubmit != null">
+	       	is_submit =  #{isSubmit,jdbcType=CHAR},
+	        </if>
+		</set>
+		where 1 = 1 and id = #{id,jdbcType=BIGINT} 
+	</update>
+	
+					
+	<!-- (更新)根据条件更新所有线上考试-考生信息信息 -->
+	<update id="updateExamStudentBySearch"  parameterType="java.util.Map" >
+		update edu_exam_student
+		<set>
+	  	    <if test="bean.modName != '' and bean.modName != null">
+	       	mod_name =  #{bean.modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="bean.modTime != '' and bean.modTime != null">
+	       	mod_time =  #{bean.modTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="bean.delflag != '' and bean.delflag != null">
+	       	delflag =  #{bean.delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="bean.examDetailId != '' and bean.examDetailId != null">
+	       	exam_detail_id =  #{bean.examDetailId,jdbcType=BIGINT},
+	        </if>
+	         <if test="bean.examId != '' and bean.examId != null">
+	       	exam_id =  #{bean.examId,jdbcType=BIGINT},
+	        </if>
+	         <if test="bean.paperId != '' and bean.paperId != null">
+	       	paper_id =  #{bean.paperId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="bean.studentId != '' and bean.studentId != null">
+	       	student_id =  #{bean.studentId,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="bean.studentName != '' and bean.studentName != null">
+	       	student_name =  #{bean.studentName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="bean.sex != '' and bean.sex != null">
+	       	sex =  #{bean.sex,jdbcType=CHAR},
+	        </if>
+	  	    <if test="bean.status != '' and bean.status != null">
+	       	status =  #{bean.status,jdbcType=CHAR},
+	        </if>
+	  	    <if test="bean.remark != '' and bean.remark != null">
+	       	remark =  #{bean.remark,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="bean.isSubmit != '' and bean.isSubmit != null">
+	       	is_submit =  #{bean.isSubmit,jdbcType=CHAR},
+	        </if>
+		</set>
+		where 1=1 
+  	   <if test="search.id != '' and search.id != null">
+       		and id = #{search.id}
+       </if>
+  	   <if test="search.examDetailId != '' and search.examDetailId != null">
+       		and exam_detail_id = #{search.examDetailId}
+       </if>
+  	   <if test="search.studentId != '' and search.studentId != null">
+       		and student_id = #{search.studentId}
+       </if>
+  	   <if test="search.isSubmit != '' and search.isSubmit != null">
+       		and is_submit = #{search.isSubmit}
+       </if>
+	</update>
+	
+					
+	<!-- (增加)增加线上考试-考生信息信息 --> 
+	<insert id="insertExamStudent" parameterType="com.sjq.student.bean.ExamStudentBean">
+		insert into edu_exam_student
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	  	   <if test="id != '' and id != null">
+	       	id,
+	       </if>
+	  	   <if test="createName != '' and createName != null">
+	       	create_name,
+	       </if>
+	  	   <if test="createTime != '' and createTime != null">
+	       	create_time,
+	       </if>
+	  	   <if test="delflag != '' and delflag != null">
+	       	delflag,
+	       </if>
+	  	   <if test="examDetailId != '' and examDetailId != null">
+	       	exam_detail_id,
+	       </if>
+	       <if test="examId != '' and examId != null">
+	       	exam_id,
+	       </if>
+	       <if test="paperId != '' and paperId != null">
+	       	paper_id,
+	       </if>
+	  	   <if test="studentId != '' and studentId != null">
+	       	student_id,
+	       </if>
+	  	   <if test="studentName != '' and studentName != null">
+	       	student_name,
+	       </if>
+	  	   <if test="sex != '' and sex != null">
+	       	sex,
+	       </if>
+	  	   <if test="status != '' and status != null">
+	       	status,
+	       </if>
+	  	   <if test="remark != '' and remark != null">
+	       	remark,
+	       </if>
+	  	   <if test="isSubmit != '' and isSubmit != null">
+	       	is_submit,
+	       </if>
+	       <if test="subjectId != '' and subjectId != null">
+	       	subject_id,
+	       </if>
+	       <if test="districtId != '' and districtId != null">
+	       	district_id,
+	       </if>
+	       <if test="schoolId != '' and schoolId != null">
+	       	school_id,
+	       </if>
+	       <if test="classId != '' and classId != null">
+	       	class_id,
+	       </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	  	    <if test="id != '' and id != null">
+	       		#{id,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="createName != '' and createName != null">
+	       		#{createName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="createTime != '' and createTime != null">
+	       		#{createTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != '' and delflag != null">
+	       		#{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="examDetailId != '' and examDetailId != null">
+	       		#{examDetailId,jdbcType=BIGINT},
+	        </if>
+	        <if test="examId != '' and examId != null">
+	       		#{examId,jdbcType=BIGINT},
+	        </if>
+	        <if test="paperId != '' and paperId != null">
+	       		#{paperId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="studentId != '' and studentId != null">
+	       		#{studentId,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="studentName != '' and studentName != null">
+	       		#{studentName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="sex != '' and sex != null">
+	       		#{sex,jdbcType=CHAR},
+	        </if>
+	  	    <if test="status != '' and status != null">
+	       		#{status,jdbcType=CHAR},
+	        </if>
+	  	    <if test="remark != '' and remark != null">
+	       		#{remark,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="isSubmit != '' and isSubmit != null">
+	       		#{isSubmit,jdbcType=CHAR},
+	        </if>
+	         <if test="subjectId != '' and subjectId != null">
+	       		#{subjectId,jdbcType=BIGINT},
+	        </if>
+	         <if test="districtId != '' and districtId != null">
+	       		#{districtId,jdbcType=BIGINT},
+	        </if>
+	         <if test="schoolId != '' and schoolId != null">
+	       		#{schoolId,jdbcType=BIGINT},
+	        </if>
+	         <if test="classId != '' and classId != null">
+	       		#{classId,jdbcType=BIGINT},
+	        </if>
+		</trim>
+	</insert>
+	
+	<select id="queryHomeExamStudentTotalCountByNumber"  parameterType="java.lang.String" resultType="java.lang.Integer">
+		SELECT count(*) FROM edu_exam_detail a 
+		LEFT JOIN edu_exam_student b ON a.`id` = b.`exam_detail_id` WHERE b.`student_id` = #{studentId}
+	</select>
+	
+	<select id="queryHomeExamStudentByNumber"  parameterType="java.lang.String" resultType="java.util.Map">
+		SELECT a.id,a.detail_name,b.`student_id` FROM edu_exam_detail a 
+		LEFT JOIN edu_exam_student b ON a.`id` = b.`exam_detail_id` WHERE b.`student_id` =  #{studentId}
+		ORDER BY a.`mod_time` DESC LIMIT 6
+	</select>
+    
+	   
+</mapper>

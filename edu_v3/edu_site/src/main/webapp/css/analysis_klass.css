@@ -1,0 +1,173 @@
+.container{
+	margin:20px;
+	color:#333;
+}
+.grade_show{
+	text-align: center;
+}
+.export button{
+	width:110px;
+	height: 32px;
+	background:#00ada7;
+	color:#fff;
+	line-height: 32px;
+	cursor:pointer;
+	border-radius: 4px;
+}
+.grade_name{
+	font-size: 18px;
+	font-weight: 300;
+	margin:20px 0 10px 0;
+	text-align: center;
+}
+
+.grade_type{
+	height: 32px;
+	background: #f2f2f2;
+	line-height: 32px;
+	margin-bottom: 36px;
+}
+.grade_type span{
+	margin-right: 40px;
+	color:#666;
+}
+
+
+.report_list{
+	width:22%;
+	background:#f2f2f2;
+	// box-shadow: 3px 0 4px rgba(0,0,0,.3)
+}	
+.report_list .title{
+	text-align: center;
+	margin-top: 10px;
+}
+.report_list .nav{
+	margin:20px 0;
+	height:32px;
+	line-height: 32px;
+	background:#0075b1;
+	font-size: 18px;
+	color:#fff;
+	text-align: center;
+}
+
+.report_list ul{
+	margin-left: 10px;
+}
+.report_list ul li{
+	line-height: 30px;
+}
+
+.report_list label{
+	cursor: pointer;
+}
+.report_list ul li label input,.report_list ul li label span{
+	vertical-align: middle;
+}
+.report_list ul li label input{
+	margin-right: 3px;
+}
+
+.show_report{
+	width:70%;
+	padding:0 3%;
+	padding-bottom: 30px;
+	border:1px solid #e5e5e5;
+}	
+
+.show_report h2{
+	text-align: center;
+	font-size: 18px;
+	margin:20px 0;
+}
+.show_report h4{
+	font-size: 14px;
+	margin:15px 0 10px 0;
+}
+
+.show_report h3{
+	font-size: 16px;
+	margin:15px 0 10px 0;
+}
+.show_report p{
+	text-indent: 16px;
+	line-height: 24px;
+}
+
+
+.tacenter,.tip{
+  text-align: center;
+  margin-top: 10px;
+}
+.reportTable{
+	padding-bottom:20px;
+}
+.show_report table {
+  border-collapse: collapse;
+  border: 1px #525152 solid;
+  width: 100%;
+  margin: 0 auto;
+  margin-top: 20px;
+}
+.show_report th,.show_report td {
+  border: 1px solid #525152;
+  text-align: center;
+  line-height: 30px;
+}
+
+.max-bg-blue,table thead{
+    background-color: rgb(84,141,212);
+    color: white;
+}
+.show_report td img{
+	width:20px;
+	vertical-align: middle;
+}
+
+.beizhu {
+  overflow: hidden;
+  margin-top: 20px;
+}
+.beizhu p {
+  margin-bottom: 10px;
+}
+.beizhu span {
+  font-weight: bold;
+}
+.beizhu > span,
+.beizhu > div {
+  float: left;
+}
+.beizhu img{
+	display:inline-block;
+	vertical-align: middle;
+	margin-top: -2px;
+}
+
+
+.scorePic4,.scorePic2,.scorePic3,.scorePic5,.scorePic6,.scorePic7,.scorePic8,.scorePic9,.scorePic10,
+.scorePic11,.scorePic12,.scorePic13,.scorePic14,.scorePic15,.scorePic15,.scorePic16,.scorePic17,
+.scorePic18,.scorePic19,.scorePic20,.scorePic21,.scorePic22,.scorePic23,.scorePic24{
+	width:700px;
+	height:400px;
+	margin:16px auto;
+}
+.chart_01,.chart_03,.chart_04,.chart_05,.chart_06,.chart_21,.chart_22,.chart_23,.chart_24,
+.chart_25,.chart_27,.chart_28,.chart_29,.chart_30,.chart_31,.chart_33,.chart_34,.chart_35,
+.chart_36,.chart_37,.chart_38,.chart_39,.chart_40,.chart_41,.chart_42,.chart_43,.chart_44,.chart_45
+,.chart_46,.chart_47,.chart_48,.chart_49,.chart_50,.chart_51,.chart_52,.chart_53,.chart_54,.chart_55
+,.chart_56,.chart_57,.chart_58,.chart_59,.chart_60,.chart_61,.chart_62,.chart_63{
+	width:700px;
+	height:400px;
+	margin:16px auto;
+}
+.imgs img{
+	display:block;
+	height:400px;
+	margin:20px auto;
+}
+
+#part2,#part3{
+	display: none;
+}

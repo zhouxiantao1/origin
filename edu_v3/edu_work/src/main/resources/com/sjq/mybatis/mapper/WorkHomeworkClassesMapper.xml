@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sjq.homeworkClasses.dao.WorkHomeworkClassesMapper">
+	<resultMap id="BaseResultMap" type="com.sjq.homeworkClasses.vo.WorkHomeworkClassesVo">
+  		<result column="id" property="id" jdbcType="BIGINT" />
+  		<result column="create_name" property="createName" jdbcType="VARCHAR" />
+  		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  		<result column="mod_name" property="modName" jdbcType="VARCHAR" />
+  		<result column="mod_time" property="modTime" jdbcType="TIMESTAMP" />
+  		<result column="delflag" property="delflag" jdbcType="CHAR" />
+  		<result column="homework_id" property="homeworkId" jdbcType="BIGINT" />
+  		<result column="classes_id" property="classesId" jdbcType="BIGINT" />
+  		<result column="sort" property="sort" jdbcType="BIGINT" />
+  		
+  		<association property="baseClassesVo" column="classes_id"
+			select="com.sjq.classes.dao.BaseClassesMapper.queryBaseClassesById"></association>
+		<association property="workHomeworkVo" column="homework_id"
+			select="com.sjq.homework.dao.WorkHomeworkMapper.queryWorkHomeworkById"></association>
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+  		id,
+  		create_name,
+  		create_time,
+  		mod_name,
+  		mod_time,
+  		delflag,
+  		homework_id,
+  		classes_id,
+  		sort
+	</sql>
+	
+	<sql id="Base_Column_List1">
+  		a.id,
+  		a.create_name,
+  		a.create_time,
+  		a.mod_name,
+  		a.mod_time,
+  		a.delflag,
+  		a.homework_id,
+  		a.classes_id,
+  		a.sort
+	</sql>
+	
+	
+	<!-- 根据ID查询作业班级信息信息 -->
+	<select id="queryWorkHomeworkClassesById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_work_homeworkClasses
+       where delflag='0' and id =#{id,jdbcType=BIGINT}
+    </select>
+    
+    
+	<!-- 根据IDS查询所有作业班级信息信息 -->
+	<select id="queryWorkHomeworkClassesByIds" resultMap="BaseResultMap"  parameterType="java.util.Map">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_work_homeworkClasses
+       where delflag='0' and id in 
+	   <foreach collection="Ids" item="id" open="(" close=")" separator=",">
+	   #{id}
+	   </foreach>
+	</select>     
+	
+					
+	<!-- 根据条件查询所有作业班级信息信息 -->
+	<select id="queryWorkHomeworkClassesBySearch" resultMap="BaseResultMap"  parameterType="java.util.Map">
+	   select 
+       <include refid="Base_Column_List1" />
+       from edu_work_homeworkClasses a,edu_work_homework b
+       where 1=1 and a.delflag='0' and b.delflag='0' and a.homework_id = b.id
+  	   <if test="id != '' and id != null">
+       		and a.id = #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and a.create_name = #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and a.create_time = #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and a.mod_name = #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and a.mod_time = #{modTime}
+       </if>
+  	   <if test="homeworkId != '' and homeworkId != null">
+       		and a.homework_id = #{homeworkId}
+       </if>
+  	   <if test="classesId != '' and classesId != null">
+       		and a.classes_id = #{classesId}
+       </if>
+  	   <if test="sort != '' and sort != null">
+       		and a.sort = #{sort}
+       </if>
+	</select>
+	
+	<!-- 查询作业班级信息待完成的列表 -->
+	<select id="queryWorkClassesPending" resultMap="BaseResultMap"  parameterType="java.util.Map">
+		select   
+	    <include refid="Base_Column_List1" />
+		from
+		edu_work_homeworkClasses a, edu_work_homework c  where a.delflag='0' and c.delflag='0' and a.homework_id=c.id
+  	   <if test="id != '' and id != null">
+       		a.and id =  #{id}
+       </if>
+		<if test='status == "0"'>
+				and not exists(select 1 from edu_work_answer b where a.homework_id=b.homework_id and b.student_id=#{studentId})
+		</if>
+		<if test='status == "1"'>
+				and exists(select 1 from edu_work_answer b where a.homework_id=b.homework_id and b.student_id=#{studentId})
+		</if>
+  	   <if test="createName != '' and createName != null">
+       		and a.create_name =  #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and a.create_time =  #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and a.mod_name =  #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and a.mod_time =  #{modTime}
+       </if>
+  	   <if test="homeworkId != '' and homeworkId != null">
+       		and a.homework_id =  #{homeworkId}
+       </if>
+  	   <if test="classesId != '' and classesId != null">
+       		and a.classes_id =  #{classesId}
+       </if>
+        <if test="title != '' and title != null">
+       		and c.title like  '%${title}%'
+       </if>
+  	   <if test="sort != '' and sort != null">
+       		and a.sort =  #{sort}
+       </if>
+	</select>
+	
+					
+	<!-- 根据条件查询作业班级信息count总数 -->
+	<select id="queryWorkHomeworkClassesTotalCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(1) from
+		edu_work_homeworkClasses a, edu_work_homework c where a.delflag='0' and c.delflag='0' and a.homework_id=c.id
+  	   <if test="id != '' and id != null">
+       		and a.id =  #{id}
+       </if>
+		<if test='status == "0"'>
+				and not exists(select 1 from edu_work_answer b where a.homework_id=b.homework_id and b.student_id=#{studentId})
+		</if>
+		<if test='status == "1"'>
+				and exists(select 1 from edu_work_answer b where a.homework_id=b.homework_id and b.student_id=#{studentId}  and b.status=#{ansStatus})
+		</if>      
+  	   <if test="createName != '' and createName != null">
+       		and a.create_name =  #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and a.create_time =  #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and a.mod_name =  #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and a.mod_time =  #{modTime}
+       </if>
+  	   <if test="homeworkId != '' and homeworkId != null">
+       		and a.homework_id =  #{homeworkId}
+       </if>
+  	   <if test="classesId != '' and classesId != null">
+       		and a.classes_id =  #{classesId}
+       </if>
+       <if test="title != '' and title != null">
+       		and c.title like  '%${title}%'
+       </if>
+  	   <if test="sort != '' and sort != null">
+       		and a.sort =  #{sort}
+       </if>
+	</select>
+	
+
+					
+	<!-- 分页查询作业班级信息 -->
+	<select id="queryWorkHomeworkClassesPage" resultMap="BaseResultMap"  parameterType="java.util.Map">
+		select   
+	    <include refid="Base_Column_List1" />
+		from
+		edu_work_homeworkClasses a, edu_work_homework c  where a.delflag='0' and c.delflag='0' and a.homework_id=c.id
+  	   <if test="id != '' and id != null">
+       		a.and id =  #{id}
+       </if>
+		<if test='status == "0"'>
+				and not exists(select 1 from edu_work_answer b where a.homework_id=b.homework_id and b.student_id=#{studentId})
+		</if>
+		<if test='status == "1"'>
+				and exists(select 1 from edu_work_answer b where a.homework_id=b.homework_id and b.student_id=#{studentId}  and b.status=#{ansStatus})
+		</if>
+  	   <if test="createName != '' and createName != null">
+       		and a.create_name =  #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and a.create_time =  #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and a.mod_name =  #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and a.mod_time =  #{modTime}
+       </if>
+  	   <if test="homeworkId != '' and homeworkId != null">
+       		and a.homework_id =  #{homeworkId}
+       </if>
+  	   <if test="classesId != '' and classesId != null">
+       		and a.classes_id =  #{classesId}
+       </if>
+        <if test="title != '' and title != null">
+       		and c.title like  '%${title}%'
+       </if>
+  	   <if test="sort != '' and sort != null">
+       		and a.sort =  #{sort}
+       </if>
+  	   limit #{startRowNum},#{endRowNum}
+	</select>
+
+					
+	<!-- (删除)根据ID删除作业班级信息信息 --> 
+	<delete id="deleteWorkHomeworkClassesById" parameterType="java.lang.Long">
+		update edu_work_homeworkClasses 
+		<set> 
+	  	    <if test="modName != '' and modName != null">
+	       	mod_name =  #{modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="modTime != '' and modTime != null">
+	       	mod_time =  #{modTime,jdbcType=TIMESTAMP},
+	        </if>
+		delflag = '1'
+		</set>
+		where  id = #{id,jdbcType=BIGINT} 
+	</delete>
+	
+					
+	<!-- (更新)根据条件更新所有作业班级信息信息 -->
+	<update id="updateWorkHomeworkClassesBySearch"  parameterType="java.util.Map" >
+		update edu_work_homeworkClasses
+		<set>
+	  	    <if test="modName != '' and modName != null">
+	       	mod_name =  #{modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="modTime != '' and modTime != null">
+	       	mod_time =  #{modTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != '' and delflag != null">
+	       	delflag =  #{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="homeworkId != '' and homeworkId != null">
+	       	homework_id =  #{homeworkId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="classesId != '' and classesId != null">
+	       	classes_id =  #{classesId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="sort != '' and sort != null">
+	       	sort =  #{sort,jdbcType=BIGINT},
+	        </if>
+		</set>
+		where 
+  	   <if test="id != '' and id != null">
+       		and id = #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name = #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time = #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name = #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time = #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag = #{delflag}
+       </if>
+  	   <if test="homeworkId != '' and homeworkId != null">
+       		and homework_id = #{homeworkId}
+       </if>
+  	   <if test="classesId != '' and classesId != null">
+       		and classes_id = #{classesId}
+       </if>
+  	   <if test="sort != '' and sort != null">
+       		and sort = #{sort}
+       </if>
+	</update>
+	
+					
+	<!-- (增加)增加作业班级信息信息 --> 
+	<insert id="insertWorkHomeworkClasses" parameterType="com.sjq.homeworkClasses.bean.WorkHomeworkClassesBean">
+		insert into edu_work_homeworkClasses
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	  	   <if test="id != '' and id != null">
+	       	id,
+	       </if>
+	  	   <if test="createName != '' and createName != null">
+	       	create_name,
+	       </if>
+	  	   <if test="createTime != '' and createTime != null">
+	       	create_time,
+	       </if>
+	  	   <if test="delflag != '' and delflag != null">
+	       	delflag,
+	       </if>
+	  	   <if test="homeworkId != '' and homeworkId != null">
+	       	homework_id,
+	       </if>
+	  	   <if test="classesId != '' and classesId != null">
+	       	classes_id,
+	       </if>
+	  	   <if test="sort != '' and sort != null">
+	       	sort,
+	       </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	  	    <if test="id != '' and id != null">
+	       		#{id,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="createName != '' and createName != null">
+	       		#{createName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="createTime != '' and createTime != null">
+	       		#{createTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != '' and delflag != null">
+	       		#{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="homeworkId != '' and homeworkId != null">
+	       		#{homeworkId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="classesId != '' and classesId != null">
+	       		#{classesId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="sort != '' and sort != null">
+	       		#{sort,jdbcType=BIGINT},
+	        </if>
+		</trim>
+	</insert>
+    
+	   
+</mapper>

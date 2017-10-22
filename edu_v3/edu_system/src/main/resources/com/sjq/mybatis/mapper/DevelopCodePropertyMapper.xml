@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sjq.develop.dao.DevelopCodePropertyMapper">
+	<resultMap id="BaseResultMap" type="com.sjq.develop.vo.DevelopCodePropertyVo">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="create_name" property="createName" jdbcType="VARCHAR" />
+		<result column="mod_time" property="modTime" jdbcType="TIMESTAMP" />
+		<result column="mod_name" property="modName" jdbcType="VARCHAR" />
+		<result column="delflag" property="delflag" jdbcType="CHAR" />
+  		<result column="name" property="name" jdbcType="VARCHAR" />
+  		<result column="type" property="type" jdbcType="VARCHAR" />
+  		<result column="length" property="length" jdbcType="VARCHAR" />
+  		<result column="is_null" property="isNull" jdbcType="CHAR" />
+  		<result column="comment" property="comment" jdbcType="VARCHAR" />
+  		<result column="def" property="def" jdbcType="VARCHAR" />
+  		<result column="is_search" property="isSearch" jdbcType="VARCHAR" />
+  		<result column="code_id" property="codeId" jdbcType="BIGINT" />
+  		
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		id, 
+		create_time, 
+		create_name, 
+		mod_time, 
+		mod_name,
+		delflag,
+		name,
+		type,
+		length,
+		is_null,
+		comment,
+		def,
+		is_search,
+		code_id
+  		
+	</sql>
+	
+	<!-- (查询)根据codeID查询所有信息 -->
+	<select id="queryDevelopCodePropertyByCodeId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_develop_code_property
+       where delflag='0' and code_id =#{codeId,jdbcType=BIGINT}
+    </select>
+    
+    <!-- (增加)增加信息 --> 
+	<insert id="insertDevelopCodeProperty" parameterType="com.sjq.develop.bean.DevelopCodePropertyBean">
+		insert into edu_develop_code_property
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	       		 create_time,
+	       <if test="createName != '' and createName != null">
+	       		 create_name,
+	       </if>
+	       		 delflag,
+	  	   <if test="name != '' and name != null">
+	       		 name,
+	       </if>
+	  	   <if test="type != '' and type != null">
+	       		 type,
+	       </if>
+	  	   <if test="length != '' and length != null">
+	       		 length,
+	       </if>
+	  	   <if test="isNull != '' and isNull != null">
+	       		 is_null,
+	       </if>
+	  	   <if test="comment != '' and comment != null">
+	       		 comment,
+	       </if>
+	  	   <if test="def != '' and def != null">
+	       		 def,
+	       </if>
+	  	   <if test="isSearch != '' and isSearch != null">
+	       		 is_search,
+	       </if>
+	  	   <if test="codeId != '' and codeId != null">
+	       		 code_id,
+	       </if>
+	  	 
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			now(),
+	        <if test="createName != '' and createName != null">
+	       		#{createName,jdbcType=VARCHAR},
+	        </if>
+	        '0',
+	       <if test="name != '' and name != null">
+	       		#{name,jdbcType=VARCHAR},
+	       </if>
+	  	   <if test="type != '' and type != null">
+	       		#{type,jdbcType=VARCHAR},
+	       </if>
+	  	   <if test="length != '' and length != null">
+	       		#{length,jdbcType=VARCHAR},
+	       </if>
+	  	   <if test="isNull != '' and isNull != null">
+	       		#{isNull,jdbcType=VARCHAR},
+	       </if>
+	  	   <if test="comment != '' and comment != null">
+	       		#{comment,jdbcType=VARCHAR},
+	       </if>
+	  	   <if test="def != '' and def != null">
+	       		#{def,jdbcType=VARCHAR},
+	       </if>
+	  	   <if test="isSearch != '' and isSearch != null">
+	       		#{isSearch,jdbcType=CHAR},
+	       </if>
+	  	   <if test="codeId != '' and codeId != null">
+	       		#{codeId,jdbcType=BIGINT},
+	       </if>
+		</trim>
+	</insert>
+    
+	   
+</mapper>

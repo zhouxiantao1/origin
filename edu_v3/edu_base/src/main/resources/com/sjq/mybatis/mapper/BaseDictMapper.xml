@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sjq.dict.dao.BaseDictMapper">
+	<resultMap id="BaseResultMap" type="com.sjq.dict.vo.BaseDictVo">
+  		<result column="id" property="id" jdbcType="BIGINT" />
+  		<result column="create_name" property="createName" jdbcType="VARCHAR" />
+  		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  		<result column="mod_name" property="modName" jdbcType="VARCHAR" />
+  		<result column="mod_time" property="modTime" jdbcType="TIMESTAMP" />
+  		<result column="delflag" property="delflag" jdbcType="CHAR" />
+  		<result column="type" property="type" jdbcType="VARCHAR" />
+  		<result column="label" property="label" jdbcType="VARCHAR" />
+  		<result column="value" property="value" jdbcType="VARCHAR" />
+  		<result column="parent_id" property="parentId" jdbcType="BIGINT" />
+  		<result column="parent_ids" property="parentIds" jdbcType="VARCHAR" />
+  		<result column="sort" property="sort" jdbcType="BIGINT" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+  		id,
+  		create_name,
+  		create_time,
+  		mod_name,
+  		mod_time,
+  		delflag,
+  		type,
+  		label,
+  		value,
+  		parent_id,
+  		parent_ids,
+  		sort
+	</sql>
+	
+	<!-- 查询所有的字典工具信息信息 -->
+	<select id="queryAllBaseDict" resultMap="BaseResultMap" >
+ 	   select 
+       <include refid="Base_Column_List" />
+       from edu_base_dict
+       where delflag='0'
+    </select>
+	
+	
+	<!-- 根据ID查询字典工具信息信息 -->
+	<select id="queryBaseDictById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_base_dict
+       where delflag='0' and id =#{id,jdbcType=BIGINT}
+    </select>
+    
+    
+	<!-- 根据IDS查询所有字典工具信息信息 -->
+	<select id="queryBaseDictByIds" resultMap="BaseResultMap"  parameterType="java.util.Map">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_base_dict
+       where delflag='0' and id in 
+	   <foreach collection="Ids" item="id" open="(" close=")" separator=",">
+	   #{id}
+	   </foreach>
+	</select>     
+	
+					
+	<!-- 根据条件查询所有字典工具信息信息 -->
+	<select id="queryBaseDictBySearch" resultMap="BaseResultMap"  parameterType="java.util.Map">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_base_dict 
+       where 1=1 and delflag='0' 
+  	   <if test="id != '' and id != null">
+       		and id = #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name = #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time = #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name = #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time = #{modTime}
+       </if>
+  	     	and delflag = '0'
+  	   <if test="type != '' and type != null">
+       		and type = #{type}
+       </if>
+  	   <if test="label != '' and label != null">
+       		and label = #{label}
+       </if>
+  	   <if test="value != '' and value != null">
+       		and value = #{value}
+       </if>
+  	   <if test="parentId != '' and parentId != null">
+       		and parent_id = #{parentId}
+       </if>
+  	   <if test="parentIds != '' and parentIds != null">
+       		and parent_ids = #{parentIds}
+       </if>
+  	   <if test="sort != '' and sort != null">
+       		and sort = #{sort}
+       </if>
+	</select>
+	
+					
+	<!-- 根据条件查询字典工具信息count总数 -->
+	<select id="queryBaseDictTotalCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(1) from
+		edu_base_dict where delflag='0'
+  	   <if test="id != '' and id != null">
+       		and id =  #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name =  #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time =  #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name =  #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time =  #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag =  #{delflag}
+       </if>
+  	   <if test="type != '' and type != null">
+       		and type =  #{type}
+       </if>
+  	   <if test="label != '' and label != null">
+       		and label =  #{label}
+       </if>
+  	   <if test="value != '' and value != null">
+       		and value =  #{value}
+       </if>
+  	   <if test="parentId != '' and parentId != null">
+       		and parent_id =  #{parentId}
+       </if>
+  	   <if test="parentIds != '' and parentIds != null">
+       		and parent_ids =  #{parentIds}
+       </if>
+  	   <if test="sort != '' and sort != null">
+       		and sort =  #{sort}
+       </if>
+	</select>
+	
+
+					
+	<!-- 分页查询字典工具信息 -->
+	<select id="queryBaseDictPage" resultMap="BaseResultMap"  parameterType="java.util.Map">
+		select   
+	    <include refid="Base_Column_List" />
+		from
+		edu_base_dict where delflag='0'
+  	   <if test="id != '' and id != null">
+       		and id =  #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name =  #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time =  #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name =  #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time =  #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag =  #{delflag}
+       </if>
+  	   <if test="type != '' and type != null">
+       		and type =  #{type}
+       </if>
+  	   <if test="label != '' and label != null">
+       		and label =  #{label}
+       </if>
+  	   <if test="value != '' and value != null">
+       		and value =  #{value}
+       </if>
+  	   <if test="parentId != '' and parentId != null">
+       		and parent_id =  #{parentId}
+       </if>
+  	   <if test="parentIds != '' and parentIds != null">
+       		and parent_ids =  #{parentIds}
+       </if>
+  	   <if test="sort != '' and sort != null">
+       		and sort =  #{sort}
+       </if>
+  	   limit #{startRowNum},#{endRowNum}
+	</select>
+
+					
+	<!-- (删除)根据ID删除字典工具信息信息 --> 
+	<delete id="deleteBaseDictById" parameterType="java.lang.Long">
+		update edu_base_dict 
+		<set> 
+	  	    <if test="modName != '' and modName != null">
+	       	mod_name =  #{modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="modTime != '' and modTime != null">
+	       	mod_time =  #{modTime,jdbcType=TIMESTAMP},
+	        </if>
+		delflag = '1'
+		</set>
+		where  id = #{id,jdbcType=BIGINT} 
+	</delete>
+	
+					
+	<!-- (增加)增加字典工具信息信息 --> 
+	<insert id="insertBaseDict" parameterType="com.sjq.dict.bean.BaseDictBean">
+		insert into edu_base_dict
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	  	   <if test="id != '' and id != null">
+	       	id,
+	       </if>
+	  	   <if test="createName != '' and createName != null">
+	       	create_name,
+	       </if>
+	  	   <if test="createTime != '' and createTime != null">
+	       	create_time,
+	       </if>
+	  	   <if test="delflag != '' and delflag != null">
+	       	delflag,
+	       </if>
+	  	   <if test="type != '' and type != null">
+	       	type,
+	       </if>
+	  	   <if test="label != '' and label != null">
+	       	label,
+	       </if>
+	  	   <if test="value != '' and value != null">
+	       	value,
+	       </if>
+	  	   <if test="parentId != '' and parentId != null">
+	       	parent_id,
+	       </if>
+	  	   <if test="parentIds != '' and parentIds != null">
+	       	parent_ids,
+	       </if>
+	  	   <if test="sort != '' and sort != null">
+	       	sort,
+	       </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	  	    <if test="id != '' and id != null">
+	       		#{id,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="createName != '' and createName != null">
+	       		#{createName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="createTime != '' and createTime != null">
+	       		#{createTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != '' and delflag != null">
+	       		#{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="type != '' and type != null">
+	       		#{type,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="label != '' and label != null">
+	       		#{label,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="value != '' and value != null">
+	       		#{value,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="parentId != '' and parentId != null">
+	       		#{parentId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="parentIds != '' and parentIds != null">
+	       		#{parentIds,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="sort != '' and sort != null">
+	       		#{sort,jdbcType=BIGINT},
+	        </if>
+		</trim>
+	</insert>
+    
+	   
+</mapper>

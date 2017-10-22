@@ -1,0 +1,476 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sjq.ask.dao.InterlocutionAskMapper">
+	<resultMap id="BaseResultMap" type="com.sjq.ask.vo.InterlocutionAskVo">
+  		<result column="id" property="id" jdbcType="BIGINT" />
+  		<result column="create_name" property="createName" jdbcType="VARCHAR" />
+  		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  		<result column="mod_name" property="modName" jdbcType="VARCHAR" />
+  		<result column="mod_time" property="modTime" jdbcType="TIMESTAMP" />
+  		<result column="delflag" property="delflag" jdbcType="CHAR" />
+  		<result column="title" property="title" jdbcType="VARCHAR" />
+  		<result column="content" property="content" jdbcType="VARCHAR" />
+  		<result column="subject_id" property="subjectId" jdbcType="BIGINT" />
+  		<result column="grade_id" property="gradeId" jdbcType="BIGINT" />
+  		<result column="status" property="status" jdbcType="CHAR" />
+  		<result column="area_id" property="areaId" jdbcType="BIGINT" />
+  		<result column="school_id" property="schoolId" jdbcType="BIGINT" />
+  		<result column="read_num" property="readNum" jdbcType="BIGINT" />
+  		<result column="user_id" property="userId" jdbcType="BIGINT" />
+  		
+  		<association property="baseSubjectVo" column="subject_id"
+  			select="com.sjq.subject.dao.BaseSubjectMapper.queryBaseSubjectById"></association>
+		<association property="baseGradeVo" column="grade_id"
+			select="com.sjq.grade.dao.BaseGradeMapper.queryBaseGradeById"></association>
+		<association property="answerNum" column="{askId=id}"
+			select="com.sjq.answerAsk.dao.InterlocutionAnswerAskMapper.queryAnswerAskNumByAskId"></association>
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+  		id,
+  		create_name,
+  		create_time,
+  		mod_name,
+  		mod_time,
+  		delflag,
+  		title,
+  		content,
+  		subject_id,
+  		grade_id,
+  		status,
+  		area_id,
+  		school_id,
+  		read_num,
+  		user_id
+	</sql>
+	
+	<!-- 查询所有的提问信息信息 -->
+	<select id="queryAllInterlocutionAsk" resultMap="BaseResultMap" >
+ 	   select 
+       <include refid="Base_Column_List" />
+       from edu_interlocution_ask
+       where delflag='0'
+    </select>
+	
+	<!-- 根据ID查询提问信息信息 -->
+	<select id="queryInterlocutionAskById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_interlocution_ask
+       where id =#{id,jdbcType=BIGINT}
+    </select>
+    
+    <!-- 根据ID查询提问信息信息 -->
+	<select id="queryInterlocutionAskById1" resultMap="BaseResultMap" parameterType="java.lang.Long">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_interlocution_ask
+       where id =#{id,jdbcType=BIGINT}
+    </select>
+    
+					
+	<!-- 根据条件查询所有提问信息信息 -->
+	<select id="queryInterlocutionAskBySearch" resultMap="BaseResultMap"  parameterType="java.util.Map">
+	   select 
+       <include refid="Base_Column_List" />
+       from edu_interlocution_ask
+       where 1=1 
+  	   <if test="id != '' and id != null">
+       		and id = #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name = #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time = #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name = #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time = #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag = #{delflag}
+       </if>
+  	   <if test="title != '' and title != null">
+       		and title = #{title}
+       </if>
+  	   <if test="content != '' and content != null">
+       		and content = #{content}
+       </if>
+  	   <if test="subjectId != '' and subjectId != null">
+       		and subject_id = #{subjectId}
+       </if>
+  	   <if test="gradeId != '' and gradeId != null">
+       		and grade_id = #{gradeId}
+       </if>
+  	   <if test="status != '' and status != null">
+       		and status = #{status}
+       </if>
+  	   <if test="areaId != '' and areaId != null">
+       		and area_id = #{areaId}
+       </if>
+  	   <if test="schoolId != '' and schoolId != null">
+       		and school_id = #{schoolId}
+       </if>
+  	   <if test="readNum != '' and readNum != null">
+       		and read_num = #{readNum}
+       </if>
+       <if test="userId != '' and userId != null">
+       		and user_id = #{userId}
+       </if>
+	</select>
+	
+					
+	<!-- 根据条件查询提问信息count总数 -->
+	<select id="queryInterlocutionAskTotalCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(1) from
+		edu_interlocution_ask where delflag='0'
+  	   <if test="id != '' and id != null">
+       		and id =  #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name =  #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time =  #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name =  #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time =  #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag =  #{delflag}
+       </if>
+  	   <if test="title != '' and title != null">
+       		and title =  #{title}
+       </if>
+  	   <if test="content != '' and content != null">
+       		and content =  #{content}
+       </if>
+  	   <if test="subjectId != '' and subjectId != null">
+       		and subject_id =  #{subjectId}
+       </if>
+  	   <if test="gradeId != '' and gradeId != null">
+       		and grade_id =  #{gradeId}
+       </if>
+  	   <if test="status != '' and status != null">
+       		and status =  #{status}
+       </if>
+  	   <if test="areaId != '' and areaId != null">
+       		and area_id =  #{areaId}
+       </if>
+  	   <if test="schoolId != '' and schoolId != null">
+       		and school_id =  #{schoolId}
+       </if>
+  	   <if test="readNum != '' and readNum != null">
+       		and read_num =  #{readNum}
+       </if>
+       <if test="userId != '' and userId != null">
+       		and user_id =  #{userId}
+       </if>
+       <choose>
+        	<when test="type == 0">
+        		order by create_time desc				
+			</when>
+			<when test="type == 1">
+        		order by read_num desc				
+			</when>
+       </choose>
+	</select>
+	
+
+					
+	<!-- 分页查询提问信息 -->
+	<select id="queryInterlocutionAskPage" resultMap="BaseResultMap"  parameterType="java.util.Map">
+		select   
+	    <include refid="Base_Column_List" />
+		from
+		edu_interlocution_ask where delflag='0'
+  	   <if test="id != '' and id != null">
+       		and id =  #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name =  #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time =  #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name =  #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time =  #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag =  #{delflag}
+       </if>
+  	   <if test="title != '' and title != null">
+       		and title =  #{title}
+       </if>
+  	   <if test="content != '' and content != null">
+       		and content =  #{content}
+       </if>
+  	   <if test="subjectId != '' and subjectId != null">
+       		and subject_id =  #{subjectId}
+       </if>
+  	   <if test="gradeId != '' and gradeId != null">
+       		and grade_id =  #{gradeId}
+       </if>
+  	   <if test="status != '' and status != null">
+       		and status =  #{status}
+       </if>
+  	   <if test="areaId != '' and areaId != null">
+       		and area_id =  #{areaId}
+       </if>
+  	   <if test="schoolId != '' and schoolId != null">
+       		and school_id =  #{schoolId}
+       </if>
+  	   <if test="readNum != '' and readNum != null">
+       		and read_num =  #{readNum}
+       </if>
+       <if test="userId != '' and userId != null">
+       		and user_id =  #{userId}
+       </if>
+       <choose>
+        	<when test="type == 0">
+        		order by create_time desc				
+			</when>
+			<when test="type == 1">
+        		order by read_num desc				
+			</when>
+       </choose>
+  	   limit #{startRowNum},#{endRowNum}
+	</select>
+
+	<!-- (更新)根据问题ID更新浏览次数 -->
+	<update id="updateReadeNumByAskId"  parameterType="java.util.Map" >
+		update edu_interlocution_ask
+		<set>
+	  	    <if test="readNum != null">
+	       	read_num =  read_num + #{readNum,jdbcType=BIGINT},
+	        </if>
+		</set>
+		where 1=1
+  	   <if test="id != null">
+       		and id = #{id}
+       </if>
+	</update>
+	
+	<!-- (更新)根据ID更新所有提问信息信息 -->
+	<update id="updateInterlocutionAskById" parameterType="com.sjq.ask.bean.InterlocutionAskBean" >
+		update edu_interlocution_ask
+		<set>
+	  	    <if test="modName != '' and modName != null">
+	       	mod_name =  #{modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="modTime != '' and modTime != null">
+	       	mod_time =  #{modTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != '' and delflag != null">
+	       	delflag =  #{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="title != '' and title != null">
+	       	title =  #{title,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="content != '' and content != null">
+	       	content =  #{content,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="subjectId != '' and subjectId != null">
+	       	subject_id =  #{subjectId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="gradeId != '' and gradeId != null">
+	       	grade_id =  #{gradeId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="status != '' and status != null">
+	       	status =  #{status,jdbcType=CHAR},
+	        </if>
+	  	    <if test="areaId != '' and areaId != null">
+	       	area_id =  #{areaId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="schoolId != '' and schoolId != null">
+	       	school_id =  #{schoolId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="readNum != '' and readNum != null">
+	       	read_num =  #{readNum,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="userId != '' and userId != null">
+	       	user_id =  #{userId,jdbcType=BIGINT},
+	        </if>
+		</set>
+		where 1 = 1 and id = #{id,jdbcType=BIGINT} 
+	</update>
+					
+	<!-- (更新)根据条件更新所有提问信息信息 -->
+	<update id="updateInterlocutionAskBySearch"  parameterType="java.util.Map" >
+		update edu_interlocution_ask
+		<set>
+	  	    <if test="modName != '' and modName != null">
+	       	mod_name =  #{modName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="modTime != '' and modTime != null">
+	       	mod_time =  #{modTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != '' and delflag != null">
+	       	delflag =  #{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="title != '' and title != null">
+	       	title =  #{title,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="content != '' and content != null">
+	       	content =  #{content,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="subjectId != '' and subjectId != null">
+	       	subject_id =  #{subjectId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="gradeId != '' and gradeId != null">
+	       	grade_id =  #{gradeId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="status != '' and status != null">
+	       	status =  #{status,jdbcType=CHAR},
+	        </if>
+	  	    <if test="areaId != '' and areaId != null">
+	       	area_id =  #{areaId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="schoolId != '' and schoolId != null">
+	       	school_id =  #{schoolId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="readNum != null">
+	       	read_num =  read_num + #{readNum,jdbcType=BIGINT},
+	        </if>
+		</set>
+		where 1=1
+  	   <if test="id != '' and id != null">
+       		and id = #{id}
+       </if>
+  	   <if test="createName != '' and createName != null">
+       		and create_name = #{createName}
+       </if>
+  	   <if test="createTime != '' and createTime != null">
+       		and create_time = #{createTime}
+       </if>
+  	   <if test="modName != '' and modName != null">
+       		and mod_name = #{modName}
+       </if>
+  	   <if test="modTime != '' and modTime != null">
+       		and mod_time = #{modTime}
+       </if>
+  	   <if test="delflag != '' and delflag != null">
+       		and delflag = #{delflag}
+       </if>
+  	   <if test="title != '' and title != null">
+       		and title = #{title}
+       </if>
+  	   <if test="content != '' and content != null">
+       		and content = #{content}
+       </if>
+  	   <if test="subjectId != '' and subjectId != null">
+       		and subject_id = #{subjectId}
+       </if>
+  	   <if test="gradeId != '' and gradeId != null">
+       		and grade_id = #{gradeId}
+       </if>
+  	   <if test="status != '' and status != null">
+       		and status = #{status}
+       </if>
+  	   <if test="areaId != '' and areaId != null">
+       		and area_id = #{areaId}
+       </if>
+  	   <if test="schoolId != '' and schoolId != null">
+       		and school_id = #{schoolId}
+       </if>
+	</update>
+	
+					
+	<!-- (增加)增加提问信息信息 --> 
+	<insert id="insertInterlocutionAsk" parameterType="com.sjq.ask.bean.InterlocutionAskBean">
+		insert into edu_interlocution_ask
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	  	   <if test="id != '' and id != null">
+	       	id,
+	       </if>
+	  	   <if test="createName != '' and createName != null">
+	       	create_name,
+	       </if>
+	  	   <if test="createTime != '' and createTime != null">
+	       	create_time,
+	       </if>
+	  	   <if test="delflag != '' and delflag != null">
+	       	delflag,
+	       </if>
+	  	   <if test="title != '' and title != null">
+	       	title,
+	       </if>
+	  	   <if test="content != '' and content != null">
+	       	content,
+	       </if>
+	  	   <if test="subjectId != '' and subjectId != null">
+	       	subject_id,
+	       </if>
+	  	   <if test="gradeId != '' and gradeId != null">
+	       	grade_id,
+	       </if>
+	  	   <if test="status != '' and status != null">
+	       	status,
+	       </if>
+	  	   <if test="areaId != '' and areaId != null">
+	       	area_id,
+	       </if>
+	  	   <if test="schoolId != '' and schoolId != null">
+	       	school_id,
+	       </if>
+	  	   <if test="readNum != '' and readNum != null">
+	       	read_num,
+	       </if>
+	  	   <if test="userId != '' and userId != null">
+	       	user_id,
+	       </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+	  	    <if test="id != '' and id != null">
+	       		#{id,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="createName != '' and createName != null">
+	       		#{createName,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="createTime != '' and createTime != null">
+	       		#{createTime,jdbcType=TIMESTAMP},
+	        </if>
+	  	    <if test="delflag != '' and delflag != null">
+	       		#{delflag,jdbcType=CHAR},
+	        </if>
+	  	    <if test="title != '' and title != null">
+	       		#{title,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="content != '' and content != null">
+	       		#{content,jdbcType=VARCHAR},
+	        </if>
+	  	    <if test="subjectId != '' and subjectId != null">
+	       		#{subjectId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="gradeId != '' and gradeId != null">
+	       		#{gradeId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="status != '' and status != null">
+	       		#{status,jdbcType=CHAR},
+	        </if>
+	  	    <if test="areaId != '' and areaId != null">
+	       		#{areaId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="schoolId != '' and schoolId != null">
+	       		#{schoolId,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="readNum != '' and readNum != null">
+	       		#{readNum,jdbcType=BIGINT},
+	        </if>
+	  	    <if test="userId != '' and userId != null">
+	       		#{userId,jdbcType=BIGINT},
+	        </if>
+		</trim>
+	</insert>
+    
+	   
+</mapper>

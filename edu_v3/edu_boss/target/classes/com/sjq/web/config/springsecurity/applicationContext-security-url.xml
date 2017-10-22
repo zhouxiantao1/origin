@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	   		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+			http://www.springframework.org/schema/security 
+			http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+
+	<description>集成SpringSecurity3.1</description>
+
+	<!-- 不要过滤图片等静态资源，其中**代表可以跨越目录，*不可以跨越目录。 -->
+	<security:http pattern="/**/*.jpg" security="none" />
+	<security:http pattern="/**/*.png" security="none" />
+	<security:http pattern="/**/*.gif" security="none" />
+	<security:http pattern="/**/*.css" security="none" />
+	<security:http pattern="/**/*.js" security="none" />
+	<security:http pattern="/**/*.jar" security="none" />
+	<security:http pattern="/**/*.woff2" security="none" />
+	<security:http pattern="/**/*.woff" security="none" />
+	
+
+	<!-- 登录页面和错误信息页面不过滤 -->
+	<security:http pattern="/login.htm" security="none" />
+	<security:http pattern="/accessDenied.htm" security="none" />
+	<security:http pattern="/generatevVerifyCode.htm" security="none" />
+	<security:http pattern="/400e.htm" security="none" />
+	<security:http pattern="/403e.htm" security="none" />
+	<security:http pattern="/404e.htm" security="none" />
+	<security:http pattern="/500e.htm" security="none" />
+	<security:http pattern="/503e.htm" security="none" />
+
+	<!-- 支持security:authorize url 标签 -->
+	<bean id="customWebInvocationPrivilegeEvaluator" class="org.springframework.security.web.access.DefaultWebInvocationPrivilegeEvaluator">
+		<constructor-arg name="securityInterceptor" ref="customFSIFilter" />
+	</bean>
+
+	<security:http auto-config="false" use-expressions="true" entry-point-ref="customAuthenticationEntryPoint"
+		access-decision-manager-ref="customAccessDecisionManager">
+
+		<!-- <security:intercept-url pattern="/**/*.htm" access="hasRole('ROLE_DEFAULT')" /> -->
+
+		<!-- exception-if-maximum-exceeded="true" -->
+
+		<!-- Logout后自动转到Login页面 -->
+		<security:logout invalidate-session="true" logout-url="/j_spring_security_logout" logout-success-url="/login.htm" />
+
+		<!-- 已经登录， 但是访问页面权限不足 -->
+		<!-- <security:access-denied-handler error-page="/accessDenied.htm" /> -->
+		<security:access-denied-handler ref="customAccessDeniedHandler" />
+
+		<!-- 表单登录器 -->
+		<security:custom-filter position="FORM_LOGIN_FILTER" ref="customUsernamePasswordAPFilter" />
+		<!-- 权限校验器 -->
+		<security:custom-filter before="FILTER_SECURITY_INTERCEPTOR" ref="customFSIFilter" />
+		<!-- 并发控制器 -->
+		<security:custom-filter position="CONCURRENT_SESSION_FILTER" ref="concurrencyFilter" />
+
+		<!-- 异常管理器 -->
+		<!-- <security:custom-filter before="EXCEPTION_TRANSLATION_FILTER" ref="exceptionTranslationFilter" /> -->
+
+		<!-- 会话管理:如果第二次登录，阻止，并显示错误信息 -->
+		<security:session-management invalid-session-url="/login.htm"
+			session-authentication-strategy-ref="concurrentsessionControl" />
+	</security:http>
+
+	<!-- ExceptionTranslationFilter主要拦截两类安全异常：认证异常、访问拒绝异常 -->
+	<!-- <bean id="exceptionTranslationFilter" class="org.springframework.security.web.access.ExceptionTranslationFilter"> -->
+	<!-- <beans:property name="authenticationEntryPoint" ref="customAuthenticationEntryPoint" /> -->
+	<!-- <beans:property name="accessDeniedHandler" ref="customAccessDeniedHandler" /> -->
+	<!-- </bean> -->
+
+	<!-- <bean id="exceptionTranslationFilter" class="org.springframework.security.web.access.ExceptionTranslationFilter"> -->
+	<!-- <beans:property name="authenticationEntryPoint" ref="customAuthenticationEntryPoint" /> -->
+	<!-- <property name="accessDeniedHandler"> -->
+	<!-- <bean class="org.springframework.security.web.access.AccessDeniedHandlerImpl"> -->
+	<!-- <property name="errorPage" value="/accessDenied.htm" /> -->
+	<!-- </bean> -->
+	<!-- </property> -->
+	<!-- </bean> -->
+
+	<bean id="customAccessDeniedHandler" class="com.sjq.security.extend.CustomAccessDeniedHandler">
+		<property name="errorPage" value="/accessDenied.htm" />
+	</bean>
+
+	<!-- 校验入口 -->
+	<bean id="customAuthenticationEntryPoint" class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
+		<property name="loginFormUrl" value="/login.htm" />
+		<property name="forceHttps" value="false" />
+	</bean>
+
+	<!-- 表单登录器 -->
+	<bean id="customUsernamePasswordAPFilter" class="com.sjq.security.extend.CustomUsernamePasswordAPFilter">
+		<property name="filterProcessesUrl" value="/j_spring_security_check"></property>
+		<property name="authenticationSuccessHandler" ref="customAuthenticationSuccessHandler"></property>
+		<property name="authenticationFailureHandler" ref="customAuthenticationFailureHandler"></property>
+		<property name="authenticationManager" ref="authenticationManager"></property>
+
+		<!-- 禁止重复登录 -->
+		<property name="sessionAuthenticationStrategy" ref="concurrentsessionControl" />
+	</bean>
+
+	<!-- 表单登录器成功处理器 -->
+	<bean id="customAuthenticationSuccessHandler" class="org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler">
+		<property name="defaultTargetUrl" value="/home.htm"></property>
+	</bean>
+
+	<!-- 表单登录器失败处理器 -->
+	<bean id="customAuthenticationFailureHandler" class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler">
+		<property name="defaultFailureUrl" value="/relogin.htm"></property>
+	</bean>
+
+	<!-- 方法攔截器 -->
+	<!-- <bean id="customMethodSecurityInterceptor" class="org.springframework.security.access.intercept.aopalliance.MethodSecurityInterceptor"> -->
+	<!-- <property name="authenticationManager" ref="authenticationManager" /> -->
+	<!-- <property name="accessDecisionManager" ref="accessDecisionManager" /> -->
+
+	<!-- 自定義這些方法需要什麼角色來訪問 -->
+	<!-- <property name="securityMetadataSource"> -->
+	<!-- <ref bean="customMethodSecurityMetadataSource" /> -->
+	<!-- </property> -->
+	<!-- </bean> -->
+
+	<!-- 权限校验器 -->
+	<beans:bean id="customFSIFilter" class="com.sjq.security.extend.CustomFilterSecurityInterceptor">
+		<beans:property name="authenticationManager" ref="authenticationManager" />
+		<beans:property name="accessDecisionManager" ref="customAccessDecisionManager" />
+		<beans:property name="securityMetadataSource" ref="customSecurityMetadataSource" />
+	</beans:bean>
+
+	<!-- Declare an authentication-manager to use a custom userDetailsService -->
+	<security:authentication-manager alias="authenticationManager">
+		<security:authentication-provider user-service-ref="customBossUserDetailsService">
+
+			<security:password-encoder hash="md5" ref="passwordEncoder">
+				<security:salt-source user-property="username" />
+			</security:password-encoder>
+
+		</security:authentication-provider>
+	</security:authentication-manager>
+
+	<!-- Use a Md5 encoder since the user's passwords are stored as Md5 in the database -->
+	<bean id="passwordEncoder" class="org.springframework.security.authentication.encoding.Md5PasswordEncoder" />
+
+	<!-- 访问决策器，决定某个用户具有的角色，是否有足够的权限去访问某个资源。 -->
+	<bean id="customAccessDecisionManager" class="com.sjq.security.extend.CustomAccessDecisionManager">
+	</bean>
+
+	<!-- 资源源数据定义，将所有的资源和权限对应关系建立起来，即定义某一资源可以被哪些角色去访问。 -->
+	<bean id="customSecurityMetadataSource" class="com.sjq.security.extend.CustomInvocationSecurityMetadataSource">
+		<!-- <constructor-arg name="securityFacade" ref="securityFacade"/> -->
+	</bean>
+
+	<bean id="concurrencyFilter" class="org.springframework.security.web.session.ConcurrentSessionFilter">
+		<property name="sessionRegistry" ref="sessionRegistry" />
+		<property name="expiredUrl" value="/login.htm" />
+
+		<property name="logoutHandlers">
+			<list>
+				<ref local="logoutHandler" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- 这个Bean注入到logoutFilter中去，它实际负责最后的扫尾工作，如把HttpSession实例删除 -->
+	<bean id="logoutHandler" class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler">
+		<property name="InvalidateHttpSession" value="true" />
+	</bean>
+
+	<!-- 并发控制器 -->
+	<!-- <bean id="concurrentsessionControl" class="com.sjq.security.extend.CustomConcurrentSessionControlStrategy"> -->
+	<!-- <constructor-arg name="sessionRegistry" ref="sessionRegistry" /> -->
+	<!-- <property name="maximumSessions" value="1" /> -->
+	<!-- <property name="exceptionIfMaximumExceeded" value="false" /> -->
+	<!-- </bean> -->
+
+	<!-- <bean id="sessionRegistry" class="com.sjq.security.extend.CustomSessionRegistry" /> -->
+
+	<bean id="concurrentsessionControl" class="org.springframework.security.web.authentication.session.ConcurrentSessionControlStrategy">
+		<constructor-arg name="sessionRegistry" ref="sessionRegistry" />
+		<property name="maximumSessions" value="1" />
+		<property name="exceptionIfMaximumExceeded" value="false" />
+	</bean>
+
+	<bean id="sessionRegistry" class="org.springframework.security.core.session.SessionRegistryImpl" />
+
+	<!-- 監聽器 -->
+	<bean id="lockUserListener" class="com.sjq.security.servlet.SpringListener">
+		<beans:property name="servletContext" ref="servletContext" />
+	</bean>
+
+	<bean id="servletContext" class="org.springframework.web.context.support.ServletContextFactoryBean" />
+
+	<!-- 權限校驗器 -->
+	<!-- <bean id="customFSIFilter" class="org.springframework.security.web.access.intercept.FilterSecurityInterceptor"> -->
+	<!--每次請求都進行校驗 -->
+	<!-- <property name="observeOncePerRequest" value="false" /> -->
+	<!-- <property name="authenticationManager" ref="authenticationManager" /> -->
+	<!-- <property name="accessDecisionManager" ref="accessDecisionManager" /> -->
+
+	<!-- 静态权限设置 -->
+	<!-- <property name="securityMetadataSource"> -->
+	<!-- <security:filter-security-metadata-source> -->
+	<!-- <security:intercept-url pattern="/**/*.htm" access="ROLE_USER" /> -->
+	<!-- </security:filter-security-metadata-source> -->
+	<!-- </property> -->
+	<!-- </bean> -->
+
+	<!-- 將授權名稱的預設前綴由ROLE_改為AUTH(沒用到) -->
+	<!-- <bean id="accessDecisionManager" class="org.springframework.security.access.vote.AffirmativeBased"> -->
+	<!-- <property name="allowIfAllAbstainDecisions" value="false" /> -->
+	<!-- <property name="decisionVoters"> -->
+	<!-- <list> -->
+	<!-- <bean class="org.springframework.security.access.vote.RoleVoter"> -->
+	<!-- </bean> -->
+	<!-- <bean class="org.springframework.security.access.vote.AuthenticatedVoter" /> -->
+	<!-- </list> -->
+	<!-- </property> -->
+	<!-- </bean> -->
+</beans>

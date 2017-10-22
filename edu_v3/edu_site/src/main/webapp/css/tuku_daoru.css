@@ -1,0 +1,52 @@
+.back{
+	color:#00abed;
+	margin-right:20px;
+	font-size: 16px;
+	line-height: 36px;
+	cursor: pointer;
+}
+
+.operation{
+	min-height: 412px;
+	margin:240px auto 100px auto;
+}
+.operation p{
+	text-align: center;
+}
+.operation .select{
+	color:#319afe;
+	margin-top:20px;
+	margin-bottom: 14px;
+	cursor: pointer;
+}
+
+.method,.if_repeat{
+	margin-top:34px;
+	text-align: center;
+}
+.method span,.if_repeat span{
+	display: inline-block;
+}
+.method .support,.if_repeat .if_is{
+	color:#333;
+	margin-right: 40px;
+}
+.method .excel,.method .gain{
+	color:#319afe;
+	margin-right: 40px;
+	cursor: pointer;
+}
+.method .excel{
+	margin-right: 14px;
+}
+
+.if_repeat label{
+	margin-right:50px;
+	cursor: pointer;
+}
+.if_repeat label input,.if_repeat label i{
+	vertical-align: middle;
+}
+.if_repeat label input{
+	margin-right: 5px;
+}
